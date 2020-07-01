@@ -1,0 +1,11 @@
+by hand:
+
+protopedia_ui/js/ace/* to protopedia/www/ace-builds/src-min-noconflict
+protopedia_ui/js/color-picker.js to protopedia/www/js
+
+protopedia_ui/js/firebase/index.js to protopedia/functions/index.js // be sure to put the secret key only in the functions version
+
+from protopedia_ui all toplevel files to protopedia
+(eg .firebaserc, database.rules.json)
+
+from protopedia_ui/admin to protopedia/admin all files 

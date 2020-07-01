@@ -1,0 +1,166 @@
+{{boilerplate}}
+
+<div class="pageTitle">Build an Adjustable Network Diagram with Code</div>
+
+
+{{networkNote}}
+
+ <p> Here is a simple diagram
+  <span style="position:relative;top:5px"><img height="20" src = "https://firebasestorage.googleapis.com/v0/b/project-5150272850535855811.appspot.com/o/twitter%3A14822695%2FforMainPage%2Flogo.svg?alt=media"> </span> in the <a href="/draw.html?source=/example/simpleDiagramAsGraph.js&intro=code_intro">main drawing UI</a> (also known as the "structure editor"), in which it can be adjusted and extended, and in the  <a href="/code.html?source=/example/simpleDiagramAsGraph.js">code editor</a>, where you can experiment with the code.  (There is no need
+ to sign in to experiment - but signing in <i>is</i> required to save your work.)</p>
+ 
+<p>It is implemented by the following code:</p>
+
+
+ 
+<precode>
+pj.require('/diagram/graph.js','/shape/circle.js','/shape/arcArrow.js',
+function (graphP,circlePP,arrowPP) {
+  var geom = pj.geom,svg = pj.svg,ui = pj.ui;
+  var item = svg.Element.mk('&lt;g&gt;');// the root of the diagram we are assembling
+  var graph = item.set('graph',graphP.instantiate());
+  var circleP = graph.installAsVertexPrototype(circlePP);
+  var arrowP = graph.installAsEdgePrototype(arrowPP);
+  circleP.r = 12;
+  circleP.fill = 'blue';
+  var circle1 = graph.addVertex();
+  var circle2 = graph.addVertex();
+  circle1.__moveto(geom.Point.mk(-50,0));
+  circle2.__moveto(geom.Point.mk(50,0));
+  // set the parameters of the edge prototype
+  arrowP.stroke = 'orange';
+  arrowP.radius = 1; // radius of the arc as a multiple of arrow length
+  arrowP.tailGap = 7; // gap between tail of arrow and its designated start point
+  arrowP.headGap = 7; // gap between head of arrow and its designated end
+  arrowP.solidHead = false;
+  graph.connectVertices(circle1,circle2);
+  graph.connectVertices(circle2,circle1);
+  return item;
+});
+
+</precode>
+
+ 
+ <p>This example illustrates building a  diagram using operations defined by its diagram type. Diagram types are external components,
+ rather than anything built into  the ProtoPedia platform itself. The platform allows adding as many diagram types as you like, each with its own API.
+ In this case, the diagram type is a network - a collection of nodes
+ connected by arrows or lines, defined in <cw>/diagram/graph.js</cw>. Such a structure is  referred to as a <i>graph</i> in mathematical terminology. In this terminology the nodes are called "vertices"
+ and the connectors "edges" - a terminology adopted in the API.</p>
+ 
+ <p>Now, lets walk through the code.</p>
+ 
+  <precode>
+    pj.require('/diagram/graph.js','/shape/circle.js','/shape/arcArrow.js',
+    function (graphP,circlePP,arrowPP) {
+</precode>
+  <p>
+<b><i>pj</i></b> The ProtoPedia implementation is installed under the one global variable,  <cw>prototypeJungle</cw>,
+with <cw>pj</cw> as a synonym (like <cw>$</cw> for <a href="https://jquery.com">jQuery</a>). Furthermore, the ProtoPedia implementation
+ <a href="/doc/tech.html#implementation">is itself a prototype tree</a>,
+ with functionality allocated under children such as <cw>pj.geom, pj.svg,</cw> and <cw>pj.ui</cw>. </p>
+  
+<p style="padding-left:40px;padding-right:40px;font-size:11pt"><i>Aside</i>:Doing things this way may seem old-school
+in that it forgoes use of 
+flexible module systems such as
+<a href="https://en.wikipedia.org/wiki/CommonJS">commonJS</a>,
+<a href="https://en.wikipedia.org/wiki/Asynchronous_module_definition">AMD</a>, or
+<a href="http://2ality.com/2014/09/es6-modules-final.html">ES6 modules</a>.
+However, the hierarchical nature
+  of the implementation is needed for the serialization scheme to work properly, so this flexibility is sacrificed
+  for a reason.
+Of course, whatever module system is preferred may be used in 
+projects which include the <a href="/doc/code.html#codeStructure">prototypeJungle libraries</a>. Ironically, ProtoPedia
+has its own module-like capability in pj.require, but this is used in external contexts,  not the construction of the prototypeJungle tree
+itself.  </p>
+  <p><cw>pj.require(...</cw>
+
+ binds the variables <cw>graphP</cw>, <cw>circlePP</cw> and  <cw>arrowPP</span> to the components defined in <cw>'/diagram/graph.js'</span>, <cw>'/shape/circle.js'</span>, and
+ <cw>'/shape/arcArrow.js'</span>, respectively. Moving on:</p>
+
+<precode>
+    var item = svg.Element.mk('&lt;g/&gt;');// the root of the diagram we are assembling
+</precode>
+
+ 
+
+<p><cw>pj.svg.Element.mk</span> creates a prototype tree from
+<a href="https://developer.mozilla.org/en-US/docs/Web/SVG">SVG</a> markup.</p>
+
+<precode>
+    var graph = item.set('graph',graphP.instantiate());
+</precode>
+
+<p> installs an instantiation of the graph component under the root. Instantiation, a fundamental operation in
+ProtoPedia, is explained <a href = "/doc/tech.html#instantiation_summary">here</a>.</p><p>
+<cw>item.set('name',ch)</cw>  has the effect of <cw>item.name = ch</cw>, but also assigns <cw>item</cw> as the parent of
+<cw>ch</cw> (ProtoPedia items are trees, as explained
+<a href="/doc/code.html#trees">here</a>).
+</p>
+
+<precode>
+    var circleP = graph.installAsVertexPrototype(circlePP);
+</precode>
+
+<p>This defines the prototype that will be used for vertices in this graph as a circle. Note that installAsVertexPrototype is a method
+of  the graph component, defined externally to the ProtoPedia platform.</p>
+
+
+<precode>
+    var arrowP = graph.installAsEdgePrototype(arrowPP);
+</precode>
+
+<p> has similar effect.</p>
+
+<precode>
+    var circle1 = graph.addVertex();
+</precode>
+
+<p>  instantiates the vertex prototype assigned by installAsVertexPrototype.</p>
+
+<precode>
+  circle1.__moveto(geom.Point.mk(-50,0));
+</precode>
+
+<p> moves the resulting circle to the given position. __moveto and geom.Point.mk are operations defined by the platform.</p>
+
+<p>circle2 is created and moved analogously.</p>
+
+<precode>
+ graph.connectVertices(circle1,circle2);
+</precode>  
+  <p>instantiates the edge prototype (in this case an arrow), and connects its ends to circle1 and circle2 respectively.
+  <cw>graph.connectVertices(circle2,circle1);</cw> runs an arrow in the other direction.</p>
+  
+  <p> The diagram can also be constructed without use of the graph component, but then the arrows won't be automatically
+  updated with dragging of the circles - the graph component handles that. This more direct approach is presented here to give a better feeling
+  for how to build things outside of the context of particular diagrams. The approach involves these alternative snippets of code for introducing the circles and arrows:</p>
+  <precode>
+  var circleP = item.set('circleP',circlePP.instantiate());
+  item.set('circle1',circleP.instantiate()).__show();
+  item.set('circle2',circleP.instantiate()).__show();
+  </precode>
+  and
+  <precode>
+  var arrowP = item.set('arrowP',arrowPP.instantiate());
+  item.set('arrow1',arrowP.instantiate()).__show();
+  item.set('arrow2',arrowP.instantiate()).__show();
+  </precode>
+  
+  <p>The <cw>__show()</cw>s are needed because 
+   items in the catalog  are initially hidden by convention, as they normally
+   serve as prototypes, which should be invisible.</p>
+  
+  <p> Since there is no autopositioning of the arrows, we also need: </p>
+   <precode>
+   var p1 = geom.Point.mk(-50,0);
+   var p2 = geom.Point.mk(50,0)
+   item.arrow1.setEnds(p1,p2); //set start and end points of the arrow
+   item.arrow2.setEnds(p2,p1);
+   </precode>
+   
+   <p>This variant of the code can be found <a href="/code.html?source=/example/simpleDiagram.js">here</a>.</p>
+ 
+  
+
+
+{{endplate}}

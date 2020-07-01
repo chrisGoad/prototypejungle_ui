@@ -1,0 +1,49 @@
+{{boilerplate}}
+<p>This is the code which implements the rectangle shape, with links.</p>
+<hr>
+<precode>
+pj.require(function () {
+
+var item = dom.SvgElement.mk('<rect/>');
+
+/* adjustable parameters */
+item.width = 50;
+item.height = 35;
+item.fill = 'transparent';
+item.stroke = 'black';
+item['stroke-width'] = 1;
+/*end adjustable parameters*/
+
+item.adjustable = true;
+item.draggable = true;
+item.role = 'vertex';
+</precode>
+
+<p style="padding-left:20px;padding-bottom:20px"> A rectangle plays the <a href="/doc/code.html#roles">role</a> of a vertex in graphs. </p>
+<hr>
+<precode>
+item.<a href="/doc/code.html#setDomAttributes">setDomAttributes</a> =  function (element) {
+  element.setAttribute('x',-0.5*this.width);
+  element.setAttribute('y',-0.5*this.height);
+}
+</precode>
+<hr>
+<precode>
+ui.installRectanglePeripheryOps(item);
+</precode>
+<p style="padding-left:20px;padding-bottom:20px">This  installs the functionality needed for management of arrows connected to the rectangle; in particular, for dragging the arrow around so
+as to maintain the connection. <a href="https://github.com/chrisGoad/protopedia/blob/master/js/ui/periphery_ops.js">Here</a> is the relevant code.
+</p>
+<hr/>
+<precode>
+item.transferState = function (src,own) { 
+  pj.setProperties(this,src,ui.stdTransferredProperties,own);
+}
+</precode>
+<p style="padding-left:20px;padding-bottom:20px"> When the rectangle is swapped for some other shape, <a href="/doc/code.html#transferState">this</a> handles transferring the rectangle's state to that new shape.
+</p>
+<hr/>
+return item;
+});
+</precode>
+{{endplate}}

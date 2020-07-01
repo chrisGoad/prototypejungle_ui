@@ -1,0 +1,44 @@
+{{boilerplate}}
+ removeThis
+{{fireLibs}}
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
+
+<div sstyle="text-align:center;font-size:20pt" class="pageTitle">Persistence for JavaScript's Prototype Structures</div>
+
+
+<p>In normal practice, the prototype structure of JavaScript objects is missing from their stored (e.g. JSON) versions. Given the central role of prototypes in JavaScript, this means that, in nearly all cases, one can't save working components of an application as they are. Instead, application-specific encoding of the components is needed for storage, with associated reconstruction of prototype structure upon retrieval.
+(For those unfamiliar with prototypes, <a href="/doc/inherit.html">here</a> is an explanation.)</p>
+
+<p>However, there is another way. Suppose that we restrict attention to JavaScript objects which are trees with respect to their object-property-value edges <!--(a restriction needed by JSON) -->, but which retain their instance-to-prototype links (unlike the objects dealt with by JSON)   Here is a picture of such a structure:</p>
+
+
+
+ <img id="diagram" src="https://firebasestorage.googleapis.com/v0/b/project-5150272850535855811.appspot.com/o/twitter%3A14822695%2FforDocs%2FprototypeDiagram1_withText.svg?alt=media"
+      style="bborder:thin black solid;cursor:pointer"  width="550" height="250"/>
+ 
+ 
+<p>Two operations can be defined which in combination make these structures (called, naturally enough,"prototype trees") suitable for use as components: instantiation (see below) and serialization (that is, conversion into a form suitable for separate storage). Together, these enable the assembly of applications from stored elements. </p>
+
+<p>PrototypeJungle relies entirely on these structures. Visual elements, diagrams, kits, etc are all so represented, both in the repository and in running JavaScript instances. Also, prototype trees form the basis for the user interface, which gives the non-programming user direct access to the prototype structure underlying diagrams. This 
+<a href="/draw.html?source=(sys)/forMainPage/three_circles.item&intro=properties&fit=0.7">tutorial page</a> explains how.</p>
+
+<p><b>Serialization</b>  is implemented by assigning numeric codes to the nodes of the object graph to be serialized, and then building a JSON-compatible description of the graph, including prototype chains. 
+<a href="https://github.com/chrisGoad/prototypetrees/blob/master/src/core/serialize.js">Here</a> is some code.</p>
+
+<p> <b>Instantiation:</b>
+Normally, JavaScript instantiation is a one level operation, implemented by 
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>
+ or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new">new</a>, which results in a new object that inherits its properties from the original. For a prototype tree, instantiation involves, very roughly, building a new tree which inherits atomic properties but copies objects. The new tree also retains the structure of prototypical inheritance of the original. The effect is that trees of arbitrary depth can serve as templates from which instances can be spawned at one blow.See 
+<a href="/doc/instantiation.html">this document</a> for a detailed explanation of how instantiation works.
+ </p>
+
+<p>Note: the restriction to trees in terms of object-property-value edges is, in the implementation, relaxed by allowing a third sort of edge: the "cross-tree link". See the <a href="/doc/instantiation.html">document</a> just mentioned for details.</p>
+
+<p>The implementation of prototype trees is open source, under the MIT license. Here is the 
+<a href="https://github.com/chrisGoad/prototypetrees/tree/master">GitHub repository</a>. Also included in the GitHub repo is the code which realizes visual items via SVG. Here are some code samples</p>
+
+</div>
+</div>
+
+{{endplate}}

@@ -1,0 +1,23 @@
+{{boilerplate}}
+
+<div class="pageTitle">Prototypes and Inheritance</div>
+
+  <img width="370" style="padding-left:-20px" src="{{sys}}forMainPage%2Fprototype.svg?alt=media"/>
+
+<p>The meaning and utility of the concept of a prototype, as employed in JavaScript, is general and fairly simple.
+Here is an explanation that does not involve programming:</p>
+
+<p>When we say that <cw>B</cw> is a prototype for <cw>A</cw> (or <cw>A</cw> is an instance of <cw>B</cw>), 
+we mean that whenever
+B has a property, such as a color, <cw>A</cw> will "inherit" that same color, unless explicitly stated otherwise.
+So in describing <cw>A</cw>, we don't have to repeat all the information about <cw>A</cw> that it inherits from <cw>B</cw>. Think of the effort we save in
+describing a scarab if we first let on that it is a kind of beetle. 
+</p>
+<p><cw>A</cw> might inherit from <cw>B</cw> and <cw>B</cw> in turn from <cw>C</cw>.  This is  called a <i>prototype chain</i>. The
+basic structures from which 
+JavaScript objects are made are property-to-value links, and prototype chains.
+</p>
+<p> Here is an example. In the prototype structure, A, B, and C inherit from the prototype P,  which in turn inherits from "Square". P specifies
+both a fill (interior color) and stroke (boundary color). In addition A specifies fill, and C, stroke. The 3 squares which result via the rules of inheritance from this
+structure are pictured on the far left. For example, the bottom square (C) inherits its fill from P, but its stroke is set in C itself.</p>
+<img width="700" src="https://firebasestorage.googleapis.com/v0/b/project-5150272850535855811.appspot.com/o/JHtAs2VsGjYCqJmOo39SexGq2Fx1%2Fmedium%2Fprototypes2.svg?alt=media"/>

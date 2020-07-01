@@ -1,0 +1,13 @@
+<svg width="230" height="120"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <filter id="blurMe">
+    <feGaussianBlur  stdDeviation="15" />
+  </filter>
+
+  <!--<circle cx="60"  cy="60" r="50" stroke="green" fill="transparent"/>-->
+  <line x1="50" y1="50" x2="100" y2="100" stroke-width="20" stroke="red" filter="url(#blurMe)"/>
+  <circle cx="170" cy="160" r="160" stroke-width="5" stroke="black" fill="green"
+          filter="url(#blurMe)" />
+</svg>

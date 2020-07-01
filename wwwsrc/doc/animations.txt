@@ -1,0 +1,5 @@
+
+ The purpose of the animations is to indicate the range of possibilities for simple edits to the elements.
+ Each frame arises from the previous one by a single swap, a resize or drag, or the setting of a parameter (or sometimes two).
+ 
+There are three animations for three elements: box, arrow, and spiral. Each of the other elements, of course, has adjustable parameters (eg wave length and amplitude for the wavy line). The box and arrow are interesting, and were chosen for animation, because they have parts, and swapping in  new prototypes for the parts makes for flexibility and interest. The spiral is just pretty, is all.

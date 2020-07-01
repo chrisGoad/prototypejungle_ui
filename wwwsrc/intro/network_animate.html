@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prototype Jungle</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css"  href="/style.css"/> 
+</head>
+
+<body style="margin:11px;background-color:white;font-size:12pt">
+
+<script type="text/javascript" src="/intro/pages.js"></script>
+
+<div style="padding:0px;margin:0px">
+
+<!--<div onClick="window.parent.pj.ui.closeDocDiv();"  style="border-radius:10px;padding-left:5px;padding-right:5px;float:right;border:thin solid black;background-color:red;color:white">Animate</div>
+
+-->
+
+<div><b>Connections </b></div>
+
+<p>ProtoPedia has support for connecting shapes such
+as circles and squares with arrows or lines. <!--When an end of an arrow or line is connected to a shape, it automatically
+follows the shape when it  is dragged around. --></p>
+<p>To see how to make a connection, click here: <button  onclick="Aanimate(3,17,18)">Animate</button> Note that when an arrow or line is connected to a shape, it automatically
+follows the shape when it  is dragged around.</p>
+<p>Once a connection has been made (as is the case for the wavy line), you can drag the connection around the periphery of the
+connected vertex, and the connection will remain stuck there in further moves of the vertex. <button  onclick="Aanimate(0)">Animate</button>.
+</p>
+
+<!--
+<p>You can also modify the connection point after the connection is made. To see how this is done click here: <button  onclick="Aanimate('a')">Animate</button></p>
+-->
+<p>Try it yourself!</p>
+
+<div id="connectionDetails" style="display:none">
+<p id="makeConnection" >To make a connection, drag one of the connectors into the graphics panel,
+and then select it.  Little yellow boxes will appear. Connections are made by dragging the yellow boxes  at the head or tail of the arrow (or heads or tails of the
+multi-headed connectors, or the ends of arrowless connectors).  Drag the yellow box in question over the shape that you wish to connect to.
+Shapes that can accept a connection will highlight as you drag over them. Drop over the shape (release the mouse key), and the connection will be made.</p>
+
+<p id="adjustConnection">After the connection is made, you can alter the connection point by dragging the relevant yellow box around the periphery of the connected
+shape. Elbow arrows are an exception (including the multi-in and multi-out versions): their ends are glued to the middle of their start and end nodes.</p>
+</div>
+
+<p  id="openConnectionDetails">Click <span class="clickable" style="colorr:blue" onclick="showConnectionText();">here</span>
+for a textual description of the connection methods.</p>
+
+
+
+</div>
+
+
+ <p><button  onclick="gotoPrevPage('connections')">Prev</button>
+<button  onclick="gotoNextPage('connections')">Next</button></p>
+
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+project-5150272850535855811
+
+firebase target:apply hosting shell prototypejungle-shell
+firebase target:apply hosting main prototypejungle
+
+firebase serve --only hosting:main -p 3000
+firebase serve --only hosting:shell -p 3001
+
+firebase deploy --only hosting:main
+firebase deploy --only hosting:shell
+firebase deploy --only database

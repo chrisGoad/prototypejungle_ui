@@ -1,0 +1,6 @@
+firebase-functions@3.0.1 requires a peer of firebase-admin@^8.0.0 but none is installed. You must install peer dependencies yourself.
+
+when running the command 
+ npm install --save firebase-functions@latest
+ in the protopedia/functions directory
+ 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prototype Jungle</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css"  href="/style.css"/> 
+</head>
+<body style="margin:11px;background-color:white;font-size:11pt">
+<script type="text/javascript" src="/intro/pages.js"></script>
+
+
+<div style="padding:0px;margin:0px">
+<p><b>Background Shapes</b></p>
+<p> Sometimes, a shape  such as the large blue rectangle at the top of this diagram
+<p> The catalog panel is the area on the right side of the screen from which you drag items for insertion/swap.
+Initially the contents of this panel are taken entirely from a shared source, the
+global catalog.</p>
+<p>However, you can build your own catalog, simply by saving any item in the folder <i>/catalog/</i>, or in a subfolder
+<i>/catalog/&lt;whatever&gt;</i>.
+Then, the next time you start up {{projectName}}, you will see the item under the tab
+ <i>(.c)</i> or <i>(.c)/&lt;whatever&gt;</i> (resp.), where it can be used in insertions and swaps. If you are a JavaScript programmer, you can code your own new elements and place them
+in your catalog - by saving the JavaScript-built elements to a catalog directory from the code editor.
+See the <a href="/doc/code.html" target="_top">coding guide</a>.  </p>
+
+<p>If you'd like to share your work, place it in the <i>exports</i> directory. You yourself will have access to
+its contents under tabs (.x) or (.x)/&lt;whatever&gt;</i>. But so will other people, if they know your user name, controlled by their config file
+/config.json (accessible at top level from the file pulldown). Initial contents of config.json:
+</p>
+<pre style="font-size:9pt">
+{
+"catalogs":
+  "sys/*,.exports/*,.catalog/*"
+}
+</pre>
+
+This can be edited to, for example
+<pre style="font-size:9pt">
+{
+"catalogs":
+  "sys/*,.exports/*,.catalog/*,someUserName/*
+}
+</pre>
+<p>
+After this edit, the tab (someUserName) will appear in the catalog panel. When this tab is selected, the contents
+of that user's exports directory will appear, ready to be dragged in. If the exports directory in question contains
+subdirectories, tabs of the form (someUserName)/someDir will appear.
+If only the subdirectory is wanted, and not the rest of someUser's exports, then config file should look like this:
+</p>
+<pre style="font-size:9pt">
+{
+"catalogs":
+  "sys/*,.exports/*,.catalog/*,someUserName/someDir"
+}
+</pre>
+<p>
+More than one exports subdirectory, and more than one user, can be indicated in this manner.
+Of course, you can edit your own config file to access other people's exports. Generally, only the content indicated
+in the config file will appear in your catalog panel.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <p><button  onclick="gotoPrevPage('catalog')">Prev</button>
+<button  onclick="gotoNextPage('catalog')">Next</button></p>
+
+
+</div>
+
+
+
+</body>
+</html>

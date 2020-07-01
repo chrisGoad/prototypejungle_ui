@@ -1,0 +1,58 @@
+{{boilerplate}}
+
+<script>
+var picShown = false;
+var ready = function (fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+ready(function () {
+  var imgdiv = document.getElementById('pic');
+  var mediv = document.getElementById('me');
+  mediv.addEventListener('click',function () {
+      if (picShown) {
+        imgdiv.style.display = 'none';
+        picShown = false;
+      } else {
+        imgdiv.style.display = 'block';//'grid';
+        picShown = true;
+      }
+    });
+});
+
+</script>
+
+ <div class="pageTitle">About</div>
+  <div>
+   PrototypeJungle is the outcome of a five-year long exploration of an idea, with just one explorer (me, <span id="meDiv">Chris Goad</span>). However, these days, things like Firebase  make it possible to put together a working product in scaleable form without an army of coders.  If the idea is found useful, I'll do what it takes to support it, perhaps by forming a "real company" (I've started companies twice before).
+</div>   
+ <div id="pic" style="padding-top:20px; display:none;">
+      <img style="grid-column:1/2" src="/images/me.jpg" alt="MDN" width="120">
+    </div>
+    
+  <div>
+    <p>Served from <a style="cursor:pointer" onclick="jumpTo('https://firebase.google.com')">Firebase</a>.</p>
+    <p>Uses these libraries: </p>
+    <ul>
+      <li><a style="cursor:pointer" onclick="jumpTo('https://ace.c9.io/#nav=about')">The Ace Code Editor</a></li>
+       <li><a style="cursor:pointer" onclick="jumpTo('https://bgrins.github.io/spectrum')">The Spectrum Colorpicker</a></li>
+    </ul>
+
+    <p>Contact: sys@{{siteName}}.org</p>
+    <p><a style="cursor:pointer" onclick="jumpTo('doc/toc.html')">Terms and Conditions</a></p>
+        <p><a style="cursor:pointer"  onclick="jumpTo('doc/privacy.html')">Privacy</a></p>
+   <p>For bugs and questions, please use the <a href="https://github.com/chrisGoad/{{siteName}}/issues">GitHub</a> issues page for {{ProjectName}}.</p>
+   
+   <!--
+    <p><span id="me" style="cursor:pointer;text-decoration:underline;color:blue">Chris Goad</span>.</p>
+    -->    
+   
+    
+  </div>
+{{endplate}}
+
+
