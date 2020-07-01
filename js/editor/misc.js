@@ -974,7 +974,7 @@ const activateButtons = function () {
   setClickFunction(unwrapBut,unwrapClick);
   setClickFunction(undoBut,undoClick);
   setClickFunction(dataBut,popData);
-  rebuildFromDataBut.$click(rebuildFromData);
+  /* rebuildFromDataBut.$click(rebuildFromData); cgstub7/20
   setClickFunction(changeDataSourceBut,changeDataSourceClick);
   setClickFunction(saveDataAsBut,saveDataAsClick);
   setClickFunction(saveDataBut,saveDataClick);
@@ -986,7 +986,7 @@ const activateButtons = function () {
   setClickFunction(moveUpBut,() => moveSelection(true));
   setClickFunction(saveOrderBut,() => saveCatalogOrder());
   
-
+*/
   allButtons = [fileBut,dataBut,cloneBut,separateBut,moveToBackBut,toggleConnectBut,showCohortBut,redoBut,//joinAction,showClonesAction,splitCohortAction,insertBut,replaceBut,replaceProtoBut,
                   editTextBut,addImageBut,deleteBut,upBut,downBut,topBut];
   topbarButtons = [fileBut,insertBut,replaceBut,replaceProtoBut,dataBut,unwrapBut];

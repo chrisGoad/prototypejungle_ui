@@ -104,7 +104,7 @@ __addChildren([
         ]),
         svgMessageDiv = html.Element.mk('<div style="display:none;margin-left:auto;padding:40px;margin-right:auto;width:50%;margin-top:20px;border:solid thin black">AAAAUUUU</div>')
      ]),
-  treeVars.objectContainer = uiDiv = html.Element.mk('<div id="uiDiv" style="position:absolute;margin:0px;padding:0px"></div>').
+ /* treeVars.objectContainer = uiDiv = html.Element.mk('<div id="uiDiv" cgstub720 style="position:absolute;margin:0px;padding:0px"></div>').
     __addChildren([
       dragButtons = html.Element.mk('<div id="dragButtons" style="height:30px;width:100%;background-color:white;border:solid thin black;"></div>').__addChildren([
         insertBut = swapMachine?null:html.Element.mk('<div class="ubutton">Insert</div>'),
@@ -151,7 +151,7 @@ __addChildren([
        dataDiv = html.Element.mk('<div id="dataDiv" style="border:solid thin green;positionn:absolute;">Code Div</div>')
     ])
 
- ])
+ ])*/
 ])
 ]);
 advancedButs =  
@@ -228,27 +228,26 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
   svght = core.vars.svght?core.vars.svght:svghtAvail;// + 20;
   treeHt = svghtAvail;
   treeHt = svghtAvail;
-  treeVars.myWidth = treeInnerWidth;
-  treeVars.obDiv.$css({width:(treeInnerWidth   + "px"),height:treeHt+"px",top:"30px",left:"0px"});
+  // treeVars.myWidth = treeInnerWidth; cgstub7/20
+  //treeVars.obDiv.$css({width:(treeInnerWidth   + "px"),height:treeHt+"px",top:"30px",left:"0px"}); cgstub7/20
   svgDiv.$css({id:"svgdiv",left:(actionPanelWd + docwd)+"px",width:svgwd +"px",height:svght + "px","background-color":bkg});
   canvas.style.width = svgwd;
   canvas.style.height = svght;
-  treeVars.obDiv.setVisibility(panelMode=== 'chain');
+  /*treeVars.obDiv.setVisibility(panelMode=== 'chain'); cgstub7/20
   insertContainer.setVisibility(panelMode === 'catalog');
-  dataContainer.setVisibility(panelMode === 'data');
+  dataContainer.setVisibility(panelMode === 'data');*/
   if (panelMode !== 'catalog') {
     enableButton(insertBut);
     enableButton(replaceBut);
     enableButton(replaceProtoBut);
   }
-  uiDiv.$css({top:"0px",left:(actionPanelWd + docwd + svgwdAvail)+"px",width:(uiWidth + "px"),height:(treeHt + "px")});
+ // uiDiv.$css({top:"0px",left:(actionPanelWd + docwd + svgwdAvail)+"px",width:(uiWidth + "px"),height:(treeHt + "px")}); cgstub7/20
   if (panelMode === 'catalog') {
     insertContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svghtAvail-40)+"px"});
     insertDiv.$css({top:"10px",left:"0px",width:(uiWidth-0 + "px"),height:(svghtAvail-50-numCatalogHeaderLines*30)+"px"});
   }
   if (panelMode === 'chain') {
-    treeVars.obDiv.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svght-40)+"px"});
-   // treeVars.obDiv.$css({top:"10px",left:"0px",width:(uiWidth-0 + "px"),height:(svght-60)+"px"});
+   // treeVars.obDiv.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svght-40)+"px"}); cgstub7/20
   }
   if (panelMode === 'data') {
     dataContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svghtAvail-0)+"px"});

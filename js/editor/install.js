@@ -80,7 +80,7 @@ const svgInstall = function () {
     core.propagateDimension(rmain);
   }
   if (ui.vars.whichPage === 'structure_editor')  {
-//    popCatalog(); cgstub 7/20
+//    popCatalog(); cgstub7/20
   }
   if ((core.root.__grid ||enableTheGrid) && enableGrid) {
     enableGrid();
@@ -174,7 +174,7 @@ const finishMainInstall = function () {
     next2();
     return;
   } else if (ui.vars.whichPage === 'structure_editor') {
-      tree.showItemAndChain(core.root,tree.vars.expandMode,true);// true -> noSelect
+     // tree.showItemAndChain(core.root,tree.vars.expandMode,true);  //cgstub7/20 true -> noSelect
       //setCustomActionPanelContents();
   }
   next2();
