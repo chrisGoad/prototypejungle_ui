@@ -770,7 +770,13 @@ item.randomCell = function (excl) {
   return {x:col,y:row};
   }
 }
-
+item.setName = function (name) {
+	this.name = name;
+	if (this.saveImage) {
+	  core.vars.whereToSave = `images/${name}.jpg`;
+	}
+	this.path = `json/${name}.json`;
+}
 }
 });
 

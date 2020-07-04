@@ -2,13 +2,11 @@
 core.require('/gen1/grid_1.js',
 function (constructor) {
   debugger;	//this.initProtos();
-  //core.vars.whereToSave = 'images/grid_1_1.jpg';
+  core.vars.whereToSave = 'foobfoob';
   let rs = constructor();
-	rs.saveImage = true;
-	rs.setName('grid_1_1');
 	rs.initProtos();
-	//rs.path = 'json/grid_1_1.json';
-  rs.loadFromPath = 1;
+	rs.path = '/gallery4/grid_1_1.json';
+  rs.loadFromPath = 0;
 	//rs.randomCellExclude = 2;
 	rs.numRows = 20;
 	rs.numCols = 20;
@@ -42,6 +40,7 @@ function (constructor) {
 	rs.patternOp = function (line) {
 	//	line.stroke = 'blue';
   };
+	
   return rs;
 });
 

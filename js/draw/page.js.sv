@@ -10,8 +10,7 @@ let saveCatalog,theConfig,theCatalogs;
 
 let actionPanel,actionPanelMessage,actionPanelButton,actionPanelCommon,actionPanelCustom,kitRootBut;
 let uiDiv,topbarDiv,deleteBut,editTextBut,addImageBut,cloneBut,openDataInTextEditorBut,redoBut,dragButtons;
-let separateBut,moveToBackBut,plusDimBut,minusDimBut,plusdimBut,minusdimBut,animateBut,toggleConnectBut,showCohortBut,doneCloningBut,insertContainer,insertDiv,dragMessage,catalogState;
-let moveUpBut, insertCols,insertButs,moveDownBut,saveOrderBut;
+let separateBut,moveToBackBut,toggleConnectBut,showCohortBut,doneCloningBut,insertContainer,insertDiv,dragMessage,catalogState;
 let tabContainer,insertDivCol1,insertDivCol2,includeDoc,replaceProtoMode,fromItem;
 let resizable;
 let treeVars = tree.vars;
@@ -24,7 +23,7 @@ let messageElement,ctopDiv,noteSpan,upBut,downBut,topBut,svgMessageDiv;
 let dataMessage,JSONMessage,rebuildFromDataBut,changeDataSourceBut,saveDataBut,testBut,saveDataAsBut,checkJSONBut,runningSpan,dataButtons,dataDiv,dataContainer,advancedButs;
 let includeActionPanel = false;
 
-let numCatalogHeaderLines = 2;
+let numCatalogHeaderLines = 5;
 const closerStyle = 'position:absolute;padding:3px;cursor:pointer;background-color:red;'+
          'font-weight:bold,border:thin solid black;font-size:12pt;color:black';
          
@@ -82,12 +81,6 @@ __addChildren([
           showCohortBut = html.Element.mk('<div  class="colUbutton left">Show Cohort</div>'),
           separateBut= html.Element.mk('<div class="colUbutton left">Separate</div>'),
           moveToBackBut= html.Element.mk('<div class="colUbutton left">Move to Back</div>'),
-          plusDimBut= html.Element.mk('<div class="colUbutton left">+big Dim</div>'),
-          minusDimBut= html.Element.mk('<div class="colUbutton left">-big Dim</div>'),
-          plusdimBut= html.Element.mk('<div class="colUbutton left">+small Dim</div>'),
-          minusdimBut= html.Element.mk('<div class="colUbutton left">-small Dim</div>'),
-         // animateBut= html.Element.mk('<div class="colUbutton left">Animate</div>'),
-       
           toggleConnectBut= html.Element.mk('<div class="colUbutton left">Disable Connections</div>'),
 
            ]),
@@ -114,23 +107,21 @@ __addChildren([
       treeVars.obDivRest =treeVars.obDiv = html.Element.mk('<div id="obDiv" style="position:absolute;background-color:white;border:solid thin black;overflow:auto;vertical-align:top;margin:0px;padding:'+treePadding+'px">TREE</div>'),
       insertContainer =  html.Element.mk('<div id="insertContainer" style="background-color:white;border:solid thin black;position:absolute;"></div>').
       __addChildren([
-        dragMessage = html.Element.mk('<div id="dragMessage" style="font-size:10pt;padding-bottom:5px;padding-left:45px;">Drag to  insert</div>'),
-        tabContainer = html.Element.mk(
-          `<div id="tabContainer" style="font-size:10pt;vertical-align:top;border-bottom:thin solid black;height:${numCatalogHeaderLines*30}px;"></div>`).
+        insertDiv = html.Element.mk('<div id="insertDiv" style="overflow:auto;position:absolute;top:60px;height:400px;width:600px;background-color:white;bborder:solid thin black;"/>').
         __addChildren([
+       /* dragButtons = html.Element.mk('<div id="dragButtons" style="bborder:solid thin red;"></div>').__addChildren([
+          insertBut = swapMachine?null:html.Element.mk('<div class="ubutton">Insert</div>'),
+          replaceBut = html.Element.mk('<div class="ubutton">Swap</div>'),
+          replaceProtoBut = html.Element.mk('<div class="ubutton">Swap Prototype</div>')
+        ]),  */        
+          dragMessage = html.Element.mk('<div id="dragMessage" style="font-size:10pt;padding-bottom:5px;padding-left:45px;">Drag to  insert</div>'),
+          tabContainer = html.Element.mk(
+            `<div id="tabContainer" style="font-size:10pt;vertical-align:top;border-bottom:thin solid black;height:${numCatalogHeaderLines*30}px;"></div>`).
+          __addChildren([
             insertTab = html.Element.mk('<div id="tab" style="width:80%;vertical-align:bottom;borderr:thin solid green;display:inline-block;height:30px;"></div>')
-        ]),  
-        insertDiv = html.Element.mk('<div id="insertDiv" style="overflow:auto;positionn:absolute;ttop:60px;height:400px;width:600px;background-color:white;bborder:solid thin black;"/>').
-        __addChildren([  
-          insertButs =html.Element.mk('<div/>').__addChildren([
-               moveUpBut = html.Element.mk('<div id="moveUp" class="ubutton">Up</div>'),
-               moveDownBut = html.Element.mk('<div id="moveDown" class="ubutton">Down</div>'),
-               saveOrderBut = html.Element.mk('<div id="saveOrder" class="ubutton">Save</div>')
-          ]),
-          insertCols = html.Element.mk('<div/>').__addChildren([
-            insertDivCol1 = html.Element.mk('<div id="col1" style="display:inline-block;bborder:thin solid black;width:49%;"></div>'),
-            insertDivCol2 = html.Element.mk('<div id="col2" style="vertical-align:top;display:inline-block;bborder:thin solid black;width:49%;"></div>')
-          ])
+          ]),                                                                                                                                                 
+          insertDivCol1 = html.Element.mk('<div id="col1" style="display:inline-block;bborder:thin solid black;width:49%;"></div>'),
+          insertDivCol2 = html.Element.mk('<div id="col2" style="vertical-align:top;display:inline-block;bborder:thin solid black;width:49%;"></div>')
         ]),
       
     
@@ -176,7 +167,7 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
   svght = 500;
   let ar = 0.3;//0.48;
   let wpad = 5;
-  let vpad = 5;//5;//20;//minimum sum of padding on top and bottom
+  let vpad = 5;//20;//minimum sum of padding on top and bottom
   let awinwid = $(window).width();
   let awinht = $(window).height();
   let pwinwid = awinwid - (2 * wpad);
@@ -209,25 +200,21 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
   } else {
     uiWidth = pageWidth/6;
     //uiWidth = 0.25 * pageWidth;
-   // svgwd = core.vars.svgwd?core.vars.svgwd:0.75 * pageWidth;
+    svgwd = 0.75 * pageWidth;
   }
-  let svgwdAvail = pageWidth - actionPanelWd - docwd - uiWidth;
-  svgwd = core.vars.svgwd?core.vars.svgwd:svgwdAvail;
-  let svgPad = svgwdAvail - svgwd;
+  svgwd = pageWidth - actionPanelWd - docwd - uiWidth;
   treeOuterWidth = uiWidth;
   treeInnerWidth = treeOuterWidth - twtp;
   mpg.$css({left:lrs+"px",width:pageWidth+"px",height:(pageHeight-0)+"px",display:"block"});
   topHt = -15 + topbarDiv.__element.offsetHeight;
   cols.$css({left:"5px",width:pageWidth+"px",top:topHt+"px"});
-  ctopDiv.$css({"padding-top":"0px","padding-bottom":"20px","padding-right":"10px",left:svgwdAvail+"px",top:"0px"});
+  ctopDiv.$css({"padding-top":"0px","padding-bottom":"20px","padding-right":"10px",left:svgwd+"px",top:"0px"});
   actionLeft = includeDoc?docwd +10 + "px":"210px";
   actionDiv.$css({width:(actionDivWidth + "px"),"padding-top":"10px","padding-bottom":"20px",left:actionLeft,top:"0px"});
   actionHt = actionDiv.__element.offsetHeight;
   topbarDiv.$css({height:actionHt,width:pageWidth+"px",left:"0px","padding-top":"10px"});
-  let svghtAvail = pageHeight - actionHt;
-  svght = core.vars.svght?core.vars.svght:svghtAvail;// + 20;
-  treeHt = svghtAvail;
-  treeHt = svghtAvail;
+  svght = pageHeight - actionHt;// + 20;
+  treeHt = svght;
   treeVars.myWidth = treeInnerWidth;
   treeVars.obDiv.$css({width:(treeInnerWidth   + "px"),height:treeHt+"px",top:"30px",left:"0px"});
   svgDiv.$css({id:"svgdiv",left:(actionPanelWd + docwd)+"px",width:svgwd +"px",height:svght + "px","background-color":bkg});
@@ -241,29 +228,29 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
     enableButton(replaceBut);
     enableButton(replaceProtoBut);
   }
-  uiDiv.$css({top:"0px",left:(actionPanelWd + docwd + svgwdAvail)+"px",width:(uiWidth + "px"),height:(treeHt + "px")});
+  uiDiv.$css({top:"0px",left:(actionPanelWd + docwd + svgwd)+"px",width:(uiWidth + "px"),height:(treeHt + "px")});
   if (panelMode === 'catalog') {
-    insertContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svghtAvail-40)+"px"});
-    insertDiv.$css({top:"10px",left:"0px",width:(uiWidth-0 + "px"),height:(svghtAvail-50-numCatalogHeaderLines*30)+"px"});
+    insertContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svght-40)+"px"});
+    insertDiv.$css({top:"10px",left:"0px",width:(uiWidth-0 + "px"),height:(svght-60)+"px"});
   }
   if (panelMode === 'chain') {
     treeVars.obDiv.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svght-40)+"px"});
    // treeVars.obDiv.$css({top:"10px",left:"0px",width:(uiWidth-0 + "px"),height:(svght-60)+"px"});
   }
   if (panelMode === 'data') {
-    dataContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svghtAvail-0)+"px"});
-    dataDiv.$css({top:"0px",left:"0px",width:(uiWidth-0 + "px"),height:(svghtAvail-20)+"px"});
+    dataContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svght-0)+"px"});
+    dataDiv.$css({top:"0px",left:"0px",width:(uiWidth-0 + "px"),height:(svght-20)+"px"});
   } 
   docDiv.$css({left:"0px",width:docwd+"px",top:docTop+"px",height:svght+"px",overflow:"auto"});
   if (intro) {
-    actionPanel.$css({left:docwd+"px",width:actionPanelWd+"px",top:docTop+"px",height:svghtAvail+"px",overflow:"auto"});
+    actionPanel.$css({left:docwd+"px",width:actionPanelWd+"px",top:docTop+"px",height:svght+"px",overflow:"auto"});
   } else {
-    actionPanel.$css({left:"0px",width:actionPanelWd+"px",top:docTop+"px",height:svghtAvail+"px",overflow:"auto"});
+    actionPanel.$css({left:"0px",width:actionPanelWd+"px",top:docTop+"px",height:svght+"px",overflow:"auto"});
   }
    dom.svgMain.resize(svgwd,svght); 
    dom.svgMain.positionButtons(svgwd);
-   noteWidth = Math.min(svgwdAvail-40,570);
-   noteLeft = 0.5 * (svgwdAvail - 40 - noteWidth);
+   noteWidth = Math.min(svgwd-40,570);
+   noteLeft = 0.5 * (svgwd - 40 - noteWidth);
    noteDiv.$css({left:noteLeft+"px",width:noteWidth +"px"});
    if (firstLayout) {
      firstLayout = false; 

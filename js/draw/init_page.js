@@ -4,7 +4,7 @@
 
 
 
-dom.vars.defaultTransform = Transform.mk(Point.mk(),1);
+dom.vars.ini = Transform.mk(Point.mk(),1);
 
 let mainPage;
 let svgDivReady = false;
@@ -25,7 +25,7 @@ const genMainPage = function (cb) {
   }
   mainPage = buildPage();//mpg
   activateButtons();
-  initFsel();
+ // initFsel();
   mpg.__addToDom();
   if (svgDiv) {
     setupSvgDiv();
@@ -39,13 +39,16 @@ const genMainPage = function (cb) {
   $('.mainTitle').click(function () {
     fb.sendToShell('');
   });
-  if (upBut) {
+ /* if (upBut) {
     disableButton(upBut);
     enableButton(topBut);
     disableButton(downBut);
-  }
+  }*/
   genButtons(ctopDiv.__element);
- 
+  if (cb) {
+		cb();
+	}
+	return;
   //const next = function () {
   $('body').css({"background-color":"#eeeeee","overflow":"hidden"});
   let r = Rectangle.mk({corner:[0,0],extent:[500,200]});
@@ -161,7 +164,7 @@ let pageInitialized = false; // to prevent repeats, which firebase will sometime
 const initPage = function () {
   debugger;
  // console.log('init Page');
-  graph.installRectanglePeripheryOps(dom.SvgTag.image);
+ // graph.installRectanglePeripheryOps(dom.SvgTag.image);
   const todo = function () {  
   //   console.log('after set current user');  
     const next = function () {
@@ -169,19 +172,9 @@ const initPage = function () {
       pageInitialized = true;
       processQuery();
       dom.vars.fitStdExtent = (ui.vars.whichPage === 'structure_editor') && !(source);
-      if (ui.vars.whichPage === 'code_editor') {
-        genMainPage(function () {
-            showMainScript(afterPageGenerated);
-            //return;
-            //afterPageGenerated();
-        });
-      } else {
       //  console.log('call afterPageGenerated');
-        genMainPage(afterPageGenerated);//()=>afterPageGenerated(ui.vars.whichPage === 'text_editor'));// do not install for text editor
-      }
+      genMainPage(afterPageGenerated);
     }
-   
-		theCatalogs = 'sys/*';
 		if (!pageInitialized) next();
     
   };

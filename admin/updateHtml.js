@@ -235,14 +235,19 @@ import * as graph from "/js/graph-1.1.0.min.js";
 import * as ui from '/js/ui-1.1.0.min.js';
 `;
 */
-
-
+/*
 let mainImports =
 `import * as core from "/js/core-1.1.0.min.js";
 import * as geom from "/js/geom-1.1.0.min.js";
 import * as dom from "/js/dom-1.1.0.min.js";
 import * as graph from "/js/graph-1.1.0.min.js";
 import * as ui from '/js/ui-1.1.0.min.js';
+`;
+*/
+let mainImports =
+`import * as core from "/js/core-1.1.0.min.js";
+import * as geom from "/js/geom-1.1.0.min.js";
+import * as dom from "/js/dom-1.1.0.min.js";
 `;
 
 function doSubstitution(s,what,value,withDoubleBracket) {
@@ -392,7 +397,6 @@ const afterLastChar = function (string,chr,strict) {
     dirs.forEach( (dir) => xferDir(forShell,whichSubst,dir));
   }
 
-  
   var xferFiles = function (forShell,whichSubst,files) {
     files.forEach( (file) => xferFile(forShell,whichSubst,file));
   }
@@ -407,12 +411,12 @@ const afterLastChar = function (string,chr,strict) {
 	
  
  // git add README.md arrow axes border box connector container coreExamples data  example image images kit line random shape  text timeline
+xferDir('top','','admin');
 xferDir(0,'www','');
-return; 
  xferDir('top','','server');
 
 //xferDir(1,'www','doc');
-xferDir(0,'www','intro');
+//xferDir(0,'www','intro');
 //xferDir(1,'shell','');
 //xferDir(1,'www','slide_show');
 

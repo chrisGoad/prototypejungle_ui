@@ -11,6 +11,7 @@ exports.catalog = "1.1.0";
 exports.tree = "1.1.0";
 exports.chooser = "1.1.0";
 exports.editor  = "1.1.0";
+exports.draw  = "1.1.0";
 exports.data_editor = "1.1.0";
 exports.text_editor = "1.1.0";
 exports.code_editor = "1.1.0";

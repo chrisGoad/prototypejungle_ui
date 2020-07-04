@@ -5,7 +5,7 @@ const http = require('http');
 const fs = require('fs');
 //const Buffer = require('Buffer');
 //const mtypes = {html:'text/html',js:'text/javascript',
-const mtypes = {html:'text/html',js:'application/javascript',
+const mtypes = {html:'text/html',js:'application/javascript',json:'application/json',
                   css:'text/css',svg:'image/svg+xml',ico:'image/x-icon'};
 const requestListener = function (req, res) {
 	let iurl = req.url;
@@ -22,14 +22,30 @@ const requestListener = function (req, res) {
   console.log('path = ',path,' method=',method,' ctype = ',ctype);
 	let data;
   if (method === 'POST') {
-    let data = '';
-    req.on('data', chunk => {
-        data += chunk.toString(); // convert Buffer to string
+    //let data = '';
+		ctype = 'image/jpg';
+		let chunks = [];
+    //let data = Buffer.alloc(0);
+    //req.on('data', chunk => {
+    //    data += chunk.toString(); // convert Buffer to string
+    //});
+		let dln = 0;
+		req.on('data', chunk => {
+			  dln += chunk.length;
+			  console.log('got ',chunk.length,' bytes');
+				chunks.push(chunk);
+       // Buffer.concat([data,chunk]); // convert Buffer to string
     });
     req.on('end', () => {
-        console.log('data = ', data);
+        console.log('data length = ', dln);
+				let  rs = Buffer.concat(chunks,dln);
         res.end('ok');
+				let spath = ipath.substring(1);
+				console.log('writing ',dln,' bytes to ',spath);
+				fs.writeFileSync(spath,rs);
+
     });
+
 		return;
 	}
 

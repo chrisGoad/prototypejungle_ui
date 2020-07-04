@@ -10,22 +10,19 @@
  
 <script type="module">
   {{mainImports}}
-//import * as tree from "/js/tree-1.1.0.min.js";
-//import * as catalog from "/js/catalog-1.1.0.min.js";
-//import * as editor from "/js/editor-1.1.0.min.js";
-import * as draw from "/js/draw-1.1.0.min.js";
+import * as graph from "/js/graph-1.1.0.min.js";
+import * as ui from '/js/ui-1.1.0.min.js';
+import * as tree from "/js/tree-1.1.0.min.js";
+import * as catalog from "/js/catalog-1.1.0.min.js";
+import * as editor from "/js/editor-1.1.0.min.js";
 
 
 /* make the modules available in all contexts */
 Window.core = core;Window.geom=geom;Window.dom=dom;
-//Window.graph = graph;Window.ui=ui;
-//Window.editor=editor;
-Window.draw=draw;
-//Window.catalog = catalog;
-let ui = {};
-ui.vars = {};
-ui.hide = () => {};
-Window.ui = ui;
+Window.graph = graph;Window.ui=ui;
+Window.editor=editor;
+Window.catalog = catalog;
+
 window.addEventListener("DOMContentLoaded", function() { 
   debugger;
   core.debugMode(true);
@@ -44,7 +41,7 @@ window.addEventListener("DOMContentLoaded", function() {
   ui.vars.fitMode = true;// auto-fit items into graphics, with the given factor
   dom.vars.stdExtent = geom.Point.mk(200,200); // if there is no initial content, this is the area in image space originally in view
   core.tlog('doc ready');
-  core.loadTopDefs(draw.initPage);// binds modules to global
+  core.loadTopDefs(editor.initPage);// binds modules to global
 });
 </script>
  

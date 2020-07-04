@@ -47,7 +47,6 @@ rs.computeDir = function (x,y) {
 }
 rs.computeDirValues = function () {
 	let {numCols,numRows} = this;
-	debugger;
 	let rvl = [];
 	for (let i = 0;i<numCols;i++) {
 	  for (let j = 0;j<numRows;j++) {
@@ -70,7 +69,8 @@ rs.initialize = function () {
 	
 	this.dirValues = [];
 	if (this.loadFromPath) {
-	  core.httpGet('(sys)'+path, (error,json) => {
+		debugger;
+	  core.httpGet(path, (error,json) => {
 			let vls = JSON.parse(json);
 			Object.assign(this,vls);
 			this.initializeGrid();
@@ -88,7 +88,6 @@ rs.initialize = function () {
 }
 
 rs.shapeGenerator = function (rvs,cell,cnt) {
-	debugger;
 	let idx = cell.index;
   let {shapes,dirValues,lineLength} = this;
 	let line0 = this.lineP.instantiate();

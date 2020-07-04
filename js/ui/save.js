@@ -15,7 +15,9 @@ const saveHistory = function (path,dbval,cb) {
   fb.saveString(path,str,metadata,dbval,cb);
 }
 const saveJson = function (path,str,cb) {
-  fb.saveString(path,str,fb.jsonMetadata,undefined,cb);
+	debugger;
+	core.httpPost('www/'+path,str,cb);
+ //fb.saveString(path,str,fb.jsonMetadata,undefined,cb);
 }
 
 const saveJavascript = function (path,str,cb) {

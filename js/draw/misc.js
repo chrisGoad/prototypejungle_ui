@@ -664,14 +664,14 @@ enableButtons = function () {
   }
   */
 }
-ui.selectCallbacks.push(enableButtons);
+/*ui.selectCallbacks.push(enableButtons);
 ui.unselectCallbacks.push(function () {
   enableButtons();
   actionPanelMessage.__element.innerHTML="No item selected";
   actionPanelCustom.__element.innerHTML = '';
   popCatalog();
 });
-
+*/
 /* end buttons  section */
   
 const setInstance = function (itm,fromSelect) { 

@@ -31,23 +31,26 @@ let jpegMovieMode = false;
 
 let jpegMovie = [];
 
-/*
-dom.svgMain.__element.getBBox();
-*/
+
 const convertToJpeg = function (destPath,cb) {
 	debugger;
-  let canvas = document.getElementById('imageCanvas');
-  let svgElement = dom.svgMain.__element;
-  let bbox = svgElement.getBBox();
-  let f = jpegPadFactor;
-  let maxXpad = svgwd/bbox.width;
-  let xPad = Math.min(f,maxXpad);
-  let maxYpad = svght/bbox.height;
-  let yPad = Math.min(f,maxYpad);
-  canvas.width = jpgSizeFactor* xPad*bbox.width;
-  canvas.height = jpgSizeFactor * yPad*bbox.height;
-  let ctxt = canvas.getContext('2d');
+	//const harvestImage = function () {
+    debugger;
+		let canvas = document.getElementById('imageCanvas');
+		let svgElement = dom.svgMain.__element
+		let bbox = svgElement.getBBox();
+		let f = jpegPadFactor;
+		let maxXpad = svgwd/bbox.width;
+		let xPad = Math.min(f,maxXpad);
+		let maxYpad = svght/bbox.height;
+		let yPad = Math.min(f,maxYpad);
+		canvas.width = jpgSizeFactor* xPad*bbox.width;
+		//canvas.width = jpgSizeFactor* svgwd;//xPad*bbox.width;
+		canvas.height = jpgSizeFactor * yPad*bbox.height;
+		//canvas.height = jpgSizeFactor * svght;
+		let ctxt = canvas.getContext('2d');
   const harvestImage = function () {
+		debugger;
     let base64 = canvas.toDataURL('image/jpeg');
     saveBase64Image(destPath,base64,cb);
   } 
@@ -55,6 +58,51 @@ const convertToJpeg = function (destPath,cb) {
 
 }
 
+const computeSomeStuff  = function () {
+	let rs = {};
+	rs.canvas = document.getElementById('imageCanvas');
+	rs.svgElement = dom.svgMain.__element
+	rs.bbox = rs.svgElement.getBBox();
+	rs.f = jpegPadFactor;
+	rs.maxXpad = svgwd/rs.bbox.width;
+	rs.xPad = Math.min(rs.f,rs.maxXpad);
+	rs.maxYpad = svght/rs.bbox.height;
+	rs.yPad = Math.min(rs.f,rs.maxYpad);
+	rs.ctxt = rs.canvas.getContext('2d');
+	return rs;
+}
+/*
+const convertToJpeg = function (destPath,cb) {
+	debugger;
+	//const harvestImage = function () {
+	debugger;
+	let stuff = computeSomeStuff();
+	let {canvas,svgElement,bbox,f,maxXpad,xPad,maxYpad,yPad,ctxt} = stuff;
+	//canvas.width = jpgSizeFactor* xPad*bbox.width;
+	canvas.width = jpgSizeFactor* svgwd;//xPad*bbox.width;
+	//canvas.height = jpgSizeFactor * yPad*bbox.height;
+	canvas.height = jpgSizeFactor * svght;
+	const lastStep = function () {
+		debugger;
+		let stuff = computeSomeStuff();
+		let {canvas,svgElement,bbox,f,maxXpad,xPad,maxYpad,yPad,ctxt} = stuff;
+	  canvas.width = jpgSizeFactor* xPad*bbox.width;
+    canvas.height = jpgSizeFactor * yPad*bbox.height;
+    let base64 = canvas.toDataURL('image/jpeg');
+    saveBase64Image(destPath,base64,cb);
+	}
+  const harvestImage = function () {
+		debugger;
+		let stuff = computeSomeStuff();
+		let {canvas,svgElement,bbox,f,maxXpad,xPad,maxYpad,yPad,ctxt} = stuff;
+   	canvas.width = jpgSizeFactor* xPad*bbox.width;
+    canvas.height = jpgSizeFactor * yPad*bbox.height;
+		drawInlineSVG(svgElement,bbox,xPad,yPad, ctxt, lastStep)
+  } 
+  drawInlineSVG(svgElement,bbox,xPad,yPad, ctxt, harvestImage);
+
+}
+*/
 // from https://stackoverflow.com/questions/13198131/how-to-save-an-html5-canvas-as-an-image-on-a-server
 const saveBase64Image = function (destPath,dataURL,cb) {
   let binary = atob(dataURL.split(',')[1]);

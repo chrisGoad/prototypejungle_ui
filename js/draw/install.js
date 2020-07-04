@@ -127,6 +127,16 @@ const displayError = function (msg) {
 
 core.setDisplayError(displayError);
 
+
+const saveTheImage = function () {
+	alert('image save');
+	let wts = core.vars.whereToSave;
+	if (wts) {
+	  convertToJpeg(wts,function () {
+		  debugger;
+	  });	
+	}
+}
 const finishMainInstall = function () {
   let e = installError;
   let emsg;
@@ -148,7 +158,7 @@ const finishMainInstall = function () {
      core.root.set('transform',dom.vars.defaultTransform);
   }
   let next2 = function () {
-    enableButtons();
+    //enableButtons();
     dom.svgMain.fitContents();
     $(window).resize(function() {
       layout();
@@ -178,13 +188,11 @@ const finishMainInstall = function () {
       //setCustomActionPanelContents();
   }
   next2();
-  enableButtons();
+//  enableButtons();
   debugger;
 	let wts = core.vars.whereToSave;
 	if (wts) {
-	  convertToJpeg(wts,function () {
-		  debugger;
-	  });	
+		setTimeout(saveTheImage,3000);	
 	}
   let mn = core.root.main;
   if (mn && mn.animate) {
@@ -214,3 +222,4 @@ const handleError = function (e) {
   }
 }
 
+export {saveTheImage};

@@ -44,7 +44,7 @@ mpg =  html.wrap("main",'div',{style:{position:"absolute","margin":"0px",padding
 __addChildren([
   topbarDiv = html.wrap('topbar','div',{style:{position:"absolute",height:"10px",left:"0px","background-color":bkColor,margin:"0px",padding:"0px"}}).
   __addChildren([
-  actionDiv =  html.Element.mk('<div id="action" style="position:absolute;margin:0px;overflow:none;padding:5px;height:20px"/>').
+ /* actionDiv =  html.Element.mk('<div id="action" style="position:absolute;margin:0px;overflow:none;padding:5px;height:20px"/>').
   __addChildren([
       fileBut = html.Element.mk('<div class="ubutton">File</div>'),
       undoBut = html.Element.mk('<div  class="ubutton">Undo</div>'),
@@ -58,7 +58,7 @@ __addChildren([
       fileDisplay = html.Element.mk('<span style="font-size:11pt;padding-left:40px"></span>'),
       messageElement = html.Element.mk('<span id="messageElement" style="overflow:none;padding:5px;height:20px"></span>'),
       ui.vars.imageElement = html.Element.mk('<img style="display:none;"/>')
-    ]),
+    ])*/
     ctopDiv = html.wrap('topbarInner','div',{style:{float:"right"}})
   ]),
 
@@ -68,7 +68,7 @@ __addChildren([
     
     
     docDiv,
-     actionPanel = actionPanel = html.Element.mk('<div id="actionPanel"  draggable="true" style="background-color:white;border:solid thin black;position:absolute;height:400px;width:600px;display:inline-block"></div>').__addChildren([
+    /* actionPanel = actionPanel = html.Element.mk('<div id="actionPanel"  draggable="true" style="background-color:white;border:solid thin black;position:absolute;height:400px;width:600px;display:inline-block"></div>').__addChildren([
         html.Element.mk('<div style="border:solid thin black;"></div>').__addChildren([
         actionPanelMessage = html.Element.mk('<div style="margin:10px;width:80%;padding-right:10px">Nothing is selected</div>'),
         actionPanelButton = html.Element.mk('<div class="colUbutton"></div>')
@@ -92,7 +92,7 @@ __addChildren([
 
            ]),
        actionPanelCustom= html.Element.mk('<div style="float:left;margin:0;width:100%"></div>')
-     ]),
+     ]),*/
    
     svgDiv = html.Element.mk('<div id="svgDiv" draggable="true" style="position:absolute;height:400px;width:600px;background-color:white;border:solid thin black;display:inline-block"/>').
     __addChildren([
@@ -104,7 +104,7 @@ __addChildren([
         ]),
         svgMessageDiv = html.Element.mk('<div style="display:none;margin-left:auto;padding:40px;margin-right:auto;width:50%;margin-top:20px;border:solid thin black">AAAAUUUU</div>')
      ]),
-  treeVars.objectContainer = uiDiv = html.Element.mk('<div id="uiDiv" style="position:absolute;margin:0px;padding:0px"></div>').
+ /* treeVars.objectContainer = uiDiv = html.Element.mk('<div id="uiDiv" cgstub720 style="position:absolute;margin:0px;padding:0px"></div>').
     __addChildren([
       dragButtons = html.Element.mk('<div id="dragButtons" style="height:30px;width:100%;background-color:white;border:solid thin black;"></div>').__addChildren([
         insertBut = swapMachine?null:html.Element.mk('<div class="ubutton">Insert</div>'),
@@ -151,7 +151,7 @@ __addChildren([
        dataDiv = html.Element.mk('<div id="dataDiv" style="border:solid thin green;positionn:absolute;">Code Div</div>')
     ])
 
- ])
+ ])*/
 ])
 ]);
 advancedButs =  
@@ -167,6 +167,7 @@ let firstLayout = true;
 let svgwd,svght;
 const layout = function(noDraw) { // in the initialization phase, it is not yet time to draw, and adjust the transform
   // aspect ratio of the UI
+	debugger;
   let canvas = document.getElementById('imageCanvas');
   let noteWidth,noteLeft,treeHt,pageHeight,pageWidth,lrs;
   let actionLeft,actionHt,actionDivWidth,actionPanelWd,treeInnerWidth,treeOuterWidth;
@@ -220,51 +221,30 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
   topHt = -15 + topbarDiv.__element.offsetHeight;
   cols.$css({left:"5px",width:pageWidth+"px",top:topHt+"px"});
   ctopDiv.$css({"padding-top":"0px","padding-bottom":"20px","padding-right":"10px",left:svgwdAvail+"px",top:"0px"});
-  actionLeft = includeDoc?docwd +10 + "px":"210px";
+  /*actionLeft = includeDoc?docwd +10 + "px":"210px";
   actionDiv.$css({width:(actionDivWidth + "px"),"padding-top":"10px","padding-bottom":"20px",left:actionLeft,top:"0px"});
-  actionHt = actionDiv.__element.offsetHeight;
+  actionHt = actionDiv.__element.offsetHeight;*/
   topbarDiv.$css({height:actionHt,width:pageWidth+"px",left:"0px","padding-top":"10px"});
-  let svghtAvail = pageHeight - actionHt;
+  let svghtAvail = pageHeight-70;// - actionHt;
   svght = core.vars.svght?core.vars.svght:svghtAvail;// + 20;
   treeHt = svghtAvail;
   treeHt = svghtAvail;
-  treeVars.myWidth = treeInnerWidth;
-  treeVars.obDiv.$css({width:(treeInnerWidth   + "px"),height:treeHt+"px",top:"30px",left:"0px"});
+  // treeVars.myWidth = treeInnerWidth; cgstub7/20
+  //treeVars.obDiv.$css({width:(treeInnerWidth   + "px"),height:treeHt+"px",top:"30px",left:"0px"}); cgstub7/20
   svgDiv.$css({id:"svgdiv",left:(actionPanelWd + docwd)+"px",width:svgwd +"px",height:svght + "px","background-color":bkg});
   canvas.style.width = svgwd;
   canvas.style.height = svght;
-  treeVars.obDiv.setVisibility(panelMode=== 'chain');
+  /*treeVars.obDiv.setVisibility(panelMode=== 'chain'); cgstub7/20
   insertContainer.setVisibility(panelMode === 'catalog');
-  dataContainer.setVisibility(panelMode === 'data');
-  if (panelMode !== 'catalog') {
-    enableButton(insertBut);
-    enableButton(replaceBut);
-    enableButton(replaceProtoBut);
-  }
-  uiDiv.$css({top:"0px",left:(actionPanelWd + docwd + svgwdAvail)+"px",width:(uiWidth + "px"),height:(treeHt + "px")});
-  if (panelMode === 'catalog') {
-    insertContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svghtAvail-40)+"px"});
-    insertDiv.$css({top:"10px",left:"0px",width:(uiWidth-0 + "px"),height:(svghtAvail-50-numCatalogHeaderLines*30)+"px"});
-  }
-  if (panelMode === 'chain') {
-    treeVars.obDiv.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svght-40)+"px"});
-   // treeVars.obDiv.$css({top:"10px",left:"0px",width:(uiWidth-0 + "px"),height:(svght-60)+"px"});
-  }
-  if (panelMode === 'data') {
-    dataContainer.$css({top:"30px",left:0+"px",width:(uiWidth-0 + "px"),height:(svghtAvail-0)+"px"});
-    dataDiv.$css({top:"0px",left:"0px",width:(uiWidth-0 + "px"),height:(svghtAvail-20)+"px"});
-  } 
-  docDiv.$css({left:"0px",width:docwd+"px",top:docTop+"px",height:svght+"px",overflow:"auto"});
-  if (intro) {
-    actionPanel.$css({left:docwd+"px",width:actionPanelWd+"px",top:docTop+"px",height:svghtAvail+"px",overflow:"auto"});
-  } else {
-    actionPanel.$css({left:"0px",width:actionPanelWd+"px",top:docTop+"px",height:svghtAvail+"px",overflow:"auto"});
-  }
+  dataContainer.setVisibility(panelMode === 'data');*/
+ 
    dom.svgMain.resize(svgwd,svght); 
    dom.svgMain.positionButtons(svgwd);
    noteWidth = Math.min(svgwdAvail-40,570);
    noteLeft = 0.5 * (svgwdAvail - 40 - noteWidth);
-   noteDiv.$css({left:noteLeft+"px",width:noteWidth +"px"});
+	// let bbox = svgElement.getBBox();
+
+   //noteDiv.$css({left:noteLeft+"px",width:noteWidth +"px"});
    if (firstLayout) {
      firstLayout = false; 
      layout(noDraw);
