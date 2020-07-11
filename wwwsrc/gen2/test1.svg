@@ -1,0 +1,18 @@
+<svg id="svg" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style = "background:white" viewBox="0 0 600 400">
+<g id="outerG" transform = "translate(40 17.111913357400724)scale(1.1552346570397112)">
+<defs id="defs"><filter id="g10" width="500" height="500"><feGaussianBlur visibility="inherit" id="blur" stdDeviation="10" in="SourceGraphic"></feGaussianBlur></filter></defs>
+<g id="main" filter="url(#g10)">
+
+<g id="main_rr" >
+
+<rect visibility="inherit" stroke="transparent" fill="rgb(255,0,0)" id="__contents"  width="77" height="5"></rect>
+</g>
+<g id="main_rr2" transform="translate(200 100)">
+
+<rect visibility="inherit" stroke="transparent" fill="rgb(255,0,0)" id="__contents"  width="77" height="5"></rect>
+</g>
+
+</g>
+
+</g>
+</svg>

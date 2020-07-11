@@ -72,7 +72,7 @@ const httpPost = function (url,data,cb) {
 	request.onreadystatechange = function() { // Call a function when the state changes.
 		 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 			// Request finished. Do processing here.
-			debugger;
+			//debugger;
 			cb('ok');
 		 }
 	};
@@ -81,7 +81,7 @@ const httpPost = function (url,data,cb) {
 
 
 const httpGetForInstall = function (iurl,cb) {
-	debugger;
+	//debugger;
   log('install','httpGet',iurl);
   let cache = getCache[iurl];
   let rs;
@@ -128,9 +128,9 @@ const httpGetForInstall = function (iurl,cb) {
 const loadjs = function (iurl,requester) {
     log('install','loadjs',iurl,' from ',requester);
     loadedUrls.push(iurl);
-		debugger;
+		//debugger;
 		httpGetForInstall(iurl,function (erm,rs) {
-			debugger;
+			//debugger;
 			eval(rs);
 		});
 }
@@ -138,6 +138,7 @@ const loadjs = function (iurl,requester) {
 
 
 const loadjs = function (iurl,requester) {
+	  //debugger;
     log('install','loadjs',iurl,' from ',requester);
     loadedUrls.push(iurl);
     vars.mapUrl(iurl,function (url) {

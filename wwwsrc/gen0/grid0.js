@@ -280,14 +280,14 @@ item.genRandomPoint = function (rect) {
     return [Point.mk(cellX,cellY),Point.mk(x,y)];
 }
 
-		
+
 item.addAtRandomPoint = function (rect) {
   let {shapes,randomizer,sizes,spatterGenerator,randomGridsForShapes} = this;
   let rnd = this.genRandomPoint(rect);
   let cell = rnd[0];
   let pnt = rnd[1];
   let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
-  let shape = this.spatterGenerator(shapes,rvs,cell,pnt);
+  let shape = this.spatterGenerator(rvs,cell,pnt);
 	let srect;
 	if (shape) {
 		if (this.spatterRect) {

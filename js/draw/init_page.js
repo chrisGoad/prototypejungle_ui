@@ -24,7 +24,7 @@ const genMainPage = function (cb) {
     return;
   }
   mainPage = buildPage();//mpg
-  activateButtons();
+  //activateButtons();
  // initFsel();
   mpg.__addToDom();
   if (svgDiv) {
@@ -44,7 +44,7 @@ const genMainPage = function (cb) {
     enableButton(topBut);
     disableButton(downBut);
   }*/
-  genButtons(ctopDiv.__element);
+  //genButtons(ctopDiv.__element);
   if (cb) {
 		cb();
 	}
@@ -102,13 +102,12 @@ let source,sourceFile,helperUrl,content,loadUrl;
 const processQuery = function() {  
   //debugger;
   let q = ui.parseQuerystring();
-  swapMachine = ui.vars.swapMachine;
   helperUrl = '/solar/naws.js';
-  intro = q.intro;
+  //intro = q.intro;
   source = q.source;
   content = q.content;
   loadUrl = q.load; // emulates dragging this in as first action
-  saveCatalog = q.saveCatalog;
+  //saveCatalog = q.saveCatalog;
   if (source==='none') {
     source = undefined;
   } else if (source) {

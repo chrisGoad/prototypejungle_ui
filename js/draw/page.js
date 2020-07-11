@@ -198,9 +198,6 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
   actionDivWidth  = 0.4 * pageWidth;
   actionPanelWd = 0; 
   docwd = 0;
-  if (intro) {
-    docwd = ((intro==='tutorial_index')?0.15:0.3) * pageWidth;
-  }
   includeActionPanel = true;
   if (includeActionPanel) {
     actionPanelWd = pageWidth/7;

@@ -7,7 +7,7 @@ let jpegPadFactor = 1.2;
 let jpgSizeFactor = 4;// 2
 
 const drawInlineSVG = function (svgElement, bbox,xPad,yPad,ctx, callback) {
-  debugger;
+  //debugger;
   var svgURL = new XMLSerializer().serializeToString(svgElement);
   var img  = new Image();
   img.onload = function(){
@@ -33,9 +33,9 @@ let jpegMovie = [];
 
 
 const convertToJpeg = function (destPath,cb) {
-	debugger;
+	//debugger;
 	//const harvestImage = function () {
-    debugger;
+    //debugger;
 		let canvas = document.getElementById('imageCanvas');
 		let svgElement = dom.svgMain.__element
 		let bbox = svgElement.getBBox();
@@ -50,7 +50,7 @@ const convertToJpeg = function (destPath,cb) {
 		//canvas.height = jpgSizeFactor * svght;
 		let ctxt = canvas.getContext('2d');
   const harvestImage = function () {
-		debugger;
+		//debugger;
     let base64 = canvas.toDataURL('image/jpeg');
     saveBase64Image(destPath,base64,cb);
   } 
@@ -75,7 +75,7 @@ const computeSomeStuff  = function () {
 const convertToJpeg = function (destPath,cb) {
 	debugger;
 	//const harvestImage = function () {
-	debugger;
+	//debugger;
 	let stuff = computeSomeStuff();
 	let {canvas,svgElement,bbox,f,maxXpad,xPad,maxYpad,yPad,ctxt} = stuff;
 	//canvas.width = jpgSizeFactor* xPad*bbox.width;
@@ -83,7 +83,7 @@ const convertToJpeg = function (destPath,cb) {
 	//canvas.height = jpgSizeFactor * yPad*bbox.height;
 	canvas.height = jpgSizeFactor * svght;
 	const lastStep = function () {
-		debugger;
+		//debugger;
 		let stuff = computeSomeStuff();
 		let {canvas,svgElement,bbox,f,maxXpad,xPad,maxYpad,yPad,ctxt} = stuff;
 	  canvas.width = jpgSizeFactor* xPad*bbox.width;
@@ -92,7 +92,7 @@ const convertToJpeg = function (destPath,cb) {
     saveBase64Image(destPath,base64,cb);
 	}
   const harvestImage = function () {
-		debugger;
+		//debugger;
 		let stuff = computeSomeStuff();
 		let {canvas,svgElement,bbox,f,maxXpad,xPad,maxYpad,yPad,ctxt} = stuff;
    	canvas.width = jpgSizeFactor* xPad*bbox.width;
@@ -105,6 +105,7 @@ const convertToJpeg = function (destPath,cb) {
 */
 // from https://stackoverflow.com/questions/13198131/how-to-save-an-html5-canvas-as-an-image-on-a-server
 const saveBase64Image = function (destPath,dataURL,cb) {
+	debugger;
   let binary = atob(dataURL.split(',')[1]);
   // Create 8-bit unsigned array
   let arr = [];
@@ -120,7 +121,7 @@ const saveBase64Image = function (destPath,dataURL,cb) {
     }
   } else {
 	  core.httpPost(destPath,str,function (rs) { 
-		   debugger;
+		   //debugger;
 			 if (cb) {
 				 cb();
 			 }
@@ -133,7 +134,7 @@ const saveBase64Image = function (destPath,dataURL,cb) {
 
 
 const imageToDataUrl = function (image) {
-  debugger;
+  //debugger;
   let canvas = document.getElementById('imageCanvas');
   let element = image.__element;
   element.crossOrigin = "Anonymous";

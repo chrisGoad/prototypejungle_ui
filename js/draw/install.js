@@ -1,6 +1,6 @@
 
 let loadingItem = undefined;
-
+let mainUrl;
 const installMainItem = function (source,settings)  {
   mainUrl = source;
   if (settings) {
@@ -18,7 +18,7 @@ const installMainItem = function (source,settings)  {
     finishMainInstall();
   }
 }
-
+let main,installError;
 const afterMainInstall = function (e,rs) {
   if (e) {
     installError = e;
@@ -49,6 +49,7 @@ const mergeIn = function (dst,src) {
 }
 
 const svgInstall = function () {
+	debugger;
   let fromItemFile = mainUrl && core.endsIn(mainUrl,'.item');
   if (main && fromItemFile) {
     let svProtos = core.root.prototypes; // loading main may have involved installing prototypes
@@ -79,12 +80,8 @@ const svgInstall = function () {
     }
     core.propagateDimension(rmain);
   }
-  if (ui.vars.whichPage === 'structure_editor')  {
-//    popCatalog(); cgstub7/20
-  }
-  if ((core.root.__grid ||enableTheGrid) && enableGrid) {
-    enableGrid();
-  }
+ 
+  
   dom.fullUpdate();
   if (core.root.draw) {
     core.root.draw(dom.svgMain.__element); // update might need things to be in svg
@@ -198,7 +195,7 @@ const finishMainInstall = function () {
   if (mn && mn.animate) {
     mn.animate();
   }
-  saveState('initial');
+ // saveState('initial');
 
 }
 

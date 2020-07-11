@@ -3,7 +3,7 @@
 let intro = false;
 
 let gridEnabled = false; 
-
+/*
 const enableGrid = function () {
   if (gridBut) {
     gridBut.$show();
@@ -46,8 +46,9 @@ const setSaved = function (value) {
 ui.vars.setSaved = setSaved;
 
 ui.vars.setSaved = setSaved;
+*/
 /*begin chooser section;   handles popping the file chooser, and dealing with what it returns*/
-
+/*
 let chooserClose = closer.instantiate();
 const chooserIframe = html.Element.mk('<iframe width="99%" height="99%" scrolling="no" id="chooser" />');
 let chooserDiv = html.Element.mk('<div style="position:relative;width:100%;height:100%"  id="chooserDiv" />').__addChildren([
@@ -56,8 +57,9 @@ let chooserDiv = html.Element.mk('<div style="position:relative;width:100%;heigh
 ]);
 
 let chooserBeenPopped = false;
-
+*/
 /* called from the chooser frame */
+/*
 let chooserMode;
 const chooserReturn = function (v) {
   let getArgs,ext,dest,note,sp,ar;
@@ -114,7 +116,7 @@ const chooserReturn = function (v) {
      fb.sendToShell(dest+'.html?source='+thePath+getArgs);
      break;
   }
-};
+};*/
 /*
 const  insertFromFsel = function (v) {
   const afterInsertLoaded = function (erm,item) {
@@ -129,6 +131,7 @@ const  insertFromFsel = function (v) {
    core.install(v.path,afterInsertLoaded);
 }
 */
+/*
 const popChooser = function(keys,operation) {
   if (location.hostname === '127.0.0.1') {
     debugger; //keep used in building the sys catalog json
@@ -182,13 +185,13 @@ const openDataInTextEditor = function () {
     //window.open("/text.html?source="+ds,'_blank');
   }
 }
-
+*/
  
   
 /* end chooser section */
 
 /* file options section */
-  
+  /*
 let fsel  = ui.Select.mk();
 
 fsel.containerP = html.Element.mk('<div style="position:absolute;padding-left:5px;padding-right:5px;padding-bottom:15px;border:solid thin black;background-color:white"/>');
@@ -239,8 +242,9 @@ const setFselDisabled = function () {
   fsel.updateDisabled();
 }
 
-
+*/
 /* called from the ui module */
+/*
 fsel.onSelect = function (n) {
   let opt = fsel.optionIds[n];
   if (fsel.disabled[opt]) {
@@ -254,10 +258,7 @@ fsel.onSelect = function (n) {
       resaveItem();
       break;
 
- /*   case "viewSource":
-      viewSource();
-      break;
-      */
+ 
     case "asSvg":
       asSvg();
       break;
@@ -273,16 +274,17 @@ fsel.onSelect = function (n) {
       break;
   }
 }
-
+*/
+/*
 const fileButClick = function () {
   setFselDisabled();
   ui.popFromButton("file",fileBut,fsel.domEl);
 };
 
-
+*/
 
 /* end file options section */
-
+/*
 const addImage = function (item,name) {
  dialog('Url of the image:',function (url) {
     ui.afterImageUrl(url,function (erm,proto) {
@@ -306,10 +308,10 @@ const addImageClick = function () {
         editTextBut.$html(ui.vars.selectedNode.text === ''?'Add Text':'Edit Text');
 
 }
+*/
 
 
-
-
+/*
 let escapeListenerAdded = false;
 
 // If core.root.main.insertUnder is a function, use that for insertion, unless the insertee is itself a kit
@@ -361,9 +363,9 @@ let popCatalog = function (cb) {
   setCatalogMode(catalogMode,cb);
 }
 
-
+*/
 let catalogMode = 'insert';
-
+/*
 const setCatalogMode = function (mode,cb) {
 	if (cb) { //cgstub7/20
 		cb();
@@ -457,7 +459,7 @@ const doneInserting = function () {
   nowReplacingFromClone = false;
   enableButtons();
 }
-
+*/
 
 /* end insert section */
 

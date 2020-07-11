@@ -326,7 +326,7 @@ SvgRoot.height = function () {
 }
 
       
-const svgCommonTransfers = ['visibility','stroke','stroke-opacity','stroke-width','stroke-linecap','fill','fill-opacity'];
+const svgCommonTransfers = ['visibility','stroke','stroke-opacity','stroke-width','stroke-linecap','fill','fill-opacity','filter'];
 
 
 let tag = svg.set("tag",core.ObjectNode.mk());
@@ -626,7 +626,7 @@ tag.set("filter",SvgElement.mk()).__namedType();
 //tag.radialGradient.__domTransfers = svgCommonTransfers.concat(['r','cx','cy','fx','fy']);
 tag.set("feGaussianBlur",SvgElement.mk()).__namedType();
 
-tag.feGaussianBlur.__domTransfers = svgCommonTransfers.concat(['stdDeviation']);
+tag.feGaussianBlur.__domTransfers = svgCommonTransfers.concat(['stdDeviation','in']);
 
 
   /* For setting the points field of a polyline or polygon from an array of point, and from a mapping on the plane */
@@ -919,7 +919,7 @@ SvgElement.__getHeight = function () {
 
 
 tag.set("circle",SvgElement.mk()).__namedType();
-tag.circle.__domTransfers = svgCommonTransfers.concat(['cx','cy','r','filter']);
+tag.circle.__domTransfers = svgCommonTransfers.concat(['cx','cy','r']);
 
 //tag.circle.set("attributes",core.lift({r:"N",cx:"N",cy:"S"}));
 

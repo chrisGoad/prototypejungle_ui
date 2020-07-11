@@ -92,7 +92,7 @@ const svgInstall = function () {
   /*if (core.root.soloInit) { 
     core.root.soloInit(); 
   }*/
-  debugger;
+  //debugger;
   if (!core.throwOnError) {
     ui.refresh(ui.vars.fitMode);
   } else {
@@ -179,11 +179,11 @@ const finishMainInstall = function () {
   }
   next2();
   enableButtons();
-  debugger;
+  //debugger;
 	let wts = core.vars.whereToSave;
 	if (wts) {
 	  convertToJpeg(wts,function () {
-		  debugger;
+		 // debugger;
 	  });	
 	}
   let mn = core.root.main;

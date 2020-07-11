@@ -3,14 +3,15 @@
 core.require(function () {
 debugger;	
 let item = svg.Element.mk('<g/>');
-
+let defs = svg.Element.mk('<defs/>');
+item.set('defs',defs);
 let filter = svg.Element.mk('<filter/>');
-item.set('filter',filter);
+item.defs.set('filter',filter);
 let blur = svg.Element.mk('<feGaussianBlur/>');
 filter.set('blur',blur);
-let circle = svg.Element.mk('<circle/>');
-item.set("__contents",circle);
-circle.fill = 'transparent';
+let rect = svg.Element.mk('<rect/>');
+item.set("__contents",rect);
+rect.fill = 'transparent';
 
 /* adjustable parameters */
 item.dimension = 100;
@@ -18,6 +19,8 @@ item.stroke = 'black';
 item.stdDeviation=5;
 item.filterWidth = 100;
 item.filterHeight = 100;
+item.width = 100;
+item.height = 100;
 /* end adjustable parameters */
 
 item.role = 'vertex'; // in a network diagram, this can play the role of vertex
@@ -28,15 +31,19 @@ item.__contents.neverselectable = true;
 
 let count = 0;
 item.update = function () {
-  let circle = this.__contents;
-  let filter = this.filter;
+	debugger;
+  let rect = this.__contents;
+  let filter = this.defs.filter;
   let id = 'g'+(count++);
   filter.id = id;
 	filter.width = this.filterWidth;
 	filter.height = this.filterHeight;
   filter.blur.stdDeviation = this.stdDeviation;
-  circle.filter = 'url(#'+id+')'
-  circle.r = 0.5 * this.dimension;
+	filter.blur.in = "SourceGraphic";
+	rect.width = this.width;
+	rect.height = this.height;
+  rect.filter = 'url(#'+id+')';
+	
 }
  
 // Needed for positioning connectors (eg arrows) running to or from this item

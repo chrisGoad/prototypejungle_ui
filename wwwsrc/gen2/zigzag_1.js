@@ -4,6 +4,8 @@ function (constructor) {
   debugger;	//this.initProtos();
 
   let rs = constructor();
+  rs.saveImage = true;
+	rs.setName('zigzag_1');
 	rs.initProtos();
   let numRows,numCols;
 	numRows = rs.numRows = 40;

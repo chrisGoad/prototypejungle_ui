@@ -9,7 +9,7 @@ const mtypes = {html:'text/html',js:'application/javascript',json:'application/j
                   css:'text/css',svg:'image/svg+xml',ico:'image/x-icon'};
 const requestListener = function (req, res) {
 	let iurl = req.url;
-	let url = new URL('http://localhost:8081'+iurl);
+	let url = new URL('http://localhost:8080'+iurl);
 	let method = req.method;
 	//let url = req.url;
 	let ipath = url.pathname;//.substring(1);
@@ -51,11 +51,13 @@ const requestListener = function (req, res) {
 
 
 
-	let body;
+	let body,missing;
 	//if (ctype && fs.existsSynch(path)) {
 	if (fs.existsSync(path)) {
     body	= fs.readFileSync(path).toString();
 	} else {
+		console.log('missing');
+		missing = 1;
 		body = '';
 		ctype = 'text/plain';
 	}
@@ -64,7 +66,7 @@ const requestListener = function (req, res) {
 	console.log('length',ln);
 	//let body = ext;
 		
-	res.writeHead(200, {
+	res.writeHead(missing?404:200, {
     'Content-Length': ln,
    // 'Content-Length': Buffer.byteLength(body),
 	//'Content-Type': 'text/html'});
@@ -73,7 +75,7 @@ const requestListener = function (req, res) {
 	//res.write(page);
   res.end(body);
 	return;
-	res.writeHead(200, {
+	res.writeHead(missing?404:200, {
     'Content-Length': Buffer.byteLength(body),
    // 'Content-Length': Buffer.byteLength(body),
 	'Content-Type': 'text/html'});

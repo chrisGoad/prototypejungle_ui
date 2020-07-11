@@ -124,7 +124,6 @@ rs.addElement = function (shape,cell,iidx,rvs,ipos) {
 		pos = ipos;
 		if (!sideCell) {
 		  let {x:ox,y:oy} = outerCell;
-			debugger;
 	    innerColor  = this.randomValueAtCell(randomGridsForShapes,'innerColor',ox * innerCols + x,oy * innerRows +y);
 			if (rvs) {
 				exchangeColor = rvs.exchangeColor;
@@ -213,7 +212,6 @@ rs.addElements = function (shape,rvs,cell) {
 
 	
 rs.shapeGenerator =  function (rvs,cell,cnt) {
-	debugger;
 	let {innerWidth,innerHeight,showRects} = this;
 	let notInGrid = typeof cell === 'string';
 	
@@ -273,12 +271,18 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	 
 	
 rs.determineKind = function (cell) {
-	let {numRows,numCols,sideBySide,checkerBoard,randomAB,chanceA,rValues} = this;
+	let {numRows,numCols,sideBySide,checkerBoard,randomAB,chanceA,rValues,rCell} = this;
 	let {x,y} = cell;
 	let kind;
 	let notInGrid = typeof cell === 'string';
 	if (notInGrid) {
 		kind = cell;
+  } else if (this.oneB) {
+		if ((rCell.x === x)&&(rCell.y === y)) {
+			kind = 'b';
+		} else {
+			kind = 'a';
+		}
   } else if (this.sideBySide) {
 		  let hw = numCols/2;
 		  kind = x < hw?'a':'b';	
@@ -303,9 +307,9 @@ rs.addAtSides = function () {
 	  this.shapeGenerator(undefined,'b',Point.mk(0.6 * width,0));
 	}
 }
-rs.initialize = function () {
+rs.innerInitialize = function () {
 	core.root.backgroundColor = 'red';
-	let {numRows,numCols,innerColorParams,exchangeColorParams,innerRows,innerCols,path,width,height,randomAB,recomputeRvalues,spatterNumPoints} = this;
+	let {numRows,numCols,innerColorParams,exchangeColorParams,innerRows,innerCols,path,width,height,randomAB,recomputeRvalues,recomputeRcell,spatterNumPoints} = this;
 	this.initProtos();
 	// this.setupShapeRandomizer('interpolate', {step:0.3,min:0,max:1,numRows,numCols});
   this.rValues = [];
@@ -314,16 +318,21 @@ rs.initialize = function () {
 	this.deltaX = width/numCols;
 	this.deltaY = height/numRows;
 	if (this.loadFromPath) {
-	  core.httpGet('(sys)'+path, (error,json) => {
+		
+		core.httpGet(path, (error,json) => {
 			let vls = JSON.parse(json);
-			Object.assign(this,vls);
+			Object.assign(this,vls);	
 			this.addAtSides();
 			if (recomputeRvalues) {
 				this.rValues = this.computeRvalues();
       }
+			if (recomputeRcell) {
+			  this.rCell = this.randomCell(2);
+		  }
 			this.initializeGrid();
 		});
 	} else {
+	  this.rCell = this.randomCell(2);
     this.aValues = this.computeDimValues();
     this.bValues = this.computeDimValues();
     this.rValues = this.computeRvalues();
@@ -334,10 +343,9 @@ rs.initialize = function () {
 		this.addAtSides();
 		this.initializeGrid();
     let jsn = JSON.stringify(
-		{aValues:this.aValues,bValues:this.bValues,rValues:this.rValues,
+		{aValues:this.aValues,bValues:this.bValues,rValues:this.rValues,rCell:this.rCell,
 		 aPointValues:this.aPointValues,bPointValues:this.bPointValues});
-	  ui.saveJson(path,jsn,function (err,rs) {
-		  debugger;
+	   core.saveJson(path,jsn,function (err,rs) {
 		});
   }		
 }

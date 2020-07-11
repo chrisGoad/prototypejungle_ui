@@ -95,6 +95,12 @@ const httpGet = function (iurl,cb) { // there is a fancier version in core/insta
   vars.mapUrl(iurl,performGet)
 }
 
+const saveJson = function (path,str,cb) {
+	debugger;
+	httpPost('www/'+path,str,cb);
+ //fb.saveString(path,str,fb.jsonMetadata,undefined,cb);
+}
+
 
 const parseQuerystring = function() { 
     let nvpair = {};
@@ -109,4 +115,4 @@ const parseQuerystring = function() {
     return nvpair;
 }
 
-export {httpGet,beginsWith,endsIn,afterLastChar,beforeLastChar,parseQuerystring,pathExceptLast,pathLast};
+export {httpGet,saveJson,beginsWith,endsIn,afterLastChar,beforeLastChar,parseQuerystring,pathExceptLast,pathLast};

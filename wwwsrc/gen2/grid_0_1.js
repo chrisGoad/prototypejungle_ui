@@ -5,7 +5,8 @@ function (constructor) {
 
   let rs = constructor();
 	//rs.initProtos();
-	rs.path = '/gallery4/grid_0_1.json';
+	rs.saveImage = true;
+	rs.setName('grid_0_1');
   rs.loadFromPath = 0;
 	
 	rs.numCols= 81;

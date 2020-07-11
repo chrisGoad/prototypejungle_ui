@@ -1,8 +1,8 @@
 
-core.require('/line/line.js','/gen0/grid0.js',
-function (linePP,addGridMethods) {
+core.require('/line/line.js','/shape/circle.js','/shape/rectangle.js','/gen0/grid0.js',
+function (linePP,circlePP,rectPP,addGridMethods) {
 	return function () {
-  debugger;
+
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 /*adjustable parameters  */
@@ -26,11 +26,15 @@ rs.initProtos = function () {
   let vec = Point.mk((this.width/this.numRows)*0.05,0);
   this.shapeP.setEnds(vec.minus(),vec);
   this.shapeP['stroke-width'] = .2; 	
- /* core.assignPrototypes(this,'circleP',circlePP);
+  core.assignPrototypes(this,'circleP',circlePP);
   this.circleP.stroke = 'transparent';
-  this.circleP.fill = 'rgb(1,1,1)';//'red';
-//  this.circleP.fill = 'red';
-  this.circleP.dimension = 5;*/
+  this.circleP.fill = 'rgb(255,0,0)';//'red';
+  this.circleP.dimension = 3;
+	 core.assignPrototypes(this,'rectP',rectPP);
+  this.rectP.stroke = 'transparent';
+  this.rectP.fill = 'rgb(255,0,0)';//'red';
+  this.rectP.width = 3;
+  this.rectP.height= 3;
 }  
 
 
@@ -40,8 +44,11 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
 	let line = this.blineP.instantiate();
 	lines.push(line);
   line.setEnds(end0,end1);
-  line.stroke =  `rgb(${Math.floor(c)},${Math.floor(c)},${Math.floor(c)})`;
-	line.update();
+	if (this.boundaryColorFunction) {
+		line.stroke = this.boundaryColorFunction(c);
+	} else {
+    line.stroke =  `rgb(${Math.floor(c)},${Math.floor(c)},${Math.floor(c)})`;
+	}
 	line.show();
 }
 
