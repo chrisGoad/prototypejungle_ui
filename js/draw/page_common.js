@@ -169,7 +169,7 @@ const uiAlert = function (msg) {
   mpg.alert_lightbox.setHtml(msg);
 }
 
-ui.vars.uiAlert = uiAlert;
+//ui.vars.uiAlert = uiAlert;
 
 
 window.addEventListener("beforeunload",function (event) {

@@ -14,7 +14,7 @@ let separateBut,moveToBackBut,plusDimBut,minusDimBut,plusdimBut,minusdimBut,anim
 let moveUpBut, insertCols,insertButs,moveDownBut,saveOrderBut;
 let tabContainer,insertDivCol1,insertDivCol2,includeDoc,replaceProtoMode,fromItem;
 let resizable;
-let treeVars = tree.vars;
+//let treeVars = tree.vars;
 let uiWidth;
 let panelMode = 'chain'; // mode of the right panel view; one of 'chain' (view the prototype chains); 'proto','insert','code'
  // the page structure

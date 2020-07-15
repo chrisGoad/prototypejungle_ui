@@ -722,7 +722,7 @@ SvgRoot.initButtons = function () {
   this.minusbut.addEventListener("mouseleave",stopZooming);
 }
 
-export {selectCallbacks,unselectCallbacks,unselect,afterDropCallbacks,refresh,actionSubject,zoomStep,selectableAncestor,
+export {selectCallbacks,unselectCallbacks,unselect,afterDropCallbacks,zoomStep,
         controlActivity};
 
 

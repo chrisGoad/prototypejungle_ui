@@ -9,13 +9,34 @@ dom.vars.ini = Transform.mk(Point.mk(),1);
 let mainPage;
 let svgDivReady = false;
 
+
+/*
+dom.SvgRoot.positionButtons = function (wd) {
+  this.plusbut.$css({"left":(wd - 50)+"px"});
+  this.minusbut.$css({"left":(wd - 30)+"px"});
+  this.navbut.$css({"left":"0px"});
+}
+*/
+
+
+
+dom.SvgRoot.positionButtons = function (wd) {
+	debugger;
+  this.plusbut.__element.style.left = (wd - 50)+"px";;
+ // this.plusbut.style.left = (wd - 150)+"px";;
+  this.minusbut.__element.style.left = (wd - 30)+"px";
+  //this.minusbut.style.left = (wd - 130)+"px";
+  //this.navbut.__element.style.left = "0px";
+}
+
 const setupSvgDiv = function () {
   if (!svgDivReady) {
     dom.setSvgMain(dom.SvgRoot.mk(svgDiv.__element));
     svgDiv.__element.draggable = true;
-    dom.svgMain.activateInspectorListeners();
+    //dom.svgMain.activateInspectorListeners();
     dom.svgMain.addButtons("View");
-    svgDivReady = true;
+     // dom.svgMain.positionButtons("View");
+  svgDivReady = true;
   }
 }
 
@@ -101,7 +122,7 @@ let source,sourceFile,helperUrl,content,loadUrl;
 
 const processQuery = function() {  
   //debugger;
-  let q = ui.parseQuerystring();
+  let q = core.parseQuerystring();
   helperUrl = '/solar/naws.js';
   //intro = q.intro;
   source = q.source;
@@ -111,7 +132,7 @@ const processQuery = function() {
   if (source==='none') {
     source = undefined;
   } else if (source) {
-    source = fb.handleTwiddle(source);
+   // source = fb.handleTwiddle(source);
     sourceFile = core.afterLastChar(source,'/');
   } else {
     if  (ui.vars.whichPage === 'structure_editor') {

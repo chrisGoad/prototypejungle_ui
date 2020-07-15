@@ -102,17 +102,22 @@ const saveJson = function (path,str,cb) {
 }
 
 
-const parseQuerystring = function() { 
-    let nvpair = {};
-    let qs = window.location.search.replace('?','');
-    let pairs = qs.split('&');
-    pairs.forEach(function(v) {
-      let pair = v.split('=');
-      if (pair.length>1) {
-        nvpair[pair[0]] = pair[1];
-      }
-    });
-    return nvpair;
+
+  
+//   from http://paulgueller.com/2011/04/26/parse-the-querystring-with-jquery/
+const parseQuerystring = function() {
+  let nvpair = {};
+  let qs = window.location.search.replace('?','');
+  let pairs = qs.split('&');
+  pairs.forEach(function(v) {
+    let pair = v.split('=');
+    if (pair.length>1) {
+      nvpair[pair[0]] = pair[1];
+    }
+  });
+  return nvpair;
 }
+  
+
 
 export {httpGet,saveJson,beginsWith,endsIn,afterLastChar,beforeLastChar,parseQuerystring,pathExceptLast,pathLast};

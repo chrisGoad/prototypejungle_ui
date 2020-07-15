@@ -64,7 +64,7 @@ const svgInstall = function () {
   setBackgroundColor(core.root);
   dom.svgMain.addBackground(core.root.backgroundColor);
   dom.svgMain.fitFactor = fitFactor;
-  ui.initControlProto();
+  //ui.initControlProto();
   dom.installRoot();
   if (main && !fromItemFile) {
       core.root.set('main',main);
@@ -91,10 +91,13 @@ const svgInstall = function () {
   }*/
   debugger;
   if (!core.throwOnError) {
-    ui.refresh(ui.vars.fitMode);
+		dom.fullUpdate();
+   // ui.refresh(ui.vars.fitMode);
   } else {
     try {
-      ui.refresh(ui.vars.fitMode);
+		  dom.fullUpdate();
+
+     // ui.refresh(ui.vars.fitMode);
   } catch (e) {
     handleError(e);
   }
