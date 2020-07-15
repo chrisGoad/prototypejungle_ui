@@ -49,9 +49,9 @@ let editorCommon = ["editor/environment","editor/page_top","editor/page_common"]
 fileLists.editor = editorCommon.concat(prepend('editor',
                    ["install","check_json","page","insert","edit_data","save",
                     "actions","catalog","misc","init_page","animate","to_image","buildCatalog"]));//linted; code cleaned
-fileLists.draw = prepend('draw',
+/*fileLists.draw = prepend('draw',
                    ["environment","page_top","page_common","install","check_json","page","insert","edit_data","save",
-                    "actions","catalog","misc","init_page","animate","to_image","buildCatalog"]);//linted; code cleaned
+                    "actions","catalog","misc","init_page","animate","to_image","buildCatalog"]);//linted; code cleaned*/
 fileLists.draw = prepend('draw',
                    ["environment","page_common","install","page",//"misc","page_top",
                     "init_page","to_image"]);//linted; code cleaned

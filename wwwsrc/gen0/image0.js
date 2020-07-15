@@ -8,6 +8,7 @@ core.require('/gen0/dim2dWalker.js',function (addRandomMethods) {
   //return function () {
 /*adjustable parameters  */
 //let item = svg.Element.mk('<g/>');
+item.image = 0;
 item.numRows= 31;
 item.numRows = 11;
 item.numCols = 11;
@@ -775,6 +776,18 @@ item.setName = function (name) {
 	  core.vars.whereToSave = `images/${name}.jpg`;
 	}
 	this.path = `json/${name}.json`;
+}
+
+
+const drawImg = function () {
+//	debugger;
+	canvas1 = document.getElementById('canvas1');
+	ctx1 = canvas1.getContext('2d');
+	canvas2 = document.getElementById('canvas2');
+	ctx2 = canvas2.getContext('2d');
+	img = new Image();
+	addListeners();
+	img.src = `${month}/${imageIn}.jpg`;
 }
 
 }
