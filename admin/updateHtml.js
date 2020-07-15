@@ -23,10 +23,10 @@ var boilerplate0 =
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming based on an open repository of prototype structures.">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
 <title>PrototypeJungle</title>
-<link rel="stylesheet" type="text/css"  href="/style.css"/>
-<link rel="stylesheet" type="text/css"  href="/spectrum.css"/>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
 <link rel="icon" href="/images/favicon.ico" />
 </head>
 <body style="background-color:white;font-size:14pt"> <!-- from 12 6/8/19 -->
@@ -40,7 +40,7 @@ var introPlate =
 <title>PrototypeJungle</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-<link rel="stylesheet" type="text/css"  href="/style.css"/> 
+<link rel="stylesheet" type="text/css"  href="style.css"/> 
 </head>
 <body style="margin:11px;background-color:white;font-size:11pt">
 <script type="text/javascript" src="/intro/pages.js"></script>
@@ -59,7 +59,7 @@ var shellplate =
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming based on an open repository of prototype structures.">
+<meta name="description" content="Diagramming basede on an open repository of prototype structures.">
 <title>PrototypeJungle</title>
 <link rel="icon" href="/images/favicon.ico" />
 </head>
@@ -266,7 +266,7 @@ function insertBoilerplate(toShell,s,scripts) {
   var irs = doSubstitution(irs,'fireLibs',fireLibs,1);
   irs = doSubstitution(irs,'mainImports',mainImports,1);
 
-  var irs = doSubstitution(irs,'boilerplate',boilerplate0+(toShell?shellStart:mainStart)+boilerplate1+scripts,1);
+ var irs = doSubstitution(irs,'boilerplate',boilerplate0+(toShell?shellStart:mainStart)+boilerplate1+scripts,1);
   var irs = doSubstitution(irs,'min',minimize?'min.':'',1);
  // var irs = doSubstitution(irs,'ProjectName',protopedia?'ProtoPedia':'PrototypeJungle',1);
   //var irs = doSubstitution(irs,'siteName',protopedia?'protopedia':'prototypejungle',1);
@@ -374,6 +374,7 @@ const afterLastChar = function (string,chr,strict) {
       if (whichSubst == 'shell') {
          vl = endsIn(fln,'.html')?insertShellplate(ivl,scripts,''):ivl;
       } else if (whichSubst === 'www') {
+				console.log('inserting boilerplate');
         vl = endsIn(fln,'.html')?insertBoilerplate(forShell,ivl,scripts,''):ivl;
       } else {
         vl = ivl;
@@ -411,6 +412,7 @@ const afterLastChar = function (string,chr,strict) {
 	
  
  // git add README.md arrow axes border box connector container coreExamples data  example image images kit line random shape  text timeline
+xferDir(0,'www','doc');
 xferDir('top','','admin');
 xferDir(0,'www','');
  xferDir('top','','server');
