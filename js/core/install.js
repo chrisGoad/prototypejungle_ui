@@ -4,7 +4,7 @@
 /* This installs components implemented by js scripts. The scripts should have the form
  * core.require(file1,file2...fileN,function (v1,v2... vn)){...return value});. Such code builds an item, and returns it, utilizing
  * the items already defined in the dependencies file1... filen, bound to v1... vn.
- * How it works: each script goes through 3 stages: loading, recording dependendencies, and installation.
+ * How it works: each script goes through 3 stages: loading, recohrding dependendencies, and installation.
  *  as soon as a script is loaded, its contained core.require is executed in a mode which records its dependendcies, but does not run its funcdtion
  *  Those depedencies are, in turn loaded, and their dependencies recorded
  *  core.requireEdges holds the graph of dependencies

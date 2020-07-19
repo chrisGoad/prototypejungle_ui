@@ -21,7 +21,7 @@ dom.SvgRoot.positionButtons = function (wd) {
 
 
 dom.SvgRoot.positionButtons = function (wd) {
-	debugger;
+	//debugger;
   this.plusbut.__element.style.left = (wd - 50)+"px";;
  // this.plusbut.style.left = (wd - 150)+"px";;
   this.minusbut.__element.style.left = (wd - 30)+"px";
@@ -33,7 +33,7 @@ const setupSvgDiv = function () {
   if (!svgDivReady) {
     dom.setSvgMain(dom.SvgRoot.mk(svgDiv.__element));
     svgDiv.__element.draggable = true;
-    //dom.svgMain.activateInspectorListeners();
+    dom.svgMain.activateInspectorListeners();
     dom.svgMain.addButtons("View");
      // dom.svgMain.positionButtons("View");
   svgDivReady = true;
@@ -57,9 +57,9 @@ const genMainPage = function (cb) {
 	  core.root.__sourceUrl = source;
 	}
   }
-  $('.mainTitle').click(function () {
-    fb.sendToShell('');
-  });
+ // $('.mainTitle').click(function () {
+  //  fb.sendToShell('');
+ // });
  /* if (upBut) {
     disableButton(upBut);
     enableButton(topBut);
@@ -182,7 +182,7 @@ const getConfig = function (cb) {
 let userName,directory;
 let pageInitialized = false; // to prevent repeats, which firebase will sometimes invoke via onIdTokenChanged 
 const initPage = function () {
-  debugger;
+ // debugger;
  // console.log('init Page');
  // graph.installRectanglePeripheryOps(dom.SvgTag.image);
   const todo = function () {  

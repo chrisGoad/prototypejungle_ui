@@ -167,7 +167,6 @@ let firstLayout = true;
 let svgwd,svght;
 const layout = function(noDraw) { // in the initialization phase, it is not yet time to draw, and adjust the transform
   // aspect ratio of the UI
-	debugger;
   let canvas = document.getElementById('imageCanvas');
   let noteWidth,noteLeft,treeHt,pageHeight,pageWidth,lrs;
   let actionLeft,actionHt,actionDivWidth,actionPanelWd,treeInnerWidth,treeOuterWidth;
@@ -178,8 +177,10 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
   let ar = 0.3;//0.48;
   let wpad = 5;
   let vpad = 5;//5;//20;//minimum sum of padding on top and bottom
-  let awinwid = $(window).width();
-  let awinht = $(window).height();
+  //let awinwid = $(window).width();
+  //let awinht = $(window).height();
+	let awinwid = window.innerWidth;
+	let awinht = window.innerHeight;
   let pwinwid = awinwid - (2 * wpad);
   let pwinht = awinht - (2 * vpad);
   if (pwinht < ar * pwinwid) { // the page is bounded by height 
@@ -214,7 +215,7 @@ const layout = function(noDraw) { // in the initialization phase, it is not yet 
   let svgPad = svgwdAvail - svgwd;
   treeOuterWidth = uiWidth;
   treeInnerWidth = treeOuterWidth - twtp;
-  mpg.$css({left:lrs+"px",width:pageWidth+"px",height:(pageHeight-0)+"px",display:"block"});
+  Object.assign(mpg.__element.style,{left:lrs+"px",width:pageWidth+"px",height:(pageHeight-0)+"px",display:"block"});
   topHt = -15 + topbarDiv.__element.offsetHeight;
   cols.$css({left:"5px",width:pageWidth+"px",top:topHt+"px"});
   ctopDiv.$css({"padding-top":"0px","padding-bottom":"20px","padding-right":"10px",left:svgwdAvail+"px",top:"0px"});

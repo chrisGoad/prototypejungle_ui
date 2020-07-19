@@ -8,7 +8,7 @@ core.require('/gen0/dim2dWalker.js',function (addRandomMethods) {
   //return function () {
 /*adjustable parameters  */
 //let item = svg.Element.mk('<g/>');
-item.image = 0;
+item.imageIn = 0;
 item.numRows= 31;
 item.numRows = 11;
 item.numCols = 11;

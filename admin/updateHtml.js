@@ -23,10 +23,10 @@ var boilerplate0 =
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
-<title>PrototypeJungle</title>
-<link rel="stylesheet" type="text/css"  href="style.css"/>
-<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<meta name="description" content="Diagramming based on an open repository of prototype structures.">
+<title>${protopedia?'ProtoPedia':'PrototypeJungle'}</title>
+<link rel="stylesheet" type="text/css"  href="/style.css"/>
+<link rel="stylesheet" type="text/css"  href="/spectrum.css"/>
 <link rel="icon" href="/images/favicon.ico" />
 </head>
 <body style="background-color:white;font-size:14pt"> <!-- from 12 6/8/19 -->
@@ -40,7 +40,7 @@ var introPlate =
 <title>PrototypeJungle</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-<link rel="stylesheet" type="text/css"  href="style.css"/> 
+<link rel="stylesheet" type="text/css"  href="/style.css"/> 
 </head>
 <body style="margin:11px;background-color:white;font-size:11pt">
 <script type="text/javascript" src="/intro/pages.js"></script>
@@ -59,8 +59,8 @@ var shellplate =
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming basede on an open repository of prototype structures.">
-<title>PrototypeJungle</title>
+<meta name="description" content="Diagramming based on an open repository of prototype structures.">
+<title>${protopedia?'ProtoPedia':'PrototypeJungle'}</title>
 <link rel="icon" href="/images/favicon.ico" />
 </head>
 <body style="background-color:white;font-size:14pt">
@@ -181,7 +181,7 @@ var boilerplate1 =
 <div id="outerContainer">  
   <div id="topbar"> 
      <div id="topbarOuter" style="padding-bottom:0px">`+
-        (index?'\n':`<a onclick="jumpTo('')"><span style="position:relative;top:${index?-27:-10}px" class="mainTitle">PrototypeJungle</span></a>\n`)+
+        (index?'\n':`<a onclick="jumpTo('')"><span style="position:relative;top:${index?-27:-10}px" class="mainTitle">${protopedia?"ProtoPedia":"PrototypeJungle"} </span></a>\n`)+
 `         <img style ="position:relative;border:none;top:${index?0:0}px;left:${index?0:20}px;" alt="images/logo_alt.html" src="/images/logo3.svg"  width="60" height="25"/>
          <div id = "topbarInner" style="position:relative;float:right;top:0px">
             <span 	onclick="jumpTo('doc/allKits.html')" class="${buttonStyle}">Kits</span>
@@ -226,24 +226,6 @@ let fireLibs =
 
 //<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
 
-/*let mainImports =
-`import * as core from "/js/core-1.1.0.min.js";
-import * as geom from "/js/geom-1.1.0.min.js";
-import * as dom from "/js/dom-1.1.0.min.js";
-import * as fb from "/js/firebase-1.1.0.min.js";
-import * as graph from "/js/graph-1.1.0.min.js";
-import * as ui from '/js/ui-1.1.0.min.js';
-`;
-*/
-/*
-let mainImports =
-`import * as core from "/js/core-1.1.0.min.js";
-import * as geom from "/js/geom-1.1.0.min.js";
-import * as dom from "/js/dom-1.1.0.min.js";
-import * as graph from "/js/graph-1.1.0.min.js";
-import * as ui from '/js/ui-1.1.0.min.js';
-`;
-*/
 let mainImports =
 `import * as core from "/js/core-1.1.0.min.js";
 import * as geom from "/js/geom-1.1.0.min.js";
@@ -258,18 +240,20 @@ function doSubstitution(s,what,value,withDoubleBracket) {
 //let firebaseSys = 'https://firebasestorage.googleapis.com/v0/b/project-5150272850535855811.appspot.com/o/twitter%3A14822695%2F';
 let firebaseSys = 'https://firebasestorage.googleapis.com/v0/b/project-5150272850535855811.appspot.com/o/JHtAs2VsGjYCqJmOo39SexGq2Fx1%2F';
 function insertBoilerplate(toShell,s,scripts) {
-  console.log('toShell',toShell);
- 
+  if (toShell) {
+		  console.log('toShell');
+		return;
+	}
   var irs = doSubstitution(s,'boilerplate0',boilerplate0+(toShell?shellStart:mainStart),1);
   var irs = doSubstitution(irs,'introPlate',introPlate,1);
   
   var irs = doSubstitution(irs,'fireLibs',fireLibs,1);
   irs = doSubstitution(irs,'mainImports',mainImports,1);
 
- var irs = doSubstitution(irs,'boilerplate',boilerplate0+(toShell?shellStart:mainStart)+boilerplate1+scripts,1);
+  var irs = doSubstitution(irs,'boilerplate',boilerplate0+(toShell?shellStart:mainStart)+boilerplate1+scripts,1);
   var irs = doSubstitution(irs,'min',minimize?'min.':'',1);
- // var irs = doSubstitution(irs,'ProjectName',protopedia?'ProtoPedia':'PrototypeJungle',1);
-  //var irs = doSubstitution(irs,'siteName',protopedia?'protopedia':'prototypejungle',1);
+  var irs = doSubstitution(irs,'ProjectName',protopedia?'ProtoPedia':'PrototypeJungle',1);
+  var irs = doSubstitution(irs,'siteName',protopedia?'protopedia':'prototypejungle',1);
   var irs = doSubstitution(irs,'kitAdvice',kitAdvice,1);
 
   var irs = doSubstitution(irs,'<cw>','<span class="codeWord">');
@@ -340,6 +324,35 @@ const endsIn = function (string,p) {
 
   }
   
+	
+  var xferFile = function(forShell,whichSubst,ffl) {
+    console.log('read',ffl);
+    //var scripts = needsSignInScripts[fl]?signInScripts:minimalScripts;
+     var scripts = '';
+//var ffl = fl+'.html';
+    let ipath = '../prototypejungle_ui/'+(forShell?'shellsrc/':'wwwsrc/')+ffl;
+    var ivl = fs.readFileSync(ipath).toString();
+        console.log('read',ipath);
+
+    console.log('writing',ffl);
+   let vl;
+   if (whichSubst === 'shell') {
+      vl = endsIn(ffl,'.html')?insertShellplate(ivl,scripts,''):ivl;
+   } else if (whichSubst === 'www') {
+     vl = endsIn(ffl,'.html')?insertBoilerplate(forShell,ivl,scripts,''):ivl;
+   } else {
+     vl = ivl;
+   }
+
+
+   if (forShell) {
+     fs.writeFileSync('www-shell/'+ffl,vl);
+   } else {
+     fs.writeFileSync('www/'+ffl,vl);
+   }
+
+
+  }
   
 
 const afterLastChar = function (string,chr,strict) {
@@ -393,11 +406,11 @@ const afterLastChar = function (string,chr,strict) {
       }
      });
   }
-
-  var xferDirs = function (forShell,whichSubst,dirs) {
+  var xferDirs = function (forShell,whichSubst,dirs) {230
     dirs.forEach( (dir) => xferDir(forShell,whichSubst,dir));
   }
 
+  
   var xferFiles = function (forShell,whichSubst,files) {
     files.forEach( (file) => xferFile(forShell,whichSubst,file));
   }
@@ -408,24 +421,19 @@ const afterLastChar = function (string,chr,strict) {
     });
   }
   */
-	
-	
  
- // git add README.md arrow axes border box connector container coreExamples data  example image images kit line random shape  text timeline
-xferDir(0,'www','doc');
-xferDir('top','','admin');
-xferDir(0,'www','');
- xferDir('top','','server');
+ // git add README.md arrow axes border box connector container coreExamples data  example image images kit line random shape  text timeline 
+  xferDir('top','','server');
 
 //xferDir(1,'www','doc');
-//xferDir(0,'www','intro');
+xferDir(0,'www','intro');
 //xferDir(1,'shell','');
 //xferDir(1,'www','slide_show');
 
+xferDir(0,'www','');
 
-//xferDirs(0,'none',['arrow','axes','border','box','connector','container','coreExamples','data',
-//'example','grid','image','images','kit','line','random','sandbox','shape','text','timeline']); 
-xferDirs(0,'none',['gen0','gen1','gen2','line','shape']); 
+xferDirs(0,'none',['arrow','border','box','connector','container','coreExamples','data','doc','example',
+'image','images','kit','line','shape','text']); 
 
   //xferFiles(1,'www',['ops.html','unsupported.html','familytrees.html','coreExamples.html']);
 

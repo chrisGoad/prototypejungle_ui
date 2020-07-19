@@ -27,6 +27,8 @@ There is also a mode which affects the behavior of mouseDown:   if vars.addToPoi
  clicks do not select objects, as usually happens. Instead, vars.addToPointSeries is called on the clicked point. Escape terminates
 */
 
+const controlActivity = 'panning';
+//let SvgRoot
 const SvgRoot = dom.SvgRoot;
 let cZoomFactor;
 
@@ -62,7 +64,7 @@ SvgRoot.setZoom = function (trns,ns) {
   
   
 const zoomStep = function (factor) {
-	debugger;
+	//debugger;
   let trns = dom.svgMain.contents.transform;
   if (!trns) {
     return;
@@ -104,7 +106,7 @@ const startUnZooming = function () {
 }
 
 const stopZooming = function() {
-	debugger;
+	//debugger;
   core.log("svg","stop zoom");
   nowZooming = false;
 }
@@ -121,8 +123,12 @@ const selectCallbacks = [];
 
 
 
-const mouseMove = function (svgroot,cp,ovr)  {
+const mouseMove = function (svgroot,cp)  {
+	
   let pdelta,tr,delta,dr,s,npos,drm,xf;
+	if (!cp) {
+		debugger;//keep
+	}
 
   /*if (nowRecording) {
     addToHistory('move',cp,ovr);
@@ -133,6 +139,10 @@ const mouseMove = function (svgroot,cp,ovr)  {
     return;
   }
   if (controlActivity === 'panning') {
+		if (!svgroot.refPoint) {
+			debugger;//keep
+			return;
+		}
     pdelta = cp.difference(svgroot.refPoint);
     tr = svgroot.contents.getTranslation();
     s = svgroot.contents.transform.scale;
@@ -146,6 +156,22 @@ const mouseMove = function (svgroot,cp,ovr)  {
  
 }
 
+
+
+const mouseMoveListener = function (svgroot,e) {
+  e.preventDefault(); 
+  let cp = svgroot.cursorPoint(e);
+	if (!cp) {
+		debugger;//keep
+	}
+  //let ovr = overNode(e);
+  mouseMove(svgroot,cp);
+  
+}
+
+
+
+
 let updateOnNextMouseUp = true;
 
 let draggingOver;
@@ -153,9 +179,6 @@ let dragOverHighlighted;
 
 const mouseUpOrOutListener = function (svgroot,e) {
   let cp;
-  if (nowPlayingHistory) {
-    return;
-  }
   cp = svgroot.cursorPoint(e);
   mouseUpOrOut(svgroot,cp,e);//e.type === 'mouseup');
 }
@@ -171,147 +194,46 @@ const mouseUpOrOut = function (svgroot,cp,e) {
   let xf,clickedPoint;
   xf = svgroot.contents.transform;
   clickedPoint = xf.applyInverse(cp);// in coordinates of content
-  if (vars.snapMode && (controlActivity === 'shifting')) {
-    snapToGrid(controlled);
-    graph.graphUpdate(controlled);
-  }
-  if (controlActivity === 'draggingResizeControl') {
-    
-    if (controlled.stopAdjust) {
-       controlled.stopAdjust();
-    }
-  }
-  if (controlActivity === 'draggingCustomControl') {
-     setPointerEventsForCustomBoxes('auto');
-     controlled.__element.setAttribute('pointer-events','auto');
-     let nm = svgroot.dragee.__name;
-     let idx = parseInt(nm.substr(1));
-     if ((!controlled.connected) || (!controlled.connected(idx))) {
-       if (vars.snapMode && !(draggingOver && controlled.dropControlPoint)) {
-          let npos = snapPointToGrid(clickedPoint);
-          dragCustomControl(controlled,draggedCustomControlName,npos);
-       }
-       if (controlled.dropControlPoint) {
-         controlled.dropControlPoint(idx,draggingOver);
-       }
-     }
-  }
-  if (controlActivity === 'shifting') {
-    if (controlled && controlled.stopDrag) {
-      controlled.stopDrag();
-    }
-    controlActivity = 'panning';
-    core.log('control','controlActivity set to ',controlActivity);
-  }
   delete svgroot.refPoint;
   delete svgroot.refPos;
   delete svgroot.dragee;
   delete svgroot.refTranslation;
-  if (updateOnNextMouseUp) {
-    dom.fullUpdate();
-    //dom.svgMain.updateAndDraw();
-    //graph.graphUpdate();
-    updateOnNextMouseUp = false;
-  }
-  if (isMouseUp) {
-    vars.FTree();
-  }
-  if (svControlled && svActivity && (svActivity !== "panning")) {
-	  core.saveState(svActivity);
-    if (vars.afterSaveState) {
-      vars.afterSaveState();
-    }
-  }
-  controlActivity = undefined;
-  if (svActivity === 'draggingResizeControl') {
-    if (lastResizeSubject && core.isPrototype(lastResizeSubject)) { 
-    // some updates are repressed during resizing;  get in an update at end though
-      lastResizeSubject.__update();
-      graph.graphUpdate();
-    }
-  }
   core.log('control','controlActivity set to ',controlActivity);
-  showControl();
+ // showControl();
 }
 
+let connectMode = false;
 
-const dragOverListener = function (svgroot,e) {
-  connectMode = false;
+const mouseDownListener = function (svgroot,e) {
+	//debugger;
+ if (vars.hideFilePulldown) {
+    vars.hideFilePulldown();
+  }
+  core.log('control','MOUSEDOWN');
+  //svgRoot = svgroot;
+
   e.preventDefault();
   let cp = svgroot.cursorPoint(e);
-
-  let replacing =  (controlActivity === undefined) && vars.replaceMode;
-  if (connectMode || replacing) {    
-    let ovr = overNode(e);
-    let xf = svgroot.contents.transform;
-    let ccp = xf.applyInverse(cp);// in coordinates of content
-    dragOverOp(ovr,ccp);
-  }
+  //let clickedNode = overNode(e,'mousedown');
+  mouseDown(svgroot,cp);//clickedNode);
 }
-
-const dragOverOp = function (ovr,pos) {
-  let replacing = (controlActivity === undefined) && vars.replaceMode;
-  //if (connectMode || replacing) { 
-  let leftBox = pos && ((!dom.highlightBounds) || (!dom.highlightBounds.contains(pos)));
-  if (leftBox)  {
-    draggingOver = undefined;
-    //dom.highlightBounds = undefined;
-  }
-  if (ovr) {
-    if (connectMode && !core.ancestorWithPropertyTrue(ovr,'inert')) {
-      draggingOver = core.ancestorWithRole(ovr,'vertex');
-    } else if (replacing) {
-      draggingOver  = vars.replaceable(ovr); // might be an ancestor
-    } 
-    if (draggingOver && (dragOverHighlighted !== draggingOver)) {
-      
-      dom.highlightExtraNode(draggingOver);
-      dragOverHighlighted = draggingOver;
-    }
-   /* if (dragOverHighlighted && !draggingOver) {
-      dragOverHighlighted = undefined;
-      dom.highlightExtraNode(undefined);
-    }*/
-  }
-  if (dragOverHighlighted && !draggingOver) {
-    dragOverHighlighted = undefined;
-    dom.highlightExtraNode(undefined);
-  }
-}
-
-const afterDropCallbacks = [];
-const debugDrop = false;
-const dropListener = function (svgroot,e) {
-  let cp,xf;
-  if (draggingOver) {
-      core.log('control','DROP OVER',draggingOver.__name);
-  } else {
-      core.log('control','DROP  OVER NOTHING');
-  }
-  controlActivity = undefined;
-  if (!dropListener) {
-    return;
-  }
-  core.log('control','drop');
-  e.preventDefault();
-  if ( vars.replaceMode  && dragOverHighlighted) {
-    dragOverHighlighted = undefined;
-    dom.unhighlight();
-  }
-  if (vars.replaceMode && !vars.replaceable(draggingOver)) {
-    return;
-  }
-  svgRoot = svgroot;
-  cp = svgroot.cursorPoint(e);
+let draggingInDiagram,draggingNoDiagram,controlled; //remove
+const mouseDown = function (svgroot,cp,clickedNode) {
+  //let selectionCandidate,xf,dra,rfp,clickedPoint,diagram;
+  let xf,dra,rfp,clickedPoint,diagram;
+  /*if (nowRecording) {
+    addToHistory('down',cp,clickedNode);
+  }*/
+  draggingOver = undefined;
+  connectMode = false;
+  svgroot.refPoint = cp; // refpoint is in svg coords (ie before the viewing transformation)
+  core.log('control',svgroot.refPoint);
   xf = svgroot.contents.transform;
-  svgroot.clickedPoint = xf.applyInverse(cp);// in coordinates of content
-  if (debugDrop) {
-    debugger; //keep
-  }
-  afterDropCallbacks.forEach(function (fn) {
-    fn(draggingOver,svgroot.clickedPoint,dom.svgMain.contents.transform.scale);
-  });
+  clickedPoint = xf.applyInverse(cp);// in coordinates of content
+  svgroot.clickedPoint = clickedPoint;// in coordinates of content
+	svgroot.refTranslation = svgroot.contents.getTranslation().copy();
 }
+
 
 SvgRoot.activateInspectorListeners = function () {
   let cel,thisHere;

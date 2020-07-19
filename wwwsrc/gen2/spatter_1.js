@@ -1,6 +1,6 @@
 
 core.require('/shape/circle.js','/gen0/grid0.js',
-function (circlePP,addGridMethods,addRandomMethods) {
+function (circlePP,addGridMethods) {
   
 let rs = svg.Element.mk('<g/>');
 

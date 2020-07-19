@@ -80,7 +80,6 @@ const wrapAsSvgRoot = function (node) {
 
 let svgMain;
 const setSvgMain = function (node) {
-	debugger;
   svgMain = node;//svg.wrapAsRoot(node);
 }
 

@@ -105,7 +105,6 @@ const convertToJpeg = function (destPath,cb) {
 */
 // from https://stackoverflow.com/questions/13198131/how-to-save-an-html5-canvas-as-an-image-on-a-server
 const saveBase64Image = function (destPath,dataURL,cb) {
-	debugger;
   let binary = atob(dataURL.split(',')[1]);
   // Create 8-bit unsigned array
   let arr = [];

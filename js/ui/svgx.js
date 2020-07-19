@@ -303,8 +303,8 @@ const mouseDownListener = function (svgroot,e) {
   svgRoot = svgroot;
   e.preventDefault();
   let cp = svgroot.cursorPoint(e);
-  let clickedNode = overNode(e,'mousedown');
-  mouseDown(svgroot,cp,clickedNode);
+  //let clickedNode = overNode(e,'mousedown');
+  mouseDown(svgroot,cp);//clickedNode);
 }
 
 const mouseDown = function (svgroot,cp,clickedNode) {

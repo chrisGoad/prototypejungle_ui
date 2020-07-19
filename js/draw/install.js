@@ -49,7 +49,7 @@ const mergeIn = function (dst,src) {
 }
 
 const svgInstall = function () {
-	debugger;
+	//debugger;
   let fromItemFile = mainUrl && core.endsIn(mainUrl,'.item');
   if (main && fromItemFile) {
     let svProtos = core.root.prototypes; // loading main may have involved installing prototypes
@@ -89,7 +89,7 @@ const svgInstall = function () {
   /*if (core.root.soloInit) { 
     core.root.soloInit(); 
   }*/
-  debugger;
+ // debugger;
   if (!core.throwOnError) {
 		dom.fullUpdate();
    // ui.refresh(ui.vars.fitMode);
@@ -133,7 +133,7 @@ const saveTheImage = function () {
 	let wts = core.vars.whereToSave;
 	if (wts) {
 	  convertToJpeg(wts,function () {
-		  debugger;
+		  //debugger;
 	  });	
 	}
 }
@@ -160,12 +160,12 @@ const finishMainInstall = function () {
   let next2 = function () {
     //enableButtons();
     dom.svgMain.fitContents();
-    $(window).resize(function() {
+   /* $(window).resize(function() {
       layout();
       if (ui.vars.fitMode) {
         dom.svgMain.fitContents();
       }
-    });
+    });*/
   }
   let afterLoad = function (x,y,z) {
     let itm = insertItem(Point.mk(0,0),1);
@@ -189,7 +189,7 @@ const finishMainInstall = function () {
   }
   next2();
 //  enableButtons();
-  debugger;
+ // debugger;
 	let wts = core.vars.whereToSave;
 	if (wts) {
 		setTimeout(saveTheImage,3000);	

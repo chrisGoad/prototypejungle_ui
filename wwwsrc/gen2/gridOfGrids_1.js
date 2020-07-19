@@ -5,14 +5,14 @@ function (constructor) {
   let randomRow;
 
   let rs = constructor();
-	rs.saveImage = true;
+	rs.saveImage = 0;
 	rs.setName('gridOfGrids_1');
 	//rs.path = '/genData/gridOfGrids_1.json';
 	rs.rectElement =1;
   rs.spatterNumPoints = 0;
 
 	rs.addABatSides = 1;
-  rs.loadFromPath = 1;
+  rs.loadFromPath = 0;
 	rs.showBoundaries = 0;
 	rs.allRandom = 0;
 	rs.showRects = 0;
