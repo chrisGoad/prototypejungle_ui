@@ -340,6 +340,7 @@ let popCatalog = function (cb) {
   layout();
   insertDiv.$show();
   enableButtons();
+	debugger;
   if (!catalogState) {  // catalog has not been loaded or shown
     if (theCatalogs === 'JsonError') {
      displayError('Bad JSON in your config.json');

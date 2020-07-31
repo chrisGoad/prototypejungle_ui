@@ -71,9 +71,9 @@ const ready = function (fn) {
 }
 
 
-const httpGet = function (iurl,cb) { // there is a fancier version in core/install.js
+const httpGet = function (url,cb) { // there is a fancier version in core/install.js
 /* from youmightnotneedjquery.com */
-  let performGet = function (url) {
+ // let performGet = function (url) {
     let request = new XMLHttpRequest();
     request.open('GET',url,true);// meaning async
     request.onload = function() {
@@ -91,8 +91,8 @@ const httpGet = function (iurl,cb) { // there is a fancier version in core/insta
         cb('http GET error for url='+url);
     };
     request.send();
-  }
-  vars.mapUrl(iurl,performGet)
+  
+  //vars.mapUrl(iurl,performGet)
 }
 
 const saveJson = function (path,str,cb) {

@@ -61,7 +61,7 @@ rs.shortenLine = function (end0,end1,factor) {
 
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
  let {numRows,numCols,showMissing,showStripes} = this;
-	   
+ let vertical = orientation === 'vertical';
  let {x,y} = cell; 
  let hy = this.numRows/2;
  let hx = this.numCols/2;
@@ -74,29 +74,43 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	 //missing = 0;
   }
 	if (showStripes) {
-		let offCenterY = (y!==hy) && (y!==(hy+1));
-		let offCenterX = (x!==hx) && (x!==(hx+1));
-		let oneOffY  = (y === (hy+1)) && (orientation === 'vertical'); 
-		let oneOffX =  (x === (hx+1)) && (orientation === 'horizontal');
-		if ((x+y)%2 === 0)  { // on diagonal
-			let offCenter = offCenterX && offCenterY;
-			if (offCenterX && offCenterY) {
+	} else {
+		
+		if (((x+y)%2 === 0) && vertical) { // on diagonal
+		  return;
+		}
+		if (!vertical) {
+		  let omitDownZag = ((x+y)%2 === 1)
+		  let omitUpZag = !omitDownZag;
+	//	let omitUpZag = (((x+y)%2 === 0) && !vertical);
+	  let fractionAcross = x/numCols;
+		let swindow = 0.15;
+		let fr;
+		if (fractionAcross < swindow) {
+			fr = 0;
+		} else if (fractionAcross > (1-swindow)) {
+			fr = 1;
+		} else {
+			fr = (fractionAcross - swindow) * (1/(1 - 2*swindow));
+		}
+		if (Math.random() < fr) {
+			if (omitDownZag) {
+				return;
+			}
+		} else {
+			if (omitUpZag) {
 				return;
 			}
 		}
-		if ((y%2===1) && oneOffX && offCenterY) {
-			return;
-		}
-		if ((x%2===1) && oneOffY && offCenterX) {
-			return;
-		}
-	} else {
-		if ((x+y)%2 === 0)  { // on diagonal
+		let omit = omitDownZag * ((numCols - x)/numCols) + omitUpZag * (x/numCols);
+		console.log('omit',omit);
+		//if (omitUpZag) {return;}
+		//if (omitDownZag) {return;}
+		//if (omit>0.25* (1 +Math.random())) {return;}
+    }
+		//if (((x+y)%2 === 1) && !vertical) { // on diagonal
 		//  return;
-		}
-		if ((x+y)%2 === 1)  { // on diagonal
-		  return;
-		}
+		//}
 	}
 
 	/*if (((x+y)%2 === 0) || missing)  {

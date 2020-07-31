@@ -369,8 +369,9 @@ const foldersByUser = function (isources) { // * represents all folders; return 
 }
 
 const loadCatalog = function (isources,cb) {
+	debugger;
   let catalog = [];
-  if (userName === 'sys') { // derive catalog from the file system (for sys)
+  if (1 || (userName === 'sys')) { // derive catalog from the file system (for sys)
     const addToSysCatalog = (path) => {
       addToCatalog(catalog,'sys',directory,path);
     }

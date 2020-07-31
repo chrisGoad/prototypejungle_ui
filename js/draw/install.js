@@ -48,6 +48,33 @@ const mergeIn = function (dst,src) {
   }); 
 }
 
+const performInit = function () {
+	
+  let rmain = core.root.main;
+  if (rmain) {
+    if (rmain.initializePrototype) {
+      rmain.initializePrototype();
+    }
+    if (rmain.initialize) {
+      rmain.initialize();
+    }
+    core.propagateDimension(rmain);
+  }
+  dom.fullUpdate(true);
+  if (core.root.draw) {
+    //core.root.draw(dom.svgMain.__element); // update might need things to be in svg
+  }
+  if (!core.throwOnError) {
+		dom.fullUpdate();
+  } else {
+    try {
+		  dom.fullUpdate();
+    } catch (e) {
+      handleError(e);
+    }
+  }  
+}
+
 const svgInstall = function () {
 	//debugger;
   let fromItemFile = mainUrl && core.endsIn(mainUrl,'.item');
@@ -69,8 +96,8 @@ const svgInstall = function () {
   if (main && !fromItemFile) {
       core.root.set('main',main);
   }
-  let rmain = core.root.main;
-  
+	//performInit();
+  /*let rmain = core.root.main;
   if (rmain) {
     if (rmain.initializePrototype) {
       rmain.initializePrototype();
@@ -80,28 +107,20 @@ const svgInstall = function () {
     }
     core.propagateDimension(rmain);
   }
- 
-  
   dom.fullUpdate();
   if (core.root.draw) {
     core.root.draw(dom.svgMain.__element); // update might need things to be in svg
   }
-  /*if (core.root.soloInit) { 
-    core.root.soloInit(); 
-  }*/
- // debugger;
   if (!core.throwOnError) {
 		dom.fullUpdate();
-   // ui.refresh(ui.vars.fitMode);
   } else {
     try {
 		  dom.fullUpdate();
-
-     // ui.refresh(ui.vars.fitMode);
-  } catch (e) {
-    handleError(e);
-  }
-}
+    } catch (e) {
+      handleError(e);
+    }
+  }*/
+  
 }
 
 let enableButtons; //defined differently for different pages
@@ -129,13 +148,19 @@ core.setDisplayError(displayError);
 
 
 const saveTheImage = function () {
-	alert('image save');
+	debugger;
 	let wts = core.vars.whereToSave;
 	if (wts) {
 	  convertToJpeg(wts,function () {
-		  //debugger;
+		  alert('saved the image at '+wts);
 	  });	
+	} else {
+		alert('no destination given for image');
 	}
+}
+
+const fitTheContents = function () {
+	dom.svgMain.fitContents();
 }
 const finishMainInstall = function () {
   let e = installError;
@@ -151,7 +176,7 @@ const finishMainInstall = function () {
     svgInstall();
   }
   layout();
-  if (ui.vars.fitMode) {
+  if (vars.fitMode) {
     dom.svgMain.fitContents();
   }
   if (ui.vars.whichPage !== 'text_editor' && !core.root.transform) {
@@ -189,11 +214,10 @@ const finishMainInstall = function () {
   }
   next2();
 //  enableButtons();
- // debugger;
-	let wts = core.vars.whereToSave;
-	if (wts) {
-		setTimeout(saveTheImage,3000);	
-	}
+ debugger;
+ performInit();
+ //fitTheContents();
+	setTimeout(fitTheContents,1000);	
   let mn = core.root.main;
   if (mn && mn.animate) {
     mn.animate();

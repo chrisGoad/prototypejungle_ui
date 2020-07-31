@@ -5,7 +5,7 @@ const http = require('http');
 const fs = require('fs');
 //const Buffer = require('Buffer');
 //const mtypes = {html:'text/html',js:'text/javascript',
-const mtypes = {html:'text/html',js:'application/javascript',json:'application/json',
+const mtypes = {html:'text/html',js:'application/javascript',json:'application/json','jpg':'image/jpeg',
                   css:'text/css',svg:'image/svg+xml',ico:'image/x-icon'};
 const requestListener = function (req, res) {
 	let iurl = req.url;
@@ -19,7 +19,7 @@ const requestListener = function (req, res) {
 	//let path = 'www/test2.html';
 	let path = 'www'+ipath;
 	let ctype = mtypes[ext];
-  console.log('path = ',path,' method=',method,' ctype = ',ctype);
+  console.log('prototypejungle path = ',path,' method=',method,' ctype = ',ctype);
 	let data;
   if (method === 'POST') {
     //let data = '';
@@ -54,7 +54,8 @@ const requestListener = function (req, res) {
 	let body,missing;
 	//if (ctype && fs.existsSynch(path)) {
 	if (fs.existsSync(path)) {
-    body	= fs.readFileSync(path).toString();
+    //body	= fs.readFileSync(path).toString();
+    body	= fs.readFileSync(path);
 	} else {
 		console.log('missing');
 		missing = 1;

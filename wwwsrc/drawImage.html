@@ -1,34 +1,35 @@
-{{boilerplate0}}
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-<script src="js/color_picker.js"></script>
-<script src="ace-builds/src-min-noconflict/ace.js"></script>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+ <style>
+    .theGrid {
+      display:grid;
+      padding-top:10px;
+      grid-template-columns:1fr 10fr 1fr;
+    }
+		canvas { border: 1px solid black; }  
+		button {background-color:gray;color:white}
+  </style>
+</head>
 
 <script nomodule>
         location.href = "/nomodules.html"
 </script>
  
+ 
 <script type="module">
-  {{mainImports}}
-//import * as tree from "/js/tree-1.1.0.min.js";
-//import * as catalog from "/js/catalog-1.1.0.min.js";
-//import * as editor from "/js/editor-1.1.0.min.js";
-import * as draw from "/js/draw-1.1.0.min.js";
-
+  import * as core from "/js/core-1.1.0.min.js";
+import * as geom from "/js/geom-1.1.0.min.js";
 
 /* make the modules available in all contexts */
-Window.core = core;Window.geom=geom;Window.dom=dom;
-//Window.graph = graph;Window.ui=ui;
-//Window.editor=editor;
-Window.draw=draw;
-//Window.catalog = catalog;
-let ui = {};
-ui.vars = {};
-ui.hide = () => {};
-Window.ui = ui;
-let graph = {}
-graph.installCirclePeripheryOps = () => {}
-Window.graph = graph;
+Window.core = core;Window.geom=geom
+
 window.addEventListener("DOMContentLoaded", function() { 
   debugger;
   core.debugMode(true);
@@ -38,37 +39,41 @@ window.addEventListener("DOMContentLoaded", function() {
   core.vars.stripeInstalled = true;
   core.vars.photoMode = true;
   core.vars.maxSaveLength = 5000000; // this should match the limit in the storage rules for firebase
-  //core.vars.svgwd = 200;
-   //core.vars.svght = 100;
-  ui.vars.jumpToImage = 1;
-  ui.vars.whichPage = 'structure_editor';
-  ui.vars.defaultCatalog = '(sys)/catalog/global.catalog';
-  ui.vars.fitFactor = 0.8;
-  ui.vars.fitMode = true;// auto-fit items into graphics, with the given factor
-  dom.vars.stdExtent = geom.Point.mk(200,200); // if there is no initial content, this is the area in image space originally in view
-  core.tlog('doc ready');
-  core.loadTopDefs(draw.initPage);// binds modules to global
+  core.loadTopDefs(initialize);// binds modules to global
 });
 </script>
- 
+ <script src="zoom0.js"></script>
+<script>
+const afterMainInstall = function (e,rs) {
+  debugger;
+	rs.initialize();
+}
+const initialize = function () {
+  debugger;
+ 	let qs = parseQueryString();
+	let src = qs.source;
+	core.install(src,afterMainInstall); 
+}
+</script>
 
-<div id="main" style="display:none"> 
-  <div id="topbar"> 
-   <div id="topbarOuter" style="color:black;">
-      <div id="title" style="display:inline-block">
-        <div><span class="mainTitle">{{ProjectName}}<!--(&beta;)--></span> <span style="font-size:8pt">Draw</span></div>
-      </div>
-      <div id = "topbarInner" style="float:right"></div>
-   </div>
-
-   <div id="error"></div>
-  </div>  
+<div class="theGrid">
+  <div style="padding-left:40px">ImageDiver</div>
+	<div style="text-align:center;color:white">
+	  <div id="titleDiv" style="font-style:italic;padding-bottom:10px">
+		Adam and Eve, Albrecht Dürer, 1507
+		</div>
+		<div style="display:inline-block">
+		  <canvas  id="zoomCanvas" width="900" height="500">
+		  </canvas>
+		</div><br/>
+		<button id="zoomInButton">+</button>		
+		<button  id="zoomOutButton">-</button>
+    <button  onClick="viewAll()">View All</button>
+	 <button  onClick="zoomToDetail()">Zoom to Detail</button>
+	 <button id="toggleBoxButton" onClick="toggleBox()">Hide Detail Box</button>
+	</div>
+	<div><a style="color:white" href="https://imagediver.tumblr.com">Blog</a></div>
 </div>
-
-<canvas id="imageCanvas"></canvas> <!-- used for image conversions to jpeg-->
-
-
-
 
 </body>
 </html>

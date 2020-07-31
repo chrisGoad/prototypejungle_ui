@@ -20,7 +20,7 @@ let panelMode = 'chain'; // mode of the right panel view; one of 'chain' (view t
  // the page structure
 let actionDiv,cols,fileBut,undoBut,unwrapBut,insertBut,replaceBut,insertTab;
 let replaceProtoBut,dataBut,gridBut,fileDisplay,noteDiv,svgDiv;//,protoContainer;
-let messageElement,ctopDiv,noteSpan,upBut,downBut,topBut,svgMessageDiv;
+let messageElement,ctopDiv,noteSpan,saveBut,upBut,downBut,topBut,svgMessageDiv;
 let dataMessage,JSONMessage,rebuildFromDataBut,changeDataSourceBut,saveDataBut,testBut,saveDataAsBut,checkJSONBut,runningSpan,dataButtons,dataDiv,dataContainer,advancedButs;
 let includeActionPanel = false;
 
@@ -40,6 +40,10 @@ const docDiv = html.Element.mk('<div id="docDiv" style="position:absolute;width:
 
 let mpg;
 const buildPage = function () {
+	debugger;
+saveBut = document.getElementById('saveButton');
+//saveBut.addEventListener("click", () => {alert(23);});
+saveBut.addEventListener("click", saveTheImage);
 mpg =  html.wrap("main",'div',{style:{position:"absolute","margin":"0px",padding:"0px",display:"none"}}).
 __addChildren([
   topbarDiv = html.wrap('topbar','div',{style:{position:"absolute",height:"10px",left:"0px","background-color":bkColor,margin:"0px",padding:"0px"}}).
@@ -97,7 +101,8 @@ __addChildren([
     svgDiv = html.Element.mk('<div id="svgDiv" draggable="true" style="position:absolute;height:400px;width:600px;background-color:white;border:solid thin black;display:inline-block"/>').
     __addChildren([
       noteDiv = html.Element.mk('<div style="font:10pt arial;background-color:white;position:absolute;top:0px;left:90px;padding-left:4px;border:solid thin black"/>').__addChildren([
-        noteSpan = html.Element.mk('<span>Click on things to adjust them. Hierarchy navigation:</span>'),
+        //noteSpan = html.Element.mk('<span>Click on things to adjust them. Hierarchy navigation:</span>'),
+        //saveBut =html.Element.mk('<div class="roundButton">Save Image</div>'), 
         upBut =html.Element.mk('<div class="roundButton">Up</div>'), 
         downBut =html.Element.mk('<div class="roundButton">Down</div>'),
         topBut =html.Element.mk('<div class="roundButton">Top</div>')

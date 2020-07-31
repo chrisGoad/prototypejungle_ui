@@ -29,6 +29,46 @@ Window.ui = ui;
 let graph = {}
 graph.installCirclePeripheryOps = () => {}
 Window.graph = graph;
+
+
+let ctx,img,natWidth,natHeight,canvas;
+	
+const drawFrame = function () {
+	ctx.clearRect(0,0,natWidth,natHeight);
+	ctx.drawImage(img,0,0,natWidth,natHeight);//,rectInImage.w,rectInImage.h,0,0,canvasRect.w,canvasRect.h);
+}
+const drawImage = function () {
+	debugger;
+	let qs = core.parseQuerystring();
+	let image = qs.image;
+	if (!image) {
+	  return;
+	}
+	let scale  = qs.scale?Number(qs.scale):0.1;
+	let mnim = `inputImages/${image}`;
+	let imageIn = `${mnim}.jpg`;
+  //const finishUp = function () {
+		canvas = document.getElementById('inputCanvas');
+		ctx = canvas.getContext('2d');
+		//let winWd = window.innerWidth;
+		//let winHt = window.innerHeight;
+		//let wf = 0.9;
+		//canvas.width = winWd * wf;
+		//canvas.height = winHt * wf - 30;
+		img = new Image();
+		img.addEventListener('load', function () {
+		  debugger;
+	  	natWidth = scale * (img.naturalWidth);
+		  natHeight = scale * (img.naturalHeight);
+			canvas.width = natWidth;
+			canvas.height = natHeight;
+			drawFrame();
+		});
+		//showingBox =1;
+		img.src = imageIn;
+	//};
+}
+	
 window.addEventListener("DOMContentLoaded", function() { 
   debugger;
   core.debugMode(true);
@@ -43,20 +83,22 @@ window.addEventListener("DOMContentLoaded", function() {
   ui.vars.jumpToImage = 1;
   ui.vars.whichPage = 'structure_editor';
   ui.vars.defaultCatalog = '(sys)/catalog/global.catalog';
-  ui.vars.fitFactor = 0.8;
-  ui.vars.fitMode = true;// auto-fit items into graphics, with the given factor
+  draw.vars.fitFactor = 0.8;
+  draw.vars.fitMode = true;// auto-fit items into graphics, with the given factor
   dom.vars.stdExtent = geom.Point.mk(200,200); // if there is no initial content, this is the area in image space originally in view
   core.tlog('doc ready');
-  core.loadTopDefs(draw.initPage);// binds modules to global
+  core.loadTopDefs(() => {drawImage();draw.initPage()});// binds modules to global
+  //core.loadTopDefs(() => {drawImage()});// binds modules to global
 });
 </script>
  
-
+ 
 <div id="main" style="display:none"> 
   <div id="topbar"> 
    <div id="topbarOuter" style="color:black;">
       <div id="title" style="display:inline-block">
-        <div><span class="mainTitle">{{ProjectName}}<!--(&beta;)--></span> <span style="font-size:8pt">Draw</span></div>
+        <span class="mainTitle">PrototypeJunglee </span> <span style="font-size:8pt">Draw</span>
+				<div style="display:inline-block" class="button" id="saveButton">Save Image</div>
       </div>
       <div id = "topbarInner" style="float:right"></div>
    </div>
@@ -64,6 +106,7 @@ window.addEventListener("DOMContentLoaded", function() {
    <div id="error"></div>
   </div>  
 </div>
+<canvas id="inputCanvas"></canvas> 
 
 <canvas id="imageCanvas"></canvas> <!-- used for image conversions to jpeg-->
 

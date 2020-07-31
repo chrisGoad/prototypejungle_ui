@@ -73,7 +73,9 @@ const httpPost = function (url,data,cb) {
 		 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 			// Request finished. Do processing here.
 			//debugger;
-			cb('ok');
+			if (cb) {
+				cb('ok');
+			}
 		 }
 	};
 	request.send(data);	
@@ -577,6 +579,7 @@ const standsAlone = (url) => {
 }
 
 const standsAloneP = (url) => Boolean(standsAloneObject[url]);
+
 
 
 export {httpGetForInstall,httpPost,loadjs,install,require,debugMode,requireEdges,loadedUrls,replaceRequireInItem,

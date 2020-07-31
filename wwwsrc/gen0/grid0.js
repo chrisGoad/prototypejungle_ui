@@ -769,13 +769,15 @@ item.randomCell = function (excl) {
   return {x:col,y:row};
   }
 }
-item.setName = function (name) {
+
+
+item.setName = function (name,jsonName) {
 	this.name = name;
-	if (this.saveImage) {
-	  core.vars.whereToSave = `images/${name}.jpg`;
-	}
-	this.path = `json/${name}.json`;
+	core.vars.whereToSave = `images/${name}.jpg`;
+	let theName = jsonName?jsonName:name;
+	this.path = `json/${theName}.json`;
 }
+ 
 
 }
 });

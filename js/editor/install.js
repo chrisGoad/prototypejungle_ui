@@ -80,7 +80,7 @@ const svgInstall = function () {
     core.propagateDimension(rmain);
   }
   if (ui.vars.whichPage === 'structure_editor')  {
-//    popCatalog(); cgstub7/20
+    popCatalog();
   }
   if ((core.root.__grid ||enableTheGrid) && enableGrid) {
     enableGrid();

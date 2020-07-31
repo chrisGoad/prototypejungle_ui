@@ -1,16 +1,26 @@
 
+const addToDirectory = function (directory,str,ob,cb) {
+	let path = directory + '/' + str;
+	let json = JSON.stringify(ob);
+	core.saveJson(path,json,cb);
+}
+	
+	
+
 //shapes
 const catShape = function () {
 let shapeFF = 0.4;
    // let nn = 0;
-      fb.addToDirectory('/catalog/shape','.order',
+	    debugger;
+      addToDirectory('/catalog/shape','.order',
                         'text,image,circle,ellipse,square,rectangle,randomSquare,randomRectangle,nest2,roundedRectangle,shadedRectangle,spiral,'+
                         'shadedCircle,shadedCircle2,arcThing2,lozenge,regularPolygon,bullsEye,curve');
-
-      fb.addToDirectory('/catalog/shape','text.link',{url:"/shape/textPlain.js",role:"vertex",fitFactor:0.3,svg:"(sys)/forCatalog/text_no_box.svg"});
-    fb.addToDirectory('/catalog/shape','image.link',{url:"/container/rectangle.js",role:"vertex",fitFactor:0.5,svg:"(sys)/forCatalog/image_no_box.svg"});
-   fb.addToDirectory('/catalog/shape','circle.link',{roles:['vertex','spot'],fitFactor:shapeFF,
-                       urls:{"vertex":"/container/circle.js","spot":"/shape/circle.js"},svg:"(sys)/forCatalog/circle.svg"});
+      
+      addToDirectory('/catalog/shape','text.link',{url:"/shape/textPlain.js",role:"vertex",fitFactor:0.3,svg:"/forCatalog/text_no_box.svg"});
+    addToDirectory('/catalog/shape','image.link',{url:"/container/rectangle.js",role:"vertex",fitFactor:0.5,svg:"/forCatalog/image_no_box.svg"});
+   addToDirectory('/catalog/shape','circle.link',{roles:['vertex','spot'],fitFactor:shapeFF,
+                       urls:{"vertex":"/container/circle.js","spot":"/shape/circle.js"},svg:"/forCatalog/circle.svg"});
+	 return;
    fb.addToDirectory('/catalog/shape','ellipse.link',{roles:['vertex','spot'],fitFactor:shapeFF,
                        urls:{"vertex":"/container/ellipse.js","spot":"/shape/ellipse.js"},svg:"(sys)/forCatalog/ellipse.svg"});
       fb.addToDirectory('/catalog/shape','square.link',{roles:['vertex','spot'],fitFactor:shapeFF,
