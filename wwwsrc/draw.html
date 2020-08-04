@@ -38,12 +38,12 @@ const drawFrame = function () {
 	ctx.drawImage(img,0,0,natWidth,natHeight);//,rectInImage.w,rectInImage.h,0,0,canvasRect.w,canvasRect.h);
 }
 const drawImage = function () {
-	debugger;
 	let qs = core.parseQuerystring();
 	let image = qs.image;
 	if (!image) {
 	  return;
 	}
+	debugger;
 	let scale  = qs.scale?Number(qs.scale):0.1;
 	let mnim = `inputImages/${image}`;
 	let imageIn = `${mnim}.jpg`;
@@ -70,7 +70,7 @@ const drawImage = function () {
 }
 	
 window.addEventListener("DOMContentLoaded", function() { 
-  debugger;
+  //debugger;
   core.debugMode(true);
   core.vars.historyEnabled = false;
   core.vars.tlogActive = true; // controls time logging (core.tlog)

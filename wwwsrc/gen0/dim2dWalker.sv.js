@@ -2,11 +2,8 @@ core.require(function () {
   return function (item) {	
 
 
-//item.randomStep = function (iCorrelated,x,y,istepx,istepy,imin,imax,i,j) {
-	// pv = previous value from t-1
-item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,j) {
+item.randomStep = function (iCorrelated,x,y,istepx,istepy,imin,imax,i,j) {
 	let min,max,stepx,stepy,lb,ub,rs,correlated;
-	let firstT = (pv === undefined);
 	let rp = this.walkParams;
 	if (rp) {
 		let params = rp(i,j);
@@ -28,7 +25,6 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
 		correlated = iCorrelated;
 		stepx = istepx;
 		stepy = istepy;
-		stept = istept;
 		min = imin;
 		max = imax;
 	}
@@ -36,31 +32,12 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
 		rs =  min + Math.random() * (max - min);
     return rs;
 	}
-  let sumSteps,sumVals;
 	if (y !==  undefined) { // 2d case
-	  if (firstT) {
-			sumSteps = stepx+stepy;
-			sumVals = x+y;
-			ub = 0.5 * (sumVals+sumSteps);
-			lb = 0.5 * (sumVals-sumSteps);
-		
-		} else {
-		  sumSteps = stepx+stepy+stept;
-			sumVals = x+y+pv;
-			ub = 0.333333 * (sumVals+sumSteps); // an average
-			lb = 0.333333 * (sumVals-sumSteps);
-		}
-			
+		ub = 0.5 * (x+stepx +y+stepy);
+		lb = 0.5 * (x+y - stepx -stepy);
 	} else {
-		if (firstT) {
-		  ub = x + stepx;
-		  lb = x - stepx;
-		} else {
-			sumSteps = stepx + stept;
-			sumVals = x + pv;
-			ub = 0.5 * (sumVals+sumSteps);
-			lb = 0.5 * (sumVals-sumSteps);
-		}
+		ub = x + stepx;
+		lb = x - stepx;
 	}
 	if (min > ub) {  //just march towards this target
 		rs = ub;
@@ -74,15 +51,15 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
 	return rs;
 }
 	
-item.scalarRandomStep = function (correlated,c,pv,step,stept,min,max,i,j) {
-	return this.randomStep(correlated,c,undefined,pv,step,undefined,stept,min,max,i,j);
+item.scalarRandomStep = function (correlated,c,step,min,max,i,j) {
+	return this.randomStep(correlated,c,undefined,step,undefined,min,max,i,j);
 }
 
 
 
 
-item.dim2randomStep = function (correlated,x, y,pv, stepx,stepy,stept,min,max,i,j) { 
-	return this.randomStep(correlated,x,y,pv,stepx,stepy,stept,min,max,i,j);
+item.dim2randomStep = function (correlated,x, y, stepx,stepy,min,max,i,j) { 
+	return this.randomStep(correlated,x,y,stepx,stepy,min,max,i,j);
 }
 
    
@@ -113,9 +90,7 @@ item.valueAt = function (grid,i,j) {
    
     
 item.genRandomGrid = function (params) {
-	//debugger;
-  let {prevValues,numCols,numRows,step,stepx:istepx,stepy:istepy,stept,min,max,biasFun,constantFirstRow:cFr,
-	     backwards,convergenceFactor,convergenceValue,walkParams,correlated:pcor} = params;
+  let {numCols,numRows,step,stepx:istepx,stepy:istepy,min,max,biasFun,constantFirstRow:cFr,backwards,convergenceFactor,convergenceValue,walkParams,correlated:pcor} = params;
 	let stepx,stepy,corrrelated;
 	if (walkParams) {
 		let wparams = walkParams(0,0);
@@ -149,17 +124,11 @@ item.genRandomGrid = function (params) {
 	} else {
     c = 0.5*(min+max);
 	}
-	let pv;
   while (j < numRows) {
     let idx = this.indexFor(numRows,i,j);
-		if (prevValues) {
-			pv = prevValues[idx];
-		} else {
-			pv = undefined;
-		}
     values[idx] = c;
 		if (!cFr) {
-      c = this.scalarRandomStep(correlated,c,pv,stepx,stept,min,max,i,j);
+      c = this.scalarRandomStep(correlated,c,stepx,min,max,i,j);
 		}
 		j++;
   }
@@ -168,29 +137,22 @@ item.genRandomGrid = function (params) {
     let goingUp = i%2 === 0; //means  j is going up
     j = goingUp?0:numRows-1;
     let firstJ = true;
-	
     while ((j>=0) && (j < numRows)) {
-				let idx = this.indexFor(numRows,i,j);
-				if (prevValues) {
-				 pv = prevValues[idx];
-				} else {
-				 pv = undefined;
-				}
-				if (firstJ){
-					let lftidx = this.indexFor(numRows,i-1,goingUp?0:numRows-1);
-					c = this.scalarRandomStep(correlated,values[lftidx],pv,stepx,stept,min,max,i,j);       
-				} else {
-					let lftidx = this.indexFor(numRows,i-1,j)
-					let upidx = this.indexFor(numRows,i,goingUp?j-1:j+1)
-					c = this.dim2randomStep(correlated,values[lftidx],values[upidx],pv,stepx,stepy,stept,min,max,i,j);
-				}
-				values[idx] = c;
-				j = goingUp?j+1:j-1;
-				firstJ = false;
+       let idx = this.indexFor(numRows,i,j);
+       if (firstJ){
+         let lftidx = this.indexFor(numRows,i-1,goingUp?0:numRows-1);
+         c = this.scalarRandomStep(correlated,values[lftidx],stepx,min,max,i,j);       
+       } else {
+         let lftidx = this.indexFor(numRows,i-1,j)
+         let upidx = this.indexFor(numRows,i,goingUp?j-1:j+1)
+         c = this.dim2randomStep(correlated,values[lftidx],values[upidx],stepx,stepy,min,max,i,j);
+       }
+       values[idx] = c;
+       j = goingUp?j+1:j-1;
+       firstJ = false;
     }
     i++;
   }
-	rs.params = params;
   return rs;
 }
 

@@ -40,7 +40,7 @@ const docDiv = html.Element.mk('<div id="docDiv" style="position:absolute;width:
 
 let mpg;
 const buildPage = function () {
-	debugger;
+	//debugger;
 saveBut = document.getElementById('saveButton');
 //saveBut.addEventListener("click", () => {alert(23);});
 saveBut.addEventListener("click", saveTheImage);

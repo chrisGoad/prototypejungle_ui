@@ -60,15 +60,22 @@ const performInit = function () {
     }
     core.propagateDimension(rmain);
   }
-  dom.fullUpdate(true);
+ // dom.fullUpdate(true);
   if (core.root.draw) {
     //core.root.draw(dom.svgMain.__element); // update might need things to be in svg
   }
-  if (!core.throwOnError) {
+	const last = () => {
 		dom.fullUpdate();
+		fitTheContents();
+    if (rmain && rmain.animate) {
+       rmain.animate();
+		}
+  }
+  if (!core.throwOnError) {
+		last();
   } else {
     try {
-		  dom.fullUpdate();
+		  last();
     } catch (e) {
       handleError(e);
     }
@@ -215,13 +222,11 @@ const finishMainInstall = function () {
   next2();
 //  enableButtons();
  debugger;
- performInit();
+ //performInit();
  //fitTheContents();
-	setTimeout(fitTheContents,1000);	
-  let mn = core.root.main;
-  if (mn && mn.animate) {
-    mn.animate();
-  }
+	//setTimeout(fitTheContents,1000);	
+	performInit();
+	//setTimeout(performInit,1000);	
  // saveState('initial');
 
 }

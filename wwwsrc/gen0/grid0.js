@@ -1,9 +1,9 @@
 
 //core.require('/grid/addColorGrid.js',function (colorGridMethods) {
-	debugger;
+	//debugger;
 core.require('/gen0/dim2dWalker.js',function (addRandomMethods) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
-	debugger;
+	//debugger;
   return function (item) {
   //return function () {
 /*adjustable parameters  */
@@ -227,13 +227,19 @@ item.randomValuesAtCell = function (randomGrids,i,j) {
 item.addCellBoundaries = function (frame,fraction) { 
   let hcontainer = this.hcontainer;
   let points = this.rpoints;
-  let lines = this.set('lines',core.ArrayNode.mk()); 
+	let lines = this.lines;
+	this.updating = !!lines;
+	//this.prevLines = this.lines;
+	if (!lines) {
+    lines = this.set('lines',core.ArrayNode.mk()); 
+	}
+ // let lines = this.lines = [];
   let {numRows,numCols,deltaX,deltaY,boundaryLineGenerator,randomGridsForBoundaries} = this;
   let xdim = numCols * deltaX;
   let ydim = numRows * deltaY;
   let ly = -0.5 * ydim;
-  let lineIndex = 0;
- 
+  this.lineIndex = 0
+  
   for (let i = 0;i <= numCols; i++) {
     if (this.fadeIn) {
       this.boundaryLineFraction = i/numCols;
@@ -249,10 +255,21 @@ item.addCellBoundaries = function (frame,fraction) {
       let rs;
       if (p12) {
 				rs = this.boundaryLineGenerator(p11,p12,rvs,cell,'vertical');
+				if (rs) {
+				  this.lineIndex++;
+			  } else {
+					debugger;
+				}
       }     
       if (p21) {
  				rs = this.boundaryLineGenerator(p11,p21,rvs,cell,'horizontal');
+				if (rs) {
+				  this.lineIndex++;
+			  } else {
+					debugger;
+				}
       }
+		
     }
   }
 }
@@ -605,10 +622,34 @@ item.setupRandomizer = function (tp,nm,params) {
 	  rnds = this[tp] = {};
 	}
 	//let  cParams = {step:35,min:150,max:250,biasFun,numRows:numRows+1,numCols:numCols+1};
-	let rs  = rm.genRandomGrid(params);
+  let rs  = rm.genRandomGrid(params);
 	rnds[nm]  = rs;
+	//debugger;
 	return rs;
 }
+
+item.stepRandomizer = function (tp,nm) {
+	debugger;
+	let wrnds = this[tp];
+	let rnds = wrnds[nm];
+	let prevValues = rnds.values;
+	let params = rnds.params;
+	params.prevValues = prevValues;
+	let rm = this.randomizer;
+	let rs  = rm.genRandomGrid(params);
+	wrnds[nm]  = rs;
+	return rs;
+}
+	
+item.stepShapeRandomizer = function (nm) {
+  this.stepRandomizer('randomGridsForShapes',nm);
+}
+	
+
+item.stepBoundaryRandomizer = function (nm) {
+  this.stepRandomizer('randomGridsForBoundaries',nm);
+}
+		
 
 item.setupShapeRandomizer = function (nm,params) {
   this.setupRandomizer('randomGridsForShapes',nm,params);
@@ -630,7 +671,8 @@ item.setupPointJiggle = function () {
     this.setupBoundaryRandomizer('jiggleY',jParams);
 	}
 }
-item.initializeGrid = function (randomizer) {
+//item.initializeGrid = function (randomizer) {
+item.initializeGrid = function () {
   let {numRows,numCols,pointJiggle} = this;
  // this.initializeProtos();
   this.setupPointJiggle();
@@ -660,13 +702,10 @@ item.initializeGrid = function (randomizer) {
       let numStrokes = this.fractionInked * this.letterWidth * this.letterHeight;
       if ((Math.random() < 0.4) && (numletters>this.lettersPerWord)){
         numletters= 0;
-       // i = i+1;
       } else {
-  //  let w = {minx:0,maxx:4,miny:0,maxy:4};
         if (i < nw) {
           let w = windows[i];
           let r = this.genAregion(w,numStrokes);
-         //let r = this.genAregion(w,7);
           this.drawAregion(r);
           numletters++;
         }
@@ -683,9 +722,30 @@ item.initializeGrid = function (randomizer) {
   if (this.lastGridStep) {
     this.lastGridStep(); // eg for filling in symmetries
   }
- // if (this.next) {
- //    this.next();
- // }
+    core.tlog('randomizeLines');
+  this.show();
+    core.tlog('show');
+
+}
+
+item.updateGrid = function (randomizer) {
+  let {numRows,numCols,pointJiggle} = this;
+ // this.initializeProtos();
+  if (this.boundaryLineGenerator) {
+    this.addCellBoundaries();
+  }
+	this.show();
+	return;
+  core.tlog('genHorizontalLines');
+  if (this.shapeGenerator || this.shapeP  ) {
+    this.addShapes();
+  }
+	if (this.spatterGenerator) {
+		this.addSpatter();
+	}
+  if (this.lastGridStep) {
+    this.lastGridStep(); // eg for filling in symmetries
+  }
     core.tlog('randomizeLines');
   this.show();
     core.tlog('show');
@@ -749,7 +809,7 @@ item.intersectWithSides = function (lseg,rect,sides) {
 		} else if (contains1) {
 				return geom.LineSegment.mk(end1,intersections[0]);
 		} else {
-			debugger;
+		//	debugger;
 			return;
 		}
 	} else if (intersections.length === 2) {

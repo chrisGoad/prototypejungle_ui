@@ -1,7 +1,6 @@
 
 core.require('/line/line.js','/shape/circle.js','/gen0/grid0.js',function (linePP,circlePP,addGridMethods) {
 	return function () {
-  debugger;
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 
@@ -61,12 +60,25 @@ rs.shortenLine = function (end0,end1,factor) {
 }
 
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
- let {numRows,numCols,showMissing,showStripes} = this;
+	let {numRows,numCols,showMissing,showStripes,lines,updating,lineIndex} = this;
+	let line;
+	let drawAll = 0;
+	if (updating) {
+		debugger;
+	 line = lines[lineIndex];
+	} else {
+	  line = this.blineP.instantiate();
+	  lines.push(line);
+	}
+
  let vertical = orientation === 'vertical';
  let {x,y} = cell; 
  let hy = this.numRows/2;
  let hx = this.numCols/2;
- debugger;
+ let p = rvs.pattern;
+ let zigDown = p < 1;
+ let zigUp = (1 <= p) && (p  < 2);
+ let noZig = (2 <= p) && (p <= 3);
  let missing;
  if (this.missingZag) {
 	 let bx = this.missingZag.x;
@@ -77,68 +89,74 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	if (showStripes) {
 	} else {
 		
-		if (((x+y)%2 === 0) && vertical) { // on diagonal
-		  return;
+		if (((x+y)%2 === 0) && vertical && !drawAll) { // on diagonal
+		  line.hide();
+			line.updateAndDraw();
+		  return line;
 		}
-		if (!vertical) {
+		if ((!vertical) &  (!noZig)) {
+			
 		  let omitDownZag = ((x+y)%2 === 1)
 		  let omitUpZag = !omitDownZag;
 	//	let omitUpZag = (((x+y)%2 === 0) && !vertical);
-	  let fractionAcross = x/numCols;
-		let swindow = 0.15;
-		let fr;
-		if (fractionAcross < swindow) {
-			fr = 0;
-		} else if (fractionAcross > (1-swindow)) {
-			fr = 1;
-		} else {
-			fr = (fractionAcross - swindow) * (1/(1 - 2*swindow));
-		}
-		if (Math.random() < fr) {
-			if (omitDownZag) {
-				return;
+			if (zigDown) {
+				if (omitDownZag && !drawAll) {
+					line.hide();
+					line.updateAndDraw();
+					return line;
+				}
+			} else {
+				if (omitUpZag && !drawAll) {
+					line.hide();
+				  line.updateAndDraw();
+					return line;
+				}
 			}
-		} else {
-			if (omitUpZag) {
-				return;
-			}
-		}
-		let omit = omitDownZag * ((numCols - x)/numCols) + omitUpZag * (x/numCols);
-		console.log('omit',omit);
-		//if (omitUpZag) {return;}
-		//if (omitDownZag) {return;}
-		//if (omit>0.25* (1 +Math.random())) {return;}
     }
-		//if (((x+y)%2 === 1) && !vertical) { // on diagonal
-		//  return;
-		//}
 	}
-
-	/*if (((x+y)%2 === 0) || missing)  {
-		let cy = ((y!==hy) && (y!==(hy+1))) || ((y === (hy+1)) && (orientation === 'vertical')); 
-		let cx = ((x!==hx) && (x!==(hx+1))) || ((x === (hx+1)) && (orientation === 'horizontal'));
-
-		if (cx && cy && !missing) {
-		 //alert ('no missing zag');
-		 return;
-		}
-	}*/
 	let r = rvs.red;
-  let lines = this.lines;
-	let line = this.blineP.instantiate();
-	if (missing && !showMissing) {
-		return;
+	if (missing && !showMissing && !drawAll) {
+		line.hide();
+		line.updateAndDraw();
+		return line;
 	}
-	lines.push(line);
+	//lines.push(line);
   let  ends = this.shortenLine(end0,end1,0.8);
   line.setEnds(ends[0],ends[1]);
-	line.stroke = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
+	if (zigDown) {
+	  line.stroke = `rgb(200,${Math.floor(r)},${Math.floor(r)})`;
+	} else {
+	  line.stroke = `rgb(${Math.floor(r)},${Math.floor(r)},200)`;
+	}
+	line.stroke = 'white';
   if (missing) {
 		line.stroke = 'cyan';
 	}
-	line.update();
 	line.show();
+	line.updateAndDraw();
+	return line;
 }
+
+
+rs.animateIt = function (numFrames,interval) {
+ // let numFrames = 10;
+    //svgMain.draw();
+	let nfr = 0;
+	//let interval = 500;
+  dom.svgDraw();
+  const doStep = () => {
+		if (nfr === numFrames) {
+			return;
+		}
+		nfr++;
+		this.step();
+		dom.svgDraw();
+		setTimeout(doStep,interval);
+  }
+  setTimeout(doStep,interval);
+}
+ 
+
 
 return rs;
 }
