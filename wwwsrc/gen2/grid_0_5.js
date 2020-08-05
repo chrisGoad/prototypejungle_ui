@@ -29,7 +29,8 @@ function (constructor) {
  //rs.shapeStroke = 'white';
   //rs.shapeStrokeWidth = 1;
   const biasFun = function (grid,i,j) {
-    let {numCols,numRows} = grid;
+		let params = grid.params;
+    let {numCols,numRows} = params;
     let xf = i/numCols;
     let yf = j/numRows;
     let weight;

@@ -60,16 +60,17 @@ rs.shortenLine = function (end0,end1,factor) {
 }
 
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
-	let {numRows,numCols,showMissing,showStripes,lines,updating,lineIndex} = this;
-	let line;
+	let {numRows,numCols,blineP,showMissing,showStripes,lines,updating,lineIndex} = this;
+	let line = this.nextLine(blineP);
 	let drawAll = 0;
-	if (updating) {
+	/*if (updating) {
 		debugger;
 	 line = lines[lineIndex];
 	} else {
 	  line = this.blineP.instantiate();
 	  lines.push(line);
 	}
+	*/
 
  let vertical = orientation === 'vertical';
  let {x,y} = cell; 
@@ -123,12 +124,13 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	//lines.push(line);
   let  ends = this.shortenLine(end0,end1,0.8);
   line.setEnds(ends[0],ends[1]);
+	//r = 255;
 	if (zigDown) {
-	  line.stroke = `rgb(200,${Math.floor(r)},${Math.floor(r)})`;
+	  line.stroke = `rgb(100,${Math.floor(r)},${Math.floor(r)})`;
 	} else {
-	  line.stroke = `rgb(${Math.floor(r)},${Math.floor(r)},200)`;
+	  line.stroke = `rgb(${Math.floor(r)},${Math.floor(r)},100)`;
 	}
-	line.stroke = 'white';
+//	line.stroke = 'white';
   if (missing) {
 		line.stroke = 'cyan';
 	}

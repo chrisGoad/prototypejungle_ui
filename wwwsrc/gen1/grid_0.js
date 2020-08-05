@@ -38,10 +38,12 @@ rs.initProtos = function () {
 }  
 
 
+
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
+	let {blineP,showMissing,lines,updating,lineIndex} = this;
+
+	let line = this.nextLine(blineP);
 	let c = rvs.color
-  let lines = this.lines;
-	let line = this.blineP.instantiate();
 	lines.push(line);
   line.setEnds(end0,end1);
 	if (this.boundaryColorFunction) {
@@ -50,6 +52,7 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
     line.stroke =  `rgb(${Math.floor(c)},${Math.floor(c)},${Math.floor(c)})`;
 	}
 	line.show();
+	return line;
 }
 
 return rs;

@@ -20,7 +20,7 @@ rs.initialize = function () {
 	debugger;
   this.lineLength = 0.4;
   this.setupBoundaryRandomizer('red', {step:30,min:100,max:250});
-	this.setupBoundaryRandomizer('pattern', {step:0.4,stept:0.0,min:0,max:2});
+	this.setupBoundaryRandomizer('pattern', {step:0.4,stept:0.01,min:0,max:2});
   
   core.root.backgroundColor = 'black';
   this.initializeGrid();
@@ -36,7 +36,7 @@ rs.step = function ()   {
   this.updateGrid();
 }
 rs.animate = function ()  {
-	this.animateIt(30,10);
+	this.animateIt(100,10);
 	
 }
 

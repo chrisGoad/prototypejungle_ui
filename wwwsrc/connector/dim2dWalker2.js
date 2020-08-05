@@ -143,7 +143,9 @@ item.genRandomGrid = function (params) {
   //let {numCols:w,numRows:h} = this;
   let values = [];
   //let rs = {numCols:numCols,numRows:numRows,values:values,biasFun};
-  let rs = {numCols,numRows,values,biasFun};
+  let rs = {values,params,timeStep:timeStep+1};
+ 
+  //let rs = {numCols,numRows,values,biasFun};
   let n = numCols * numRows;
   values.length = n;
 	

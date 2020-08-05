@@ -47,6 +47,7 @@ rs.initialize = function () {
 	//this.deltaY = this.height/this.numRows;
 	let rnp = {correlated:true};
 	const walkParams = function (i,j) {
+		debugger;
 		let fri = i/numRows;
 		let frj = j/numCols;
 		

@@ -224,6 +224,18 @@ item.randomValuesAtCell = function (randomGrids,i,j) {
 	return rs;
 }
 
+item.nextLine = function (proto) {
+	let {updating,lines,lineIndex} = this;
+	let line;
+	if (updating) {
+	 line = lines[lineIndex];
+	} else {
+	  line = proto.instantiate();
+	  lines.push(line);
+	}
+	return line;
+}
+
 item.addCellBoundaries = function (frame,fraction) { 
   let hcontainer = this.hcontainer;
   let points = this.rpoints;
@@ -600,17 +612,10 @@ item.genAwindows = function (szx,szy) {
                  
 
 item.setupRandomizer = function (tp,nm,params) {
-	if (tp === 'randomGridsForBoundaries') {
-		if (params.numRows) {
-			params.numRows = params.numRows+1;
-		  params.numCols = params.numCols+1;
-		} else {
-      params.numRows = this.numRows+1;
-		  params.numCols = this.numCols+1;	
-		}			
-	} else if (!params.numRows) {
-		params.numRows = this.numRows;
-		params.numCols = this.numCols;
+	let kind = params.kind =  (tp === 'randomGridsForBoundaries')?'boundaries':'cells';
+	if (!params.numRows) {
+		params.numRows = kind==='boundaries'?this.numRows+1:this.numRows;
+		params.numCols = kind==='boundaries'?this.numCols+1:this.numCols;
 	}
 	let rm = this.randomizer;
 	if (!rm) {
@@ -622,7 +627,7 @@ item.setupRandomizer = function (tp,nm,params) {
 	  rnds = this[tp] = {};
 	}
 	//let  cParams = {step:35,min:150,max:250,biasFun,numRows:numRows+1,numCols:numCols+1};
-  let rs  = rm.genRandomGrid(params);
+  let rs  = rm.genRandomGrid({timeStep:0,params});
 	rnds[nm]  = rs;
 	//debugger;
 	return rs;
@@ -631,12 +636,13 @@ item.setupRandomizer = function (tp,nm,params) {
 item.stepRandomizer = function (tp,nm) {
 	debugger;
 	let wrnds = this[tp];
-	let rnds = wrnds[nm];
-	let prevValues = rnds.values;
-	let params = rnds.params;
-	params.prevValues = prevValues;
+	let rg = wrnds[nm];
+	//let prevValues = rnds.values;
+	//let params = rnds.params;
+	//params.prevValues = prevValues;
 	let rm = this.randomizer;
-	let rs  = rm.genRandomGrid(params);
+	//let rs  = rm.genRandomGrid({timeStep:0,params});
+	let rs  = rm.genRandomGrid(rg);
 	wrnds[nm]  = rs;
 	return rs;
 }
@@ -666,7 +672,7 @@ item.setupPointJiggle = function () {
 		let hj = 0.5*this.pointJiggle;
 		let jiggleStep = 0.3 * hj;
 		let jParams = pointJiggleParams?pointJiggleParam:
-     		{step:jiggleStep,min:-hj,max:hj,numRows,numCols};
+     		{step:jiggleStep,min:-hj,max:hj};
     this.setupBoundaryRandomizer('jiggleX',jParams);
     this.setupBoundaryRandomizer('jiggleY',jParams);
 	}
@@ -674,6 +680,7 @@ item.setupPointJiggle = function () {
 //item.initializeGrid = function (randomizer) {
 item.initializeGrid = function () {
   let {numRows,numCols,pointJiggle} = this;
+	debugger;
  // this.initializeProtos();
   this.setupPointJiggle();
   this.deltaX = this.width/numCols;
