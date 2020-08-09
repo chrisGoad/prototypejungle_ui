@@ -1,7 +1,6 @@
 
 core.require('/line/line.js','/shape/circle.js','/gen0/grid0.js',function (linePP,circlePP,addGridMethods) {
 	return function () {
-  debugger;
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 
@@ -61,16 +60,21 @@ rs.shortenLine = function (end0,end1,factor) {
 
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
  let {numRows,numCols,showMissing,showStripes} = this;
-	   
+
  let {x,y} = cell; 
  let hy = this.numRows/2;
  let hx = this.numCols/2;
- debugger;
  let missing;
+ 
  if (this.missingZag) {
 	 let bx = this.missingZag.x;
 	 let by = this.missingZag.y;
 	 missing = (x === bx) && (y === by) && (orientation === 'horizontal');
+	 console.log('bx ',bx,' by ',by,' x ',x,' y ',y,'  orientation ',orientation,' missing ',missing);
+	 if (missing) {
+		 debugger;
+	 }
+
 	 //missing = 0;
   }
 	if (showStripes) {
@@ -120,6 +124,8 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	line.stroke = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
   if (missing) {
 		line.stroke = 'cyan';
+		line['stroke-width'] = 5;
+		debugger;
 	}
 	line.update();
 	line.show();

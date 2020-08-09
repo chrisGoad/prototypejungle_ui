@@ -9,13 +9,16 @@ function (constructor) {
   let numRows,numCols;
 	numRows = rs.numRows = 40;
 	numRows = rs.numRows = 32;
+	//numRows = rs.numRows = 8;
 	numCols = rs.numCols = 80;
 	numCols = rs.numCols = 64;
+	//numCols = rs.numCols = 16;
 	rs.width = 180;
 	rs.height = 100;
   rs.pointJiggle =  1;
   rs.lineLength = 0.4;
 	rs.showMissing = 0;
+	rs.showStripes = 1;
   core.root.backgroundColor = 'black';
 
 rs.initialize = function () {
@@ -28,8 +31,10 @@ rs.initialize = function () {
 	if ((this.missingZag.x + this.missingZag.y)%2 === 0) {
 		this.missingZag.x = this.missingZag.x+1;
 	}	
-	missingZag.x = 15;
-	missingZag.y = 18;
+	missingZag.x = 16;
+	missingZag.y = 19;
+	//missingZag.x=1;
+	//missingZag.y=2;
 //	alert('missingZagg'+JSON.stringify(this.missingZag));
 	console.log('missingZagg'+JSON.stringify(this.missingZag));
   this.lineLength = 0.4;

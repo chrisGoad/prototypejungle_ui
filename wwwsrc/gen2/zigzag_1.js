@@ -16,6 +16,7 @@ function (constructor) {
 	rs.height = 100;
   rs.pointJiggle =  1;
   rs.lineLength = 0.4;
+	rs.showStripes = 1;
   core.root.backgroundColor = 'black';
 
 rs.initialize = function () {

@@ -165,6 +165,18 @@ const saveTheImage = function () {
 		alert('no destination given for image');
 	}
 }
+const saveFrame = function (n) {
+	debugger;
+	let wts = core.vars.whereToSave;
+	if (wts) {
+		let dst = wts+'f'+n;
+	  convertToJpeg(dst,function () {
+		  alert('saved the image at '+wts);
+	  });	
+	} else {
+		alert('no destination given for image');
+	}
+}
 
 const fitTheContents = function () {
 	dom.svgMain.fitContents();
@@ -186,7 +198,8 @@ const finishMainInstall = function () {
   if (vars.fitMode) {
     dom.svgMain.fitContents();
   }
-  if (ui.vars.whichPage !== 'text_editor' && !core.root.transform) {
+  //if (ui.vars.whichPage !== 'text_editor' && !core.root.transform) {
+  if ( !core.root.transform) {
      core.root.set('transform',dom.vars.defaultTransform);
   }
   let next2 = function () {
@@ -211,11 +224,11 @@ const finishMainInstall = function () {
    return;
   }
 
-  if ((ui.vars.whichPage === 'code_editor') || (ui.vars.whichPage === 'text_editor')) {
+  if (0) { //(ui.vars.whichPage === 'code_editor') || (ui.vars.whichPage === 'text_editor')) {
     viewSource();
     next2();
     return;
-  } else if (ui.vars.whichPage === 'structure_editor') {
+  } else if (1) { //ui.vars.whichPage === 'structure_editor') {
      // tree.showItemAndChain(core.root,tree.vars.expandMode,true);  //cgstub7/20 true -> noSelect
       //setCustomActionPanelContents();
   }
@@ -251,4 +264,4 @@ const handleError = function (e) {
   }
 }
 
-export {saveTheImage};
+export {saveTheImage,saveFrame};

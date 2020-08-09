@@ -96,15 +96,7 @@ const genMainPage = function (cb) {
   if (!cb) {
     return;
   }
-  if (ui.vars.whichPage === 'code_editor') {
-    if (source) {
-      core.httpGet(source,function () {
-        cb();
-     });
-    } else {
-      cb();
-    }
-  } else if(ui.vars.whichPage === 'structure_editor') {
+  if(1) { // && (ui.vars.whichPage === 'structure_editor')) {
     if (core.vars.historyEnabled) {
       disableButton(undoBut);
     } else {
@@ -129,23 +121,24 @@ const processQuery = function() {
   content = q.content;
   loadUrl = q.load; // emulates dragging this in as first action
   //saveCatalog = q.saveCatalog;
+	debugger;
   if (source==='none') {
     source = undefined;
   } else if (source) {
    // source = fb.handleTwiddle(source);
     sourceFile = core.afterLastChar(source,'/');
   } else {
-    if  (ui.vars.whichPage === 'structure_editor') {
+    if  (1) { //vars.whichPage === 'structure_editor') {
       source = '';
       sourceFile = '';
-    } else if  (ui.vars.whichPage === 'code_editor') {
+    } else if  (0) { //ui.vars.whichPage === 'code_editor') {
       source = '/example/sampleCode.js';
       sourceFile = 'sampleCode.js';
     } else {
       sourceFile = '';
     }
   }
-  ui.vars.source  = source;
+ // ui.vars.source  = source;
   if (q.fit) {
     fitFactor = Number(q.fit);
   }
@@ -191,7 +184,7 @@ const initPage = function () {
       //catKit();
       pageInitialized = true;
       processQuery();
-      dom.vars.fitStdExtent = (ui.vars.whichPage === 'structure_editor') && !(source);
+      dom.vars.fitStdExtent = !source;//(ui.vars.whichPage === 'structure_editor') && !(source);
       //  console.log('call afterPageGenerated');
       genMainPage(afterPageGenerated);
     }

@@ -69,33 +69,23 @@ grid1.initialize = function () {
 	debugger;
 	core.root.backgroundColor = 'red';
 	this.dirValues = this.__parent.dirValues;
+	let diffIndices = this.__parent.diffIndices;
+  let showDiffs = this.__parent.showDiffs;
 	//this.initializeP();
  // this.dirValues = this.computeDirValues();
 	let {path} = this;
 	this.initializeGrid();
-	return;
-
-	
-	
-	
-	this.dirValues = [];
-	if (this.loadFromPath) {
-		debugger;
-	  core.httpGet(path, (error,json) => {
-			let vls = JSON.parse(json);
-			Object.assign(this,vls);
-			this.initializeGrid();
-		});
-	} else {
-		//this.ranRowCol = this.randomCell(this.randomCellExclude);
-    this.dirValues = this.computeDirValues();
-		this.initializeGrid();
-    let jsn = JSON.stringify(
-		{dirValues:this.dirValues});
-	  core.saveJson(path,jsn,function (err,rs) {
-		  debugger;
-		});
-  }
+	if (showDiffs) {
+		let shapes = this.shapes;
+		let sln = shapes.length;
+		for (let i=0;i<sln;i++) {
+			if ((diffIndices.indexOf(i))>-1) {
+				let line = shapes[i];
+				line.stroke = 'black';
+				line.draw();
+			}
+		}
+	}
 }
 
 grid2.initialize = function () {
@@ -137,7 +127,8 @@ const shapeGenerator = function (item,rvs,cell) {
 	let idx = cell.index;
   let {shapes,dirValues,lineLength} = item;
 	let line0 = item.lineP.instantiate();
-	shapes.set(idx,line0);
+	//shapes.set(idx,line0);
+	shapes.push(line0);
 	let pdir = dirValues[idx];
 	let dir,inPattern;
 	if (typeof pdir === 'number') {
@@ -205,7 +196,14 @@ rs.initialize = function () {
 	}
 }
 
-	 
+
+rs.setName = function (name,jsonName) {
+	debugger;
+	this.name = name;
+	core.vars.whereToSave = `images/${name}.jpg`;
+	let theName = jsonName?jsonName:name;
+	this.path = `json/${theName}.json`;
+}	 
 	
 
 

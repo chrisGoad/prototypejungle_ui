@@ -126,8 +126,8 @@ var buttonStyle = index?'indexUbutton':'ubutton';
 //`<body style="background-color:rgb(30,30,30)">
 var shellDomain = 'http://127.0.0.1:3001/';
 //(&beta;)`
-var mainStart = 
-`<script>
+var mainStart = '';
+/*`<script>
 // sign_in and register are special cases - they  don't work inside iframes, so must be visited on the main domain
 
 
@@ -144,7 +144,7 @@ const jumpTo = function (dst) {
 
 
 </script>
-`;
+`;*/
 
 var shellStart = 
 `<script>

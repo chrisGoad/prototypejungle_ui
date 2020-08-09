@@ -91,7 +91,8 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 	let idx = cell.index;
   let {shapes,dirValues,lineLength} = this;
 	let line0 = this.lineP.instantiate();
-	shapes.set(idx,line0);
+	shapes.push(line0);
+	//shapes.set(idx,line0);
 	let pdir = dirValues[idx];
 	let dir,inPattern;
 	if (typeof pdir === 'number') {

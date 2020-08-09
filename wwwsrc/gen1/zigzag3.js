@@ -140,25 +140,6 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 }
 
 
-rs.animateIt = function (numFrames,interval) {
- // let numFrames = 10;
-    //svgMain.draw();
-	let nfr = 0;
-	//let interval = 500;
-  dom.svgDraw();
-  const doStep = () => {
-		if (nfr === numFrames) {
-			return;
-		}
-		nfr++;
-		this.step();
-		dom.svgDraw();
-		setTimeout(doStep,interval);
-  }
-  setTimeout(doStep,interval);
-}
- 
-
 
 return rs;
 }

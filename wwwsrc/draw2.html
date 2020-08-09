@@ -22,19 +22,20 @@ Window.core = core;Window.geom=geom;Window.dom=dom;
 //Window.editor=editor;
 Window.draw=draw;
 //Window.catalog = catalog;
-let ui = {};
-var fcont = {};
-fcont.xxxx = {};
-ui.vars = {};
-ui.hide = () => {};
-Window.ui = ui;
-let graph = {}
-graph.installCirclePeripheryOps = () => {}
-Window.graph = graph;
+	let ui = {};
+	var fcont = {};
+	fcont.xxxx = {};
+	ui.vars = {};
+	ui.hide = () => {};
+	Window.ui = ui;
+	ui.hide = () => {};
+//	graph.installCirclePeripheryOps = () => {}
+	//window.graph = graph;
+	const saveTheFrame =  (n) => {
+debugger;
+ alert(22);// draw.saveFrame(n);
+}
 
-
-let aaaa,ctx,img,natWidth,natHeight,canvas;
-aaaa = 23;
 const drawFrame = function () {
 	ctx.clearRect(0,0,natWidth,natHeight);
 	ctx.drawImage(img,0,0,natWidth,natHeight);//,rectInImage.w,rectInImage.h,0,0,canvasRect.w,canvasRect.h);
@@ -71,12 +72,16 @@ const drawImage = function () {
 		img.src = imageIn;
 	//};
 }
-ui.saveTheFrame =  (n) => {
- alert(22);// draw.saveFrame(n);
-}
+
 	debugger;
 window.addEventListener("DOMContentLoaded", () => { 
   debugger;
+
+
+let aaaa,ctx,img,natWidth,natHeight,canvas;
+aaaa = 23;
+
+debugger;
   core.debugMode(true);
   core.vars.historyEnabled = false;
   core.vars.tlogActive = true; // controls time logging (core.tlog)
@@ -96,6 +101,8 @@ window.addEventListener("DOMContentLoaded", () => {
   core.loadTopDefs(() => {drawImage();draw.initPage()});// binds modules to global
   //core.loadTopDefs(() => {drawImage()});// binds modules to global
 });
+//};
+//theFun();
 </script>
  
  

@@ -43,7 +43,7 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
 	if (!firstT) {
 		tub = pv + stept; // temoral upper bound;
 		tlb = pv - stept;
-		debugger;
+		//debugger;
 	}
 	if (y !==  undefined) { // 2d case	
 	  if (firstT) {
@@ -114,7 +114,7 @@ item.valueAt = function (grid,i,j) {
 	let {numRows,biasFun} = params;
   let rv =  grid.values[this.indexFor(numRows,i,j)];
   if (biasFun) {
-		debugger;
+		//debugger;
     let bfv = biasFun(grid,i,j);
     let {weight,value} = bfv;
     return weight * rv + (1 - weight)*value;
@@ -126,7 +126,7 @@ item.valueAt = function (grid,i,j) {
     
 item.genRandomGrid = function (predecessor) {
 	let {timeStep:itimeStep,values:prevValues,params} = predecessor;
-	debugger;
+	//debugger;
   let {kind,numCols,numRows,step,stepx:istepx,stepy:istepy,stept,min,max,biasFun,constantFirstRow:cFr,
 	     backwards,convergenceFactor,convergenceValue,walkParams,correlated:pcor} = params;
 	let stepx,stepy,correlated;

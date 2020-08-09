@@ -456,7 +456,7 @@ const loadItem = function (src) {
   })
 }
 
-let prescript = 'let {core,geom,dom,graph,ui,editor}=Window,codeRoot=core.codeRoot,root=core.root,svg=dom.svg,Point=geom.Point;\n';
+let prescript = 'let {core,geom,dom,draw}=Window,codeRoot=core.codeRoot,root=core.root,svg=dom.svg,Point=geom.Point;\n';
 
 let prescriptNeeded = false; // needed for Safari, but not other browsers
 const evalWithCatch = function (src,iscript) {

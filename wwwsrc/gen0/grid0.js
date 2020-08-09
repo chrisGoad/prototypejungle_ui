@@ -236,6 +236,19 @@ item.nextLine = function (proto) {
 	return line;
 }
 
+item.nextShape = function (proto) {
+	let {updating,shapes,shapeIndex} = this;
+	let shape;
+	if (updating) {
+	 shape = shapes[shapeIndex];
+	 //debugger;
+	} else {
+	  shape= proto.instantiate();
+	  shapes.push(shape);
+	}
+	return shape;
+}
+
 item.addCellBoundaries = function (frame,fraction) { 
   let hcontainer = this.hcontainer;
   let points = this.rpoints;
@@ -270,7 +283,7 @@ item.addCellBoundaries = function (frame,fraction) {
 				if (rs) {
 				  this.lineIndex++;
 			  } else {
-					debugger;
+				//	debugger;
 				}
       }     
       if (p21) {
@@ -278,7 +291,7 @@ item.addCellBoundaries = function (frame,fraction) {
 				if (rs) {
 				  this.lineIndex++;
 			  } else {
-					debugger;
+					//debugger;
 				}
       }
 		
@@ -335,10 +348,17 @@ item.addAtRandomPoint = function (rect) {
 }
 
 item.addShapes = function () { 
-  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes} = this;
-  let shapes = this.set('shapes',core.ArrayNode.mk());
+  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
+	this.updating = !!ishapes
+	let shapes;
+  if (ishapes) {
+		shapes = ishapes;
+	} else {
+    shapes = this.set('shapes',core.ArrayNode.mk());
+	}
+	this.shapeIndex = 0;
 	let sln = numRows * numCols;
-  shapes.length = sln;
+  //shapes.length = sln;
 	let shapeDs = this.set('shapeDescriptors',core.ArrayNode.mk());
   shapeDs.length = sln;	
   for (let i = 0;i < numCols; i++) {
@@ -360,6 +380,7 @@ item.addShapes = function () {
 			  if (!this.generatorsDoMoves) {
 				  shp.moveto(cnt);
 			  }
+				this.shapeIndex++;
 	 		 // shp.show();
 			}  
 	  }
@@ -634,7 +655,7 @@ item.setupRandomizer = function (tp,nm,params) {
 }
 
 item.stepRandomizer = function (tp,nm) {
-	debugger;
+	//debugger;
 	let wrnds = this[tp];
 	let rg = wrnds[nm];
 	//let prevValues = rnds.values;
@@ -680,7 +701,7 @@ item.setupPointJiggle = function () {
 //item.initializeGrid = function (randomizer) {
 item.initializeGrid = function () {
   let {numRows,numCols,pointJiggle} = this;
-	debugger;
+	//debugger;
  // this.initializeProtos();
   this.setupPointJiggle();
   this.deltaX = this.width/numCols;
@@ -740,6 +761,9 @@ item.updateGrid = function (randomizer) {
  // this.initializeProtos();
   if (this.boundaryLineGenerator) {
     this.addCellBoundaries();
+  }
+	if (this.shapeGenerator || this.shapeP  ) {
+    this.addShapes();
   }
 	this.show();
 	return;
@@ -839,10 +863,39 @@ item.randomCell = function (excl) {
 
 
 item.setName = function (name,jsonName) {
+	//debugger;
 	this.name = name;
 	core.vars.whereToSave = `images/${name}.jpg`;
 	let theName = jsonName?jsonName:name;
 	this.path = `json/${theName}.json`;
+}
+ /*
+item.shapeTimeStep  = function() {
+	let {numRows,numCols,shapes} = this;
+	for (let i = 0;i < numCols; i++) {
+    for (let j = 0;j <  numRows; j++) {
+			let cnt = this.centerPnt(i,j);
+      let idx = i*numRows + j;
+			let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
+			let cell = {x:i,y:j,index:idx};
+			let shp = this.shapeGenerator(rvs,cell,cnt);
+	*/
+item.animateIt = function (numFrames,interval) {
+ // let numFrames = 10;
+    //svgMain.draw();
+	let nfr = 0;
+	//let interval = 500;
+  dom.svgDraw();
+  const doStep = () => {
+		if (nfr === numFrames) {
+			return;
+		}
+		nfr++;
+		this.step();
+		dom.svgDraw();
+		setTimeout(doStep,interval);
+  }
+  setTimeout(doStep,interval);
 }
  
 

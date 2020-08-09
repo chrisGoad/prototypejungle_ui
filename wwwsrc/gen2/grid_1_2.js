@@ -5,7 +5,7 @@ function (constructor) {
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
   let rs = constructor();
 	rs.saveImage = true;
-	rs.setName('grid_1_1');
+	rs.setName('grid_1_2','grid_1_1');
 	rs.initProtos();
 	//rs.path = 'json/grid_1_1.json';
   rs.loadFromPath = 1;
@@ -40,8 +40,8 @@ function (constructor) {
 		
 }
 	rs.patternOp = function (line) {
-		//debugger;
-		//line.stroke = 'blue';
+	//	debugger;
+		line.stroke = 'black';
   };
   return rs;
 });
