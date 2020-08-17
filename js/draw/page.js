@@ -20,7 +20,7 @@ let panelMode = 'chain'; // mode of the right panel view; one of 'chain' (view t
  // the page structure
 let actionDiv,cols,fileBut,undoBut,unwrapBut,insertBut,replaceBut,insertTab;
 let replaceProtoBut,dataBut,gridBut,fileDisplay,noteDiv,svgDiv;//,protoContainer;
-let messageElement,ctopDiv,noteSpan,saveBut,upBut,downBut,topBut,svgMessageDiv;
+let messageElement,ctopDiv,noteSpan,saveBut,runBut,saveAnimationBut,upBut,downBut,topBut,svgMessageDiv;
 let dataMessage,JSONMessage,rebuildFromDataBut,changeDataSourceBut,saveDataBut,testBut,saveDataAsBut,checkJSONBut,runningSpan,dataButtons,dataDiv,dataContainer,advancedButs;
 let includeActionPanel = false;
 
@@ -42,8 +42,13 @@ let mpg;
 const buildPage = function () {
 	//debugger;
 saveBut = document.getElementById('saveButton');
+runBut = document.getElementById('runButton');
+saveAnimationBut = document.getElementById('saveAnimationButton');
 //saveBut.addEventListener("click", () => {alert(23);});
 saveBut.addEventListener("click", saveTheImage);
+runBut.addEventListener("click", runAnimation);
+saveAnimationBut.addEventListener("click", saveAnimation);
+
 mpg =  html.wrap("main",'div',{style:{position:"absolute","margin":"0px",padding:"0px",display:"none"}}).
 __addChildren([
   topbarDiv = html.wrap('topbar','div',{style:{position:"absolute",height:"10px",left:"0px","background-color":bkColor,margin:"0px",padding:"0px"}}).

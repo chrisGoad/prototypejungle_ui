@@ -67,9 +67,9 @@ const performInit = function () {
 	const last = () => {
 		dom.fullUpdate();
 		fitTheContents();
-    if (rmain && rmain.animate) {
-       rmain.animate();
-		}
+    //if (rmain && rmain.animate) {
+    //   rmain.animate();
+		//}
   }
   if (!core.throwOnError) {
 		last();
@@ -82,6 +82,17 @@ const performInit = function () {
   }  
 }
 
+const runAnimation = function (save) {
+	debugger;
+	let main = core.root.main;
+	main.saveVideo = save === 'yes';
+	if (main.animate) {
+		main.animate();
+	}
+}
+
+const saveAnimation = () => runAnimation('yes');
+		
 const svgInstall = function () {
 	//debugger;
   let fromItemFile = mainUrl && core.endsIn(mainUrl,'.item');
@@ -156,22 +167,37 @@ core.setDisplayError(displayError);
 
 const saveTheImage = function () {
 	debugger;
-	let wts = core.vars.whereToSave;
+	let wts = core.vars.whereToSave;// + '.jpg';
 	if (wts) {
-	  convertToJpeg(wts,function () {
-		  alert('saved the image at '+wts);
+		let dst = `images/${wts}.jpg`;
+	  convertToJpeg(dst,function () {
+		  alert('saved the image at '+dst);
 	  });	
 	} else {
 		alert('no destination given for image');
 	}
 }
+
+const padWithZeros = function (padTo,n) {
+	let s = ''+n;
+	let ln = s.length;
+	if (ln < padTo) {
+		let nm = padTo-ln;
+		for (let i=0;i<nm;i++) {
+			s = '0'+s;
+		}
+	}
+	return s;
+}
+
 const saveFrame = function (n) {
 	debugger;
+	let pdn = padWithZeros(3,n);
 	let wts = core.vars.whereToSave;
 	if (wts) {
-		let dst = wts+'f'+n;
+	  let dst = `animations/${wts}_f${pdn}.jpg`;
 	  convertToJpeg(dst,function () {
-		  alert('saved the image at '+wts);
+		  console.log('saved the frame at '+dst);
 	  });	
 	} else {
 		alert('no destination given for image');

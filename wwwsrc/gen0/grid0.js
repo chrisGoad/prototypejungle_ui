@@ -243,8 +243,14 @@ item.nextShape = function (proto) {
 	 shape = shapes[shapeIndex];
 	 //debugger;
 	} else {
-	  shape= proto.instantiate();
+		if (proto) {
+			shape= proto.instantiate();
+		} else {
+			shape = svg.Element.mk('<g/>');
+		}
+		shape.show();
 	  shapes.push(shape);
+		shape.draw();
 	}
 	return shape;
 }
@@ -281,6 +287,10 @@ item.addCellBoundaries = function (frame,fraction) {
       if (p12) {
 				rs = this.boundaryLineGenerator(p11,p12,rvs,cell,'vertical');
 				if (rs) {
+					lines.push(rs);
+					if (this.boundaryLineUpdater) {
+					  this.boundaryLineUpdater(rs,p11,p12,rvs,cell,'vertical');
+					}
 				  this.lineIndex++;
 			  } else {
 				//	debugger;
@@ -288,7 +298,11 @@ item.addCellBoundaries = function (frame,fraction) {
       }     
       if (p21) {
  				rs = this.boundaryLineGenerator(p11,p21,rvs,cell,'horizontal');
-				if (rs) {
+		   if (rs) {
+				 lines.push(rs);
+				 if (this.boundaryLineUpdater) {
+            this.boundaryLineUpdater(rs,p11,p21,rvs,cell,'horizontal');
+				 }
 				  this.lineIndex++;
 			  } else {
 					//debugger;
@@ -298,6 +312,45 @@ item.addCellBoundaries = function (frame,fraction) {
     }
   }
 }
+
+
+
+item.updateCellBoundaries = function (frame,fraction) { 
+  let points = this.rpoints;
+ // let lines = this.lines = [];
+  let {numRows,numCols,deltaX,deltaY,lines,boundaryLineGenerator,randomGridsForBoundaries} = this;
+  let xdim = numCols * deltaX;
+  let ydim = numRows * deltaY;
+  let ly = -0.5 * ydim;
+  //this.lineIndex = 0
+  let idx = 0;
+  for (let i = 0;i <= numCols; i++) {
+    if (this.fadeIn) {
+      this.boundaryLineFraction = i/numCols;
+    }
+    for (let j = 0;j <=  numRows; j++) {
+			let boundaryLine; 
+		 	let rvs = this.randomValuesAtCell(randomGridsForBoundaries,i,j);
+      let points = this.pointJiggle?this.rpoints:this.points;
+      let cell = {x:i,y:j};
+      let p11 = this.pointAt(points,i,j);
+      let p12 =  this.pointAt(points,i,j+1);
+      let p21 =  this.pointAt(points,i+1,j);
+      let p22 =  this.pointAt(points,i+1,j+1);
+      let rs;
+      if (p12) {
+				boundaryLine = lines[idx++];
+				this.boundaryLineUpdater(boundaryLine,p11,p12,rvs,cell,'vertical');
+      }     
+      if (p21) {
+				boundaryLine = lines[idx++];
+ 				this.boundaryLineUpdater(boundaryLine,p11,p21,rvs,cell,'horizontal');
+      }
+		
+    }
+  }
+}
+
 
 item.pcoordToIndex  = function (p) {
   return (this.numRows+1)*p.x + p.y;
@@ -370,6 +423,9 @@ item.addShapes = function () {
 			let  shp;
 			if (this.shapeGenerator) {
 				shp = this.shapeGenerator(rvs,cell,cnt);
+				if (this.shapeUpdater) {
+				  this.shapeUpdater(shp, rvs,cell,cnt);
+				}
 			} else {
 				shp = this.shapeP.instantiate();
 				shapes.push(shp);
@@ -381,6 +437,39 @@ item.addShapes = function () {
 				  shp.moveto(cnt);
 			  }
 				this.shapeIndex++;
+	 		 // shp.show();
+			}  
+	  }
+  }
+}
+
+
+
+item.updateShapes = function () { 
+  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes} = this;
+	//this.updating = !!ishapes
+
+	//this.shapeIndex = 0;
+	let sln = numRows * numCols;
+  //shapes.length = sln;
+	//let shapeDs = this.set('shapeDescriptors',core.ArrayNode.mk());
+  //shapeDs.length = sln;	
+  for (let i = 0;i < numCols; i++) {
+    for (let j = 0;j <  numRows; j++) {
+      let cnt = this.centerPnt(i,j);
+      let idx = i*numRows + j;
+			let shape = shapes[idx];
+			let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
+			let cell = {x:i,y:j,index:idx};
+			let  shp;
+			if (this.shapeUpdater) {
+				this.shapeUpdater(shape, rvs,cell,cnt);
+			}
+			if (shp) {
+			  if (!this.updatersDoMoves) {
+				  shp.moveto(cnt);
+			  }
+				//this.shapeIndex++;
 	 		 // shp.show();
 			}  
 	  }
@@ -633,6 +722,9 @@ item.genAwindows = function (szx,szy) {
                  
 
 item.setupRandomizer = function (tp,nm,params) {
+	if (nm === 'pattern') {
+		debugger;
+	}
 	let kind = params.kind =  (tp === 'randomGridsForBoundaries')?'boundaries':'cells';
 	if (!params.numRows) {
 		params.numRows = kind==='boundaries'?this.numRows+1:this.numRows;
@@ -755,7 +847,7 @@ item.initializeGrid = function () {
     core.tlog('show');
 
 }
-
+/*
 item.updateGrid = function (randomizer) {
   let {numRows,numCols,pointJiggle} = this;
  // this.initializeProtos();
@@ -782,7 +874,18 @@ item.updateGrid = function (randomizer) {
     core.tlog('show');
 
 }
-      
+   */  
+item.updateGrid = function () {
+  let {numRows,numCols,pointJiggle} = this;
+ // this.initializeProtos();
+  if (this.boundaryLineUpdater) {
+    this.updateCellBoundaries();
+  }
+	if (this.shapeUpdater) {
+    this.updateShapes();
+  }
+	this.show();
+}	 
 item.setLineEnds = function (line,ilength,dir) {
   if (!line) {
     debugger;//keep
@@ -865,7 +968,7 @@ item.randomCell = function (excl) {
 item.setName = function (name,jsonName) {
 	//debugger;
 	this.name = name;
-	core.vars.whereToSave = `images/${name}.jpg`;
+	core.vars.whereToSave = name;
 	let theName = jsonName?jsonName:name;
 	this.path = `json/${theName}.json`;
 }
@@ -887,16 +990,51 @@ item.animateIt = function (numFrames,interval) {
 	//let interval = 500;
   dom.svgDraw();
   const doStep = () => {
+		nfr++;
 		if (nfr === numFrames) {
 			return;
 		}
-		nfr++;
+		this.timeStep = nfr;
 		this.step();
 		dom.svgDraw();
+		if (this.saveVideo) {
+			draw.saveFrame(nfr);
+		}
 		setTimeout(doStep,interval);
   }
+  if (this.saveVideo) {
+		draw.saveFrame(0);
+	}
   setTimeout(doStep,interval);
 }
+
+// faint box - otherwise ffmpeg gets confused
+
+item.addBox = function () {
+	let {width,height,lineP} = this;
+	let hw = 0.5*width;
+	let hh = 0.5*height;
+	let ul = Point.mk(-hw,-hh);
+	let ur = Point.mk(hw,-hh);
+	let lr = Point.mk(hw,hh);
+	let ll = Point.mk(-hw,hh);
+	let line0 = this.lineP.instantiate();
+	let line1 = this.lineP.instantiate();
+	let line2 = this.lineP.instantiate();
+	let line3 = this.lineP.instantiate();
+	let lines = [line0,line1,line2,line3];
+	let points = [ul,ur,lr,ll,ul];
+  for (let i=0;i<4;i++) {
+		let line = lines[i];
+		line.stroke = 'rgb(255,255,255,.1)';
+		this.set('line'+i,line);
+		line.setEnds(points[i],points[i+1]);
+		line.show();
+		line.update();
+	}
+	return;
+}
+  
  
 
 }

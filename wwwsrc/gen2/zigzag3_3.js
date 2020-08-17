@@ -8,8 +8,10 @@ function (constructor) {
   let numRows,numCols;
 	numRows = rs.numRows = 64;
 	numRows = rs.numRows = 32;
+	//numRows = rs.numRows = 4;
 	numCols = rs.numCols = 128;
 	numCols = rs.numCols = 64;
+	//numCols = rs.numCols = 8;
 	rs.width = 180;
 	rs.height = 100;
   rs.pointJiggle =  1;
@@ -21,7 +23,7 @@ function (constructor) {
 	let middle = 0.4;
   let ct = 0;
 	const walkParams = function (i,j,t) {
-		debugger;
+	//	debugger;
 		let fr = t/numTimeSteps;
 		let hmid = 0.5*middle;
 		let min,max;

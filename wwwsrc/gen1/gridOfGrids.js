@@ -124,7 +124,7 @@ rs.addElement = function (shape,cell,iidx,rvs,ipos) {
 		pos = ipos;
 		if (!sideCell) {
 		  let {x:ox,y:oy} = outerCell;
-	    innerColor  = this.randomValueAtCell(randomGridsForShapes,'innerColor',ox * innerCols + x,oy * innerRows +y);
+	    //innerColor  = this.randomValueAtCell(randomGridsForShapes,'innerColor',ox * innerCols + x,oy * innerRows +y);
 			if (rvs) {
 				exchangeColor = rvs.exchangeColor;
 			}
@@ -166,7 +166,8 @@ rs.addElement = function (shape,cell,iidx,rvs,ipos) {
 		let width = deltaX/innerCols;
 		let height = deltaY/innerRows;
 		proto = this.rectElementP;
-		params = {width:width,height:height,stroke:stroke,fill:fill};
+		//params = {width:width,height:height,stroke:stroke,fill:fill};
+		params = {width:width,height:height};
 	} else {
 		proto = this.circleP;
 		params = {dimension:dim,stroke:stroke,fill:fill};
@@ -175,6 +176,87 @@ rs.addElement = function (shape,cell,iidx,rvs,ipos) {
 }
 
 
+rs.paintAnElement =  function (shape,n,proto,params,pos) {
+	let elements = shape.elements;
+  let element = elements[n];
+	Object.assign(element,params);
+	element.draw();
+	//element.moveto(pos);
+	//element.show();
+	return element;
+}
+
+rs.paintElement = function (shape,cell,iidx,rvs,ipos) {
+let {outerCell,outerRvs,kind} = shape;
+	let {kindaValues,kindbValues,innerRows,innerCols,aValues,bValues,aPointValues,bPointValues,
+	     deltaX,deltaY,aFill,bFill,aStroke,bStroke,rectElement,randomGridsForShapes} = this;
+	let idx,pos,apnt,bpnt,innerColor,exchangeColor;
+	let spatter = typeof iidx === 'number'
+	let sideCell = typeof outerCell === 'string';
+	//debugger;	  
+	let {x,y} = cell;
+	idx = x*innerRows+y;
+
+	/*if (spatter) { //spatter
+		idx = iidx;
+		apnt = aPointValues[idx];
+		bpnt = bPointValues[idx];
+	} else  {
+	  let {x,y} = cell;
+	  idx = x*innerRows+y;
+		pos = ipos;
+		if (!sideCell) {
+		  let {x:ox,y:oy} = outerCell;
+			if (rvs) {
+				exchangeColor = rvs.exchangeColor;
+			}
+		}
+	}*/
+	let av = aValues[idx];
+	let bv = bValues[idx];
+	let fill,dim;
+	if ( this.allRandom) {
+		dim = this.computeDim();//4*Math.random();
+		fill = aFill;
+	  stroke = aStroke;
+	} else {
+		if (kind === 'a') {
+	    dim = av;
+			//fill = aFill;
+			//stroke = aStroke;
+			if (spatter) {
+				pos = Point.mk(apnt[0],apnt[1]);
+			}
+	  } else {
+      dim = bv;
+			//fill = bFill;
+			//stroke = bStroke;
+			if (spatter) {
+				pos = Point.mk(bpnt[0],bpnt[1]);
+			}
+	  }
+	}
+	let proto,params;
+	//dim = av;
+	if (rectElement) {
+    if  (dim < 0.5) {
+			fill = aFill;
+		  stroke = aStroke;
+		} else {
+			fill = bFill;
+			stroke = bStroke;
+		}
+		let width = deltaX/innerCols;
+		let height = deltaY/innerRows;
+		proto = this.rectElementP;
+		//params = {width:width,height:height,stroke:stroke,fill:fill};
+		params = {stroke:stroke,fill:fill};
+	} else {
+		proto = this.circleP;
+		params = {dimension:dim,stroke:stroke,fill:fill};
+	}
+	this.paintAnElement(shape,idx,proto,params,pos);
+}
 
 rs.addElements = function (shape,rvs,cell) {
 	let {innerWidth,innerHeight,innerRows,innerCols,numRows,numCols,aRectFill,bRectFill,
@@ -200,6 +282,7 @@ rs.addElements = function (shape,rvs,cell) {
 			for (let j = 0;j<innerRows;j++) {
 				let icell = {x:i,y:j};
 				this.addElement(shape,icell,undefined,rvs,Point.mk(startx+i*deltaX,starty+j*deltaY));
+				//this.paintElement(shape,icell,undefined,rvs,Point.mk(startx+i*deltaX,starty+j*deltaY));
 			}
 		}
 	}
@@ -208,23 +291,38 @@ rs.addElements = function (shape,rvs,cell) {
 		//shape.rect.fill = (shape.kind === 'a')?'white':bRectFill;
 	}
 }
+
+rs.paintElements = function (shape,rvs,cell) {
+	let {innerWidth,innerHeight,innerRows,innerCols,numRows,numCols,aRectFill,bRectFill,
+	     spatterNumPoints} = this;
+	for (let i = 0;i<innerCols;i++) {
+		for (let j = 0;j<innerRows;j++) {
+			let icell = {x:i,y:j};
+			//this.addElement(shape,icell,undefined,rvs,Point.mk(startx+i*deltaX,starty+j*deltaY));
+			this.paintElement(shape,icell,undefined,rvs);
+		}
+	}
+}
 	
 
 	
 rs.shapeGenerator =  function (rvs,cell,cnt) {
-	let {innerWidth,innerHeight,showRects} = this;
+	let {innerWidth,innerHeight,showRects,rectElementP} = this;
 	let notInGrid = typeof cell === 'string';
-	
+	debugger;
 	let shapes = this.shapes;
+	//let shape = this.nextShape();//svg.Element.mk('<g/>');
 	let shape = svg.Element.mk('<g/>');
+	shapes.push(shape);
+	//let shape = svg.Element.mk('<g/>');
 	shape.outerCell = cell;
 	shape.outerRvs = rvs;
 	if (notInGrid) {
-		this.set(cell,shape);
+		//this.set(cell,shape);
 		shape.moveto(cnt);
 	} else {
-	  let idx = cell.index;
-	  shapes.set(idx,shape);
+	  //let idx = cell.index;
+	  //shapes.set(idx,shape);
 	}
 	if (showRects) {
 	 	let rect = this.rectP.instantiate();
@@ -235,7 +333,12 @@ rs.shapeGenerator =  function (rvs,cell,cnt) {
 	}
 	let elements = shape.set('elements',	core.ArrayNode.mk());	
 	this.addElements(shape,rvs,cell);
+	this.paintElements(shape,rvs,cell);
 	return shape;
+}
+
+rs.shapeUpdater =  function (shape,rvs,cell,cnt) {
+	this.paintElements(shape,rvs,cell);
 }
 
 
@@ -308,6 +411,7 @@ rs.addAtSides = function () {
 	}
 }
 rs.innerInitialize = function () {
+	debugger;
 	core.root.backgroundColor = 'red';
 	let {numRows,numCols,innerColorParams,exchangeColorParams,innerRows,innerCols,path,width,height,randomAB,recomputeRvalues,recomputeRcell,spatterNumPoints} = this;
 	this.initProtos();
@@ -340,8 +444,8 @@ rs.innerInitialize = function () {
 			this.aPointValues = this.computePointValues();
 			this.bPointValues = this.computePointValues();
 		}
-		this.addAtSides();
 		this.initializeGrid();
+		this.addAtSides();
     let jsn = JSON.stringify(
 		{aValues:this.aValues,bValues:this.bValues,rValues:this.rValues,rCell:this.rCell,
 		 aPointValues:this.aPointValues,bPointValues:this.bPointValues});

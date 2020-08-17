@@ -15,7 +15,8 @@ function (constructor) {
 	rs.width = 300;
 	rs.height = 300;
 	rs.pointJiggle = 0;
-	rs.ranRowCol = rs.randomCell(2);
+	rs.saveJson = 0;
+	//rs.ranRowCol = rs.randomCell(2);
 
 	/*rs.randomRow = 10;
 	rs.randomColumn = 15;
@@ -24,7 +25,10 @@ function (constructor) {
 	rs.randomColumn = 7;// return dir or [dir] ; the latter meaning pattern membership
 	rs.randomColumn = 14;// return dir or [dir] ; the latter meaning pattern membership
 	*/
+	rs.ranRowCol = {x:15,y:10};
+	// return dir or [dir] ; the latter meaning pattern membership
   rs.computeDir = function (x,y) {
+		debugger;
 	  let {numRows,ranRowCol} = this;
 		let dir;
 		let {x:randomColumn,y:randomRow} = ranRowCol;

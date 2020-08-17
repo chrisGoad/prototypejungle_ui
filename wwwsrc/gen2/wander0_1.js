@@ -3,7 +3,7 @@ core.require('/shape/circle.js','/gen0/grid0.js',
 function (circlePP,addGridMethods) {
   
 	
-let numTimeSteps = 5;
+let numTimeSteps = 30;
 let rs = svg.Element.mk('<g/>');
 rs.motionStep = 1;
 addGridMethods(rs);
@@ -31,7 +31,36 @@ rs.shapeGenerator =  function (rvs,cell,pnt) {
 		debugger;
 	}
 //item.setLenDir = function (shape,len,dir) {
-	let shape = this.nextShape(circleP);//rectP.instantiate();
+	//let shape = this.nextShape(circleP);//rectP.instantiate();
+	let shape = circleP.instantiate();;//rectP.instantiate();
+	shapes.push(shape);
+	/*let dim = rvs.dimension;
+  shape.dimension = dim;
+	let tr = shape.getTranslation();
+	let dir = rvs.dir;
+	let ms = this.motionStep;
+	let vec = Point.mk(ms*Math.cos(dir),ms*Math.sin(dir));
+	let np = tr.plus(vec);
+//	shape.moveto(np);
+	let {r,g,b} = rvs;
+  let rgb = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
+  shape.stroke = rgb;
+  shape.fill = 'transparent';
+  shape.fill = rgb;
+  //shape.fill = 'black';
+	*/
+	shape.show();
+ // shape.update();
+  return shape;
+}
+
+rs.shapeUpdater =  function (shape,rvs,cell,pnt) {
+	let {shapes,circleP} = this;
+	if (this.timeStep > 0) {
+		debugger;
+	}
+//item.setLenDir = function (shape,len,dir) {
+	//let shape = this.nextShape(circleP);//rectP.instantiate();
 	let dim = rvs.dimension;
   shape.dimension = dim;
 	let tr = shape.getTranslation();
@@ -46,10 +75,11 @@ rs.shapeGenerator =  function (rvs,cell,pnt) {
   shape.fill = 'transparent';
   shape.fill = rgb;
   //shape.fill = 'black';
-	shape.show();
   shape.update();
+	shape.draw();
   return shape;
 }
+
 
 rs.initialize = function () {
   debugger;

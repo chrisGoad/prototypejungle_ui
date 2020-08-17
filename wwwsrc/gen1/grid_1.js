@@ -79,11 +79,14 @@ rs.initialize = function () {
 		//this.ranRowCol = this.randomCell(this.randomCellExclude);
     this.dirValues = this.computeDirValues();
 		this.initializeGrid();
-    let jsn = JSON.stringify(
-		{dirValues:this.dirValues});
-	  ui.saveJson(path,jsn,function (err,rs) {
-		  debugger;
-		});
+		if (this.saveJson) {
+      let jsn = JSON.stringify({dirValues:this.dirValues});
+			if (this.saveJson) {
+	      core.saveJson(path,jsn,function (err,rs) {
+		      debugger;
+		    });
+			}
+		}
   }
 }
 

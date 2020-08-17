@@ -1,0 +1,4 @@
+ffmpeg-20200809-6e951d0-win64-static.zip
+
+c:\ffmpeg\bin\ffmpeg -f image2 -framerate 12 -i foo-%03d.jpeg -s WxH foo.avi
+c:\ffmpeg\bin\ffmpeg  -framerate 10 -i wander0_1_f%03d.jpg -s 800x400 foo2.mp4

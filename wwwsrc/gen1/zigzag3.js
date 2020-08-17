@@ -52,6 +52,9 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 */
 
 rs.shortenLine = function (end0,end1,factor) {
+	if (!end1) {
+		debugger;
+	}
   let vec = end1.difference(end0).times(0.5 * factor);
   let middle = end0.plus(end1).times(0.5);
   let nend0 = middle.plus(vec);
@@ -61,7 +64,10 @@ rs.shortenLine = function (end0,end1,factor) {
 
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	let {numRows,numCols,blineP,showMissing,showStripes,lines,updating,lineIndex} = this;
-	let line = this.nextLine(blineP);
+	let line = blineP.instantiate();
+	line.show();
+	return line;
+
 	let drawAll = 0;
 	/*if (updating) {
 		debugger;
@@ -139,8 +145,87 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	return line;
 }
 
+rs.boundaryLineUpdater = function (line,end0,end1,rvs,cell,orientation) {
+	//debugger;
+let {numRows,numCols,blineP,showMissing,showStripes,lines,updating,lineIndex} = this;
+//debugger;
+	let drawAll = 0;
+	/*if (updating) {
+		debugger;
+	 line = lines[lineIndex];
+	} else {
+	  line = this.blineP.instantiate();
+	  lines.push(line);
+	}
+	*/
 
-
+ let vertical = orientation === 'vertical';
+ let {x,y} = cell; 
+ if ((x===1) && (y===1)) {
+	 debugger;
+ }
+ let hy = this.numRows/2;
+ let hx = this.numCols/2;
+ let p = rvs.pattern;
+ let fp = Math.floor(p);
+ console.log('p ',fp);
+ if (fp > 0) {
+	 debugger;
+ }
+ let zigDown = p < 1;
+ let zigUp = (1 <= p) && (p  < 2);
+ let noZig = (2 <= p) && (p <= 3);
+ let missing;
+	if (showStripes) {
+	} else {
+		
+		if (((x+y)%2 === 0) && vertical && !drawAll) { // on diagonal
+		  line.hide();
+			line.updateAndDraw();
+		  return line;
+		}
+		if ((!vertical) &  (!noZig)) {
+			
+		  let omitDownZag = ((x+y)%2 === 1)
+		  let omitUpZag = !omitDownZag;
+	//	let omitUpZag = (((x+y)%2 === 0) && !vertical);
+			if (zigDown) {
+				if (omitDownZag && !drawAll) {
+					line.hide();
+					line.updateAndDraw();
+					return line;
+				}
+			} else {
+				if (omitUpZag && !drawAll) {
+					line.hide();
+				  line.updateAndDraw();
+					return line;
+				}
+			}
+    }
+	}
+	let r = rvs.red;
+	if (missing && !showMissing && !drawAll) {
+		line.hide();
+		line.updateAndDraw();
+		return line;
+	}
+	//lines.push(line);
+  let  ends = this.shortenLine(end0,end1,0.8);
+  line.setEnds(ends[0],ends[1]);
+	//r = 255;
+	if (zigDown) {
+	  line.stroke = `rgb(100,${Math.floor(r)},${Math.floor(r)})`;
+	} else {
+	  line.stroke = `rgb(${Math.floor(r)},${Math.floor(r)},100)`;
+	}
+//	line.stroke = 'white';
+  if (missing) {
+		line.stroke = 'cyan';
+	}
+	line.show();
+	line.updateAndDraw();
+}
 return rs;
 }
 });

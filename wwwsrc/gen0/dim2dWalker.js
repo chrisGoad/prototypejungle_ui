@@ -74,8 +74,10 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
 	}
 	if (min > ub) {  //just march towards this target
 		rs = ub;
+		//rs = min;
 	} else if (max < lb) {
 		rs = lb;
+		//rs = max;
 	} else {
 		ub = Math.min(ub,max);
 		lb = Math.max(lb,min);
@@ -127,19 +129,29 @@ item.valueAt = function (grid,i,j) {
 item.genRandomGrid = function (predecessor) {
 	let {timeStep:itimeStep,values:prevValues,params} = predecessor;
 	//debugger;
-  let {kind,numCols,numRows,step,stepx:istepx,stepy:istepy,stept,min,max,biasFun,constantFirstRow:cFr,
+  let {kind,biasUp,numCols,numRows,step,stepx:istepx,stepy:istepy,stept,min,max,biasFun,constantFirstRow:cFr,
 	     backwards,convergenceFactor,convergenceValue,walkParams,correlated:pcor} = params;
 	let stepx,stepy,correlated;
 	let timeStep = prevValues?itimeStep+1:0;
+	biasUp = (biasUp === undefined)?0:biasUp;
 	if (walkParams) {
 		let wparams = walkParams(0,0,timeStep);
+		
 	  let pcor = wparams.correlation;
 		correlated = pcor || (pcor === undefined);		
 		min = wparams.min;
 		max = wparams.max;
-		/*step = wparams.step;
+		step = wparams.step;
 		stepx = wparams.stepx;
-		stepy = wparams.stepy; */
+		stepy = wparams.stepy;
+		stept = wparams.stept;
+		biasUp = wparams.biasUp;
+		if (biasUp === undefined) {
+			biasUp = 0;
+		}
+		if (typeof step === 'number') {
+			stepx = stepy = step;
+		} 
 	} else {
 		correlated = pcor || (pcor === undefined);
 		if (typeof step === 'number') {
@@ -149,64 +161,65 @@ item.genRandomGrid = function (predecessor) {
 			stepy  = istepy;
 		}
 	}
-	//this.backwards = backwards;
-	//this.walkParams = walkParams;
   let values = [];
-  //let rs = {numCols,numRows,values,biasFun};
   let rs = {timeStep,values,params};
   let n = numCols * numRows;
   values.length = n;
   let i = 0;
   let j = 0;
-	let c;
-	if (cFr) {
-		c = cFr;
-	} else {
-    c = 0.5*(min+max);
-	}
 	let pv;
-  while (j < numRows) {
-    let idx = this.indexFor(numRows,i,j);
-		if (prevValues) {
-			pv = prevValues[idx];
-		} else {
-			pv = undefined;
-		}
-    values[idx] = c;
-		if (!cFr) {
-      c = this.scalarRandomStep(correlated,c,pv,stepx,stept,min,max,i,j,rs);
-		}
-		j++;
-  }
-  i = 1;
+	//debugger;
   while (i < numCols) {
     let goingUp = i%2 === 0; //means  j is going up
-    j = goingUp?0:numRows-1;
-    let firstJ = true;
-	
-    while ((j>=0) && (j < numRows)) {
-				let idx = this.indexFor(numRows,i,j);
-				if (prevValues) {
-				 pv = prevValues[idx];
+		j = goingUp?0:numRows-1;
+		let firstJ = true;
+    while (goingUp?j < numRows: j>=0) {
+		
+			let idx = this.indexFor(numRows,i,j);
+			let pv = prevValues?prevValues[idx]:undefined;
+			if ((i === 0) && cFr) {
+				values[idx] === cFr;
+				j++;
+				continue;
+			}					
+			if ((i === 0) && (j === 0)) {
+				let lb,ub,tlb,tub;
+				if (pv) {
+					//let biasUp = 0;//.4;
+					tlb = pv - stept;
+					tub = pv + stept;
+					lb = Math.max(min,pv - stept);
+					ub = Math.min(max,pv + stept);
 				} else {
-				 pv = undefined;
+					lb = min;
+					ub = max;
+				//	values[idx] = 0.5*(min+max);
 				}
-				if (firstJ){
-					let lftidx = this.indexFor(numRows,i-1,goingUp?0:numRows-1);
-					c = this.scalarRandomStep(correlated,values[lftidx],pv,stepx,stept,min,max,i,j,rs);       
-				} else {
-					let lftidx = this.indexFor(numRows,i-1,j)
-					let upidx = this.indexFor(numRows,i,goingUp?j-1:j+1)
-					c = this.dim2randomStep(correlated,values[lftidx],values[upidx],pv,stepx,stepy,stept,min,max,i,j,rs);
-				}
-				values[idx] = c;
-				j = goingUp?j+1:j-1;
-				firstJ = false;
-    }
+				let vl =  lb + biasUp +Math.random() * (ub - lb);
+				console.log('min ',min,' max ',max,' tlb ',tlb,' tub ', tub,' lb ',lb,' ub ', ub,' vl ',vl);
+				values[idx] = vl;
+				//debugger;
+				j++;
+			//	return;
+				continue;
+			}
+			let c;
+			if (i === 0) {
+				c = this.scalarRandomStep(correlated,values[j-1],pv,stepx,stept,min,max,i,j,rs);
+			} else if (firstJ){
+				let lftidx = this.indexFor(numRows,i-1,goingUp?0:numRows-1);
+				c = this.scalarRandomStep(correlated,values[lftidx],pv,stepx,stept,min,max,i,j,rs);       
+			} else {
+				let lftidx = this.indexFor(numRows,i-1,j)
+				let upidx = this.indexFor(numRows,i,goingUp?j-1:j+1)
+				c = this.dim2randomStep(correlated,values[lftidx],values[upidx],pv,stepx,stepy,stept,min,max,i,j,rs);
+			}
+			values[idx] = c;
+			j = goingUp?j+1:j-1;
+			firstJ = false;
+			}
     i++;
   }
-	//rs.timeStep = timeStep+1;
-	//rs.params = params;
   return rs;
 }
 
