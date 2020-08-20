@@ -92,6 +92,36 @@ const runAnimation = function (save) {
 }
 
 const saveAnimation = () => runAnimation('yes');
+
+const pauseAnimation = function () {
+	let main = core.root.main;
+	if (main.pauseAnimation) {
+		main.pauseAnimation();
+	}
+}
+
+
+const stepAnimation = function () {
+	let main = core.root.main;
+	if (main.oneStep) {
+		main.oneStep(true);
+	}
+}
+
+const stepNoSaveAnimation = function () {
+	let main = core.root.main;
+	if (main.oneStep) {
+		main.oneStep(false);
+	}
+}
+
+
+const repeatFrame = function () {
+	let main = core.root.main;
+	if (main.repeatFrame) {
+		main.repeatFrame();
+	}
+}
 		
 const svgInstall = function () {
 	//debugger;

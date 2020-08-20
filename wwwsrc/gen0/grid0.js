@@ -986,34 +986,100 @@ item.shapeTimeStep  = function() {
 item.animateIt = function (numFrames,interval) {
  // let numFrames = 10;
     //svgMain.draw();
-	let nfr = 0;
+	let animationUnderway = this.animationUnderway?this.animationUnderway:0;
+	this.animationUnderway = 1;
+	let nfr,frameCount,frameNumber;
+	if (!animationUnderway) {
+		nfr = 0;
+		this.timeStep = 0;
+		frameNumber = this.frameNumber = 0;
+		
+	} else {
+		frameNumber = this.frameNumber;
+		nfr = this.timeStep;
+	}
+	this.paused = false;
 	//let interval = 500;
   dom.svgDraw();
   const doStep = () => {
-		nfr++;
+		if (this.paused) {
+			return;
+		}
+		console.log('timeStep ',nfr,' frameNumber ',frameNumber); 
 		if (nfr === numFrames) {
+			console.log('Done');
 			return;
 		}
 		this.timeStep = nfr;
+		frameNumber++;
+		this.frameNumber = frameNumber;
 		this.step();
 		dom.svgDraw();
 		if (this.saveVideo) {
-			draw.saveFrame(nfr);
+			draw.saveFrame(this.frameNumber);
 		}
+		nfr++;
+
 		setTimeout(doStep,interval);
   }
   if (this.saveVideo) {
-		draw.saveFrame(0);
+		draw.saveFrame(frameNumber);
 	}
   setTimeout(doStep,interval);
 }
 
+item.oneStep = function (save) {
+ // let numFrames = 10;
+    //svgMain.draw();
+    let nfr = this.timeStep;
+		nfr++;
+		if (nfr >= this.frameCount) {
+			console.log('Done at frame ',nfr);
+			return;
+		}
+		console.log('timeStep ',nfr,' frameNumber ',this.frameNumber); 
+		this.timeStep = nfr;
+
+		this.step();
+		dom.svgDraw();
+		if (save && this.saveVideo) {
+			this.frameNumber++;
+		  draw.saveFrame(this.frameNumber);
+	  }
+}
+
+item.repeatFrame = function (n) {
+ // let numFrames = 10;
+    //svgMain.draw();
+		frameNumber = this.frameNumber;
+		if (!this.saveVideo) {
+			alert('not saving video');
+			return;
+		}
+		let  {numFramesToRepeat} = this;
+		if (!numFramesToRepeat) {
+			numFramesToRepeat = 1;
+		}
+	  dom.svgDraw();
+    alert('repeating this frame '+numFramesToRepeat+' times ');
+		for (let i=0;i<numFramesToRepeat;i++) {
+		  draw.saveFrame(frameNumber++);
+	  }
+		this.frameNumber = frameNumber;
+}
+
+
+item.pauseAnimation = function () {
+	this.paused = true;
+}
 // faint box - otherwise ffmpeg gets confused
 
-item.addBox = function () {
+item.addBox = function (ipadding,icolor) {
 	let {width,height,lineP} = this;
-	let hw = 0.5*width;
-	let hh = 0.5*height;
+	let padding = ipadding?ipadding:0;
+	let color = icolor?icolor:'rgba(255,255,255,.2)';
+	let hw = padding + 0.5*width;
+	let hh = padding + 0.5*height;
 	let ul = Point.mk(-hw,-hh);
 	let ur = Point.mk(hw,-hh);
 	let lr = Point.mk(hw,hh);
@@ -1026,7 +1092,7 @@ item.addBox = function () {
 	let points = [ul,ur,lr,ll,ul];
   for (let i=0;i<4;i++) {
 		let line = lines[i];
-		line.stroke = 'rgb(255,255,255,.1)';
+		line.stroke = color;
 		this.set('line'+i,line);
 		line.setEnds(points[i],points[i+1]);
 		line.show();

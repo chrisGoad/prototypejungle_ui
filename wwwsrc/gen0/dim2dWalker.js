@@ -196,7 +196,7 @@ item.genRandomGrid = function (predecessor) {
 				//	values[idx] = 0.5*(min+max);
 				}
 				let vl =  lb + biasUp +Math.random() * (ub - lb);
-				console.log('min ',min,' max ',max,' tlb ',tlb,' tub ', tub,' lb ',lb,' ub ', ub,' vl ',vl);
+				//console.log('min ',min,' max ',max,' tlb ',tlb,' tub ', tub,' lb ',lb,' ub ', ub,' vl ',vl);
 				values[idx] = vl;
 				//debugger;
 				j++;

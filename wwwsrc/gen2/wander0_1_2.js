@@ -40,32 +40,6 @@ const walkParams = (i,j,ti) => {
 }
 	
 
-rs.addBox = function () {
-	let {width,height,lineP} = this;
-	let hw = 0.5*width;
-	let hh = 0.5*height;
-	let ul = Point.mk(-hw,-hh);
-	let ur = Point.mk(hw,-hh);
-	let lr = Point.mk(hw,hh);
-	let ll = Point.mk(-hw,hh);
-	let line0 = this.lineP.instantiate();
-	let line1 = this.lineP.instantiate();
-	let line2 = this.lineP.instantiate();
-	let line3 = this.lineP.instantiate();
-	let lines = [line0,line1,line2,line3];
-	let points = [ul,ur,lr,ll,ul];
-  for (let i=0;i<4;i++) {
-		let line = lines[i];
-		line.stroke = 'rgb(255,255,255,.1)';
-		this.set('line'+i,line);
-		line.setEnds(points[i],points[i+1]);
-		line.show();
-		line.update();
-	}
-	return;
-}
-  
-
 rs.initialize = function () {
   debugger;
 	  this.initProtos();
