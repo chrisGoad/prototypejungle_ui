@@ -1,9 +1,9 @@
 
-core.require(function () {
+core.require('/gen0/animation.js',function (addAnimationMethods) {
  return function (item) {
 //let item = svg.Element.mk('<g/>');
 
-
+addAnimationMethods(item);
 /*adjustable parameters  */
 
 item.width = 200;
@@ -49,11 +49,21 @@ item.genRandomPoint = function (rect) {
 }
 
 
-item.genRandomUnitVector = function () {
-  let amin = Math.PI*(this.angleMin/180);
-  let amax = Math.PI*(this.angleMax/180);
-  let dir = amin + (amax - amin)*Math.random();
+item.genRandomUnitVector = function (directions) {
+	let dir,choice;
+	if (directions) {
+		let ln = directions.length;
+		choice = Math.min(Math.floor(Math.random()*ln),ln-1);
+		dir = directions[choice];
+	} else {
+    let amin = Math.PI*(this.angleMin/180);
+    let amax = Math.PI*(this.angleMax/180);
+     dir = amin + (amax - amin)*Math.random();
+	}
   let vec = Point.mk(Math.cos(dir),Math.sin(dir));
+	if (directions) {
+		vec.which = choice;
+	}
   return vec;
 }
 
@@ -342,7 +352,7 @@ item.intersectUnitSegment = function(usg) {
   if (this.dimension) {
     let circle = this.circle;
     let vec = end1.difference(end0);
-    let sols = circle.intersectLine(end0,vec);
+    let sols = circle.intersectLine(end0,vec);mot
     if (sols) {
       rsg = geom.LineSegment.mk(sols[0],sols[1]);
     } else {
@@ -380,21 +390,22 @@ item.addRandomSegment = function (segments,src,dst) {
     let rsg = geom.LineSegment.mk(srcP,dstP);
     segments.push(rsg);
   } else {
-   
+    /*
     let dir = amin + (amax - amin)*Math.random();
     let adir = 180 * (dir/Math.PI);
-   // let vec = Point.mk(Math.cos(dir),Math.sin(dir)).times(this.width *4);
     let vec = Point.mk(Math.cos(dir),Math.sin(dir));
-   
+   */
+	 let vec = this.genRandomUnitVector(this.lineDirections);
    // let e0 = p.plus(vec.minus()) ;
     let e0 = srcP;
     let e1 = srcP.plus(vec);
     let lsg = geom.LineSegment.mk(e0,e1);
-    lsg.angle = dir;
+   // lsg.angle = dir;
     let rsg = this.intersectUnitSegment(lsg);
     if (!rsg) {
       return;
     }
+		rsg.which = vec.which;
     let elf = this.excludeLineFunction;
     if (elf) {
       if (elf(rsg)) {
@@ -424,7 +435,7 @@ item.addLine = function (i,lsg) {
 //debugger;
   const genRandomColor = function () {
     const rval  = function () {
-      return Math.floor(Math.random()*150);
+      return Math.floor(Math.random()*250);
     }
     return  `rgb(${rval()},${rval()},${rval()})`;
   }
@@ -439,15 +450,54 @@ item.addLine = function (i,lsg) {
 		end1	 = lsg.end1;
     line.setEnds(end0,end1);
   }
-	let muvec = this.genRandomUnitVector();
-	let v = 1;
-	let mvec = muvec.times(v);
-	let r =0.05*Math.PI;
-	let motion = {linear:mvec,rotation:r};
-	line.motion = motion;
-	let center = end0.plus(end1);
+	//line.stroke = genRandomColor();
+	let mvec;
+	let center = end0.plus(end1).times(0.5);
+
+	if (this.moveTowardsCenter) {
+		let cvec = center.minus();
+		mvec = cvec.times(2/this.numTimeSteps);
+	} else {
+	  let v = this.velocityFactor * (2*Math.random() -1);
+		debugger;
+		let muvec = this.genRandomUnitVector(this.motionDirections);
+	  mvec = muvec.times(v);
+		if (muvec.which) {
+	     mvec.which = muvec.which;
+		}
+
+	}
 	let ivec = end1.difference(end0).normalize();
 	let ir = Math.atan2(ivec.y,ivec.x);
+	
+	//let v = 1;
+  
+	let v = this.velocityFactor * (2*Math.random() -1);
+	if (this.uniformRotation) {
+		r = this.rotationFactor*(2*Math.random() - 1) * Math.PI;
+	} else if (this.crossMode) {
+		if (Math.random() < 0.5) {
+			r = -ir*(1/this.numTimeSteps);ge
+			/*if (this.lineColor1) {
+				line.stroke = this.lineColor1;
+			}*/
+		} else {
+			r = (Math.PI/2 -ir)*(1/this.numTimeSteps);
+			/*if (this.lineColor2) {
+			  line.stroke = this.lineColor2;
+			}*/
+		}
+	} else {
+	  r =this.rotationFactor*(2*Math.random() - 1) * Math.PI;
+		
+	}
+	if (this.lineColor1) {
+		line.stroke = (lsg.which === 0)?this.lineColor1:this.lineColor2;
+		//line.stroke = (Math.random() < 0.5)?this.lineColor1:this.lineColor2;
+	}
+	let motion = {linear:mvec,rotation:r};
+	line.motion = motion;
+	
 	line.initial = {center:center,rotation:ir};
   //this.lines.set(i,line);
   this.lines.push(line);
@@ -465,7 +515,7 @@ item.addLine = function (i,lsg) {
 
 
 item.updateLine = function (line) {
-	let {timeStep} = this;
+	let {timeStep,lines,numTimeSteps} = this;
 	if (line.gone) {
 		return;
 	}
@@ -474,6 +524,10 @@ item.updateLine = function (line) {
 	let {linear,rotation} = motion;
 	let ucenter = center.plus(linear.times(timeStep));
 	let urotation = irotation + rotation*timeStep;
+	if (line === lines[0]) {
+		debugger;
+		console.log('numTimeSteps ',numTimeSteps,' timeStep',timeStep,' rotation ',rotation,' urotation ',urotation);
+	}
 	let uvec = Point.mk(Math.cos(urotation),Math.sin(urotation));
   let e1 = ucenter.plus(uvec);
   let lsg = geom.LineSegment.mk(ucenter,e1);
@@ -621,6 +675,18 @@ item.initializeLines = function () {
   //this.showPoints();
 }
 
+item.step = function ()   {
+  this.updateLines();
+}
+	
+
+
+item.animate = function ()  {
+	this.animateIt(this.numTimeSteps,100);
+	
+}
+
+/*
  
 item.setName = function (name) {
 	this.name = name;
@@ -628,7 +694,8 @@ item.setName = function (name) {
 	  core.vars.whereToSave = `images/${name}.jpg`;
 	}
 	this.path = `json/${name}.json`;
-}     
+}
+*/     
   
 }});
 

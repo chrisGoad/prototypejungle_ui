@@ -8,7 +8,7 @@ rs.numTimeSteps = 100;
 addMethods(rs);
 /*adjustable parameters  */
 rs.saveImage = true;
-rs.setName('mlines0_0');
+rs.setName('mlines0_2');
 rs.width = 400;
 rs.height = 200;
 rs.numLines=3000;
@@ -17,10 +17,13 @@ rs.angleMin = -90;
 rs.angleMax = 90;
 rs.velocityFactor = 0.1;
 rs.rotationFactor = 0.02;
+rs.rotationFactor = 0.004;
 rs.uniformRotation = 0;
-rs.moveTowardsCenter = 0
+rs.moveTowardsCenter = 0;
 rs.crossMode = 0
 	rs.numFramesToRepeat = 20;
+	rs.lineDirections = [0,0.5*Math.PI];
+	rs.motionDirections = [0,0.5*Math.PI];
 
 rs.initProtos = function () {
   core.assignPrototypes(this,'lineP',linePP);
@@ -38,16 +41,6 @@ rs.initialize = function () {
   this.initializeLines();
 }	
 
-rs.step = function ()   {
-  this.updateLines();
-}
-	
-
-
-rs.animate = function ()  {
-	this.animateIt(rs.numTimeSteps,100);
-	
-}
 return rs;
 });
       

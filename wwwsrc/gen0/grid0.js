@@ -1,13 +1,14 @@
 
 //core.require('/grid/addColorGrid.js',function (colorGridMethods) {
 	//debugger;
-core.require('/gen0/dim2dWalker.js',function (addRandomMethods) {
+core.require('/gen0/dim2dWalker.js','/gen0/animation.js',function (addRandomMethods,addAnimationMethods) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
 	//debugger;
   return function (item) {
   //return function () {
 /*adjustable parameters  */
 //let item = svg.Element.mk('<g/>');
+addAnimationMethods(item);
 item.numRows= 31;
 item.numRows = 11;
 item.numCols = 11;
@@ -964,7 +965,7 @@ item.randomCell = function (excl) {
   }
 }
 
-
+return;
 item.setName = function (name,jsonName) {
 	//debugger;
 	this.name = name;
