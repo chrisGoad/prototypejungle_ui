@@ -120,42 +120,7 @@ item.intersectWithRectangle = function (p,ivec) {
   return (int0.x < int1.x)?[int0,int1]:[int1,int0];
 } 
 
-//  snips inLseg by side effect. directions "fromAbove","fromBelow","fromLeft","fromRight"
-  
-  
-// end0.x < end1.x, it is assumed. Returns 
-/*
-const intersectSegmentAtX = function (sg,x) {
-  let {end0,end1} = sg;
-  let e0x = end0.x;    
-  let e1x = end1.x;
-  let e0y = end0.y;
-  let e1y = end1.y;
-  if ((e1x < x) || (e0x > x)) {
-    return;
-  }
-  let fr = (x - e0x)/(e1x - e0x);
-  let y = e0y + fr*(e1y - e0y);
-  return Point.mk(x,y);
-}
 
-const onWrongSideX = function (sg,x,direction) {
-  let {end0,end1} = sg;
-  let e0x = end0.x;
-  let e1x = end1.x;
-  return (direction === 'fromRight')? e1x <= x:e0x >= x;
-}
-
-
-
-const insideXs = function (sg,x0,x1) {
-  let {end0,end1} = sg;
-  let e0x = end0.x;
-  let e1x = end1.x;
-  return (x0 <= e0x) && (e1x <= x1);
-}
- */
-  
 
 
 
@@ -236,47 +201,7 @@ item.displaySegments = function (ints,inside) {
     
       
       
-  
-/*
-item.generateShapes = function (protos,setDimensions,probabilities) {
-  let {points,radii} = this;
-  let shapes = this.set("shapes",core.ArrayNode.mk());
-  let ln = points.length;
-  nump = protos.length;
-  let start = this.hasHole?1:0;
-  let which;
-  for (let i=start;i<ln;i++) {
-    let pnt = points[i]
-    let lsv = this.leaveSpotVacantFunction;
-    if (lsv && lsv(pnt)) {
-      continue;
-    }
-    if (probabilities) {
-      if ((nump === 1) || (Math.random() < probabilities[0])) {
-        which = 0;
-      } else if ((nump === 2) || (Math.random() < probabilities[1])) {
-          which = 1;
-      } else {
-        which = 2;
-      }
-    } else {
-      which = Math.floor((Math.random()-0.0001) * nump);
-    }
-    let proto = protos[which];
-    if (!proto) {
-      debugger; //keep
-    }
-    let shape = proto.instantiate();
-    let setDimension = setDimensions[which];
-    shapes.push(shape);
-    shape.moveto(pnt);
-    setDimension(this,shape, 2 * radii[i]);	
-    shape.update();
-    shape.show();
-  }
-}
- */ 
-/* done with shapes; on to lines */
+
 
 
 
@@ -331,7 +256,9 @@ item.genRandomPointOnSegment = function (seg) {
   let {end0,end1} = seg;
   let vec = end1.difference(end0);
   let rn = Math.random();
-  return end0.plus(vec.times(rn));
+  let rs = end0.plus(vec.times(rn));
+	rs.fraction = rn;
+	return rs;
 }
     
     
@@ -346,6 +273,31 @@ const extendSegment = function (sg,ln) {
 }  
 
 
+item.randomPointOnCircle  = function (circle) {
+	let {dimension,radius} = circle;
+	let a = Math.random()*2 * Math.PI;
+//	let a = Math.random() * 1 * Math.PI;
+	let rs = Point.mk(radius*Math.cos(a),radius*Math.sin(a));
+	rs.angle = a;
+	return rs;
+}
+item.randomSegmentAcrossCircle  = function (circle) {
+	//debugger;
+	let e0 = this.randomPointOnCircle(circle);
+	let e1 = this.randomPointOnCircle(circle);
+	//let r0 = this.rotationFactor*(2*Math.random() - 1) * Math.PI;
+	//let r1 = this.rotationFactor*(2*Math.random() - 1) * Math.PI;
+	let r0 = this.rotationFactor*(0.25 + Math.random() * 0.25) * Math.PI;
+	let r1 = -this.rotationFactor*(0.25 + Math.random() * 0.25) * Math.PI;
+	//let r1 = -this.rotationFactor*Math.random() * 0.5 * Math.PI;
+	//let r1 = this.rotationFactor*Math.random() *2 * Math.PI;
+	let rs = geom.LineSegment.mk(e0,e1,1); // 1 = do not copy
+	rs.rotation0 = r1;
+	rs.rotation1 = r0;
+	return rs;
+}
+
+	
 item.intersectUnitSegment = function(usg) {
   let rsg;
   let {end0,end1} = usg;
@@ -388,6 +340,8 @@ item.addRandomSegment = function (segments,src,dst) {
     }
     //dst = this.genRandomPointInCircle(dstP);
     let rsg = geom.LineSegment.mk(srcP,dstP);
+		rsg.srcFraction = srcP.fraction;
+		rsg.dstFraction = dstP.fraction;
     segments.push(rsg);
   } else {
     /*
@@ -422,13 +376,34 @@ item.addRandomSegment = function (segments,src,dst) {
 }
 
   
-      
+
+const interpolateValues = function (v0,v1,fr) {
+  let vi = v1-v0;
+  return v0 + (v1-v0) * fr;
+}
+
+const interpolatePoints = function (p0,p1,fr) {
+  let {x:p0x,y:p0y} = p0;
+  let {x:p1x,y:p1y} = p1;
+  let ix = interpolateValues(p0x,p1x,fr);
+  let iy= interpolateValues(p0y,p1y,fr);
+  return Point.mk(ix,iy);
+}     
+
+const interpolateSegments = function (segA,segB,fr ) {
+	let {end0:end0A,end1:end1A} = segA;
+	let {end0:end0B,end1:end1B} = segB;
+	let iend0 = interpolatePoints(end0A,end0B,fr);
+	let iend1 = interpolatePoints(end1A,end1B,fr);
+	return geom.LineSegment.mk(iend0,iend1);
+}
     
   
 
 item.addLine = function (i,lsg) {
  // let line = this.lineP.instantiate();
 //  this.lines.push(line);
+  let {acrossCircle} = this;
   if (!lsg) {
     debugger;
   }
@@ -449,6 +424,16 @@ item.addLine = function (i,lsg) {
 		end0 = lsg.end0;
 		end1	 = lsg.end1;
     line.setEnds(end0,end1);
+		if (acrossCircle) {
+			debugger;
+			line.angle0 = lsg.end0.angle;
+			line.angle1 = lsg.end1.angle;
+			line.rotation0 = lsg.rotation0;
+			line.rotation1 = lsg.rotation1;
+		} else {
+		  line.srcFraction = lsg.srcFraction;
+		  line.dstFraction = lsg.dstFraction;
+		}
   }
 	//line.stroke = genRandomColor();
 	let mvec;
@@ -492,8 +477,8 @@ item.addLine = function (i,lsg) {
 		
 	}
 	if (this.lineColor1) {
-		line.stroke = (lsg.which === 0)?this.lineColor1:this.lineColor2;
-		//line.stroke = (Math.random() < 0.5)?this.lineColor1:this.lineColor2;
+		//line.stroke = (lsg.which === 0)?this.lineColor1:this.lineColor2;
+		line.stroke = (Math.random() < 0.5)?this.lineColor1:this.lineColor2;
 	}
 	let motion = {linear:mvec,rotation:r};
 	line.motion = motion;
@@ -515,7 +500,8 @@ item.addLine = function (i,lsg) {
 
 
 item.updateLine = function (line) {
-	let {timeStep,lines,numTimeSteps} = this;
+  let {numTimeSteps,timeStep} = this;
+				
 	if (line.gone) {
 		return;
 	}
@@ -547,7 +533,76 @@ item.updateLine = function (line) {
    
 
 item.updateLines = function () {
-  let lines = this.lines;
+	let {timeStep,lines,numTimeSteps,startShapePairs,endShapePairs,numLines,includeReverse,acrossCircle} = this;
+	if (acrossCircle) {
+		let {center,radius} = acrossCircle;
+		let {x:cx,y:cy} = center;
+		for (let i=0;i<numLines;i++) {
+			let line = lines[i];
+			debugger;
+			let {angle0,angle1,rotation0,rotation1} = line;
+			let nAngle0 = angle0+rotation0;
+			let nAngle1 = angle1+rotation1;
+			let end0 = Point.mk(cx+Math.cos(nAngle0)*radius,cy+Math.sin(nAngle0)*radius);
+			let end1 = Point.mk(cx+Math.cos(nAngle1)*radius,cy+Math.sin(nAngle1)*radius);
+			line.angle0 = nAngle0;
+			line.angle1 = nAngle1;
+			line.setEnds(end0,end1);
+			if (end0.distance(end1) < 50) {
+				//line.hide();
+				line.stroke = 'rgba(255,0,0,0.7)';
+			}
+			line.update();
+	 		line.draw();
+		}
+	  return;
+	}
+	if (startShapePairs) { // interpolate between shape pairs
+	debugger;
+		let iShapePairs = [];
+		let ln = startShapePairs.length;
+		let fr;
+		if (includeReverse) {
+	  	let hts = numTimeSteps/2;
+	    if (timeStep < hts) {
+			  fr = timeStep/hts;
+		  } else {
+		    fr = 1 - (timeStep - hts)/hts;
+		  }
+		} else {
+		  fr = timeStep/numTimeSteps;
+		}
+		for (let i=0;i<ln;i++) {
+			let sShapePair = startShapePairs[i];
+			let eShapePair = endShapePairs[i];
+			let iShapePair = [];
+			let iShape0 = interpolateSegments(sShapePair[0],eShapePair[0],fr);
+			let iShape1 = interpolateSegments(sShapePair[1],eShapePair[1],fr);
+			iShapePair.push(iShape0);
+			iShapePair.push(iShape1);
+			iShapePairs.push(iShapePair);
+		}
+    let nlnp = Math.floor(numLines/ln);
+		let cnt= 0;
+		for (let i = 0;i < ln;i++) {
+      let cPair = iShapePairs[i];
+      for (let j=0;j<nlnp;j++) {
+				let line = lines[cnt++];
+				let sFr = line.srcFraction;
+				let dFr = line.dstFraction;
+				let sSeg = cPair[0];
+				let dSeg = cPair[1]
+				let sPnt = interpolatePoints(sSeg.end0,sSeg.end1,sFr);
+				let dPnt = interpolatePoints(dSeg.end0,dSeg.end1,dFr);
+				line.setEnds(sPnt,dPnt);
+				line.update();
+				line.draw();
+			}
+		}
+		return;
+	}
+	// let lines fly according to their assigned motions
+
   let num = lines.length;
   for (let i=0;i<num;i++) {
     this.updateLine(lines[i]);
@@ -594,9 +649,9 @@ item.addOpaqueLayer = function () {
 }
       
   
-item.initializeLines = function () {
+item.initializeLines = function () {21
   debugger;
-  let {width,height,rectP,includeRect,boardRows} = this;
+  let {width,height,rectP,includeRect,boardRows,acrossCircle,numLines} = this;
  /* let whiteSquares,blackSquares;
   if (this.boardRows) {
     [whiteSquares,blackSquares] = this.genCheckerBoard();
@@ -606,11 +661,19 @@ item.initializeLines = function () {
   this.set('lines',core.ArrayNode.mk());
   this.set('points',core.ArrayNode.mk());  
   this.set('circles',core.ArrayNode.mk());
-  
 //  let originatingShapes = [geom.Circle.mk(Point.mk(-100,-150),5),geom.Circle.mk(Point.mk(0,-150),5),geom.Circle.mk(Point.mk(100,-150),5)];
  // let originatingShapes = [geom.Circle.mk(Point.mk(-100,-200),45),geom.Circle.mk(Point.mk(100,-200),45)];
   //let originatingShapes = this.[geom.Circle.mk(Point.mk(-100,-200),45),geom.Circle.mk(Point.mk(100,-200),45)];
-  let shapePairs = this.shapePairs;
+	if (acrossCircle) {
+		for (let i=0;i<numLines; i++) {
+			debugger;
+			let seg = this.randomSegmentAcrossCircle(acrossCircle);
+		  this.segments.push(seg);
+		}
+		this.addLines();
+		return;
+	}
+  let shapePairs = this.startShapePairs;
   if (shapePairs) {
     debugger;
     let ln = shapePairs.length;

@@ -8,7 +8,7 @@ rs.numTimeSteps = 200;
 addMethods(rs);
 /*adjustable parameters  */
 rs.saveImage = true;
-rs.setName('mlines0_3');
+rs.setName('mlines0_4');
 rs.width = 400;
 rs.height = 200;
 rs.numLines=3000;
@@ -23,7 +23,9 @@ rs.moveTowardsCenter = 0;
 rs.crossMode = 0
 	rs.numFramesToRepeat = 20;
 	rs.lineDirections = [0,0.5*Math.PI];
+	rs.lineDirections = [0];
 	rs.motionDirections = [0,0.5*Math.PI];
+	rs.motionDirections = [0];
 //rs.lineColor1 = 'cyan';
 //rs.lineColor2 = 'yellow';
 

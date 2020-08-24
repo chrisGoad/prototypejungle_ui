@@ -1075,32 +1075,6 @@ item.pauseAnimation = function () {
 }
 // faint box - otherwise ffmpeg gets confused
 
-item.addBox = function (ipadding,icolor) {
-	let {width,height,lineP} = this;
-	let padding = ipadding?ipadding:0;
-	let color = icolor?icolor:'rgba(255,255,255,.2)';
-	let hw = padding + 0.5*width;
-	let hh = padding + 0.5*height;
-	let ul = Point.mk(-hw,-hh);
-	let ur = Point.mk(hw,-hh);
-	let lr = Point.mk(hw,hh);
-	let ll = Point.mk(-hw,hh);
-	let line0 = this.lineP.instantiate();
-	let line1 = this.lineP.instantiate();
-	let line2 = this.lineP.instantiate();
-	let line3 = this.lineP.instantiate();
-	let lines = [line0,line1,line2,line3];
-	let points = [ul,ur,lr,ll,ul];
-  for (let i=0;i<4;i++) {
-		let line = lines[i];
-		line.stroke = color;
-		this.set('line'+i,line);
-		line.setEnds(points[i],points[i+1]);
-		line.show();
-		line.update();
-	}
-	return;
-}
   
  
 

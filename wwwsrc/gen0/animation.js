@@ -45,7 +45,7 @@ item.animateIt = function (numFrames,interval) {
 		}
 		console.log('timeStep ',nfr,' frameNumber ',frameNumber); 
 		if (nfr === numFrames) {
-			console.log('Done');
+			alert('Animation done. Numframes = '+numFrames);
 			return;
 		}
 		this.timeStep = nfr;
