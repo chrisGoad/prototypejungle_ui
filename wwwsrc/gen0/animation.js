@@ -24,6 +24,7 @@ item.shapeTimeStep  = function() {
 item.animateIt = function (numFrames,interval) {
  // let numFrames = 10;
     //svgMain.draw();
+	let everyNthFrame = this.everyNthFrame;
 	let animationUnderway = this.animationUnderway?this.animationUnderway:0;
 	this.animationUnderway = 1;
 	let nfr,frameCount,frameNumber;
@@ -54,7 +55,9 @@ item.animateIt = function (numFrames,interval) {
 		this.step();
 		dom.svgDraw();
 		if (this.saveVideo) {
-			draw.saveFrame(this.frameNumber);
+			if ((!everyNthFrame) || (frameNumber%everyNthFrame === 0)) {
+		    draw.saveFrame(everyNthFrame?frameNumber/everyNthFrame:frameNumber);
+			}
 		}
 		nfr++;
 
@@ -69,6 +72,8 @@ item.animateIt = function (numFrames,interval) {
 item.oneStep = function (save) {
  // let numFrames = 10;
     //svgMain.draw();
+		debugger;
+		let everyNthFrame = this.everyNthFrame;
     let nfr = this.timeStep;
 		nfr++;
 		if (nfr >= this.frameCount) {
@@ -81,8 +86,10 @@ item.oneStep = function (save) {
 		this.step();
 		dom.svgDraw();
 		if (save && this.saveVideo) {
-			this.frameNumber++;
-		  draw.saveFrame(this.frameNumber);
+			let fr = this.frameNumber++;
+			if ((!everyNthFrame) || (fr%everyNthFrame === 0)) {
+		    draw.saveFrame(everyNthFrame?fr/everyNthFrame:fr);
+			}
 	  }
 }
 

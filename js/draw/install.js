@@ -199,7 +199,7 @@ const saveTheImage = function () {
 	debugger;
 	let wts = core.vars.whereToSave;// + '.jpg';
 	if (wts) {
-		let dst = `images/${wts}.jpg`;
+		let dst = `www/images/${wts}.jpg`;
 	  convertToJpeg(dst,function () {
 		  alert('saved the image at '+dst);
 	  });	

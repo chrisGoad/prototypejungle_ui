@@ -550,7 +550,7 @@ item.updateLines = function () {
 			line.setEnds(end0,end1);
 			if (end0.distance(end1) < 50) {
 				//line.hide();
-				line.stroke = 'rgba(255,0,0,0.7)';
+				line.stroke = this.secondColor;//'rgba(255,0,0,0.7)';
 			}
 			line.update();
 	 		line.draw();
