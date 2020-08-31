@@ -4,7 +4,6 @@ core.require(function () {
   return function (item) {
 
 item.setName = function (name,jsonName) {
-	debugger;
 	this.name = name;
 	core.vars.whereToSave = name;
 	let theName = jsonName?jsonName:name;
@@ -119,8 +118,8 @@ item.pauseAnimation = function () {
 }
 // faint box - otherwise ffmpeg gets confused
 
-item.addBox = function (ipadding,icolor) {
-	let {width,height,lineP} = this;
+item.addBox = function (lineP,ipadding,icolor) {
+	let {width,height} = this;
 	let padding = ipadding?ipadding:0;
 	let color = icolor?icolor:'rgba(255,255,255,.2)';
 	let hw = padding + 0.5*width;

@@ -375,14 +375,14 @@ item.genRandomPoint = function (rect) {
     return [Point.mk(cellX,cellY),Point.mk(x,y)];
 }
 
-
 item.addAtRandomPoint = function (rect) {
   let {shapes,randomizer,sizes,spatterGenerator,randomGridsForShapes} = this;
   let rnd = this.genRandomPoint(rect);
   let cell = rnd[0];
   let pnt = rnd[1];
   let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
-  let shape = this.spatterGenerator(rvs,cell,pnt);
+  //let shape = this.spatterGenerator(rvs,cell,pnt);
+  let shape = this.shapeGenerator(rvs,cell,pnt);
 	let srect;
 	if (shape) {
 		if (this.spatterRect) {
@@ -393,13 +393,14 @@ item.addAtRandomPoint = function (rect) {
 			shape.setEnds(nend0,nend1);
 	  } else if (!this.generatorsDoMoves) {
 		  shape.moveto(pnt);
+			shape.cell = cell
 		}
 		shape.show();
 		return shape;
 	}
-	
-
 }
+
+
 
 item.addShapes = function () { 
   let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
@@ -477,6 +478,14 @@ item.updateShapes = function () {
   }
 }
 
+
+item.updateAtRandomPoint = function (shape) {
+  let cell = shape.cell;
+  let {x,y} = cell;
+  let rvs = this.randomValuesAtCell(this.randomGridsForShapes,x,y);
+	this.shapeUpdater(shape,rvs,cell);
+}
+
 item.addSpatter = function () { 
 		let {numDrops,width,height,shapes} = this;
     if (!shapes) {
@@ -488,15 +497,23 @@ item.addSpatter = function () {
     let rect = geom.Rectangle.mk(corner,extent);
 		let count = 0;
 		while (count<numDrops) {
-			 if (this.addAtRandomPoint(rect)) {
+			 let shp = this.addAtRandomPoint(rect);
+			 if (shp) {
+				 if (this.shapeUpdater) {
+					 this.updateAtRandomPoint(shp);
+				 }
 				 count++;
 			 }
 		}
-//	}
-
-
 }
 
+item.updateSpatter = function () { 
+  let {shapes} = this;
+	debugger;
+	if (this.shapeUpdater) {
+	  shapes.forEach((shape) => {this.updateAtRandomPoint(shape)});
+	}
+}
 
 
 item.color2rgb = function (c) {
@@ -834,12 +851,11 @@ item.initializeGrid = function () {
     };
   }
   core.tlog('genHorizontalLines');
-  if (this.shapeGenerator || this.shapeP  ) {
+	if (this.spatter) {
+		this.addSpatter();
+	} else if (this.shapeGenerator || this.shapeP  ) {
     this.addShapes();
   }
-	if (this.spatterGenerator) {
-		this.addSpatter();
-	}
   if (this.lastGridStep) {
     this.lastGridStep(); // eg for filling in symmetries
   }
@@ -887,6 +903,14 @@ item.updateGrid = function () {
   }
 	this.show();
 }	 
+
+item.updateContent = function () {
+	if (this.spatter) {
+		this.updateSpatter();
+	} else {
+		this.updateGrid();
+	}
+}
 item.setLineEnds = function (line,ilength,dir) {
   if (!line) {
     debugger;//keep

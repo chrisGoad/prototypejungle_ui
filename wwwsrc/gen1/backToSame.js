@@ -12,7 +12,12 @@ item.shapeGenerator =  function (rvs,cell,pnt) {
 	//}
 	let aDelta = rvs.aDelta;
 	let baseAngleInc = (numRotations*2*Math.PI)/numTimeSteps;
-	let shape = shapeP.instantiate();;//rectP.instantiate();
+	let shape;
+	if (shapeP) {
+	  shape = shapeP.instantiate();
+	} else {
+		shape = this.generateShape();
+	}
 	shape.aDelta = aDelta;
 	this.baseAngleInc = baseAngleInc;
 	shapes.push(shape);
@@ -42,7 +47,8 @@ item.shapeUpdater =  function (shape,rvs,cell,pnt) {
 	if (cell11) {
 	  console.log('angle ',angle/(2*Math.PI));
 	}
-	this.updateTheShape(shape,angle);
+	this.updateTheShape(shape,angle,rvs,cell,pnt);
+	shape.update();
 }
 
 item.timeStep = 0;

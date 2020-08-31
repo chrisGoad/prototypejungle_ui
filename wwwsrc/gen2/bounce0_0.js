@@ -1,7 +1,9 @@
 
+
 core.require('/shape/circle.js','/gen0/grid0.js','/gen1/backToSame.js',
 function (circlePP,addGridMethods,addBackToSameMethods) {
   
+    
 	
 let rs = svg.Element.mk('<g/>');
 rs.numTimeSteps = 600;
@@ -11,7 +13,7 @@ rs.motionStep = 1;
 addGridMethods(rs);
 addBackToSameMethods(rs);
 rs.saveImage = true;
-rs.setName('pulse0_3');
+rs.setName('bounce0_0');
 rs.width = 400;
   rs.height = 200;
   rs.numDrops =3000;
@@ -20,37 +22,31 @@ rs.width = 400;
 	rs.lineLength = 3;
 	//rs.lineLength = 10;
 	rs.angleInc = 0.1;
-	rs.numRotations = 8;
+	rs.numRotations = 20;
 	rs.rotConst = 0.0001;
+	//rs.rotConst = 0.0005;
+	
 	
 rs.initProtos = function () {
-  core.assignPrototypes(this,'shapeP',circlePP);
-  this.shapeP.stroke = 'transparent';
-  this.shapeP.fill = 'white';
-	this.shapeP.dimension = 2;
+  core.assignPrototypes(this,'circleP',circlePP);
+  this.circleP.fill = 'white';
+	this.circleP.dimension = 5;
+	//this.lineP.dimension = 2;
 
- // this.lineP['stroke-width'] = 2;
+ this.circleP['stroke-width'] = 1;
 //  this.lineP['stroke-width'] = .1;
 }  
-
-rs.updateTheShape = function (shape,angle) {
-	let dim = 4* (1+Math.sin(angle)); 
-	shape.dimension = dim;
-}
 /*
 rs.shapeGenerator =  function (rvs,cell,pnt) {
-	let {shapes,circleP,numTimeSteps,numRotations} = this;
-	if (this.timeStep > 0) {
-		debugger;
-	}
+	let {shapes,lineP,numTimeSteps} = this;
 	let aDelta = rvs.aDelta;
 	let baseAngleInc = (numRotations*2*Math.PI)/numTimeSteps;
-	let circle = circleP.instantiate();;//rectP.instantiate();
-	circle.aDelta = aDelta;
+	let line = lineP.instantiate();;//rectP.instantiate();
+	line.aDelta = aDelta;
 	this.baseAngleInc = baseAngleInc;
-	shapes.push(circle);
-	circle.show();
-  return circle;
+	shapes.push(line);
+	line.show();
+  return line;
 }
 
 rs.shapeUpdater =  function (circle,rvs,cell,pnt) {
@@ -60,9 +56,9 @@ rs.shapeUpdater =  function (circle,rvs,cell,pnt) {
 	//rotConst = 0.0;
 	let hts = numTimeSteps/2;
 	//let angleInc = circle.angleInc;
-	let aDelta = circle.aDelta;
-	//let angleInc = 0.001 * (100 + aDelta);
-	let angleInc = baseAngleInc + rotConstA * aDelta;
+	let adiv = circle.adiv;
+	//let angleInc = 0.001 * (100 + adiv);
+	let angleInc = baseAngleInc + rotConstA * adiv;
   let  angle = ts * angleInc;
 	let cell11 = (cell.x === 1) && (cell.y === 1);
   if ((ts >= hts) && cell11) {
@@ -72,9 +68,9 @@ rs.shapeUpdater =  function (circle,rvs,cell,pnt) {
 		circle.hangle = angle;
 	}
 	if (ts > hts) {
-		angleInc = baseAngleInc - rotConstA * aDelta;
+		angleInc = baseAngleInc - rotConstA * adiv;
 
-		//angleInc = 0.001 * (100 - aDelta);
+		//angleInc = 0.001 * (100 - adiv);
 		angle = circle.hangle + (ts-hts) * angleInc;
 	}
 	if (cell11) {
@@ -89,7 +85,31 @@ rs.shapeUpdater =  function (circle,rvs,cell,pnt) {
 	circle.dimension = dim;
 	
 }
+
 */
+rs.generateShape = function () {
+	let shp = svg.Element.mk('<g/>');
+	let circle = this.circleP.instantiate();
+	shp.set('inner',circle);
+	circle.show();
+	return shp;
+}
+	
+
+
+rs.updateTheShape = function (shape,angle,rvs,cell) {
+	debugger;
+	let delta = 20* Math.cos(angle);
+	let vel = - Math.sin(angle);
+	let {x,y} = cell;
+	if ((x===1) && (y===1)) {
+		//console.log('phase ',phase);
+	}
+	let phm = 25* vel + 100;
+	shape.inner.fill = `rgb(${phm},${phm},${phm})`;
+	shape.inner.moveto(Point.mk(0,delta));
+	//this.setLineEnds(line,this.lineLength,angle);
+}
 
 rs.initialize = function () {
   debugger;
@@ -104,11 +124,15 @@ rs.initialize = function () {
 
 rs.timeStep = 0;
 rs.step = function ()   {
-  this.updateContent();
+	//debugger;
+	//this.stepShapeRandomizer('r');
+	
+  this.updateGrid();
+	//draw.saveFrame(rs.timeStep);
 	rs.timeStep++;
 }
 rs.animate = function ()  {
-	this.animateIt(this.numTimeSteps,10);
+	this.animateIt(this.numTimeSteps,30);
 	
 }
 return rs;

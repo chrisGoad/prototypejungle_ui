@@ -121,7 +121,6 @@ const processQuery = function() {
   content = q.content;
   loadUrl = q.load; // emulates dragging this in as first action
   //saveCatalog = q.saveCatalog;
-	debugger;
   if (source==='none') {
     source = undefined;
   } else if (source) {

@@ -16,7 +16,9 @@ rs.width = 400;
   rs.height = 200;
   rs.numDrops =3000;
   rs.numRows = 20;
+ // rs.numRows = 2;
   rs.numCols = 40;
+//  rs.numCols = 2;
 	rs.lineLength = 3;
 	//rs.lineLength = 10;
 	rs.angleInc = 0.1;
@@ -33,7 +35,18 @@ rs.initProtos = function () {
 //  this.lineP['stroke-width'] = .1;
 }  
 
-rs.updateTheShape = function (shape,angle) {
+rs.updateTheShape = function (shape,iangle,rvs,cell) {
+	debugger;
+	let angle,initial;
+	if (this.timeStep === 0) {
+		let {x,y} = cell;
+		//angle = rvs.initial;
+		angle = (x < 20)?0.5*Math.PI:Math.PI;
+		shape.initialAngle = angle;
+.5	} else {
+		initial = shape.initialAngle;
+		angle = initial + iangle;
+	}
 	let dim = 4* (1+Math.sin(angle)); 
 	shape.dimension = dim;
 }
@@ -97,6 +110,7 @@ rs.initialize = function () {
   core.root.backgroundColor = 'black';
 //	this.setupShapeRandomizer('angleInc',{step:2,stept:2,min:100,max:200});
 	this.setupShapeRandomizer('aDelta',{step:2,stept:0.5,min:-20,max:20});
+	this.setupShapeRandomizer('initial',{step:.2,stept:0.5,min:0,max:2*Math.PI});
 	
   this.initializeGrid();
 	this.generatorsDoMoves = 1;
@@ -104,7 +118,7 @@ rs.initialize = function () {
 
 rs.timeStep = 0;
 rs.step = function ()   {
-  this.updateContent();
+  this.updateGrid();
 	rs.timeStep++;
 }
 rs.animate = function ()  {

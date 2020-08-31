@@ -70,8 +70,8 @@ rs.shapeUpdater =  function (line,rvs,cell,pnt) {
 	let angle = ts  * 0.0005 * angleInc;
 	this.setLineEnds(line,lineLength,angle);
 //item.setLenDir = function (shape,len,dir) {
-	let dim = 4* (1+Math.sin(angle));
-	line.dimension = dim;
+	//let dim = 4* (1+Math.sin(angle));
+	//line.dimension = dim;
 	
 }
 
