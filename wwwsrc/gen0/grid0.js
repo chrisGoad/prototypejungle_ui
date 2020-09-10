@@ -1053,6 +1053,7 @@ item.animateIt = function (numFrames,interval) {
   setTimeout(doStep,interval);
 }
 
+
 item.oneStep = function (save) {
  // let numFrames = 10;
     //svgMain.draw();
@@ -1099,7 +1100,7 @@ item.pauseAnimation = function () {
 }
 // faint box - otherwise ffmpeg gets confused
 
-  
+ item.timeStep = 0;
  
 
 }

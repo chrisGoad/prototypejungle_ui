@@ -1,5 +1,5 @@
 
-core.require('/shape/circle.js','/line/line.js','/gen0/grid0.js',
+/*core.require('/shape/circle.js','/line/line.js','/gen0/grid0.js',
 function (circlePP,linePP,addGridMethods) {
   
 let rs = svg.Element.mk('<g/>');
@@ -14,44 +14,46 @@ rs.width = 400;
   rs.numRows = 20;
   rs.numCols = 20;
 	rs.numTimeSteps = 400;
-	
+	*/
 	core.require('/shape/circle.js','/line/line.js','/gen0/grid0.js','/gen1/backToSame.js',
 function (circlePP,linePP,addGridMethods,addBackToSameMethods) {
   
 	
 let rs = svg.Element.mk('<g/>');
 rs.numTimeSteps = 600;
+rs.numTimeSteps = 512;
 //rs.numTimeSteps = 200;
 rs.everyNthFrame = 2;
 rs.motionStep = 1;
+rs.spatter = 1;
 addGridMethods(rs);
 addBackToSameMethods(rs);
 rs.saveImage = true;
 rs.setName('spatter0_7');
 rs.width = 400;
-  rs.height = 200;
-  rs.numDrops =3000;
-  rs.numRows = 20;
+  rs.height = 400;
+  rs.numDrops =1500;
+  rs.numRows = 40;
   rs.numCols = 40;
 	rs.lineLength = 3;
 	//rs.lineLength = 10;
 	rs.angleInc = 0.1;
 	rs.numRotations = 8;
-	rs.rotConst = 0.0001;
+	rs.rotConst = 0.0003;
 	
 	
 rs.initProtos = function () {
-  core.assignPrototypes(this,'circleP',circlePP);
-  this.circleP.stroke = 'rgba(0,0,0,1)';
-  this.circleP.fill = 'rgba(0,0,200)';
-  this.circleP['stroke-width'] = 1;
-  this.circleP.dimension = 4;
+  core.assignPrototypes(this,'shapeP',circlePP);
+  this.shapeP.stroke = 'rgba(0,0,0,1)';
+  this.shapeP.fill = 'rgba(0,0,200)';
+  this.shapeP['stroke-width'] = 1;
+  this.shapeP.dimension = 4;
 	core.assignPrototypes(this,'lineP',linePP); // for the box
   this.lineP.stroke = 'white';
   this.lineP['stroke-width'] = 1;
 }  
 
-
+/*
 rs.spatterGenerator =  function (rvs,cell,pnt) {
 	let {shapes,circleP} = this;
 //item.setLenDir = function (shape,len,dir) {
@@ -63,12 +65,37 @@ rs.spatterGenerator =  function (rvs,cell,pnt) {
   shape.initialDimension = dim;
   return shape;
 }
-
-rs.updateTheShape = function (shape,angle) {
-	let dim = 4* (1+Math.sin(angle)); 
+*/
+rs.updateTheShape = function (shape,angle,rvs,cell) {
+	let first = shape === this.shapes[0]
+	let ts = this.timeStep;
+	let nts = this.numTimeSteps;
+	let hts = nts/2;
+	let ets;
+	if (ts < hts) {
+		ets = ts;
+		ets = hts - ts;
+	} else {
+		ets = nts - ts;
+		ets = hts + ts;
+		ets = ts - hts;
+	}
+	//let aangle = angle - 0.3*Math.PI;
+	let aangle = angle;// - 0.3*Math.PI;
+	//let fc = 2 + (0.5*ets**1.6)/nts;
+	let fc = 2 + (1*ets**1.4)/nts;
+	let ivl = Math.sin(aangle);
+	if (first) {
+		console.log('ivl ',ivl);
+	}
+	let dim = 1.5 + fc* (1+Math.sin(aangle)); 
 	shape.dimension = dim;
+	let r = rvs.shade;
+  let rgb = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
+  shape.fill = rgb;
+  shape.update();
 }
-
+/*
 rs.shapeUpdater =  function (shape,rvs,cell,pnt) {
 	let ts = this.timeStep;
 	let nts = this.numTimeSteps;
@@ -90,7 +117,7 @@ rs.shapeUpdater =  function (shape,rvs,cell,pnt) {
   shape.fill = rgb;
   shape.update();
 }
-
+*/
 rs.initialize = function () {
   debugger;
   this.initProtos();
