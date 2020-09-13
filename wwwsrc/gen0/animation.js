@@ -20,11 +20,14 @@ item.shapeTimeStep  = function() {
 			let cell = {x:i,y:j,index:idx};
 			let shp = this.shapeGenerator(rvs,cell,cnt);
 	*/
-item.animateIt = function (numFrames,interval) {
+item.animateIt = function (numFrames,interval,resume) {
  // let numFrames = 10;
     //svgMain.draw();
 	let everyNthFrame = this.everyNthFrame;
-	let animationUnderway = this.animationUnderway?this.animationUnderway:0;
+	let animationUnderway = 0;
+	if (resume) {
+	  animationUnderway = this.animationUnderway?this.animationUnderway:0;
+	}
 	this.animationUnderway = 1;
 	let nfr,frameCount,frameNumber;
 	if (!animationUnderway) {
@@ -54,6 +57,7 @@ item.animateIt = function (numFrames,interval) {
 		this.step();
 		dom.svgDraw();
 		if (this.saveVideo) {
+			debugger;
 			if ((!everyNthFrame) || (frameNumber%everyNthFrame === 0)) {
 		    draw.saveFrame(everyNthFrame?frameNumber/everyNthFrame:frameNumber);
 			}

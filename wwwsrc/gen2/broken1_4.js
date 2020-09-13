@@ -9,7 +9,7 @@ addBackToSameMethods(rs)
 rs.numTimeSteps = 200;
 rs.width = 190;
 rs.height = 80;
-rs.numRows = 30;
+rs.numRows = 40;
 rs.numCols = 10;
 rs.numRotations = 4;
 //rs.angleInc = 0.1;
@@ -17,21 +17,21 @@ rs.rotConst = 0.0003;
 rs.rotConst = 0.005;
 
 /*adjustable parameters  */
-rs.setName('broken1_0');
+rs.setName('broken1_4');
 rs.whiteOnBlack = 1;
 
 rs.initializeProto = function () {
   core.assignPrototypes(this,'lineP',linePP);
   this.lineP.stroke = this.whiteOnBlack?'white':'black';
  // this.lineP.stroke = 'rgba(250,250,250,0.3)';
- // this.lineP.stroke = 'green';
+ this.lineP.stroke = 'green';
  // this.lineP.stroke = 'cyan';
   //this.lineP.stroke = 'black';
  // this.lineP.stroke = 'rgb(200,20,20)';
-this.lineP['stroke-width'] = this.whiteOnBlack?.5:3;;// .4;  
+//this.lineP['stroke-width'] = this.whiteOnBlack?.5:3;;// .4;  
  // this.lineP['stroke-width'] = .4;;// .4;  
  // this.lineP['stroke-width'] = .6;;// .4;  
-  //this.lineP['stroke-width'] = .5;;;// .4;  
+  this.lineP['stroke-width'] = 1;;;// .4;  
 }  
 
 rs.initialize = function () {

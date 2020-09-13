@@ -18,19 +18,19 @@ rs.rotConst = 0.005;
 
 /*adjustable parameters  */
 rs.setName('broken1_0');
-rs.whiteOnBlack = 1;
+
 
 rs.initializeProto = function () {
   core.assignPrototypes(this,'lineP',linePP);
-  this.lineP.stroke = this.whiteOnBlack?'white':'black';
+  this.lineP.stroke = 'white';
  // this.lineP.stroke = 'rgba(250,250,250,0.3)';
- // this.lineP.stroke = 'green';
+  this.lineP.stroke = 'green';
  // this.lineP.stroke = 'cyan';
   //this.lineP.stroke = 'black';
  // this.lineP.stroke = 'rgb(200,20,20)';
-this.lineP['stroke-width'] = this.whiteOnBlack?.5:3;;// .4;  
- // this.lineP['stroke-width'] = .4;;// .4;  
- // this.lineP['stroke-width'] = .6;;// .4;  
+  this.lineP['stroke-width'] = 3;;// .4;  
+  //this.lineP['stroke-width'] = .4;;// .4;  
+  //this.lineP['stroke-width'] = .6;;// .4;  
   //this.lineP['stroke-width'] = .5;;;// .4;  
 }  
 
@@ -39,8 +39,8 @@ rs.initialize = function () {
 	let hwd = width/2;
 	let hht = height/2;
 	let deltaY = height/numRows;
-  core.root.backgroundColor = this.whiteOnBlack?'black':'white';
- // core.root.backgroundColor ='black';
+  core.root.backgroundColor ='white';
+  core.root.backgroundColor ='black';
   //core.root.backgroundColor ='white';
   this.initializeProto();
 	this.set('segmentedLines',core.ArrayNode.mk());
@@ -54,7 +54,8 @@ rs.initialize = function () {
 	  let seg = geom.LineSegment.mk(end0,end1);
 	  //this.mkRandomlySegmentedLine(seg,1,20);
 	  //this.mkRandomlySegmentedLine(seg,5,20);
-	  this.mkRandomlySegmentedLine(seg,30,40);
+	  this.mkRandomlySegmentedLine(seg,20,30);
+	  //this.mkRandomlySegmentedLine(seg,10,12);
 	}
 	
 		this.setupShapeRandomizer('aDelta',{step:0.2*Math.PI,stept:0.1,min:0*Math.PI,max:0.5*Math.PI});
@@ -80,7 +81,7 @@ rs.initialize = function () {
 }	
 
 
-rs.updateTheShape = function (line,angle) {
+rs.updateTheShape = function (line,angle) { // called from shapeUpdater in backToSame
 //	let dfr =Math.max( 0.5*( Math.cos(angle+(line.initialPhase)) + 1),0.0 );
 	//let dfr =Math.max( 0.8 * 0.5*( Math.cos(angle+(line.initialPhase)) + 1),0.0 );
 	let c =0.0;
@@ -90,20 +91,52 @@ rs.updateTheShape = function (line,angle) {
  
 rs.updateLines = function () {
 	let {numTimeSteps,timeStep,segmentedLines} = this;
-	let fr = timeStep/numTimeSteps;
-	let sfr = fr*fr;
+	//let fr = timeStep/numTimeSteps;
+	//let sfr = fr*fr;
 	debugger;
-	this.lineForEach( (line) => {
-		this.shapeUpdater(line);
-		return;
-		line.angle = line.aDelta + line.angle;
-		let dfr = Math.cos(line.angle) + 1;
-		this.setLength(line,dfr);
-	});
-	return;
-	segmentedLines.forEach( (segLine) => {
-	  this.setLengths(segLine,sfr/2);
-	})
+	let ln = segmentedLines.length;
+	for (let i=0;i<ln;i++) {
+ 	  let segLineC = segmentedLines[i];
+		let segLine = segLineC.contents;
+		let lns = segLine.length;
+		for (let j=0;j<lns;j++) {
+			let line = segLine[j];
+			if (j%2 === 0) {
+	 // segLine.forEach( (line) => { fun(line)});
+	//this.lineForEach( (line) => {
+		    this.shapeUpdater(line); // defined in backToSame
+	    } else {
+				//debugger;
+				let e1;
+				let lineb = segLine[j-1];
+				if (!lineb) {
+					debugger;
+				}
+				let posb = lineb.getTranslation();
+				let linea = segLine[j+1];
+				if (!linea) {
+						debugger;
+						e1 = posb.plus(Point.mk(10,0));
+				} else {
+				  let  posa = linea.getTranslation();
+					e1 = linea.end1.plus(posa);
+
+				}
+		    let e0 = lineb.end1.plus(posb);
+				line.moveto(Point.mk(0,0));
+				line.setEnds(e0,e1);
+				line.stroke = 'red';
+				line.update();
+			/*	if (linea) {
+					let e0 = lineb.end0.x <= lineb.end1?lineb.end0:lineb.end1;
+					let e1 = linea.end0.x <= linea.end1?linea.end1:linea.end0;
+					line.setEnds(e0,e1);
+					line.stroke = 'red';
+					line.update();
+				}*/
+			}
+	  }
+	};
 }
 
 rs.step = function ()   {

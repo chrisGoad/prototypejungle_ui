@@ -87,7 +87,18 @@ const runAnimation = function (save) {
 	let main = core.root.main;
 	main.saveVideo = save === 'yes';
 	if (main.animate) {
-		main.animate();
+		main.animate(0);
+	}
+}
+
+
+
+const resumeAnimation = function (save) {
+	debugger;
+	let main = core.root.main;
+	main.saveVideo = save === 'yes';
+	if (main.animate) {
+		main.animate(1);
 	}
 }
 

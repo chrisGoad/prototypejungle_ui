@@ -1008,7 +1008,7 @@ item.shapeTimeStep  = function() {
 			let cell = {x:i,y:j,index:idx};
 			let shp = this.shapeGenerator(rvs,cell,cnt);
 	*/
-item.animateIt = function (numFrames,interval) {
+/*item.animateIt = function (numFrames,interval) {
  // let numFrames = 10;
     //svgMain.draw();
 	let animationUnderway = this.animationUnderway?this.animationUnderway:0;
@@ -1100,8 +1100,9 @@ item.pauseAnimation = function () {
 }
 // faint box - otherwise ffmpeg gets confused
 
+
  item.timeStep = 0;
- 
+ */
 
 }
 });

@@ -9,7 +9,6 @@
 
 item.inCell = function (line) {
 	let {width,height,numRows,numCols} = this;
-	debugger;
 	let pnt = line.toGlobalCoords();
 	let deltaX = width/numCols;
 	let deltaY = height/numRows;
@@ -109,9 +108,9 @@ item.mkSegmentedLine = function (seg,pnts,color) {
 }
 
 
-item.mkRandomlySegmentedLine = function (seg,minDist,maxDist) {
+item.mkRandomlySegmentedLine = function (seg,minDist,maxDist,color) {
 	let pnts = selectRandomPointsOnSeg(seg,minDist,maxDist);
-	return this.mkSegmentedLine(seg,pnts);
+	return this.mkSegmentedLine(seg,pnts,color);
 }
 
 item.mkEvenlySegmentedLine = function (seg,n,color) {
