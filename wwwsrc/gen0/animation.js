@@ -122,9 +122,11 @@ item.pauseAnimation = function () {
 }
 // faint box - otherwise ffmpeg gets confused
 
-item.addBox = function (lineP,ipadding,icolor) {
+item.addBox = function (lineP,ipadding,istrokeWidth,icolor) {
+	debugger;
 	let {width,height} = this;
 	let padding = ipadding?ipadding:0;
+	let strokeWd = istrokeWidth?istrokeWidth:1;
 	let color = icolor?icolor:'rgba(255,255,255,.2)';
 	let hw = padding + 0.5*width;
 	let hh = padding + 0.5*height;
@@ -141,6 +143,7 @@ item.addBox = function (lineP,ipadding,icolor) {
   for (let i=0;i<4;i++) {
 		let line = lines[i];
 		line.stroke = color;
+		line['stroke-width'] = strokeWd;
 		this.set('line'+i,line);
 		line.setEnds(points[i],points[i+1]);
 		line.show();
