@@ -9,6 +9,7 @@ addMethods(rs);
 rs.saveImage = true;
 rs.setName('lines0_3');
 rs.width = 400;
+rs.dimension = 100;
 rs.height = 100;
 rs.numLines=100;
 //rs.numLines=5;
@@ -21,7 +22,7 @@ let c1 = geom.Circle.mk(Point.mk(0,0),100);
 c0.onCircle = 1;
 c1.onCircle = 1;
 
-rs.shapePairs = [[c0,c1]]
+//rs.shapePairs = [[c0,c1]]
  
 
 

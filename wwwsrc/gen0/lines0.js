@@ -637,9 +637,32 @@ item.addRandomSegment = function (segments,src,dst,shape) {
   }
 }
 
+const putIn0_1 = function (x) {
+	while (x < 0) {
+		x++;
+	}
+	while (x>1) {
+		x--;
+	}
+	return x;
+}
+
 item.addSegment = function (segments,pnt,vec,circle) {
-	let [i0,i1] = circle.intersectLine(pnt,vec);
-	let rsg = geom.LineSegment.mk(srcP,dstP,true);// true = don't copy
+	let ints = circle.intersectLine(pnt,vec);
+	if (!ints) {
+		return;
+	}
+	let [i0,i1] = ints;
+	let {center,radius} = circle;
+	let v0 = i0.difference(center);
+	let v1 = i1.difference(center);
+	let fr0 = Math.atan2(v0.y,v0.x)/(2*Math.PI);
+	let fr1 = Math.atan2(v1.y,v1.x)/(2*Math.PI);
+	i0.fractionAlong = putIn0_1(fr0);
+	i1.fractionAlong = putIn0_1(fr1);
+	i0.onShape = circle;
+	i1.onShape = circle;
+	let rsg = geom.LineSegment.mk(i0,i1,true);// true = don't copy
   segments.push(rsg);
 }
 	//let intersections = circle.intersectLine(pnt,vec);
@@ -971,16 +994,17 @@ item.resetSegments = function (rect) {
 */
 
 item.moveSegment = function (seg) {
+	debugger;
 	let {end0,end1,hideMe} = seg;
 	if (hideMe) {
 		return;
 	}
 	let fr0 = end0.delta+end0.fractionAlong;
 	let fr1 = end1.delta+end1.fractionAlong;
-	fr0 = fr0<0?fr0+1:(fr0>1?fr0-1:fr0);
-	fr1 = fr1<0?fr1+1:(fr1>1?fr1-1:fr1);;
-	
-		end0.fractionAlong = fr0;
+	fr0 = putIn0_1(fr0);
+//	fr0<0?fr0+1:(fr0>1?fr0-1:fr0);
+	fr1 = putIn0_1(fr1);	
+	end0.fractionAlong = fr0;
 	end1.fractionAlong = fr1;
 }
 
@@ -1043,8 +1067,23 @@ item.moveCircleSegmentBy = function (rect,seg,delta) {
 	
 item.initializeLines = function (irect) {
   debugger;
-  let {width,height,rectP,includeRect,boardRows} = this;
-	let rect;
+  let {width,height,rectP,dimension,includeRect,boardRows,numLines} = this;
+	let rect,circle;
+	this.set('segments',core.ArrayNode.mk());
+	if (!this.lines) {
+    this.set('lines',core.ArrayNode.mk());
+    this.set('points',core.ArrayNode.mk());  
+    this.set('circles',core.ArrayNode.mk());
+	} 
+	if (dimension) {
+		circle = geom.Circle.mk(Point.mk(0,0),0.5*dimension);
+		circle.onCircle = true;
+		for (let j=0;j<numLines;j++) {
+			this.addRandomSegment(this.segments,circle,circle);
+		}
+		this.addLines();
+		return;
+	}
 	if (irect) {
 		rect = irect;
 	} else {
@@ -1054,13 +1093,7 @@ item.initializeLines = function (irect) {
 		let extent = Point.mk(this.width,this.height);
 	  rect = geom.Rectangle.mk(corner,extent);
 	}
-  let {whites,blacks} = this;
-	this.set('segments',core.ArrayNode.mk());
-	if (!this.lines) {
-    this.set('lines',core.ArrayNode.mk());
-    this.set('points',core.ArrayNode.mk());  
-    this.set('circles',core.ArrayNode.mk());
-	} 
+ // let {whites,blacks} = this;
   let shapePairs = this.shapePairs;
   if (shapePairs) {
     debugger;
@@ -1075,42 +1108,18 @@ item.initializeLines = function (irect) {
     this.addLines();
     return;
   }
-  let ocs = this.originatingShapes;
-  let noc = ocs?ocs.length:0;  
-  if (this.dimension) {
-    this.set('circle',geom.Circle.mk(Point.mk(0,0),0.5 * this.dimension));
-  } else {
-		debugger;
-    this.addSides(rect);
-  }
+ // let ocs = this.originatingShapes;
+ // let noc = ocs?ocs.length:0;  
+	debugger;
+  this.addSides(rect);
+
   let n=this.numLines;
   let i=0;
   let segments = this.segments;
   debugger;
-  while (true) {
-    if (boardRows) {
-      segments = odd?whiteSegs:blackSegs;
-    }
-    let which = Math.min(Math.floor(Math.random() * noc),noc-1)+1;
-    let rsg = this.addRandomSegment(segments,noc?ocs[which-1]:null,null,rect)
-    if (rsg) {
-      if (ocs) {
-        rsg.whichCircle = which;
-      }
-      i++;
-      if (i>=n) {
-        break;
-      }
-    }
-  }
-  if (includeRect) {
-    let rect = rectP.instantiate();
-    this.set('rect',rect);
-    rect.width = width;
-    rect.height = height;
-    rect.fill = 'rgb(0,0,0)'
-    rect.update();
-    rect.show();
+  for (let i=0;i<numLines;i++) {
+  //  let which = Math.min(Math.floor(Math.random() * noc),noc-1)+1;
+    this.addRandomSegment(segments,null,null,rect)
   }
   this.addLines();
 }
@@ -1118,8 +1127,37 @@ item.initializeLines = function (irect) {
 
 item.initializeGrid = function (irect) {
   debugger;
-  let {width,height,numRows,numCols,rectP,includeRect} = this;
-	let rect;
+	
+	let {width,height,numRows,numCols,rectP,dimension,numLines} = this;
+	let rect,circle;
+	this.set('segments',core.ArrayNode.mk());
+	if (!this.lines) {
+    this.set('lines',core.ArrayNode.mk());
+    this.set('points',core.ArrayNode.mk());  
+    this.set('circles',core.ArrayNode.mk());
+	} 
+	if (dimension) {
+		circle = geom.Circle.mk(Point.mk(0,0),0.5*dimension);
+		circle.onCircle = true;
+		let r = circle.radius;
+		let deltaX = 2*r/numCols;
+		let deltaY = 2*r/numRows;
+		let vvec = Point.mk(0,1);
+		let hvec = Point.mk(1,0);
+		for (let ii = 0;ii <numCols+1;ii++) {
+			let xp = -r + ii*deltaX;
+			let p = Point.mk(xp,0);
+			this.addSegment(this.segments,p,vvec,circle);
+		}
+		for (let ii = 0;ii <numRows+1;ii++) {
+			let yp = -r + ii*deltaY;
+			let p = Point.mk(0,yp);
+			this.addSegment(this.segments,p,hvec,circle);
+		}
+		
+    this.addLines();
+		return;
+	}
 	if (irect) {
 		rect = irect;
 	} else {
@@ -1146,8 +1184,8 @@ item.initializeGrid = function (irect) {
 			let r = circle.radius;
 			let deltaX = 2*r/numCols;
 			let vvec = Point.mk(0,1);
-			for (i = 0;i <numCols+1;i++) {
-				let xp = -r * i*deltaX;
+			for (let ii = 0;ii <numCols+1;ii++) {
+				let xp = -r + ii*deltaX;
 				let p = Point.mk(xp,0);
 				this.addSegment(this.segments,p,vvec,circle);
 			}
