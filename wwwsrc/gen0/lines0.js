@@ -618,7 +618,7 @@ item.addRandomSegment = function (segments,src,dst,shape) {
     let e1 = srcP.plus(vec);
     let lsg = geom.LineSegment.mk(e0,e1);
     lsg.angle = dir;
-    let rsg = this.intersectUnitSegment(lsg,rect);
+    let rsg = this.intersectUnitSegment(lsg,shape);
     if (!rsg) {
       return;
     }
@@ -1127,17 +1127,8 @@ item.initializeLines = function (irect) {
 
 item.initializeGrid = function (irect) {
   debugger;
-	
 	let {width,height,numRows,numCols,rectP,dimension,numLines} = this;
-	let rect,circle;
-	this.set('segments',core.ArrayNode.mk());
-	if (!this.lines) {
-    this.set('lines',core.ArrayNode.mk());
-    this.set('points',core.ArrayNode.mk());  
-    this.set('circles',core.ArrayNode.mk());
-	} 
-	if (dimension) {
-		circle = geom.Circle.mk(Point.mk(0,0),0.5*dimension);
+	const addGridToCircle = (circle) => {
 		circle.onCircle = true;
 		let r = circle.radius;
 		let deltaX = 2*r/numCols;
@@ -1154,7 +1145,18 @@ item.initializeGrid = function (irect) {
 			let p = Point.mk(0,yp);
 			this.addSegment(this.segments,p,hvec,circle);
 		}
+	}
 		
+	let rect,circle;
+	this.set('segments',core.ArrayNode.mk());
+	if (!this.lines) {
+    this.set('lines',core.ArrayNode.mk());
+    this.set('points',core.ArrayNode.mk());  
+    this.set('circles',core.ArrayNode.mk());
+	} 
+	if (dimension) {
+		circle = geom.Circle.mk(Point.mk(0,0),0.5*dimension);
+		addGridToCircle(circle);
     this.addLines();
 		return;
 	}
@@ -1233,65 +1235,6 @@ item.initializeGrid = function (irect) {
   this.addLines();
 }
 
-
-
-// generates two arrays: the white squares and the black squares
-/*
-item.genCheckerBoard = function () {
-  let {boardCols,boardRows,width,height,rectP} = this;
-  let whites = core.ArrayNode.mk();
-  let blacks = core.ArrayNode.mk();
-  let whiteSquares = [];
-  let blackSquares = [];
-  this.set('whites',whites);
-  this.set('blacks',blacks);
-  let xdim = width/boardCols;
-  let ydim = height/boardRows;
-  let lx = 0.5 * (xdim -width);
-  let ly = 0.5 * (ydim -height);
-  let white = true;
-  for (let i=0;i<boardCols;i++) {
-    let cx = lx + i*xdim;
-    for (let j=0;j<boardRows;j++) {
-      white = j%2 === 0;
-      let cy = ly + j*ydim;
-      let ps = Point.mk(cx,cy);
-      let rect = rectP.instantiate();
-      rect.width = xdim;
-      rect.height = ydim;
-      let shrink = 0;
-      let corner = Point.mk(shrink+cx-0.5*xdim-shrink,shrink+cy-0.5*ydim);
-      let extent = Point.mk(xdim-shrink,ydim-shrink);
-      let rectangle = geom.Rectangle.mk(corner,extent);
-      if (white) {
-        whites.push(rect);
-        whiteSquares.push(rectangle.sides());
-        //whiteSquares.push(rectangle);
-      } else {
-        blacks.push(rect);
-        blackSquares.push(rectangle.sides());
-        //blackSquares.push(rectangle);
-      }
-      rect.moveto(ps);
-     // rect.update();
-     // rect.show();
-      //white = !white;
-    }
-   // white = !white;
-  }
-  return [whiteSquares,blackSquares];
-}
- */     
-      
- 
-item.setName = function (name) {
-	this.name = name;
-	if (this.saveImage) {
-	  core.vars.whereToSave = `images/${name}.jpg`;
-	}
-	this.path = `json/${name}.json`;
-}     
-  
 }});
 
       

@@ -7,7 +7,8 @@ let rs = svg.Element.mk('<g/>');
 addMethods(rs);
 /*adjustable parameters  */
 rs.saveImage = true;
-rs.setName('lines0_3');
+
+rs.setName('lines0_4');
 rs.width = 400;
 rs.dimension = 100;
 rs.height = 100;

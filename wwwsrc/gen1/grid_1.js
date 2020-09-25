@@ -58,9 +58,9 @@ rs.computeDirValues = function () {
 
 rs.lineLength = 0.5; // this is multiplied by deltaX to get the actual line length
 rs.generateVariant = false;
-rs.initialize = function () {
+rs.innerInitialize = function () {
 	debugger;
-	core.root.backgroundColor = 'red';
+	//core.root.backgroundColor = 'red';
 	//this.initializeP();
  // this.dirValues = this.computeDirValues();
 	let {path} = this;
@@ -74,6 +74,7 @@ rs.initialize = function () {
 			let vls = JSON.parse(json);
 			Object.assign(this,vls);
 			this.initializeGrid();
+			debugger;
 		});
 	} else {
 		//this.ranRowCol = this.randomCell(this.randomCellExclude);

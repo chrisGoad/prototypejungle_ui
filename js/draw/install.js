@@ -331,4 +331,4 @@ const handleError = function (e) {
   }
 }
 
-export {saveTheImage,saveFrame};
+export {saveTheImage,saveFrame,fitTheContents};

@@ -974,7 +974,7 @@ item.intersectWithSides = function (lseg,rect,sides) {
 	} else if (intersections.length === 2) {
 		return geom.LineSegment.mk(intersections[0],intersections[1])
 	} else {
-		debugger; //keep should not happedn
+		debugger; //keep should not happednpo
 		return;
 	}
 }
