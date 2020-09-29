@@ -268,9 +268,9 @@ rs.step = function ()   {
 	}
 	if (range === 1 ) {
 			  this.adjustCells(sp*innerSq,'ur',range);
+	  this.adjustCells(sp*innerSq,'ll',range);
 
 		this.adjustCells(sp*innerSq,'ul',range);
-	  this.adjustCells(sp*innerSq,'ll',range);
 	  this.adjustCells(sp*innerSq,'lr',range);
 
 		return;
@@ -288,8 +288,8 @@ rs.step = function ()   {
 	if (range === 2) {
 		debugger;
 		this.adjustCells(-sp*untilSq,'ur',range);
-		this.adjustCells(-sp*untilSq,'ul',range);
 		this.adjustCells(-sp*untilSq,'ll',range);
+		this.adjustCells(-sp*untilSq,'ul',range);
 		this.adjustCells(-sp*untilSq,'lr',range);
 
 		return;

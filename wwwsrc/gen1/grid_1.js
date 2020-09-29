@@ -29,6 +29,28 @@ rs.positionFunction = function (grid,i,j) {
   return Point.mk((bothalf?0*deltaX:0)+botx + deltaX*i,boty + deltaY*j);
   
 }
+
+rs.posFunction = function (i,j) {
+  let {deltaX,deltaY,numRows,numCols,width,height} = this;
+  let botx = 0.5*deltaX + -0.5 * width;
+  let boty = 0.5*deltaY +  -0.5 * height;
+  return Point.mk(botx + deltaX*i,boty + deltaY*j);
+  
+}
+
+rs.computeRanges = function (times) {
+	let ctime = 0;
+	let ranges  = [];
+	const addToRanges = function (tm) {
+		ranges.push(ctime);
+		ctime += tm;
+	}
+	times.forEach(addToRanges);
+	this.timeRanges = ranges;
+	this.numTimeSteps = ctime;
+	return ranges;
+}
+
 /*
 rs.computeRandomRowCol = function () {
 	let excl = this.randomRowColExclude;
