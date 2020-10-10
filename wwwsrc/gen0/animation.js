@@ -4,7 +4,6 @@ core.require(function () {
   return function (item) {
 
 item.setName = function (name,jsonName) {
-	debugger;
 	this.name = name;
 	core.vars.whereToSave = name;
 	let theName = jsonName?jsonName:name;

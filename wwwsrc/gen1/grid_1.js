@@ -30,6 +30,12 @@ rs.positionFunction = function (grid,i,j) {
   
 }
 
+rs.shapeAt = function (x,y) {
+	let {numRows,shapes} = this;
+	let idx = x*numRows + y;
+	return shapes[idx];
+}
+
 rs.posFunction = function (i,j) {
   let {deltaX,deltaY,numRows,numCols,width,height} = this;
   let botx = 0.5*deltaX + -0.5 * width;
@@ -49,6 +55,16 @@ rs.computeRanges = function (times) {
 	this.timeRanges = ranges;
 	this.numTimeSteps = ctime;
 	return ranges;
+}
+rs.whatTimeRange = function () {
+	let {timeRanges,timeStep} = this;
+	let ln = timeRanges.length;
+	for (let i=0;i<ln-1;i++) {
+		if ((timeStep >= timeRanges[i]) && (timeStep < timeRanges[i+1])) {
+			return i;
+		}
+	}
+	return 'done';
 }
 
 /*
@@ -78,9 +94,18 @@ rs.computeDirValues = function () {
 	return rvl;
 }
 
+rs.computeValuesToSave = function () {
+	let vl = this.computeDirValues();
+	let vls = [[['dirValues'],vl]];
+	this.dirValues = vl;
+	return vls;
+}
+	
+
 rs.lineLength = 0.5; // this is multiplied by deltaX to get the actual line length
 rs.generateVariant = false;
-rs.innerInitialize = function () {
+/*
+rs.innerInitialize = function (cb) {
 	debugger;
 	//core.root.backgroundColor = 'red';
 	//this.initializeP();
@@ -89,13 +114,16 @@ rs.innerInitialize = function () {
 	
 	
 	
-	this.dirValues = [];
+	//this.dirValues = [];
 	if (this.loadFromPath) {
 		debugger;
 	  core.httpGet(path, (error,json) => {
 			let vls = JSON.parse(json);
 			Object.assign(this,vls);
 			this.initializeGrid();
+			if (cb) {
+				cb();
+			}
 			debugger;
 		});
 	} else {
@@ -106,13 +134,16 @@ rs.innerInitialize = function () {
       let jsn = JSON.stringify({dirValues:this.dirValues});
 			if (this.saveJson) {
 	      core.saveJson(path,jsn,function (err,rs) {
+					if (cb) {
+						cb();
+					}
 		      debugger;
 		    });
 			}
 		}
   }
 }
-
+*/
 rs.shapeGenerator = function (rvs,cell,cnt) {
 	let idx = cell.index;
   let {shapes,dirValues,lineLength} = this;
@@ -135,8 +166,24 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 }
 
 
-
- 
+rs.showInCircle = function (circle) {
+	let {numRows,numCols} = this;
+	let {center,radius} = circle;
+	for (let i=0;i<numCols;i++) {
+		for (let j=0;j<numRows;j++) {
+			let shape = this.shapeAt(i,j);
+			let pos = this.posFunction(i,j);
+			let dist = pos.distance(center);
+			if (dist <= radius) {
+				shape.stroke = 'white';
+			} else {
+				shape.stroke = 'rgba(255,255,255,0.14)';
+			}
+			shape.draw();
+		}
+	}
+}
+	
 	 
 	
 

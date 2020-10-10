@@ -12,6 +12,10 @@ rs.width = 400;
   rs.numDrops =3000;
   rs.numRows = 20;
   rs.numCols = 20;
+	rs.spatter = true;
+	rs.loadFromPath = 1;
+	rs.saveJson = 0;
+	
 	
 rs.initProtos = function () {
   core.assignPrototypes(this,'lineP',linePP);
@@ -19,7 +23,8 @@ rs.initProtos = function () {
 }  
 
 
-rs.spatterGenerator =  function (rvs,cell,pnt) {
+//rs.spatterGenerator =  function (rvs,cell,pnt) {
+rs.shapeGenerator =  function (rvs,cell,pnt) {
 //item.setLenDir = function (shape,len,dir) {
 	let {shapes,lineP} = this;
   let shape = this.lineP.instantiate();
@@ -37,14 +42,21 @@ rs.spatterGenerator =  function (rvs,cell,pnt) {
   return shape;
 }
 
+rs.computeValuesToSave = function () {
+  let rnd = this.setupShapeRandomizer('direction', {step:0.2* Math.PI,min:0,max:2*Math.PI});
+	let vls = [[['randomGridsForShapes','direction'],rnd]];
+	return vls;
+}
+
 rs.initialize = function () {
   debugger;
   this.initProtos();
   core.root.backgroundColor = 'black';
 	this.setupShapeRandomizer('length', {step:5,min:5,max:10});
-	this.setupShapeRandomizer('direction', {step:0.2* Math.PI,min:0,max:2*Math.PI});
+	//this.setupShapeRandomizer('direction', {step:0.2* Math.PI,min:0,max:2*Math.PI});
 	this.setupShapeRandomizer('shade', {step:30,min:50,max:250});
-  this.initializeGrid();
+  //this.initializeGrid();
+  this.outerInitialize();
 }	
 return rs;
 });

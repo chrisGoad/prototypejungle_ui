@@ -5,11 +5,11 @@ function (constructor) {
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
   let rs = constructor();
 	rs.saveImage = true;
-	rs.setName('grid_1_7','grid_1_7');
+	rs.setName('grid_1_12','grid_1_7');
 	rs.initProtos();
 	//rs.path = 'json/grid_1_1.json';
   rs.loadFromPath = 1;
-	rs.saveJson = 0;
+	rs.saveJson = 1;
 	//rs.randomCellExclude = 2;
 	rs.numRows = 20;
 	rs.numCols = 20;
@@ -34,32 +34,24 @@ rs.defaultPositionFunction = function (i,j) {
 }*/
 rs.directionOfPatterns = {ul:'downLeft',lr:'downLeft',ll:'downRight',ur:'downRight'};
 
-	rs.adjustCell = function (x,y,delta,kind,timeRange) {
-		//let {numRows,shapes,lineLength} = this;
+	rs.adjustCell = function (x,y,kind) {
+		let {lineLength} = this;
 		//let idx = x*numRows + y;
 		//let line0 = shapes[idx];
-		let line0 = this.shapeAt(x,y);
-		let pos = this.posFunction(x,y);
 		let dop = this.directionOfPatterns[kind];
-		let dst =pos.plus(Point.mk(dop==='downRight'?delta:-delta,delta));
-		let ln = dst.length();
-		let limit = 190;
-		if (ln > limit) {
-			line0.hide();
-		} else {
-			line0.show();
-		  line0.moveto(dst);
-		}
+    let dir = (dop === 'downLeft'?0.75:0.25)*Math.PI;
+		let line0 = this.shapeAt(x,y);
+		this.setLineEnds(line0,lineLength,dir);
 	}
 	
-rs.adjustCells = function (delta,kind,timeRange) {
+rs.adjustCells = function (kind) {
 //	debugger;
 	let {numRows,numCols} = this;
 	for (let i=0;i<numCols;i++) {
 		for (let j=0;j<numRows;j++) {
 			let pat = this.inPattern(i,j);
 			if (pat === kind) {
-			  this.adjustCell(i,j,delta,pat,timeRange);
+			  this.adjustCell(i,j,pat);
 			}
 		}
 	}
@@ -76,8 +68,12 @@ rs.adjustCells = function (delta,kind,timeRange) {
 rs.initialize = function () {
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';
-	this.outerInitialize();
-	//this.innerInitialize();
+	this.innerInitialize(() => {
+		this.adjustCells('ur');
+		this.adjustCells('ul');
+		this.adjustCells('ll');
+		this.adjustCells('lr');
+	});
 	this.addTheBox();
 }
 
@@ -129,7 +125,16 @@ rs.setTimeRanges();
 rs.step = function ()   {
 	//debugger;
 	let {timeStep,numTimeSteps,timeRanges,mainRange,speedFactor:sp} = this;
-  let range = this.whatTimeRange();
+	const whatTimeRange = function () {
+	  let ln = timeRanges.length;
+		for (let i=0;i<ln-1;i++) {
+			if ((timeStep >= timeRanges[i]) && (timeStep < timeRanges[i+1])) {
+				return i;
+			}
+		}
+		return 'done';
+	}
+  let range = whatTimeRange();
 	let start = timeRanges[range];
 	let finish = timeRanges[range+1];
 	let inner = timeStep - start;

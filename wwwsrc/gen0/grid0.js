@@ -739,6 +739,16 @@ item.genAwindows = function (szx,szy) {
           
                  
 
+item.initRandomizer = function () {
+	let rm = this.randomizer;
+	if (!rm) {
+		rm = this.randomizer = {};
+	  addRandomMethods(rm);
+	  this.randomGridsForShapes = {};
+	  this.randomGridsForBoundaries = {};
+	}
+	return rm;
+}
 item.setupRandomizer = function (tp,nm,params) {
 	if (nm === 'pattern') {
 		debugger;
@@ -748,21 +758,24 @@ item.setupRandomizer = function (tp,nm,params) {
 		params.numRows = kind==='boundaries'?this.numRows+1:this.numRows;
 		params.numCols = kind==='boundaries'?this.numCols+1:this.numCols;
 	}
-	let rm = this.randomizer;
+	let rm = this.initRandomizer();
+	/*let rm = this.randomizer;
 	if (!rm) {
 		rm = this.randomizer = {};
 	  addRandomMethods(rm);
-	}
+	}*/
 	let rnds = this[tp];
-	if (!rnds) {
-	  rnds = this[tp] = {};
-	}
+//	if (!rnds) {
+//	  rnds = this[tp] = {};
+//	}
 	//let  cParams = {step:35,min:150,max:250,biasFun,numRows:numRows+1,numCols:numCols+1};
   let rs  = rm.genRandomGrid({timeStep:0,params});
 	rnds[nm]  = rs;
+	
 	//debugger;
 	return rs;
 }
+
 
 item.stepRandomizer = function (tp,nm) {
 	//debugger;
@@ -779,22 +792,22 @@ item.stepRandomizer = function (tp,nm) {
 }
 	
 item.stepShapeRandomizer = function (nm) {
-  this.stepRandomizer('randomGridsForShapes',nm);
+  return this.stepRandomizer('randomGridsForShapes',nm);
 }
 	
 
 item.stepBoundaryRandomizer = function (nm) {
-  this.stepRandomizer('randomGridsForBoundaries',nm);
+  return this.stepRandomizer('randomGridsForBoundaries',nm);
 }
 		
 
 item.setupShapeRandomizer = function (nm,params) {
-  this.setupRandomizer('randomGridsForShapes',nm,params);
+  return this.setupRandomizer('randomGridsForShapes',nm,params);
 }
 
 
 item.setupBoundaryRandomizer = function (nm,params) {
-  this.setupRandomizer('randomGridsForBoundaries',nm,params);
+  return this.setupRandomizer('randomGridsForBoundaries',nm,params);
 }        
         
 item.setupPointJiggle = function () {     
@@ -811,7 +824,7 @@ item.setupPointJiggle = function () {
 //item.initializeGrid = function (randomizer) {
 item.initializeGrid = function () {
   let {numRows,numCols,pointJiggle} = this;
-	//debugger;
+	debugger;
  // this.initializeProtos();
   this.setupPointJiggle();
   this.deltaX = this.width/numCols;
@@ -856,6 +869,7 @@ item.initializeGrid = function () {
 	} else if (this.shapeGenerator || this.shapeP  ) {
     this.addShapes();
   }
+	draw.fitTheContents();
   if (this.lastGridStep) {
     this.lastGridStep(); // eg for filling in symmetries
   }
@@ -986,6 +1000,70 @@ item.randomCell = function (excl) {
   let col = excl + Math.floor(Math.random() * (numCols-2*excl));
   let row= excl + Math.floor(Math.random() * (numRows-2*excl));
   return {x:col,y:row};
+  }
+}
+
+item.assignValueToPath = function (path,value) {
+	let ln = path.length;
+	let cvl = this;
+	for (let i=0;i<ln-1;i++) {
+		let pel = path[i];
+		let nvl = cvl[pel];
+		if (!nvl) {
+			nvl = {};
+			cvl[pel] = nvl;
+		}
+		cvl = nvl;
+	}
+	cvl[path[ln-1]] = value;
+}
+	
+item.assignValues = function (vls) {
+	vls.forEach( (vl) => {
+		let [path,value] = vl;
+		this.assignValueToPath(path,value);
+	});
+}
+		
+item.outerInitialize = function (cb) {
+	debugger;
+	//core.root.backgroundColor = 'red';
+	//this.initializeP();
+ // this.dirValues = this.computeDirValues();
+	let {path} = this;
+	
+	//this.dirValues = [];
+	if (this.loadFromPath) {
+		debugger;
+	  core.httpGet(path, (error,json) => {
+			let vls = JSON.parse(json);
+			this.assignValues(vls);
+			this.initializeGrid();
+			if (cb) {
+				cb();
+			}
+			debugger;
+		});
+	} else {
+		//this.ranRowCol = this.randomCell(this.randomCellExclude);
+    let vls = this.computeValuesToSave();
+		this.initializeGrid();
+		if (this.saveJson) {
+		/*  let vls = {};
+			propsToSave.forEach( (prop) => {
+			   let vl = this[prop];
+				 vls[prop] = this[prop];
+		  });*/
+      let jsn = JSON.stringify(vls);
+			if (this.saveJson) {
+	      core.saveJson(path,jsn,function (err,rs) {
+					if (cb) {
+						cb();
+					}
+		      debugger;
+		    });
+			}
+		}
   }
 }
 

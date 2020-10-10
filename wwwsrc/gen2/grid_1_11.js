@@ -9,7 +9,7 @@ function (constructor) {
 	rs.initProtos();
 	//rs.path = 'json/grid_1_1.json';
   rs.loadFromPath = 1;
-	rs.saveJson = 0;
+	rs.saveJson = 1;
 	//rs.randomCellExclude = 2;
 	rs.numRows = 20;
 	rs.numCols = 20;
@@ -22,6 +22,7 @@ function (constructor) {
 	//rs.numTimeSteps = rs.preSteps+ 5*rs.mainRange;
 	rs.speedFactor = 0.05;
 	rs.lineLength = 0.75;
+	rs.circleRadius = 0.2 * rs.width;
 	
 	
 	/*
@@ -36,9 +37,10 @@ rs.directionOfPatterns = {ul:'downLeft',lr:'downLeft',ll:'downRight',ur:'downRig
 
 	rs.adjustCell = function (x,y,delta,kind,timeRange) {
 		//let {numRows,shapes,lineLength} = this;
-		//let idx = x*numRows + y;
-		//let line0 = shapes[idx];
+	//	let idx = x*numRows + y;
+	//	let line0 = shapes[idx];
 		let line0 = this.shapeAt(x,y);
+		//shapes[idx];
 		let pos = this.posFunction(x,y);
 		let dop = this.directionOfPatterns[kind];
 		let dst =pos.plus(Point.mk(dop==='downRight'?delta:-delta,delta));
@@ -76,9 +78,13 @@ rs.adjustCells = function (delta,kind,timeRange) {
 rs.initialize = function () {
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';
-	this.outerInitialize();
-	//this.innerInitialize();
-	this.addTheBox();
+	this.innerInitialize( () => {
+		this.addTheBox();
+	  let circle = this.circle = geom.Circle.mk(Point.mk(0,0),this.circleRadius);
+		//this.genRandomCenter();
+    debugger;
+		this.showInCircle(circle);
+	});
 }
 
 rs.inPattern = function (x,y) {
@@ -124,44 +130,27 @@ rs.setTimeRanges = function () {
 
 rs.setTimeRanges();
 
-
-	
+rs.genRandomCenter = function () {
+	let {width,height,circle} = this;
+	let {center,radius} = circle;
+	let wd = width-radius;
+	let ht = height-radius;
+	let x = -0.5*wd + Math.random()*wd;
+	let y = -0.5*ht + Math.random()*ht;
+	center.x = x;
+	center.y= y;
+}
+//rs.centers = [Point.mk(0,0),
 rs.step = function ()   {
-	//debugger;
-	let {timeStep,numTimeSteps,timeRanges,mainRange,speedFactor:sp} = this;
-  let range = this.whatTimeRange();
-	let start = timeRanges[range];
-	let finish = timeRanges[range+1];
-	let inner = timeStep - start;
-	let innerSq = inner*inner;
-	let until = mainRange - inner;
-	let untilSq = until*until;
-	
-	if (range === 0) {
-		return;
-	}
-	if (range === 1 ) {
-			  this.adjustCells(sp*innerSq,'ur',range);
-	  this.adjustCells(sp*innerSq,'ll',range);
-
-		this.adjustCells(sp*innerSq,'ul',range);
-	  this.adjustCells(sp*innerSq,'lr',range);
-
-		return;
-	} 
-	if (range === 2) {
-		debugger;
-		this.adjustCells(-sp*untilSq,'ur',range);
-		this.adjustCells(-sp*untilSq,'ll',range);
-		this.adjustCells(-sp*untilSq,'ul',range);
-		this.adjustCells(-sp*untilSq,'lr',range);
-
-		return;
-	} 
+	debugger;
+	let {circle} = this;
+	let {center} = circle;
+	this.genRandomCenter();
+	this.showInCircle(circle);
 }
 
 rs.animate = function (resume)  {
-	this.animateIt(this.numTimeSteps,50,resume);
+	this.animateIt(this.numTimeSteps,200,resume);
 	
 }
   return rs;
