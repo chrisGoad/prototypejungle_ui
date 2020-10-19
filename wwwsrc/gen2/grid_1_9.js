@@ -75,7 +75,7 @@ rs.adjustCells = function (delta,kind,timeRange) {
 rs.initialize = function () {
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';
-	this.innerInitialize();
+	this.outerInitialize();
 	this.addTheBox();
 }
 

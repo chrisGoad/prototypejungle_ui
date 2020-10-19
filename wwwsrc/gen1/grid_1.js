@@ -3,7 +3,6 @@
 core.require('/line/line.js','/gen0/grid0.js',
 function (linePP,addGridMethods) {
 	return function () {
-  debugger;
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
  // let rs = constructor();

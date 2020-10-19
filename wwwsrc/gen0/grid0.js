@@ -216,7 +216,8 @@ item.randomValuesAtCell = function (randomGrids,i,j) {
 	if (!randomGrids) {
 		return;
 	}
-  let {randomizer} = this;  
+	let randomizer = this.initRandomizer();
+  //let {randomizer} = this;  
 	let rs = {};
 	for (let prop in randomGrids) {
 	  let randomValues = randomGrids[prop];
@@ -375,14 +376,60 @@ item.genRandomPoint = function (rect) {
     return [Point.mk(cellX,cellY),Point.mk(x,y)];
 }
 
+item.addAtPoint = function (cell,pnt,idx) {
+  let {shapes,randomizer,sizes,spatterGenerator,randomGridsForShapes} = this;
+  let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
+  //let shape = this.spatterGenerator(rvs,cell,pnt);
+  let shape = this.shapeGenerator(rvs,cell,pnt,idx);
+	let srect;
+	if (shape) {
+		if (this.spatterRect) {
+		  //srect = this.spatterRect(cell,pnt);
+			let {end0,end1} = shape;
+			let nend0 = end0.plus(pnt);
+			let nend1 = end1.plus(pnt);
+			shape.setEnds(nend0,nend1);
+	  } else if (!this.generatorsDoMoves) {
+		  shape.moveto(pnt);
+			shape.cell = cell
+		}
+		shape.show();
+		return shape;
+	}
+}
+
+item.genRect = function () {
+	let {width,height} = this;
+	let corner = Point.mk(-0.5*width,-0.5*height);
+  let extent = Point.mk(width,height);
+  let rect = geom.Rectangle.mk(corner,extent);
+	return rect;
+}
+	
+item.genSpatterPoints = function () {
+	let {numDrops} = this;
+  let rect = this.genRect();
+	if (this.spatterPoints) {
+		return;
+	}
+	let pnts = this.spatterPoints = [];
+	for (let i=0;i<numDrops;i++) {
+		pnts.push(this.genRandomPoint(rect));
+	}
+}
+	
 item.addAtRandomPoint = function (rect) {
   let {shapes,randomizer,sizes,spatterGenerator,randomGridsForShapes} = this;
   let rnd = this.genRandomPoint(rect);
   let cell = rnd[0];
   let pnt = rnd[1];
+	let shape = this.addAtPoint(cell,pnt);
+	return shape;
+}
+/*	
   let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
   //let shape = this.spatterGenerator(rvs,cell,pnt);
-  let shape = this.shapeGenerator(rvs,cell,pnt);
+  //let shape = this.shapeGenerator(rvs,cell,pnt);
 	let srect;
 	if (shape) {
 		if (this.spatterRect) {
@@ -398,7 +445,7 @@ item.addAtRandomPoint = function (rect) {
 		shape.show();
 		return shape;
 	}
-}
+}*/
 
 
 
@@ -424,7 +471,7 @@ item.addShapes = function () {
 			let cell = {x:i,y:j,index:idx};
 			let  shp;
 			if (this.shapeGenerator) {
-				shp = this.shapeGenerator(rvs,cell,cnt);
+				shp = this.shapeGenerator(rvs,cell,cnt,idx);
 				if (this.shapeUpdater) {
 				  this.shapeUpdater(shp, rvs,cell,cnt);
 				}
@@ -492,24 +539,30 @@ item.addSpatter = function () {
 			this.set('shapes',core.ArrayNode.mk()); 
 		}
 
-		let corner = Point.mk(-0.5*width,-0.5*height);
-    let extent = Point.mk(width,height);
-    let rect = geom.Rectangle.mk(corner,extent);
-		let count = 0;
-		while (count<numDrops) {
-			 let shp = this.addAtRandomPoint(rect);
-			 if (shp) {
-				 if (this.shapeUpdater) {
-					 this.updateAtRandomPoint(shp);
+		if (this.saveSpatterPoints) {
+		  this.genSpatterPoints();
+			for (let i=0;i<numDrops;i++) {
+				let rpnt = this.spatterPoints[i];
+				let [cell,pnt] = rpnt;
+				this.addAtPoint(cell,pnt,i);
+			}
+		} else {
+			let rect = this.genRect();
+			let count = 0;
+			while (count<numDrops) {
+				 let shp = this.addAtRandomPoint(rect);
+				 if (shp) {
+					 if (this.shapeUpdater) {
+						 this.updateAtRandomPoint(shp);
+					 }
+					 count++;
 				 }
-				 count++;
-			 }
+			}
 		}
 }
 
 item.updateSpatter = function () { 
   let {shapes} = this;
-	debugger;
 	if (this.shapeUpdater) {
 	  shapes.forEach((shape) => {this.updateAtRandomPoint(shape)});
 	}
@@ -744,8 +797,12 @@ item.initRandomizer = function () {
 	if (!rm) {
 		rm = this.randomizer = {};
 	  addRandomMethods(rm);
-	  this.randomGridsForShapes = {};
-	  this.randomGridsForBoundaries = {};
+	  if (!this.randomGridsForShapes) {
+			this.randomGridsForShapes = {};
+		}
+	  if (!this.randomGridsForBoundaries) {
+	    this.randomGridsForBoundaries = {};
+		}
 	}
 	return rm;
 }
@@ -824,7 +881,6 @@ item.setupPointJiggle = function () {
 //item.initializeGrid = function (randomizer) {
 item.initializeGrid = function () {
   let {numRows,numCols,pointJiggle} = this;
-	debugger;
  // this.initializeProtos();
   this.setupPointJiggle();
   this.deltaX = this.width/numCols;
@@ -1015,7 +1071,10 @@ item.assignValueToPath = function (path,value) {
 		}
 		cvl = nvl;
 	}
-	cvl[path[ln-1]] = value;
+	let lst = path[ln-1];
+	if (cvl[lst] === undefined) {
+	  cvl[lst] = value;
+	}
 }
 	
 item.assignValues = function (vls) {
@@ -1062,6 +1121,10 @@ item.outerInitialize = function (cb) {
 					}
 		      debugger;
 		    });
+			}
+		} else {
+			if (cb) {
+				cb();
 			}
 		}
   }

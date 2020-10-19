@@ -111,8 +111,8 @@ rs.initialize = function () {
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';
 	debugger;
-	this.grid1.innerInitialize(() => {
-		this.grid2.innerInitialize( () => { 
+	this.grid1.outerInitialize(() => {
+		this.grid2.outerInitialize( () => { 
 			debugger;
 			let mv = 0.6*width;
 			grid1.moveto(Point.mk(-mv,0));
