@@ -880,9 +880,14 @@ item.setupPointJiggle = function () {
 }
 //item.initializeGrid = function (randomizer) {
 item.initializeGrid = function () {
-  let {numRows,numCols,pointJiggle} = this;
+  let {numRows,numCols,pointJiggle,spatter} = this;
  // this.initializeProtos();
-  this.setupPointJiggle();
+ if (this.spatter) {
+		this.addSpatter();
+	  draw.fitTheContents();
+	  return;
+  }
+	this.setupPointJiggle();
   this.deltaX = this.width/numCols;
   this.deltaY = this.height/numRows;
   core.tlog('initialize');
@@ -920,9 +925,7 @@ item.initializeGrid = function () {
     };
   }
   core.tlog('genHorizontalLines');
-	if (this.spatter) {
-		this.addSpatter();
-	} else if (this.shapeGenerator || this.shapeP  ) {
+  if (this.shapeGenerator || this.shapeP  ) {
     this.addShapes();
   }
 	draw.fitTheContents();
@@ -934,34 +937,7 @@ item.initializeGrid = function () {
     core.tlog('show');
 
 }
-/*
-item.updateGrid = function (randomizer) {
-  let {numRows,numCols,pointJiggle} = this;
- // this.initializeProtos();
-  if (this.boundaryLineGenerator) {
-    this.addCellBoundaries();
-  }
-	if (this.shapeGenerator || this.shapeP  ) {
-    this.addShapes();
-  }
-	this.show();
-	return;
-  core.tlog('genHorizontalLines');
-  if (this.shapeGenerator || this.shapeP  ) {
-    this.addShapes();
-  }
-	if (this.spatterGenerator) {
-		this.addSpatter();
-	}
-  if (this.lastGridStep) {
-    this.lastGridStep(); // eg for filling in symmetries
-  }
-    core.tlog('randomizeLines');
-  this.show();
-    core.tlog('show');
 
-}
-   */  
 item.updateGrid = function () {
   let {numRows,numCols,pointJiggle} = this;
  // this.initializeProtos();
@@ -1131,13 +1107,7 @@ item.outerInitialize = function (cb) {
 }
 
 return;
-item.setName = function (name,jsonName) {
-	//debugger;
-	this.name = name;
-	core.vars.whereToSave = name;
-	let theName = jsonName?jsonName:name;
-	this.path = `json/${theName}.json`;
-}
+
  /*
 item.shapeTimeStep  = function() {
 	let {numRows,numCols,shapes} = this;

@@ -1,5 +1,5 @@
 
-core.require('/gen0/animation.js',function (addAnimationMethods) {
+core.require('/gen0/animation.js','/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
 
 //core.require(function () {
  return function (item) {
@@ -22,6 +22,7 @@ item.angleMin =  -90;
 item.excludeLineFuncton = undefined;
 item.segmentToLineFunction = undefined;
 
+item.backgroundColor = undefined; //undefined if no background wanted
 /* for shapes*/
 item.minRadius = 10;
 item.maxRadius = 20;
@@ -1067,14 +1068,10 @@ item.moveCircleSegmentBy = function (rect,seg,delta) {
 	
 item.initializeLines = function (irect) {
   debugger;
-  let {width,height,rectP,dimension,includeRect,boardRows,numLines} = this;
+  let {width,height,rectP,dimension,includeRect,boardRows,numLines,backgroundColor} = this;
 	let rect,circle;
 	this.set('segments',core.ArrayNode.mk());
-	if (!this.lines) {
-    this.set('lines',core.ArrayNode.mk());
-    this.set('points',core.ArrayNode.mk());  
-    this.set('circles',core.ArrayNode.mk());
-	} 
+	
 	if (dimension) {
 		circle = geom.Circle.mk(Point.mk(0,0),0.5*dimension);
 		circle.onCircle = true;
@@ -1093,6 +1090,18 @@ item.initializeLines = function (irect) {
 		let extent = Point.mk(this.width,this.height);
 	  rect = geom.Rectangle.mk(corner,extent);
 	}
+	if (backgroundColor) {
+		let rr = rectangleP.instantiate();
+		rr.width = this.width;
+		rr.height = this.height;
+		rr.fill = backgroundColor;
+		this.set('rr',rr);
+	}
+	if (!this.lines) {
+    this.set('lines',core.ArrayNode.mk());
+    this.set('points',core.ArrayNode.mk());  
+    this.set('circles',core.ArrayNode.mk());
+	} 
  // let {whites,blacks} = this;
   let shapePairs = this.shapePairs;
   if (shapePairs) {

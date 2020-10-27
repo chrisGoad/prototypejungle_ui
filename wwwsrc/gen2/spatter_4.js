@@ -12,6 +12,7 @@ rs.height = 400;
 rs.numDrops =5000;
 rs.numRows = 40;
 rs.numCols = 40;
+rs.spatter = 1;
 
 	
 
@@ -20,7 +21,7 @@ rs.initProtos = function () {
   this.lineP['stroke-width'] = 0.2;
 }  
 
-rs.spatterGenerator = function (rvs,cell) {
+rs.shapeGenerator = function (rvs,cell) {
   debugger;
 	let {shapes,lineP} = this;
 	let col = cell.x;
@@ -60,7 +61,8 @@ rs.initialize = function () {
   debugger;
   this.initProtos();
   core.root.backgroundColor = 'black';
-	this.setupShapeRandomizer('length',  {step:5,min:5,max:10});
+	this.setupShapeRandomizer('length',  {step:5,min:20,max:30});
+	//this.setupShapeRandomizer('length',  {step:5,min:5,max:10});
 	this.setupShapeRandomizer('direction', {step:0.2* Math.PI,min:1.95*Math.PI,max:2*Math.PI});
 	this.setupShapeRandomizer('shade', {step:30,min:50,max:250});
   this.initializeGrid();

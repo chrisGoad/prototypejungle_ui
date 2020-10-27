@@ -12,11 +12,34 @@ rs.sepH = 5;
 rs.sepV= 5;
 rs.alternateGaps = 1;
 rs.setName('mgrid0_0');
+
 rs.lineParams = {segL:10,gapL:2,numSegs:10};
-rs.lineSetParams = {numLines:50,lineSep:1};
+let lineSeps = [];
+let lineSep = 2;
+let lineSepInc = 0.05;
+let numLines = 256;
+const mkLineSeps = function (n) {	
+  let qn = Math.floor(numLines/8);
+	for (let i=0;i<qn;i++) {
+		//let lineSep = bLineSep + lineSepInc * i;
+		lineSeps.push(lineSep);
+	}
+	for (let i=0;i<6*qn;i++) {
+		//let lineSep = bLineSep + lineSepInc * i;
+		lineSeps.push(2*lineSep);
+	}
+	for (let i=0;i<qn;i++) {
+		//let lineSep = bLineSep + lineSepInc * i;
+		lineSeps.push(lineSep);
+	}
+	
+	
+}
+mkLineSeps(numLines);
+rs.lineSetParams = {numLines:numLines,lineSeps:lineSeps};
 rs.initProtos = function () {
   core.assignPrototypes(this,'lineP',linePP);
-  this.lineP['stroke-width'] = 0.2;
+  this.lineP['stroke-width'] = 0.4;
 	this.lineP.stroke = 'white';
 }  
 

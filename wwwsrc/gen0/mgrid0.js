@@ -59,7 +59,7 @@ rs.copyArray = function (a) {
 }
 	
 //rs.mkLine = function(dir,lineP,segL,gapL,numSegs) {
-rs.mkLine = function(dir,lineP,params) {
+rs.mkLine = function(dir,lineP,params,color) {
 	let {segL,gapL,numSegs} = params;
 	let rs = svg.Element.mk('<g/>');
 	Object.assign(rs,params);
@@ -78,6 +78,7 @@ rs.mkLine = function(dir,lineP,params) {
 	for (let i=0;i<numSegs;i++) {
 		let sg = lineP.instantiate();
 		segs.push(sg);
+		sg.stroke = color;
 		segCenters.push(centerPos);
 		//sg.setEnds(e0,e1);
 		sg.setEnds(mhsvec,hsvec);
@@ -98,18 +99,43 @@ rs.mkLine = function(dir,lineP,params) {
 
 //rs.mkLines = function (dir,lineP,segL,gapL,numSegs,numLines,lineSep) {
 rs.mkLines = function (dir,lineP,lineParams,lineSetParams) {
-	let {numLines,lineSep} = lineSetParams;
+	let {numLines,lineSep,lineSeps} = lineSetParams;
+	 debugger;
   let rs = svg.Element.mk('<g/>');
 	let lines = 	rs.set('lines',core.ArrayNode.mk());
 	let dir1 = dir + 0.5 *Math.PI;
-	let dist = (numLines - 1) * lineSep;
+	let dist = 0;
+	if (lineSeps) {
+		for (let i=0;i<numLines-1;i++) {
+			dist += lineSeps[i];
+		}
+	} else {
+		dist = (numLines - 1) * lineSep;
+	}
 	let vec = Point.mk(Math.cos(dir1),Math.sin(dir1));
-	let dvec = vec.times(lineSep);
+	let dvec;
+  if (lineSep) {
+  	dvec	= vec.times(lineSep);
+	}
 	let cp = vec.times(-0.5*dist);
   for (let i=0;i<numLines;i++) {
-		let line = this.mkLine(dir,lineP,lineParams);
+		let color = i%2===0?'yellow':(i%2 === 1?'green':'blue');
+		/*let r3 = 3*Math.random();
+		let color;
+		if (r3 < 1) {
+			color = 'yellow';
+		} else if (r3 < 2) {
+			color = 'green';
+		} else {
+			color = 'blue';
+		}*/
+		//let color = Math.random() > 0.5?'yellow':'black';
+		let line = this.mkLine(dir,lineP,lineParams,color);
 		lines.push(line);
 		line.moveto(cp);
+		if (lineSeps) {
+			dvec = vec.times(lineSeps[i]);
+		}
 		cp = cp.plus(dvec);
 	}
 	return rs;
