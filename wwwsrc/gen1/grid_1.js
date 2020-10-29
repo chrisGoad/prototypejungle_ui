@@ -148,6 +148,7 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
   let {shapes,dirValues,lineLength} = this;
 	let line0 = this.lineP.instantiate();
 	shapes.push(line0);
+  //line0.show();
 	//shapes.set(idx,line0);
 	let pdir = dirValues[idx];
 	let dir,inPattern;
@@ -161,6 +162,7 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 	if (inPattern && this.patternOp) {
 		this.patternOp(line0);
 	}
+  debugger;
 	return line0;
 }
 

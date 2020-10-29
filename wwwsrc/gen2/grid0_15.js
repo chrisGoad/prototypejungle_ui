@@ -4,7 +4,7 @@ function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{
 
   let rs = svg.Element.mk('<g/>');
   addGridMethods(rs);
-	rs.setName('grid0_14');
+	rs.setName('grid0_15');
 
 	
 	rs.saveImage = 1;
@@ -107,16 +107,15 @@ rs.shapeGenerator = function (rvs,cell) {
 	}
 
 const inRandomOrder = function (n) {
-  debugger;
   let rs = []; 
   let inRs = [];
   for (let i=0;i<n;i++) {
     inRs[i] = 0;
   }
-  const kthFree = function (k) {
+   const kthFree = function (k) {
     let found = 0;
     let cIndex = 0;
-    while (found < k) {
+    while (found <= k) {
       if (inRs[cIndex]) {
          cIndex++;
       } else {
@@ -124,24 +123,25 @@ const inRandomOrder = function (n) {
         cIndex++;
       }
     }
-    return cIndex;
+    return cIndex-1;
   }
-  let numAllocated = 0;
   let numFree = n;
+  let cnt = 0;
   while (numFree > 0) {
     let rn =Math.floor(Math.random() * numFree);
     if (rn === numFree) {
        rn--;
     }
-    let next = kthFree(rn+1);
+    let next = kthFree(rn);
     rs.push(next);
     inRs[next] = 1;
     numFree--;
   }
+  debugger
   return rs;
 }
 
-console.log('inRandomOrder ',inRandomOrder(4));
+console.log('inRandomOrder ',inRandomOrder(10000));
 
   
      
@@ -155,6 +155,7 @@ console.log('inRandomOrder ',inRandomOrder(4));
 
 
 rs.initialize = function () {
+  return;
 	core.root.backgroundColor = 'black';
 	this.initProtos();
 	this.initializeGrid();

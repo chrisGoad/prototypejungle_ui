@@ -448,9 +448,45 @@ item.addAtRandomPoint = function (rect) {
 }*/
 
 
+item.inRandomOrder = function (n) {
+  let rs = []; 
+  let inRs = [];
+  for (let i=0;i<n;i++) {
+    inRs[i] = 0;
+  }
+   const kthFree = function (k) {
+    let found = 0;
+    let cIndex = 0;
+    while (found <= k) {
+      if (inRs[cIndex]) {
+         cIndex++;
+      } else {
+        found++;
+        cIndex++;
+      }
+    }
+    return cIndex-1;
+  }
+  let numFree = n;
+  let cnt = 0;
+  while (numFree > 0) {
+    let rn =Math.floor(Math.random() * numFree);
+    if (rn === numFree) {
+       rn--;
+    }
+    let next = kthFree(rn);
+    rs.push(next);
+    inRs[next] = 1;
+    numFree--;
+  }
+  return rs;
+}
+
+
 
 item.addShapes = function () { 
   let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
+  debugger;
 	this.updating = !!ishapes
 	let shapes;
   if (ishapes) {
@@ -463,10 +499,47 @@ item.addShapes = function () {
   //shapes.length = sln;
 	let shapeDs = this.set('shapeDescriptors',core.ArrayNode.mk());
   shapeDs.length = sln;	
+  const addAshape =  (idx) => {
+    let nr = this.numRows;
+    let x = Math.floor(idx/nr);
+    let y = idx % nr;
+    let cnt = this.centerPnt(x,y);
+    let cell = {x,y,index:idx};
+		let rvs = this.randomValuesAtCell(randomGridsForShapes,x,y);
+    let  shp;
+		if (this.shapeGenerator) {
+			shp = this.shapeGenerator(rvs,cell,cnt,idx);
+			if (this.shapeUpdater) {
+				this.shapeUpdater(shp, rvs,cell,cnt);
+			}
+		} else {
+			shp = this.shapeP.instantiate();
+			shapes.push(shp);
+			shp.update();
+			shp.show();
+		}
+		if (shp) {
+			if (!this.generatorsDoMoves) {
+				shp.moveto(cnt);
+			}
+			this.shapeIndex++;
+		 // shp.show();
+		}  
+	}
+  if (1) {
+    let numShapes = numRows * numCols;
+    let order = this.inRandomOrder(numShapes);
+    for (let idx = 0; idx < numShapes;idx++) {
+      addAshape(order[idx]);
+    }
+    return;
+  }
   for (let i = 0;i < numCols; i++) {
     for (let j = 0;j <  numRows; j++) {
-      let cnt = this.centerPnt(i,j);
+      //let cnt = this.centerPnt(i,j);
       let idx = i*numRows + j;
+      addAshape(idx);
+      continue;
 			let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
 			let cell = {x:i,y:j,index:idx};
 			let  shp;

@@ -5,10 +5,11 @@ function (constructor) {
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
   let rs = constructor();
 	rs.saveImage = true;
-	rs.setName('grid_1_1');
+	rs.setName('grid_1_1','grid_1_1');
 	rs.initProtos();
 	//rs.path = 'json/grid_1_1.json';
   rs.loadFromPath = 1;
+  rs.saveJson = 1;
 	//rs.randomCellExclude = 2;
 	rs.numRows = 20;
 	rs.numCols = 20;
@@ -43,6 +44,10 @@ function (constructor) {
 		//debugger;
 		//line.stroke = 'blue';
   };
+  rs.initialize = () => {
+    core.root.backgroundColor = 'red';
+    rs.outerInitialize();
+}
   return rs;
 });
 

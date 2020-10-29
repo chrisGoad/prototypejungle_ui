@@ -39,7 +39,7 @@ rs.initProtos = function () {
 	//this.rectP.stroke = 'rgb(255,255,255,1)';
 	this.rectP.fill = 'white';
 	this.rectP['stroke-width'] = 0;
-	this.rectP.width = 1;
+	this.rectP.width = 4;
 	this.rectP.height = 4;
 		core.assignPrototypes(this,'circleP',circlePP);
 	//this.rectP.stroke = 'rgb(255,255,255,1)';
@@ -60,7 +60,7 @@ innerProto.initProtos = function () {
 	//this.rectP.stroke = 'rgb(255,255,255,1)';
 	this.rectP.fill = 'white';
 	this.rectP['stroke-width'] = 0;
-	this.rectP.width = 1;
+	this.rectP.width = 4;
 	this.rectP.height = 4;
 }
 
