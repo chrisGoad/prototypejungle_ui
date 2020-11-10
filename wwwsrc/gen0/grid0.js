@@ -482,11 +482,42 @@ item.inRandomOrder = function (n) {
   return rs;
 }
 
+item.invertMap = function (a) {
+	let ln = a.length;
+	let rs = [];
+	rs.length = ln;
+	for (let i=0;i<ln;i++) {
+		let vl = a[i];
+		rs[vl] = i;
+	}
+	return rs;
+}
 
+item.inSequence = function (n) {
+  let rs = [];
+  for (let i=0;i<n;i++) {
+    rs.push(i);
+  }
+  return rs;
+}
+
+item.rotateArray = function (ar) {
+  let ln = ar.length;
+  let first = ar[0];
+  for (let i = 0;i<ln-1;i++) {
+    ar[i] = ar[i+1];
+  }
+  ar[ln-1] = first;
+}
+   
 
 item.addShapes = function () { 
-  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
+  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,
+       randomizeOrder,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
   debugger;
+	if (this.timeStep === undefined) {
+		 this.timeStep = 0;
+	}
 	this.updating = !!ishapes
 	let shapes;
   if (ishapes) {
@@ -500,6 +531,11 @@ item.addShapes = function () {
 	let shapeDs = this.set('shapeDescriptors',core.ArrayNode.mk());
   shapeDs.length = sln;	
   const addAshape =  (idx) => {
+       //console.log('idx ',idx);
+		if (idx === 54) {
+			debugger;
+		}
+
     let nr = this.numRows;
     let x = Math.floor(idx/nr);
     let y = idx % nr;
@@ -526,11 +562,21 @@ item.addShapes = function () {
 		 // shp.show();
 		}  
 	}
-  if (1) {
+  if (randomizeOrder) {
     let numShapes = numRows * numCols;
-    let order = this.inRandomOrder(numShapes);
+    let order;
+    if (this.theShapeOrder) {
+      order = this.theShapeOrder;
+    // this.rotateArray(order);
+    } else {
+      this.theShapeOrder = order = this.inRandomOrder(numShapes);
+			this.inverseShapeOrder = this.invertMap(order); 
+      //this.shapeOrder = order = this.inSequence(numShapes);
+    }
     for (let idx = 0; idx < numShapes;idx++) {
+      //addAshape(idx);
       addAshape(order[idx]);
+     // addAshape(order[idx]);
     }
     return;
   }
@@ -539,7 +585,7 @@ item.addShapes = function () {
       //let cnt = this.centerPnt(i,j);
       let idx = i*numRows + j;
       addAshape(idx);
-      continue;
+      /*continue;
 			let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
 			let cell = {x:i,y:j,index:idx};
 			let  shp;
@@ -560,7 +606,7 @@ item.addShapes = function () {
 			  }
 				this.shapeIndex++;
 	 		 // shp.show();
-			}  
+			}*/  
 	  }
   }
 }
@@ -568,24 +614,34 @@ item.addShapes = function () {
 
 
 item.updateShapes = function () { 
-  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes} = this;
+  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes,inverseShapeOrder} = this;
 	//this.updating = !!ishapes
-
+  const updateAshape =  (shape,idx) => {
+	  let nr = this.numRows;
+    let x = Math.floor(idx/nr);
+    let y = idx % nr;
+    let cnt = this.centerPnt(x,y);
+    let cell = {x,y,index:idx};
+		let rvs = this.randomValuesAtCell(randomGridsForShapes,x,y);
+		this.shapeUpdater(shape, rvs,cell,cnt,idx);
+  }
+		
 	//this.shapeIndex = 0;
 	let sln = numRows * numCols;
   //shapes.length = sln;
 	//let shapeDs = this.set('shapeDescriptors',core.ArrayNode.mk());
   //shapeDs.length = sln;	
+	
   for (let i = 0;i < numCols; i++) {
     for (let j = 0;j <  numRows; j++) {
       let cnt = this.centerPnt(i,j);
       let idx = i*numRows + j;
-			let shape = shapes[idx];
+			let shape = shapes[inverseShapeOrder[idx]];
 			let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
 			let cell = {x:i,y:j,index:idx};
 			let  shp;
 			if (this.shapeUpdater) {
-				this.shapeUpdater(shape, rvs,cell,cnt);
+				this.shapeUpdater(shape, rvs,cell,cnt,idx);
 			}
 			if (shp) {
 			  if (!this.updatersDoMoves) {
@@ -1010,6 +1066,13 @@ item.initializeGrid = function () {
     core.tlog('show');
 
 }
+
+item.regenerateShapes = function () {
+  this.shapes.remove();
+  this.addShapes();
+}
+
+
 
 item.updateGrid = function () {
   let {numRows,numCols,pointJiggle} = this;

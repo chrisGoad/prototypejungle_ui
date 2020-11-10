@@ -33,7 +33,7 @@ function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{
 	innerLproto.angleMax = 90;
 	
 	let outerRC = 6;
-	//outerRC = 10;
+	outerRC = 20;
 	rs.numRows= outerRC;
 	rs.numCols = outerRC;
 	let fc = .5;
@@ -121,25 +121,26 @@ rs.shapeGenerator = function (rvs,cell) {
 			shape.initializeGrid();	
 		} else {
 			let opacity =0.5;
-			shape = innerLproto.instantiate();
+			//shape = innerLproto.instantiate();
+			shape = innerGproto.instantiate();
 			shape.initProtos();
-			if (1 && ((x > 1) && (x<4)) && ((y>1) && (y<4))) {
+			if (0 && ((x > 1) && (x<4)) && ((y>1) && (y<4))) {
 				//shape.angleMin = -10;
 				//shape.angleMax = 10;
 				shape.width = 0.5 * innerDim;
 				shape.height = 0.5 * innerDim;
-				shape.backgroundColor = `rgba(255,0,0,${opacity})`;// `red
-			} else if (1 && ((x > 0) && (x<5)) && ((y>0) && (y<5))) {
+				shape.fill = `rgba(255,0,0,${opacity})`;// `red
+			} else if (0 && ((x > 0) && (x<5)) && ((y>0) && (y<5))) {
 			  shape.width = 0.75 * innerDim;
         shape.height = 0.75 * innerDim;
-			  shape.backgroundColor = `rgba(0,255,0,${opacity})`; //'green';
+			  shape.fill = `rgba(0,255,0,${opacity})`; //'green';
 
 			} else {
-				shape.backgroundColor = `rgba(0,0,255,${opacity})`;//'blue';
+				shape.fill = `rgba(0,0,255,${opacity})`;//'blue';
 			}
 
 				
-			shape.initializeLines();
+			//shape.initializeLines();
 		}
 		shapes.push(shape);
 		shape.show();
