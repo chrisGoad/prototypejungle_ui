@@ -5,7 +5,7 @@ function (constructor) {
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
   let rs = constructor();
 	rs.saveImage = true;
-	rs.setName('grid_1_10','grid_1_10');
+	rs.setName('grid_1_9','grid_1_7');
 	rs.initProtos();
 	//rs.path = 'json/grid_1_1.json';
   rs.loadFromPath = 1;
@@ -17,11 +17,14 @@ function (constructor) {
 	rs.height = 300;
 	rs.pointJiggle = 0;
 	rs.preSteps = 20;
-	rs.postSteps = 30;
+	rs.preSteps = 10;
+	rs.midSteps = 10;
+	rs.postSteps = 10;
 	rs.mainRange = 80;
 	rs.numTimeSteps = rs.preSteps+ 5*rs.mainRange;
 	rs.speedFactor = 0.05;
 	rs.lineLength = 0.75;
+	rs.strokeWidth = 1;
 	
 	
 	/*
@@ -34,31 +37,26 @@ rs.defaultPositionFunction = function (i,j) {
 }*/
 rs.directionOfPatterns = {ul:'downLeft',lr:'downLeft',ll:'downRight',ur:'downRight'};
 
-	rs.adjustCell = function (x,y,delta,kind,timeRange) {
-		let {numRows,shapes,lineLength} = this;
+	rs.adjustCell = function (x,y,fraction,showing) {
+		let {numRows,shapes,lineLength,strokeWidth} = this;
 		let idx = x*numRows + y;
 		let line0 = shapes[idx];
-		let pos = this.posFunction(x,y);
-		let dop = this.directionOfPatterns[kind];
-		let dst =pos.plus(Point.mk(dop==='downRight'?delta:-delta,delta));
-		let ln = dst.length();
-		let limit = 190;
-		if (ln > limit) {
-			line0.hide();
-		} else {
-			line0.show();
-		  line0.moveto(dst);
-		}
+		let clr = showing?(1-fraction) * 255:fraction*255;
+		line0.stroke = `rgb(255,${clr},${clr})`;
+		line0['stroke-width'] = strokeWidth + (showing?fraction*strokeWidth:(1-fraction)*strokeWidth);
+		//line0.stroke = `rgb(${clr},${clr},${clr});
+	
 	}
 	
-rs.adjustCells = function (delta,kind,timeRange) {
+rs.adjustCells = function (fraction,showing) {
 //	debugger;
 	let {numRows,numCols} = this;
 	for (let i=0;i<numCols;i++) {
 		for (let j=0;j<numRows;j++) {
 			let pat = this.inPattern(i,j);
-			if (pat === kind) {
-			  this.adjustCell(i,j,delta,pat,timeRange);
+			console.log('pat ',pat,' fraction ',fraction);
+			if (pat !== 'none') {
+			  this.adjustCell(i,j,fraction,showing);
 			}
 		}
 	}
@@ -75,23 +73,25 @@ rs.adjustCells = function (delta,kind,timeRange) {
 rs.initialize = function () {
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';
-	this.outerInitialize();
-	this.addTheBox();
+	this.outerInitialize(() => {
+	  this.adjustCells(1,1);
+	  this.addTheBox();
+	});
 }
 
 rs.inPattern = function (x,y) {
 	let {numRows,numCols} = this;
   let hr = 0.5 * numRows;
-	if (((x+y) === hr) ||  ((x+y-1) === hr)) {
+	if ((x+y) === hr) {
 			return 'ul'; 
 	}		
-  if (((x+y) === 3*hr) || ((x+y-1) === 3*hr)) {
+  if ((x+y) === 3*hr) {
 			return 'lr';
 	}		
-  if (((y-x) === hr) || ((y-x-1) === hr)) {
+  if ((y-x) === hr) {
 			return 'll';
 	}	
-	if (((x-y) === hr)|| ((x-y-1) === hr)) {
+	if ((x-y) === hr) {
 		return 'ur';
 	}
   return 'none';	
@@ -143,7 +143,7 @@ rs.computeDir = function (x,y) {
 
 rs.setTimeRanges = function () {
 	let rng = this.mainRange;
-	this.computeRanges([this.preSteps,rng,rng,rng,rng,this.postSteps]);
+	this.computeRanges([this.preSteps,rng,this.midSteps,rng,this.postSteps]);
 }
 /*
 rs.setTimeRanges = function () {
@@ -173,36 +173,21 @@ rs.step = function ()   {
   let range = whatTimeRange();
 	let start = timeRanges[range];
 	let finish = timeRanges[range+1];
+	let dur = finish-start;
 	let inner = timeStep - start;
-	let innerSq = inner*inner;
-	let until = mainRange - inner;
-	let untilSq = until*until;
+	let fr = inner/dur;
 	
 	if (range === 0) {
 		return;
 	}
-	if (range === 2 ) {
-	  this.adjustCells(sp*innerSq,'ll',range);
-      this.adjustCells(sp*innerSq,'lr',range);
-
-		
+	if (range ===  1) {
+	  this.adjustCells(fr,1);
 		return;
 	} 
-	if (range === 1) {
-		this.adjustCells(sp*innerSq,'ul',range);
-	 		this.adjustCells(sp*innerSq,'ur',range);
+	if (range === 3) {
+		this.adjustCells(fr,0);
 	}
-	if (range === 4) {
-		debugger;
-		this.adjustCells(-sp*untilSq,'ll',range);
-			this.adjustCells(-sp*untilSq,'lr',range);
 	
-		return;
-	} 
-		if (range === 3) {
-      this.adjustCells(-sp*untilSq,'ul',range);
-		this.adjustCells(-sp*untilSq,'ur',range);
-		}
 }
 
 rs.animate = function (resume)  {
