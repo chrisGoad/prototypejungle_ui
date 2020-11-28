@@ -1,7 +1,7 @@
 
 //core.require('/line/line.js','/grid/grid24cons.js','/grid/dim2dWalker2.js',
-core.require('/line/line.js','/gen0/grid0.js',
-function (linePP,addGridMethods) {
+core.require('/line/line.js','/shape/rectangle.js','/gen0/grid0.js',
+function (linePP,readdGridMethods) {
 	return function () {
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);

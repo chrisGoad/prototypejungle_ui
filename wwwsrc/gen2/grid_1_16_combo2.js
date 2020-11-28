@@ -1,10 +1,9 @@
 
-core.require('/gen1/grid_1.js','/gen0/basics.js',
-function (constructor,addSetName) {
+core.require('/gen1/grid_1.js',
+function (constructor) {
   debugger;	//this.initProtos();
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
 	  let rs = svg.Element.mk('<g/>');
-		addSetName(rs);
 
 	let grid0= rs.set('grid0',constructor());
 	let grid1 = rs.set('grid1',constructor());
@@ -14,10 +13,17 @@ function (constructor,addSetName) {
 	Object.assign(grid1,gParams);
   grid0.setName('grid_1_9','grid_1_7');
   grid1.setName('grid_1_9','grid_1_7');
-			rs.setName('grid_1_16_combo');
-
+	
+const finishProtos = function (grid) {
+	grid.lineP.stroke = 'rgb(255,255,255)';
+	grid.lineP.stroke = 'black';
+	grid.lineP['stroke-width'] = 1;
+	grid.lineP.dimension = 4;
+}  
 	grid0.initProtos();
 	grid1.initProtos();
+	finishProtos(grid0);
+	finishProtos(grid1);
 
 
 	/*
@@ -115,7 +121,7 @@ const adjustDirs = function (grid) {
 
 rs.initialize = function () {
 	core.root.backgroundColor = 'red';
-	core.root.backgroundColor = 'black';
+	core.root.backgroundColor = 'white';
 	let wd = this.grid0.width;
 	this.grid0.outerInitialize(() => {
 		adjustDirs(this.grid0);

@@ -1,10 +1,15 @@
 
-core.require('/gen1/grid0_3.js',
+core.require('/gen1/grid0_3.js','/gen0/basics.js',
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (constructor)	{ 
+function (constructor,addSetName)	{ 
 
 
   let rs = svg.Element.mk('<g/>');
+	addSetName(rs);
+	
+	
+	rs.setName('grid0_3_combo2');
+
   let wsq = rs.set('wsq',svg.Element.mk('<g/>'));
 /*rs.initProtos = function () {
 	core.assignPrototypes(this,'rectP',rectPP);	
@@ -50,7 +55,7 @@ const finishProtos = function (grid) {
 	let grid1 = rs.set('grid1',constructor());
 	let sqd = 64;
   let ar = 2;
-	let gParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,randomizeOrder:1};
+	let gParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,randomizeOrder:1,backgroundColor:'yellow'};
 	Object.assign(grid0,gParams);
 	Object.assign(grid1,gParams);
 	grid0.finishProtos  = function () {finishProtos(this);}
@@ -63,7 +68,6 @@ grid0.numRows = sqd;
 grid1.numRows = sqd;*/
 let wdf = 6/ar;
 let htf = .7;
-grid0.pointJiggle = 0;//45;
 grid1.colorSetter = function (shape,fc) {
 	debugger;
 	let r = 100 + Math.random() * 155;
@@ -84,7 +88,7 @@ grid1.colorSetter = function (shape,fc) {
 		shape.fill = 'white';
 	}
 }
-grid1.colorSetter = function (shape,fc) {
+const colorSetter = function (grid,shape,fc) {
 	debugger;
 	let r = 200 + Math.random() * 55;
 	let g = 100 +Math.random() * 155;
@@ -94,13 +98,16 @@ grid1.colorSetter = function (shape,fc) {
 				shape.fill = `rgba(${r},0,0,0.4)`;
 
 	} else if (fc === 2) {
-		shape.fill = `rgba(0,${g},0,0.4)`;
+			shape.fill = 'rgba(255,255,255,0.4)';
+
+	//	shape.fill = `rgba(0,${g},0,0.4)`;
   } else if (fc === 3) {
 			//	shape.fill = 'rgba(255,255,255,0.4)';
-		shape.fill = `rgba(0,0,${b},0.4)`;
+		shape.fill = `rgba(0,${b},${b},0.4)`;
 
 	} else if (fc === 4) {
-		shape.fill = 'rgba(255,255,255,0.4)';
+			//shape.fill = `rgba(0,${g},0,0.4)`;
+	shape.fill = 'rgba(255,255,255,0.4)';
 	} else if (fc === 4) {
 		shape.fill = 'white';
 	}
@@ -118,7 +125,7 @@ const shapeGenerator = function (grid,rvs,cell) {
 	shape.height= htf * deltaY;
 	shapes.push(shape);
 	let fc = grid.sizeFactor(rvs,cell);
-	grid.colorSetter(shape,fc);
+	colorSetter(grid,shape,fc);
 	/*if (fc === 0) {
 		shape.fill = 'rgba(255,0,0,0.4)';
 	} else if (fc === 1) {
@@ -142,14 +149,17 @@ grid1.shapeGenerator = function (rvs,cell) {
 
 rs.initialize = function () {
 	debugger;
-	this.grid1.initialize();
-	this.grid0.initialize();
+	let grid0 = this.grid0;
+	let grid1 = this.grid1;
+	grid1.initialize();
+	grid0.initialize();
+	
 	//this.initWsq();
 	let mby = 0.6 * grid1.width;
 	this.grid0.moveto(Point.mk(-mby,0));
 	this.grid1.moveto(Point.mk(mby,0));
 		core.root.backgroundColor = 'black';
-	//	core.root.backgroundColor = 'red';
+	//core.root.backgroundColor = 'white';
 
 }
 

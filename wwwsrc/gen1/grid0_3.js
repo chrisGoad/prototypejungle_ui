@@ -81,9 +81,17 @@ rs.shapeGenerator = function (rvs,cell) {
 
 
 rs.initialize = function () {
-	core.root.backgroundColor = 'black';
+	//core.root.backgroundColor = 'black';
 	this.initProtos();
 	this.finishProtos();
+	if (this.backgroundColor) {
+	  let bkr = this.set('rect',this.rectP.instantiate());
+	  bkr.show();
+	  bkr.width = this.width;
+	  bkr.height = this.height;
+		bkr.fill = this.backgroundColor;
+		bkr['stroke-width'] = 0;
+	}
 	this.initializeGrid();
 }
 		

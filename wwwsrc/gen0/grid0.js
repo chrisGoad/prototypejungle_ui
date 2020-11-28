@@ -614,7 +614,7 @@ item.addShapes = function () {
 
 
 item.updateShapes = function () { 
-  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes,inverseShapeOrder} = this;
+  let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes,inverseShapeOrder,randomizeOrder} = this;
 	//this.updating = !!ishapes
   const updateAshape =  (shape,idx) => {
 	  let nr = this.numRows;
@@ -636,7 +636,7 @@ item.updateShapes = function () {
     for (let j = 0;j <  numRows; j++) {
       let cnt = this.centerPnt(i,j);
       let idx = i*numRows + j;
-			let shape = shapes[inverseShapeOrder[idx]];
+			let shape = randomizeOrder?shapes[inverseShapeOrder[idx]]:shapes[idx];
 			let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
 			let cell = {x:i,y:j,index:idx};
 			let  shp;
