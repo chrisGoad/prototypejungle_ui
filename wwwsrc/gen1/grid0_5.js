@@ -8,7 +8,6 @@ addGridMethods(rs);
 let sqd = 48;
 let ar = 2;
 
-debugger;
 
 	let gParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,
 	 opacity1:0.4,opacity2:0.4,opacity3:0.4,opacity4:0.4,randomizeOrder:1,widthFactor:3,heightFactor:.7,backgroundColor:'yellow',
@@ -20,7 +19,8 @@ debugger;
 		          4:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
 		          5:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
 	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
-		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:4,6:1}
+		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
+		ordinalMap: {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7}
 		};
 
 Object.assign(rs,gParams);
@@ -53,7 +53,7 @@ const numPowers = function(n,p) {
 	return 0;
 }
 
-rs.sizeFactor = function (rvs, cell) {
+rs.sizeFactor = function ( cell) {
 	let {x,y} = cell;
 	let px = numPowers(x,2);
 	let py = numPowers(y,2);
@@ -76,12 +76,14 @@ rs.colorSetter = function (shape,fc) {
 
 
 rs.colorSetter = function (shape,fc) {
-	debugger;
 	let {colorMap,opacityMap} = this;
 	let r = 200 + Math.random() * 55;
 	let g = 100 +Math.random() * 155;
 	let b = 100 + Math.random() * 155;
 	console.log('fc' , fc);
+	r = 225;
+	g = 170;
+	b = 170;
 	let colorF = colorMap[fc];
 	let opacity = opacityMap[fc];
 	let fill = colorF(r,g,b,opacity);
@@ -113,12 +115,55 @@ rs.colorSetter = function (shape,fc) {
 }
 
 
+rs.ordinalGenerator = function (cell) {
+	let fc = this.sizeFactor(cell);
+	return this.ordinalMap[fc];
+}
+
+const interpolate = function (low,high,fr) {
+	return low + fr * (high - low);
+}	
+
+rs.shapeUpdater = function (shape,rvs,cell) {
+	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,widthFactor,widthFactorLeft,widthFactorRight,heightFactor,
+	    heightFactorTop,heightFactorBottom,genCircles,opacity0,opacity,sizeMap} = this;
+	let fc = this.sizeFactor(cell);
+	let szf = sizeMap[fc];
+	let wf,hf;
+	if (cell.x > (numCols - 5)) {
+		debugger;
+	}
+	if (widthFactorLeft) {
+		let fr = cell.x/(numCols-1);
+		wf = interpolate(widthFactorLeft,widthFactorRight,fr);
+	} else {
+		wf = widthFactor;
+	} 
+	if (heightFactorTop) {
+		let fr = cell.y/(numRows-1);
+		hf = interpolate(heightFactorTop,heightFactorBottom,fr);
+	} else {
+		hf = heightFactor;
+	} 
+  if (genCircles) {
+		shape.dimension = szf * wf*deltaX;
+	} else {
+	  shape.width = szf * wf * deltaX;
+	  shape.height= szf * hf * deltaY;
+	}
+	this.colorSetter(shape,fc);
+	shape.update();
+	return shape;
+}
 
 rs.shapeGenerator = function (rvs,cell) {
-	debugger;
 	let {shapes,rectP,circleP,deltaX,deltaY,widthFactor,heightFactor,genCircles,opacity0,opacity,sizeMap} = this;
 	let shape = genCircles?circleP.instantiate():rectP.instantiate();
-	let fc = this.sizeFactor(rvs,cell);
+	shapes.push(shape);
+	shape.show();
+	this.shapeUpdater(shape,rvs,cell);
+	return shape;
+	let fc = this.sizeFactor(cell);
 	let szf = sizeMap[fc];
   if (genCircles) {
 		shape.dimension = szf * widthFactor*deltaX;
@@ -149,6 +194,8 @@ rs.innerInitialize = function () {
 	}
 	this.initializeGrid();
 }
+
+
 
 rs.initialize = rs.innerInitialize;
 

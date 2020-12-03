@@ -482,6 +482,29 @@ item.inRandomOrder = function (n) {
   return rs;
 }
 
+item.computeCellsByOrdinal = function () {
+	let {numRows,numCols} = this;
+  let cellsByOrdinal = {};
+	let maxOrdinal = -1;
+  for (let i = 0;i < numCols; i++) {
+    for (let j = 0;j <  numRows; j++) {
+			let cell = {x:i,y:j};
+			let ord = this.ordinalGenerator(cell);
+			if (ord > maxOrdinal) {
+				maxOrdinal = ord;
+			}
+			let cells = cellsByOrdinal[ord]
+			if (cells) {
+				cells.push(cell);
+			} else {
+				cellsByOrdinal[ord] = [cell];
+			}
+		}
+	}		
+	this.cellsByOrdinal = cellsByOrdinal;
+  this.maxOrdinal = maxOrdinal;
+}
+
 item.invertMap = function (a) {
 	let ln = a.length;
 	let rs = [];
@@ -513,7 +536,7 @@ item.rotateArray = function (ar) {
 
 item.addShapes = function () { 
   let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,
-       randomizeOrder,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
+       randomizeOrder,orderByOrdinal,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
   debugger;
 	if (this.timeStep === undefined) {
 		 this.timeStep = 0;
@@ -580,6 +603,21 @@ item.addShapes = function () {
     }
     return;
   }
+	if (orderByOrdinal) {
+		this.computeCellsByOrdinal();
+		let {maxOrdinal,cellsByOrdinal} = this;
+		for (let o = 0;o<=maxOrdinal;o++) {
+			let cells = cellsByOrdinal[o];
+			if (cells) {
+				cells.forEach( (cell) => {
+				  let {x,y} = cell;
+					let idx = x*numRows + y;
+					addAshape(idx);
+				});
+			}
+		}
+		return;
+	}		
   for (let i = 0;i < numCols; i++) {
     for (let j = 0;j <  numRows; j++) {
       //let cnt = this.centerPnt(i,j);
