@@ -8,10 +8,45 @@ addGridMethods(rs);
 let sqd = 48;
 sqd = 16;
 let ar = 2;
+/* in 0_8, parameters can be associated with cells */
+rs.paramsByCell = null;
+rs.paramsByRow = null;
+rs.paramsByCol = null;
 
+rs.getParam = function (cell,prop) {
+	let {paramsByCell,paramsByRow,paramsByCol,globalParams} = this;
+	let {x,y} = cell;
+	let params,propv;
+	debugger;
+	if (paramsByRow) {
+		
+		 let ln = paramsByRow.length;
+		 if (y < ln) {
+			 params = paramsByRow[y];
+		 }
+	}
+	if (params) {
+		propv = params[prop]
+	}
+	if (propv) {
+		return propv;
+	}
+	return globalParams[prop]
+}
 
-	let gParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,
-	 opacity1:0.4,opacity2:0.4,opacity3:0.4,opacity4:0.4,randomizeOrder:1,widthFactor:3,heightFactor:.7,backgroundColor:'yellow',randomizingFactor:0,sizePower:3,
+rs.getParams = function (cell,props) {
+	let ps  = {};
+	props.forEach((prop) => {
+		let pv = this.getParam(cell,prop);
+		ps[prop] = pv;
+	});
+	return ps;
+}
+		
+			 
+		
+
+rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,
 	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
 	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
 	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
@@ -21,10 +56,12 @@ let ar = 2;
 		          5:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
 	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
 		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
-		ordinalMap: {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7}
 		};
 
-Object.assign(rs,gParams);
+let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,
+ordinalMap: {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7}}
+
+Object.assign(rs,topParams);
 	
 rs.initProtos = function () {
 	core.assignPrototypes(this,'rectP',rectPP);
@@ -57,7 +94,7 @@ const numPowers = function(n,p) {
 rs.sizeFactor = function ( cell) {
 	let numRows = this.numRows;
 	let {x,y} = cell;
-	let szPower = this.sizePower;
+	let szPower = this.getParam(cell,'sizePower');
 	let px = numPowers(x,szPower);
 	if (numRows === 1) {
 		return px;
@@ -80,7 +117,8 @@ rs.colorSetter = function (shape,fc) {
 */
 
 rs.colorSetter = function (shape,fc,cell) {
-	let {colorMap,opacityMap} = this;
+	let colorMap = this.getParam(cell,'colorMap');
+	let opacityMap = this.getParam(cell,'opacityMap');
 	let r = 200 + Math.random() * 55;
 	let g = 100 +Math.random() * 155;
 	let b = 100 + Math.random() * 155;
@@ -93,29 +131,6 @@ rs.colorSetter = function (shape,fc,cell) {
 	let fill = colorF(r,g,b,opacity,cell);
 	shape.fill = fill;
 	//console.log(fill);
-	return;
-  if (fc <= 1) {
-		fill = color1(r,g,b,opacity1);
-	} else if (fc ===2) {
-		fill = color2(r,g,b,opacity2);
-	} else if (fc ===3) {
-		fill = color3(r,g,b,opacity3);
-	} else if (fc ===4) {
-		fill = color4(r,g,b,opacity4);
-	} else {
-		fill = 'magenta';
-	}
-  console.log('fill',fill);
-				//shape.fill = `rgba(${r},0,0,${op0})`;
-	/*} else if (fc === 2) {
-			shape.fill = 'rgba(255,255,255,0.4)';
-  } else if (fc === 3) {
-		shape.fill = `rgba(0,${b},${b},${opacity3})`;
-	} else if (fc === 4) {
-	shape.fill = 'rgba(255,255,255,0.4)';
-	} */
-	//fill = 'transparent';
-	 shape.fill = fill;
 }
 
 
@@ -130,25 +145,24 @@ const interpolate = function (low,high,fr) {
 
 //let ranRows = undefined;//[8,16];
 rs.computeSize = function (cell) {
-	let {randomizingFactor,sizeMap,sizePower,numCols,numRows,deltaX,deltaY,widthFactor,heightFactor,widthFactorLeft,widthFactorRight,heightFactorTop,heightFactorBottom,ranRows} = this;
+	let {numCols,numRows,deltaX,deltaY} = this;
+	let propVs = this.getParams(cell,['randomizingFactor','sizeMap','sizePower','widthFactor','heightFactor']);
+	let {randomizingFactor,sizeMap,sizePower,widthFactor,heightFactor} = propVs;
   let fc = this.sizeFactor(cell);
 //	console.log('cell',cell.x,cell.y);
-	let szf = sizeMap[fc];
+	let szf = sizeMap[fc]
   let numPy = numPowers(cell.y,sizePower);
-	let szfy = this.sizeMap[numPy];
-	//szf = szf  + randomizingFactor* (Math.random()-0.5) * szf;
-	//if (fc >1) {
-	if ((!ranRows) || (ranRows.indexOf(cell.y)>-1)) {
+	let szfy = sizeMap[numPy];
+	//if ((!ranRows) || (ranRows.indexOf(cell.y)>-1)) {
+	if (randomizingFactor) {
 		console.log('szf',szf,'szfy',szfy,'numPy',numPy);
 		debugger;
 		let hszf = 1.0*szf;
 	  szf = Math.max(hszf,szf*(1-randomizingFactor)   + szfy*randomizingFactor * Math.random());
 	}
-	let wf,hf;
-	if (cell.x > (numCols - 5)) {
-		//debugger;
-	}
-	if (widthFactorLeft) {
+	let wf = widthFactor;
+	let hf = heightFactor;
+	/*if (widthFactorLeft) {
 		let fr = cell.x/(numCols-1);
 		wf = interpolate(widthFactorLeft,widthFactorRight,fr);
 	} else {
@@ -159,7 +173,7 @@ rs.computeSize = function (cell) {
 		hf = interpolate(heightFactorTop,heightFactorBottom,fr);
 	} else {
 		hf = heightFactor;
-	} 
+	} */
 	return {x:szf * wf * deltaX,y:szf*hf*deltaY,fc:fc};
 }
 
@@ -193,9 +207,11 @@ rs.computeValuesToSave = function () {
 }
 	
 rs.shapeUpdater = function (shape,rvs,cell) {
-	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,widthFactor,widthFactorLeft,widthFactorRight,heightFactor,
-	    heightFactorTop,heightFactorBottom,genCircles,opacity0,opacity,sizeMap,randomizingFactor,sizeValues} = this;
+	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,sizeValues} = this;
+	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles']);
+	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles} = propVs;
 	let sz;
+	debugger;
 	if (sizeValues) {
 		sz = this.lookupSize(cell);
 	} else {
@@ -246,29 +262,12 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 }
 
 rs.shapeGenerator = function (rvs,cell) {
-	let {shapes,rectP,circleP,deltaX,deltaY,widthFactor,heightFactor,genCircles,opacity0,opacity,sizeMap} = this;
+	let {shapes,rectP,circleP} = this;
+	let genCircles = this.getParam(cell,'genCircles');
 	let shape = genCircles?circleP.instantiate():rectP.instantiate();
 	shapes.push(shape);
 	shape.show();
 	this.shapeUpdater(shape,rvs,cell);
-	return shape;
-	let fc = this.sizeFactor(cell);
-	debugger;
-	if (typeof fc === 'number') {
-		if (Math.random() < 0.5) {
-			fc = Math.floor(Math.random*4);
-		}
-	}
-	let szf = sizeMap[fc];
-  if (genCircles) {
-		shape.dimension = szf * widthFactor*deltaX;
-	} else {
-	  shape.width = szf * widthFactor * deltaX;
-	  shape.height= szf * heightFactor * deltaY;
-	}
-	shapes.push(shape);
-	this.colorSetter(shape,fc);
-	shape.show();
 	return shape;
 }
 
@@ -298,6 +297,9 @@ rs.innerInitialize = function () {
 
 rs.initialize = rs.innerInitialize;
 
+rs.toFun = function (v) {
+	return () => v;
+}
 return rs;
 
 });

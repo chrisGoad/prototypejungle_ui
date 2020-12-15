@@ -585,6 +585,7 @@ item.addShapes = function () {
 		 // shp.show();
 		}  
 	}
+	
   if (randomizeOrder) {
     let numShapes = numRows * numCols;
     let order;
@@ -1255,9 +1256,10 @@ item.outerInitialize = function (cb) {
 		});
 	} else {
 		//this.ranRowCol = this.randomCell(this.randomCellExclude);
-    let vls = this.computeValuesToSave();
+	//	if (this.computeValuesToSave) {
+    let vls = this.computeValuesToSave?this.computeValuesToSave():null;
 		this.initializeGrid();
-		if (this.saveJson) {
+		if (vls && this.saveJson) {
 		/*  let vls = {};
 			propsToSave.forEach( (prop) => {
 			   let vl = this[prop];

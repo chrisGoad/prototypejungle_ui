@@ -9,7 +9,7 @@ addGridMethods(rs);
 
 debugger;
 
-	let gParams = {saveImage:true,numRows:40,numCols:40,width:300,height:300,pointJiggle:20,
+	let gParams = {saveImage:true,numRows:40,numCols:40,width:250,height:250,pointJiggle:20,
 	 opacity1:0.4,opacity2:0.4,opacity3:0.4,opacity4:0.4,randomizeOrder:0
 		};
 
@@ -25,27 +25,29 @@ rs.initProtos = function () {
 rs.finishProtos = function () {
 	this.rectP.stroke = 'rgba(0,0,0,.8)';
 	this.rectP['stroke-width'] = 0.2;
-	this.circleP.dimension = 2;
+	this.circleP.dimension = 5;
 	this.circleP.fill = 'red';
 	this.circleP.stroke = 'rgba(0,0,0,.8)';
 	this.circleP['stroke-width'] = 0.2;
 }
 
 
-rs.setAppearance = function (shape,n,randomize) {
+rs.setAppearance = function (shape,phase) {
 	let {randomOrder} = this;
 	for (let i=0;i<16;i++) {
-		let subshape = randomize?shape['s'+randomOrder[i]]:shape['s'+i];
+		let subshape = shape['s'+i];
 	//	let subshape = shape['s'+inr];
 	  if (!subshape) {
 			debugger;
 		}
-		let tg = 16-i;
-		let z = 16-n
-		let rvl = (i<n)?255:Math.floor((tg/z)*255);
-		let fill = `rgb(${rvl},0,0)`;
+		let iphase =  2*Math.PI*randomOrder[i]/16;
+		let vl = (Math.cos(phase+iphase) + 1)/2;
+		let rvl = Math.floor(255*vl);
+		//let fill = `rgb(${rvl},${rvl},0)`;
+		let fill = 'white';
 		subshape.fill = fill;
-		console.log('fill ', fill)
+		subshape.dimension = vl*5
+		console.log('phase',phase,'iphase',iphase,'vl',vl,'fill ', fill)
 		subshape.update();
 		continue;
 		if (i < n) {
@@ -62,15 +64,13 @@ rs.stateOf = function (shape,ts) {
 	let {waveLength,phase} = shape;
 	let waveFraction = (timeStep/waveLength)%1;
 	let rpos = 2*Math.PI * waveFraction + phase;
-	let vl = Math.sin(rpos);
-	let rs = 8+Math.round(vl*8);
-	return rs;
+	return rpos;
 }
 
 rs.updateAppearance = function (shape) {
 	let state = this.stateOf(shape);
 	//console.log('state',state);
-	this.setAppearance(shape,state,1);
+	this.setAppearance(shape,state);
 }
 	
 
@@ -83,7 +83,7 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 	console.log('dx',deltaX,'dy',deltaY);
 	let shp = svg.Element.mk('<g/>');
 	shp.waveLength = Math.floor(0.25*this.numTimeSteps);
-	shp.phase = 0 * 2*Math.PI * (rvs.count/16)
+	shp.phase =  2*Math.PI * (rvs.count/16)
 	let icount = Math.floor(rvs.count);
   let count = Math.min(16,icount);
 	count = 16;
@@ -97,8 +97,8 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 		if (i<icount) {
 			//subshape.show();
 		}
-		let xd = 0.2*(i%4)*deltaX;
-		let yd = 0.2*Math.floor(i/4)*deltaY;
+		let xd = 0.25*(i%4)*deltaX;
+		let yd = 0.25*Math.floor(i/4)*deltaY;
 		//let xd = deltaX*(Math.random()-0.5);
 		//let yd = deltaY*(Math.random()-0.5);
 		//console.log('xd',xd,'yd',yd);
