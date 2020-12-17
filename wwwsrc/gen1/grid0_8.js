@@ -17,7 +17,7 @@ rs.getParam = function (cell,prop) {
 	let {paramsByCell,paramsByRow,paramsByCol,globalParams} = this;
 	let {x,y} = cell;
 	let params,propv;
-	debugger;
+	//debugger;
 	if (paramsByRow) {
 		
 		 let ln = paramsByRow.length;
@@ -94,6 +94,9 @@ const numPowers = function(n,p) {
 rs.sizeFactor = function ( cell) {
 	let numRows = this.numRows;
 	let {x,y} = cell;
+	if ((x===40) && (y===2)) {
+		debugger;
+	}
 	let szPower = this.getParam(cell,'sizePower');
 	let px = numPowers(x,szPower);
 	if (numRows === 1) {
@@ -156,7 +159,7 @@ rs.computeSize = function (cell) {
 	//if ((!ranRows) || (ranRows.indexOf(cell.y)>-1)) {
 	if (randomizingFactor) {
 		console.log('szf',szf,'szfy',szfy,'numPy',numPy);
-		debugger;
+		//debugger;
 		let hszf = 1.0*szf;
 	  szf = Math.max(hszf,szf*(1-randomizingFactor)   + szfy*randomizingFactor * Math.random());
 	}
@@ -211,7 +214,7 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles']);
 	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles} = propVs;
 	let sz;
-	debugger;
+	//debugger;
 	if (sizeValues) {
 		sz = this.lookupSize(cell);
 	} else {

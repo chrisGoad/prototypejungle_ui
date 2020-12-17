@@ -5,7 +5,7 @@ function (constructor) {
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
   let rs = constructor();
 	rs.saveImage = true;
-	rs.setName('grid_1_9','grid_1_7');
+	rs.setName('grid_1_16','grid_1_7');
 	rs.initProtos();
 	//rs.path = 'json/grid_1_1.json';
   rs.loadFromPath = 1;
@@ -17,9 +17,9 @@ function (constructor) {
 	rs.height = 300;
 	rs.pointJiggle = 0;
 	rs.preSteps = 20;
-	rs.preSteps = 10;
-	rs.midSteps = 10;
-	rs.postSteps = 10;
+	///rs.preSteps = 10;
+	rs.midSteps = 80;
+	rs.postSteps = 20;
 	rs.mainRange = 80;
 	rs.numTimeSteps = rs.preSteps+ 5*rs.mainRange;
 	rs.speedFactor = 0.05;
@@ -74,7 +74,7 @@ rs.initialize = function () {
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';
 	this.outerInitialize(() => {
-	  this.adjustCells(1,1);
+	  this.adjustCells(0,1);
 	  this.addTheBox();
 	});
 }
