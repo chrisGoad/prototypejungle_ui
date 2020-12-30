@@ -5,9 +5,9 @@ function (rs)	{
 
 	
 	rs.setName('grid0_6_0');
-	rs.numTimeSteps = 100;
-	rs.numRows = 10;
-	rs.numCols = 10;
+	rs.numTimeSteps = 400;
+	rs.numRows = 4;
+	rs.numCols = 4;
 	
 rs.step = function ()   {
 	//debugger;
@@ -16,7 +16,7 @@ rs.step = function ()   {
 	this.draw();
 }
 rs.animate = function (resume)  {
-	this.animateIt(this.numTimeSteps,50,resume);
+	this.animateIt(this.numTimeSteps,10,resume);
 	
 }
 	

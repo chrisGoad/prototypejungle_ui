@@ -25,6 +25,7 @@ function (constructor) {
 	rs.speedFactor = 0.05;
 	rs.lineLength = 0.75;
 	rs.strokeWidth = 1;
+	rs.initialFraction = 0;
 	
 	
 	/*
@@ -74,7 +75,7 @@ rs.initialize = function () {
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';
 	this.outerInitialize(() => {
-	  this.adjustCells(0,1);
+	  this.adjustCells(this.initialFraction,1);
 	  this.addTheBox();
 	});
 }

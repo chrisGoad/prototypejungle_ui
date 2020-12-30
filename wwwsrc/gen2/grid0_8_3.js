@@ -4,6 +4,7 @@ core.require('/gen1/grid0_8.js',
 function (rs)	{ 
   let numRows = 64;
 	let topParams = {numRows:numRows,numCols:numRows,width:1000,height:1000,randomizeOrder:1,orderByOrdinal:0,backgroundColor:'blue'};
+	topParams = {numRows:numRows,numCols:numRows,width:1000,height:1000,randomizeOrder:0,orderByOrdinal:1,backgroundColor:'blue',numTimeSteps:50};
 	Object.assign(rs,topParams);
 	debugger;
 	rs.setName('grid0_8_3');
@@ -39,6 +40,7 @@ rs.finishProtos = function () {
 	widthFactor:1,
 	heightFactor:1,
 	sizePower:2,
+	maxSizeFactor:5,
 	genCircles: 1,
   sizeMap:{0:1,1:2,2:4,3:8,4:0,5:0,6:0},
  // sizeMap:{0:1,1:1,2:2,3:3,4:0,5:0,6:0},
@@ -56,6 +58,23 @@ rs.finishProtos = function () {
 	debugger;
 rs.globalParams = globalValues;
 //Object.assign(rs.globalParams,globalValues);
+rs.step = function ()   {
+	//debugger;
+	let theShapeOrder = this.theShapeOrder;
+	
+	this.shapes.remove();
+	this.set('shapes',core.ArrayNode.mk());
+	this.perturbArray(theShapeOrder,20);
+  this.inverseShapeOrder = this.invertMap(theShapeOrder); 
+ 
+	this.addShapes();
+	this.draw();
+}
+
+rs.animate = function (resume)  {
+	this.animateIt(this.numTimeSteps,10,resume);
+	
+}
 debugger;
 return rs;
 
