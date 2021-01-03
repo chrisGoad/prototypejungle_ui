@@ -81,6 +81,7 @@ rs.setName('quad1');
 	
 
 rs.initialize = function () {
+	debugger;
 	core.root.backgroundColor ='black';
 	let width = qParams.width;
 	quads.forEach( (quad) =>  {quad.initialize()});

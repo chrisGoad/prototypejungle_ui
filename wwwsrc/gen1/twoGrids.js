@@ -12,6 +12,7 @@ rs.set('grid2',grid2);
 
 addGridMethods(grid1);
 addGridMethods(grid2);
+rs.setName = grid1.setName;
  // let rs = constructor();
  
 const initProtos = function (item) {
@@ -196,7 +197,7 @@ rs.initialize = function () {
 	}
 }
 
-
+/*
 rs.setName = function (name,jsonName) {
 	debugger;
 	this.name = name;
@@ -204,6 +205,7 @@ rs.setName = function (name,jsonName) {
 	let theName = jsonName?jsonName:name;
 	this.path = `json/${theName}.json`;
 }	 
+*/
 	
 
 

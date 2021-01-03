@@ -8,7 +8,7 @@ let rs = svg.Element.mk('<g/>');
 	
 let nmr = 64;
 	
-let topParams = {numRows:nmr,numCols:nmr,width:200,height:200};
+let topParams = {numRows:nmr,numCols:nmr,width:200,height:200,chance:0.1,spacing:10,phase:0};
 
 
 Object.assign(grid0,topParams);
@@ -30,6 +30,9 @@ grid1.initProtos = initProtos;
 const shapeGenerator = function (rvs,cell) {
 	  debugger;
 		let {shapes,rectP,circleP,numRows,numCols,genCircles} = this;
+		let {x,y} = cell;
+		
+		let include = (x%spacing === phase) && (y%spaccing === phase)
 	  //let shape = rectP.instantiate();
 	  let shape = (this.genCircles)?circleP.instantiate():rectP.instantiate();
 		let fc = this.sizeFactor(rvs,cell);

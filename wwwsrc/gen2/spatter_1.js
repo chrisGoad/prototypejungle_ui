@@ -12,6 +12,7 @@ rs.width = 400;
   rs.numDrops =3000;
   rs.numRows = 20;
   rs.numCols = 20;
+	rs.spatter = 1;
 	
 rs.initProtos = function () {
   core.assignPrototypes(this,'circleP',circlePP);
@@ -23,7 +24,7 @@ rs.initProtos = function () {
 }  
 
 
-rs.spatterGenerator =  function (rvs,cell,pnt) {
+rs.shapeGenerator =  function (rvs,cell,pnt) {
 	let {shapes,circleP} = this;
 //item.setLenDir = function (shape,len,dir) {
   let shape = this.circleP.instantiate();

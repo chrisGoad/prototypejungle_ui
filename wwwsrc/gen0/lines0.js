@@ -569,7 +569,6 @@ item.intersectUnitSegment = function(usg,rect) {
 }
     
 item.addRandomSegment = function (segments,src,dst,shape) {
-	debugger;
   let srcP;
   let onCircle = false;
   if (src) {
@@ -769,7 +768,23 @@ item.snipSegmentsAtXs = function (x0,x1,fraction) {
   }
 }
     
-      
+
+
+item.genSides = function () {
+  if (this.topSide) {
+    return;
+  }
+  let hw = this.width/2;
+  let hh = this.height/2;
+  let UL = Point.mk(-hw,hh)
+  let UR = Point.mk(hw,hh)
+  let LL = Point.mk(-hw,-hh)
+  let LR  = Point.mk(hw,-hh)
+  this.topSide = geom.LineSegment.mk(UL,UR);
+  this.bottomSide = geom.LineSegment.mk(LL,LR);
+  this.leftSide = geom.LineSegment.mk(UL,LL);
+  this.rightSide = geom.LineSegment.mk(UR,LR);
+}      
     
   
 
@@ -797,6 +812,9 @@ item.addLine = function (i,lsg) {
     line.setEnds(end0,end1);
   }
   //this.lines.set(i,line);
+	if (!this.lines) {
+		this.set('lines',core.ArrayNode.mk());
+	}
   this.lines.push(line);
   if (0 && lsg.oneInHundred) {
     line.stroke = 'red';

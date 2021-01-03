@@ -9,6 +9,7 @@ function (template,addSetName)	{
 
 	let grid0= rs.set('grid0',template.instantiate());
 	let grid1= rs.set('grid1',template.instantiate());
+	let grid2= rs.set('grid2',template.instantiate());
 
 	rs.setName('grid0_8_9');
 
@@ -18,8 +19,9 @@ let topParams = {randomizeOrder:1,orderByOrdinal:1,width:300,height:300,pointJig
 
 Object.assign(grid0,topParams);
 Object.assign(grid1,topParams);
+Object.assign(grid2,topParams);
 //grid1.randomizeOrder = 1;
-//grid1.numCols = 64+8; 
+grid2.numCols = 64+8; 
 //grid1.numRows = 27;
 
 let oo = 0.1;;
@@ -62,11 +64,14 @@ globalParams1.colorMapp = {
 //globalParams1.maxSizeFactor = 3;
 
 
+grid2.globalParams = globalParams1;
 grid1.globalParams = globalParams1;
-grid0.globalParams = globalParams0;
+grid0.globalParams = globalParams1;
 
 let pbr0 = [];
 let pbr1 = [];
+let pbr2 = [];
+grid2.paramsByRow = pbr2;
 grid1.paramsByRow = pbr1;
 grid0.paramsByRow = pbr0;
 let sw = 0.5;
@@ -90,6 +95,7 @@ const setPbr= function (is1,pbr) {
 setPbr(0,pbr0);
 //setPbr(1,pbr1);
 setPbr(0,pbr1);
+setPbr(0,pbr2);
 debugger;
 rs.initialize = function () {
 	core.root.backgroundColor = 'black';
@@ -99,8 +105,10 @@ rs.initialize = function () {
   this.grid1.inverseShapeOrder = this.grid0.inverseShapeOrder;
 	
 	this.grid1.initialize();
-	let mvp = 0.6;
+	this.grid2.initialize();
+	let mvp = 1.1;
 	this.grid0.moveto(Point.mk(-mvp*wd,0));
+	this.grid2.moveto(Point.mk(0,0));
 	this.grid1.moveto(Point.mk(mvp*wd,0));
 
 }
