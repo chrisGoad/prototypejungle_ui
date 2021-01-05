@@ -496,9 +496,12 @@ item.intersectSegmentWithRectangle = function (lsg,rect) {
   return rs;
 }
  
-item.genRandomPointInCircle = function (circle) {
+item.genRandomPointInCircle = function (circle) {	
   let r = circle.radius;
   let center = circle.center; 
+	if (!center) {
+		debugger;
+	}
   const genPoint = () => {
     let {x,y} = center;
     let corner = Point.mk(x-r,y-r);
@@ -587,7 +590,8 @@ item.addRandomSegment = function (segments,src,dst,shape) {
 		if (dstIsCircle) {
 			onCircle = src.onCircle;
 		}
-    dstP = (dstIsCircle)?(onCircle?this.genRandomPointOnCircle(src):this.genRandomPointInCircle(src)):this.genRandomPointOnSegment(dst); 
+    //dstP = (dstIsCircle)?(onCircle?this.genRandomPointOnCircle(src):this.genRandomPointInCircle(src)):this.genRandomPointOnSegment(dst); 
+    dstP = (dstIsCircle)?(onCircle?this.genRandomPointOnCircle(dst):this.genRandomPointInCircle(dst)):this.genRandomPointOnSegment(dst); 
     //dstP = this.genRandomPoint();
     let vec = dstP.difference(srcP);
     let dir = Math.atan2(vec.y,vec.x);

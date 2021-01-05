@@ -13,8 +13,11 @@ item.initializeProto = function (itm,left) {
   core.assignPrototypes(itm,'lineP',linePP);
   itm.lineP.stroke = 'white';
   itm.lineP.stroke = left?'rgb(230,230,230)':'rgb(232, 159, 39)';
+  //itm.lineP.stroke = left?'rgb(23,23,230)':'rgb(232, 159, 39)';
+  //itm.lineP.stroke = 'rgb(232, 159, 39)';
+  //itm.lineP.stroke = 'rgb(230,230,230)';
   itm.lineP.radius = 150;
-  itm.lineP['stroke-width'] = .025; 	
+  itm.lineP['stroke-width'] = .05; 	
    core.assignPrototypes(itm,'circleP',circlePP);
   //this.lineP['stroke-width'] = 1; 	
 }  
@@ -55,6 +58,7 @@ item.initialize = function () {
 
   left.numLines=4000;
   right.numLines=2500;
+  right.numLines=4000;
   left.angleMin = -10;
   right.angleMin = -10;
   left.angleMax = 10;
@@ -85,7 +89,9 @@ item.initialize = function () {
   //right.initializeLines();
   right.initializeLines();
   left.moveto(Point.mk(-110,0));
+  left.moveto(Point.mk(-90,0));
   right.moveto(Point.mk(110,0));
+  right.moveto(Point.mk(90,0));
 }	
 return item;
 });
