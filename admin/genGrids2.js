@@ -39,20 +39,15 @@ let pageTop = `
      }
   </style>
 </head>
-<body style="font-size:14pt;font-family:arial;background-color:gray" >
-
-<p style="text-align:center"> Grids</p>
-`;
-/*
+<body style="font-size:14pt;font-family:arial;background-color:black" >
 <script src="pages.js"></script>
 <script src="gridPages.js"></script>
-*/
-let pageNumber = 0;
-let numPages = 0;
+<p style="text-align:center"> Grids</p>
+`;
+
 const thingString = function (ix,dir,fmat,ititle) {
 	
 	debugger;
-	
 	let spix = ix.split('.');
 	let path = spix[0];
 	let ext = (spix.length === 1)?'jpg':spix[1];
@@ -61,20 +56,15 @@ const thingString = function (ix,dir,fmat,ititle) {
 	let imsrc = `images/${path}.jpg`;
 	let title,titleArg;
 	if (ititle) {
-		titleArg = '&title='+ititle;
+		titleArg = '&title='+ititle+'<br/>';
 		title = ititle;
 	} else {
 		titleArg = '';
-		title = x
+		title = '';
 	}
-	let pageArg = '&page='+pageNumber;
-	pageNumber++;
-	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	//let rs = `<div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="http://localhost:8081/${dir}/${path}.js">source</a><br/><a href="page.html?what=${x}&fmat=${fmat}${title}"><img width="150" src="${path}.jpg"></a></p></div>`;
-	let rs = `  <div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}"><img width="200" src="${imsrc}"></a></p></div>
+	let rs = `  <div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${title}"><img width="200" src="${imsrc}"></a></p></div>
 `;
-//let rs = `  <div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${title}"><img width="200" src="${imsrc}"></a></p></div>
-//`;
 	return rs;
 }
 /*
@@ -85,37 +75,22 @@ const writeThing = function (x,dir,fmat,title) {
 	pageOrder.push(x);
 	formatOrder.push(fmat);
 }*/
-let numThingsPerLine = 4;
 let sectionString = function (things) {
-	let numThingsThisLine = 0;
-	let startLine =  `
+	let rs = `
 <div class="theGrid">
   <div></div>
   `;
-	let rs = `
-<div class="theGrid">
-  <div>START SECTION</div>
-  `;
-	let ln = things.length;
-	for (let i=0;i<ln;i++) {
-		let thing = things[i];
-//things.forEach(function (thing) {
-		if (thing.length === 3) {
-			rs += thingString(thing[0],thing[1],thing[2]);
-		} else {
-				rs += thingString(thing[0],thing[1],thing[2],thing[3]);
-		}
-		numThingsThisLine++;
-		console.log('numThingsThisLine',numThingsThisLine,'i',i,'ln',ln);
-		if ((numThingsThisLine === numThingsPerLine) && (i<(ln-1))) {
-			console.log('EOL');
-			rs += `</div><br/>
-	`+ startLine;
-			numThingsThisLine = 0;
-	  }
-  };
-  rs += `</div><br/>
-`;
+things.forEach(function (thing) {
+	if (thing.length === 3) {
+	  rs += thingString(thing[0],thing[1],thing[2]);
+	} else {
+		  rs += thingString(thing[0],thing[1],thing[2],thing[3]);
+	}
+//	pageOrder.push(thing[0]);
+//	formatOrder.push(thing[2]);
+});
+ rs += `</div>
+ `;
  debugger;
  return rs;
 }
@@ -159,14 +134,7 @@ let sectionsC = require('./gridSections.js');
 	 ['mlines0_7.mp4','gen2','Square']
 ]
 ];*/
-const countPages = function (sections) {
-	let rs = 0;
-	sections.forEach((section) => {
-		section.forEach((thing) =>  rs++);
-	});
-	return rs;
-}
-		
-numPages = countPages(sectionsC.sections);
+	
+
  writePage(sectionsC.sections);
  

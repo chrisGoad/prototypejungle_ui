@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<title>Visual Experiments</title>
+
+<meta charset="UTF-8">
+<title>Visual Experiments</title>
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 3fr 1fr;
+	}
+</style>
+</head>
+<body style="color:white;font-size:14pt;font-family:arial;background-color:black" >
+<script>
+const parseQuerystring = function() {
+  let nvpair = {};
+  let qs = window.location.search.replace('?','');
+  let pairs = qs.split('&');
+  pairs.forEach(function(v) {
+    let pair = v.split('=');
+    if (pair.length>1) {
+      nvpair[pair[0]] = pair[1];
+    }
+  });
+  return nvpair;
+}
+let cWidth;
+document.addEventListener('DOMContentLoaded', () => {
+  debugger;
+	let cWidth =document.documentElement.clientWidth;
+	let cHeight =document.documentElement.clientHeight;
+  let image = document.images[0];
+	let getArgs = parseQuerystring();
+	let title = getArgs.title;
+	let titleDiv = document.getElementById('titleDiv');
+	titleDiv.innerHTML = decodeURI(title);
+	image.width = 0.9*Math.min(cWidth,cHeight);
+  image.src = "images/"+getArgs.image;
+});
+</script>
+</head
+<body style="font-size:14pt;font-family:arial;background-color:gray">
+<div class="theGrid">
+  <div></div>
+  <div id = "titleDiv" style="display: flex;align-items: center;justify-content: center;">
+	  HOHO
+	</div>
+</div>
+<div class="theGrid">
+  <div></div>
+  <div style="display: flex;align-items: center;justify-content: center;">
+	  <img/>
+	</div>
+</div>
+</body>
+</html>

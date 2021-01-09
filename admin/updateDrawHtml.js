@@ -416,7 +416,7 @@ xferDir(0,'www','doc');
 xferDir('top','','admin');
 xferDir(0,'www','');
  xferDir('top','','server');
-xferFiles(0,'www',['draw.html','drawImage.html','zoom0.js','topdefs.js']);
+xferFiles(0,'www',['page.html','draw.html','drawImage.html','zoom0.js','topdefs.js']);
 //xferDir(1,'www','doc');
 //xferDir(0,'www','intro');
 //xferDir(1,'shell','');
@@ -425,7 +425,7 @@ xferFiles(0,'www',['draw.html','drawImage.html','zoom0.js','topdefs.js']);
 
 //xferDirs(0,'none',['arrow','axes','border','box','connector','container','coreExamples','data',
 //'example','grid','image','images','kit','line','random','sandbox','shape','text','timeline']); 
-xferDirs(0,'none',['gen0','gen1','gen2','line','shape','grid']); 
+xferDirs(0,'none',['gen0','gen1','gen2','line','shape']); 
 
   //xferFiles(1,'www',['ops.html','unsupported.html','familytrees.html','coreExamples.html']);
 

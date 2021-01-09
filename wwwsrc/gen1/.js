@@ -138,11 +138,7 @@ rs.colorSetter = function (shape,fc,cell) {
 	let colorF = colorMap[fc];
 	let opacity = opacityMap[fc];
 	let fill = colorF(r,g,b,opacity,cell);
-	if (shape.setFill) {
-		shape.setFill(fill);
-	} else {
-	  shape.fill = fill;
-	}
+	shape.fill = fill;
 	//console.log(fill);
 }
 
@@ -223,16 +219,7 @@ rs.computeValuesToSave = function () {
 	this.sizeValues = vl;
 	return vls;
 }
-
-rs.setDims = function (shape,width,height) {
-	if (shape.setDims) {
-		shape.setDims(width,height);
-	} else {
-		shape.width = width;
-		shape.height = height;
-	}
-}
-
+	
 rs.shapeUpdater = function (shape,rvs,cell,center) {
 	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,sizeValues,width,height} = this;
 	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles']);
@@ -264,11 +251,9 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	if (genCircles) {
 		shape.dimension = sz.x;
 	} else {
-		this.setDims(shape,fszx,sz.y);
+	  shape.width = fszx;
+	  shape.height= sz.y;
 	}
-	 // shape.width = fszx;
-	 // shape.height= sz.y;
-	//}
 	this.colorSetter(shape,sz.fc,cell);
 	if (nshape) {
 		nshape.update();
@@ -276,6 +261,30 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	  shape.update();
 	}
 	return nshape;
+	let fc = this.sizeFactor(cell);
+	/*if (typeof fc === 'number') {
+		if (Math.random() < this.randomizingFactor) {
+			fc = Math.floor(Math.random()*4);
+		}
+	}*/
+	let szf = sizeMap[fc];
+	szf = szf  + randomizingFactor* (Math.random()-0.5) * szf;
+	let wf,hf;
+	if (cell.x > (numCols - 5)) {
+		//debugger;
+	}
+	wf = widthFactor; 
+	hf = heightFactor;
+
+  if (genCircles) {
+		shape.dimension = szf * wf*deltaX;
+	} else {
+	  shape.width = szf * wf * deltaX;
+	  shape.height= szf * hf * deltaY;
+	}
+	this.colorSetter(shape,fc,cell);
+	shape.update();
+	return shape;
 }
 
 rs.shapeGenerator = function (rvs,cell,center) {
