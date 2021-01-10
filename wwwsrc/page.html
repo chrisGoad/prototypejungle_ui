@@ -15,6 +15,19 @@
 </head>
 <body style="color:white;font-size:14pt;font-family:arial;background-color:black" >
 <script>
+
+const afterLastChar = function (string,chr,strict) {
+  let idx = string.lastIndexOf(chr);
+  if (idx < 0) {
+    return strict?undefined:string;
+  }
+  return string.substr(idx+1);
+}
+
+const extension = function (string) {
+  return afterLastChar(string,'.');
+}
+	
 const parseQuerystring = function() {
   let nvpair = {};
   let qs = window.location.search.replace('?','');
@@ -36,9 +49,22 @@ document.addEventListener('DOMContentLoaded', () => {
 	let getArgs = parseQuerystring();
 	let title = getArgs.title;
 	let titleDiv = document.getElementById('titleDiv');
+	let imageDiv = document.getElementById('imageDiv');
+	let videoDiv = document.getElementById('videoDiv');
+	let imageEl =  document.getElementById('theImage');
+	let videoEl =  document.getElementById('theVideo');
 	titleDiv.innerHTML = decodeURI(title);
-	image.width = 0.9*Math.min(cWidth,cHeight);
-  image.src = "images/"+getArgs.image;
+	imageEl.width = 0.9*Math.min(cWidth,cHeight);
+	let im = getArgs.image;
+	let ext = extension(im);
+	let dir = (ext==='jpg')?'images/':'videos/';
+	if (ext === 'mp4') {
+	  imageDiv.style.display = 'none';
+		 videoEl.src = dir+im;
+	} else {
+	  videoDiv.style.display = 'none';
+    imageEl.src = dir + im;
+  } 
 });
 </script>
 </head
@@ -49,10 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	  HOHO
 	</div>
 </div>
-<div class="theGrid">
+<div id="imageDiv" class="theGrid">
   <div></div>
   <div style="display: flex;align-items: center;justify-content: center;">
-	  <img/>
+	  <img/ id="theImage">
+	</div>
+</div>
+<div id="videoDiv" class="theGrid">
+  <div></div>
+  <div style="display: flex;align-items: center;justify-content: center;">
+	  <video controls id="theVideo">
+      <source type="video/mp4">
+		</video>
 	</div>
 </div>
 </body>

@@ -234,6 +234,7 @@ rs.setDims = function (shape,width,height) {
 }
 
 rs.shapeUpdater = function (shape,rvs,cell,center) {
+	debugger;
 	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,sizeValues,width,height} = this;
 	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles']);
 	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles} = propVs;
@@ -269,6 +270,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	 // shape.width = fszx;
 	 // shape.height= sz.y;
 	//}
+	debugger;
 	this.colorSetter(shape,sz.fc,cell);
 	if (nshape) {
 		nshape.update();
