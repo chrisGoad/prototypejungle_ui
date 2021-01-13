@@ -68,7 +68,7 @@ const afterLastChar = function (string,chr,strict) {
 	
 	const collectContent = function (sections) {
 		let rs = [];
-		console.log('sections',sections);
+		//console.log('sections',sections);
 		sections.forEach( (section) => {
 			section.forEach((thing) => {
 				let media = thing[0];
@@ -94,7 +94,14 @@ const afterLastChar = function (string,chr,strict) {
 		xferFiles(idir,jpgFiles,odir);
 	}
 	xferMedia(mediaFiles);
-		
+	
+	const xferTopFiles = function (files) {
+		let idir = './www';
+		let  odir = '../eutelic/public';
+		xferFiles(idir,files,odir);
+	}
+	xferTopFiles(['grids.html','page.html']);
+			
 	
 			return;
 		

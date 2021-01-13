@@ -11,11 +11,25 @@
 		padding-top:10px;
 		grid-template-columns:1fr 3fr 1fr;
 	}
+	.centered {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.prevNext {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor:pointer;
+		text-decoration:underline;
+	}
+	
 </style>
 </head>
-<body style="color:white;font-size:14pt;font-family:arial;background-color:black" >
+<body style="color:white;font-size:14pt;font-family:arial;background-color:gray" >
+<script src = "thePages.js"></script>
 <script>
-
+debugger;
 const afterLastChar = function (string,chr,strict) {
   let idx = string.lastIndexOf(chr);
   if (idx < 0) {
@@ -41,18 +55,48 @@ const parseQuerystring = function() {
   return nvpair;
 }
 let cWidth;
+let cPage;
+let lastPage;
+const onPrev = function () {
+  debugger;
+	
+	let dest = thePages[cPage-1];
+	  
+	
+	window.location.href = `./page.html?image=${dest}&page=${cPage-1}`;
+}
+const onNext = function () {
+  debugger;
+	
+	let dest = thePages[cPage+1];
+	let lastPageArg = (cPage === (thePages.length - 2))?'&lastPage=1':'';
+
+	window.location.href = `./page.html?image=${dest}&page=${cPage+1}${lastPageArg}`;
+}
 document.addEventListener('DOMContentLoaded', () => {
   debugger;
 	let cWidth =document.documentElement.clientWidth;
 	let cHeight =document.documentElement.clientHeight;
   let image = document.images[0];
 	let getArgs = parseQuerystring();
+	cPage = Number(getArgs.page);
+	lastPage = getArgs.lastPage;
 	let title = getArgs.title;
+	let prevDiv = document.getElementById('prevDiv');
+	let nextDiv = document.getElementById('nextDiv');
 	let titleDiv = document.getElementById('titleDiv');
 	let imageDiv = document.getElementById('imageDiv');
 	let videoDiv = document.getElementById('videoDiv');
 	let imageEl =  document.getElementById('theImage');
 	let videoEl =  document.getElementById('theVideo');
+	if (cPage === 0) {
+	 prevDiv.style.visibility = "hidden";
+	}
+	if (lastPage) {
+	  nextDiv.style.visibility = "hidden";
+	}
+	prevDiv.addEventListener('click',onPrev);
+	nextDiv.addEventListener('click',onNext);
 	titleDiv.innerHTML = decodeURI(title);
 	imageEl.width = 0.9*Math.min(cWidth,cHeight);
 	let im = getArgs.image;
@@ -65,25 +109,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	  videoDiv.style.display = 'none';
     imageEl.src = dir + im;
   } 
-});
+});	
 </script>
 </head
 <body style="font-size:14pt;font-family:arial;background-color:gray">
 <div class="theGrid">
-  <div></div>
-  <div id = "titleDiv" style="display: flex;align-items: center;justify-content: center;">
-	  HOHO
+  <div id="prevDiv"  class="prevNext">Prev</div>
+  <div id = "titleDiv" class="centered">
 	</div>
+	<div id="nextDiv" class="prevNext">Next</div>
 </div>
 <div id="imageDiv" class="theGrid">
   <div></div>
-  <div style="display: flex;align-items: center;justify-content: center;">
+  <div class="centered">
 	  <img/ id="theImage">
 	</div>
 </div>
 <div id="videoDiv" class="theGrid">
   <div></div>
-  <div style="display: flex;align-items: center;justify-content: center;">
+  <div class="centered">
 	  <video controls id="theVideo">
       <source type="video/mp4">
 		</video>

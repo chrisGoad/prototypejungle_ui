@@ -1,8 +1,9 @@
 
+let  forEutelic = 0;
 var fs = require('fs');
 
 
-
+let thePages = [];
 const  gotoPage = function (id,fmat) {
   location.href = id+'.html';
   location.href = `page.html?what=${id}&fmat=${fmat}`;
@@ -52,13 +53,14 @@ let numPages = 0;
 const thingString = function (ix,dir,fmat,ititle) {
 	
 	debugger;
-	
 	let spix = ix.split('.');
 	let path = spix[0];
 	let ext = (spix.length === 1)?'jpg':spix[1];
 	let x = path + '.'+ ext;
+	thePages.push(x);
 	//let imsrc = `http://localhost:8081/images/${path}.jpg`;
 	let imsrc = `images/${path}.jpg`;
+	let thumbsrc = `thumbs/${path}.jpg`;
 	let title,titleArg;
 	if (ititle) {
 		titleArg = '&title='+ititle;
@@ -70,9 +72,18 @@ const thingString = function (ix,dir,fmat,ititle) {
 	let pageArg = '&page='+pageNumber;
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
-	//let rs = `<div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="http://localhost:8081/${dir}/${path}.js">source</a><br/><a href="page.html?what=${x}&fmat=${fmat}${title}"><img width="150" src="${path}.jpg"></a></p></div>`;
-	let rs = `  <div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}"><img width="200" src="${imsrc}"></a></p></div>
+	let rs;
+	let astart = `<a href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
+	if (forEutelic) {
+		let titleLink = ititle?`${astart}${ititle}</a><br/>`:'';
+		//let titleA = ititle?`<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/>`:'';
+rs = `<div><p style="text-align:center">${titleLink}${astart}<img width="200" src="${thumbsrc}"></a></p></div>
+	`; 
+	} else {
+		
+rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/><a href="${dir}/${path}.js">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
 `;
+	}
 //let rs = `  <div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${title}"><img width="200" src="${imsrc}"></a></p></div>
 //`;
 	return rs;
@@ -129,6 +140,10 @@ const sectionsString = function (sections) {
 	return rs;
 
 }
+const writeThePages = function () {
+	let js = 'let thePages = '+JSON.stringify(thePages)+';';
+	fs.writeFileSync('www/thePages.js',js);
+}
 	
 const writePage = function (sections) {
 	
@@ -168,5 +183,8 @@ const countPages = function (sections) {
 }
 		
 numPages = countPages(sectionsC.sections);
+
  writePage(sectionsC.sections);
+ writeThePages();
+ console.log('numPages',numPages);
  

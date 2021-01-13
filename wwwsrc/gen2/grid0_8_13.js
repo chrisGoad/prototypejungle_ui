@@ -4,20 +4,21 @@ core.require('/gen1/grid0_8.js',
 function (rs)	{ 
 
 	
-rs.setName('grid0_8_11');
+rs.setName('grid0_8_13');
 	
 let newGlobalParams  = {
 	widthFactor:3,
-	heightFactor:0.7,
-	maxSizeFactor:2,
+	heightFactor:3,
+	maxSizeFactor:3,
 	szPower:2,
-	sizeMap:  {0:1,1:1,2:1},
-	opacityMap:  {0:0.4,1:0.4,2:0.5},
+	sizeMap:  {0:1,1:1,2:1,3:1},
+	opacityMap:  {0:0.4,1:0.4,2:0.4,3:0.4},
   colorMap: 
 		{
 			0:  (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
 			1:  (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
 			2:  (r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+			3:  (r,g,b,opacity) => `rgba(0,150,150,${opacity})`,
 		}
 };
 		
@@ -30,7 +31,7 @@ let newTopParams = {
 	randomizeOrder : 1,
   pointJiggle:5,	
   numRows : 96,
-  numCols : 64,
+  numCols : 96,
 	backgroundColor : 'gray'
 }
 Object.assign(rs,newTopParams);

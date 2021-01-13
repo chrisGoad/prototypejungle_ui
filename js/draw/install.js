@@ -32,7 +32,7 @@ const afterMainInstall = function (e,rs) {
 
 const setBackgroundColor = function (item) {
       if (!item.backgroundColor) {
-        item.backgroundColor="white";
+        item.backgroundColor="gray";
       }
    if (!item.__nonRevertable) {
      core.root.set('__nonRevertable',core.lift({backgroundColor:1}));
@@ -208,11 +208,30 @@ core.setDisplayError(displayError);
 
 const saveTheImage = function () {
 	debugger;
+	//saveTheThumb();
+//	return
+  jpgSizeFactor = jpgMainFactor;
 	let wts = core.vars.whereToSave;// + '.jpg';
 	if (wts) {
 		let dst = `www/images/${wts}.jpg`;
 	  convertToJpeg(dst,function () {
 		  alert('saved the image at '+dst);
+			saveTheThumb();	
+	  });	
+	} else {
+		alert('no destination given for image');
+	}
+}
+
+
+const saveTheThumb = function () {
+	debugger;
+	jpgSizeFactor = jpgThumbFactor;
+	let wts = core.vars.whereToSave;// + '.jpg';
+	if (wts) {
+		let dst = `www/thumbs/${wts}.jpg`;
+	  convertToJpeg(dst,function () {
+		  alert('saved the thumb at '+dst);
 	  });	
 	} else {
 		alert('no destination given for image');

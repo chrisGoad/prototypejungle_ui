@@ -414,7 +414,7 @@ const afterLastChar = function (string,chr,strict) {
  // git add README.md arrow axes border box connector container coreExamples data  example image images kit line random shape  text timeline
 xferDir(0,'www','doc');
 xferDir('top','','admin');
-xferDir(0,'www','');
+//xferDir(0,'www','');
  xferDir('top','','server');
 xferFiles(0,'www',['page.html','draw.html','drawImage.html','zoom0.js','topdefs.js']);
 //xferDir(1,'www','doc');

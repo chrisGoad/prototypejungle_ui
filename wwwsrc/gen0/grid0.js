@@ -631,7 +631,8 @@ item.addShapes = function () {
 		}  
 	}
 	
-  if (randomizeOrder || orderByOrdinal) {
+ // if (randomizeOrder || orderByOrdinal) {
+  if (randomizeOrder) {
     let numShapes = numRows * numCols;
     let order;
     if (this.theShapeOrder) {
@@ -650,7 +651,9 @@ item.addShapes = function () {
     }
     return;
   }
-	if (orderByOrdinal && 0) {
+	//if (orderByOrdinal && 0) {
+	if (orderByOrdinal) {
+		debugger;
 		this.computeCellsByOrdinal();
 		let {maxOrdinal,cellsByOrdinal} = this;
 		for (let o = 0;o<=maxOrdinal;o++) {

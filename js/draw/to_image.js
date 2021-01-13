@@ -4,8 +4,9 @@
  */
 let shrinkFactor = 1;
 let jpegPadFactor = 1.2;
-let jpgSizeFactor = 4;// 2
-
+let jpgMainFactor = 4;// 2
+let jpgThumbFactor = 1;// 2
+let jpgSizeFactor;
 const drawInlineSVG = function (svgElement, bbox,xPad,yPad,ctx, callback) {
   //debugger;
   var svgURL = new XMLSerializer().serializeToString(svgElement);
