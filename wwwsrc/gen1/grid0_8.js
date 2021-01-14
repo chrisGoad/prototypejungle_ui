@@ -303,7 +303,7 @@ rs.shapeGenerator = function (rvs,cell,center) {
 rs.innerInitialize = function () {
 	this.initProtos();
 	this.finishProtos();
-	if (this.backgroundColor) {
+	/*if (this.backgroundColor) {
 		let bkr;
 		if (this.outerRadius) {
 			
@@ -319,7 +319,7 @@ rs.innerInitialize = function () {
 		bkr.show();
 		bkr.fill = this.backgroundColor;
 		bkr['stroke-width'] = 0;
-	}
+	}*/
 	if (this.saveJson  || this.loadFromPath) {
 		this.outerInitialize();
 	} else {

@@ -4,7 +4,7 @@ core.require('/gen1/grid0_8.js',
 function (rs)	{ 
 
 	
-rs.setName('grid0_8_15');
+rs.setName('grid0_8_16');
 
 
 let newGlobalParams  = {
@@ -25,8 +25,9 @@ let newTopParams = {
   pointJiggle:2,	
   numRows : 64,
   numCols : 64,
-	backgroundColor : 'white'
+	backgroundColor : 'black'
 }
+debugger;
 Object.assign(rs,newTopParams);
 
 	

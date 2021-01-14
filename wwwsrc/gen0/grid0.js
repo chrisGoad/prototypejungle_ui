@@ -1097,9 +1097,27 @@ item.setupPointJiggle = function () {
 }
 //item.initializeGrid = function (randomizer) {
 item.initializeGrid = function () {
-  let {numRows,numCols,pointJiggle,spatter} = this;
+  let {numRows,numCols,pointJiggle,spatter,outerRadius,backgroundColor} = this;
  // this.initializeProtos();
- if (this.spatter) {
+ debugger;
+ 	if (backgroundColor) {
+		let bkr;
+		if (outerRadius) {
+			
+			bkr = this.set('backGround',this.circleP.instantiate());
+			bkr.show();
+			bkr.dimension = 2*this.outerRadius;
+    } else {
+			
+			bkr = this.set('rect',this.rectP.instantiate());
+			bkr.width = this.width;
+			bkr.height = this.height;
+		}
+		bkr.show();
+		bkr.fill = this.backgroundColor;
+		bkr['stroke-width'] = 0;
+	}
+  if (this.spatter) {
 		this.addSpatter();
 	  draw.fitTheContents();
 	  return;

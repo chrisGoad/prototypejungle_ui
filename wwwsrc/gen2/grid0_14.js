@@ -153,7 +153,7 @@ rs.shapeGenerator = function (rvs,cell) {
 
 
 rs.initialize = function () {
-	core.root.backgroundColor = 'black';
+	//core.root.backgroundColor = 'black';
 	this.initProtos();
 	this.initializeGrid();
 

@@ -17,6 +17,7 @@ function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{
 		
 	rs.height = 0.8 * sqd * sqsz;
 	rs.width = 1.5 * rs.height;
+	rs.backgroundColor = 'black';
 	
 rs.initProtos = function () {
 	core.assignPrototypes(this,'rectP',rectPP);
@@ -76,7 +77,7 @@ rs.shapeGenerator = function (rvs,cell) {
 
 rs.initialize = function () {
   
-	core.root.backgroundColor = 'black';
+	//core.root.backgroundColor = 'black';
 //	core.root.backgroundColor = 'rgb(100,100,0)';
 	this.initProtos();
  this.setupShapeRandomizer('redOrWhite',{step:0.5,min:0,max:2});
