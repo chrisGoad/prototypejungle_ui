@@ -105,6 +105,7 @@ const afterLastChar = function (string,chr,strict) {
 	}
 	xfer('grids.html','index.html');
 	xfer('page.html');
+	xfer('eutelic.html');
 	xfer('thePages.js');
 	xfer('theTitles.js');
 	/*

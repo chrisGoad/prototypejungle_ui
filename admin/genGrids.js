@@ -43,7 +43,7 @@ let pageTop = `
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center">Visual Experiments by Eutelic</p>
+<p style="text-align:center">Visual Experiments by <a style="color:white;text-decoration:underline" href="eutelic.html">Eutelic</a></p>
 `;
 /*
 <script src="pages.js"></script>
