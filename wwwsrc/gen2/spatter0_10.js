@@ -210,7 +210,7 @@ grid2.initialize = function (cb) {
 	rs.addTheBox = function () {
 		this.lineP = grid1.lineP;
 		this.width =2.2*grid1.width;
-		this.height = grid1.height;
+		this.height = 2.2*grid1.height;
 		this.addBox('white',50,1);
 		this.show();
 		draw.fitTheContents();
@@ -218,6 +218,8 @@ grid2.initialize = function (cb) {
 	
 
 rs.initialize = function () {
+	debugger;
+	draw.vars.jpgPadFactor = 1.1;
 	let {width} = grid1;
 	core.root.backgroundColor = 'red';
 	core.root.backgroundColor = 'black';

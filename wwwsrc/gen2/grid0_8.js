@@ -59,9 +59,9 @@ rs.initProtos = function () {
 		return shape;
 	}
 
-
+rs.backgroundColor = 'black';
 rs.initialize = function () {
-	core.root.backgroundColor = 'black';
+	core.root.backgroundColor = 'gray';
 	this.initProtos();
 	
 	debugger;

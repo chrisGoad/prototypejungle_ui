@@ -3,8 +3,9 @@
  * https://stackoverflow.com/questions/27230293/how-to-convert-svg-to-png-using-html5-canvas-javascript-jquery-and-save-on-serve
  */
 let shrinkFactor = 1;
-let jpegPadFactor = 1.2;
-let jpgMainFactor = 4;// 2
+//let jpegPadFactor = 1.2;
+vars.jpgPadFactor = 1;
+let jpgMainFactor = 2;// 2
 let jpgThumbFactor = 1;// 2
 let jpgSizeFactor;
 const drawInlineSVG = function (svgElement, bbox,xPad,yPad,ctx, callback) {
@@ -40,7 +41,7 @@ const convertToJpeg = function (destPath,cb) {
 		let canvas = document.getElementById('imageCanvas');
 		let svgElement = dom.svgMain.__element
 		let bbox = svgElement.getBBox();
-		let f = jpegPadFactor;
+		let f = vars.jpgPadFactor;
 		let maxXpad = svgwd/bbox.width;
 		let xPad = Math.min(f,maxXpad);
 		let maxYpad = svght/bbox.height;
@@ -64,7 +65,7 @@ const computeSomeStuff  = function () {
 	rs.canvas = document.getElementById('imageCanvas');
 	rs.svgElement = dom.svgMain.__element
 	rs.bbox = rs.svgElement.getBBox();
-	rs.f = jpegPadFactor;
+	rs.f = vars.jpgPadFactor;
 	rs.maxXpad = svgwd/rs.bbox.width;
 	rs.xPad = Math.min(rs.f,rs.maxXpad);
 	rs.maxYpad = svght/rs.bbox.height;

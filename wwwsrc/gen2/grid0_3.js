@@ -69,9 +69,10 @@ rs.shapeGenerator = function (rvs) {
 		return line;
 	}
 
+rs.backgroundColor = 'black';
 rs.initialize = function () {
 	this.initProtos();
-	core.root.backgroundColor = 'black'
+	core.root.backgroundColor = 'gray'
 	this.setupShapeRandomizer('shade', {step:30,min:50,max:250});
 	this.setupShapeRandomizer('direction', {step:0.05* Math.PI,min:0.95*Math.PI,max:2*Math.PI});
 	this.setupShapeRandomizer('length',  {step:0.1,min:1.5,max:2});

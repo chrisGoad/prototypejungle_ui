@@ -56,7 +56,7 @@ rs.finishProtos = function () {
 rs.positionFunction = rs.radialPositionFunction;
 
 rs.initialize = function () {
-	core.root.backgroundColor = 'gray';
+	core.root.backgroundColor = 'black';
 	this.innerInitialize();
 }
 return rs;

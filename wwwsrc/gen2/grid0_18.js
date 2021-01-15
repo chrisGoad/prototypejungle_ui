@@ -90,7 +90,7 @@ rs.shapeGenerator = function (rvs,cell) {
 rs.initialize = function () {
   
 	core.root.backgroundColor = 'black';
-	core.root.backgroundColor = 'gray';
+	//core.root.backgroundColor = 'gray';
 //	core.root.backgroundColor = 'rgb(100,100,0)';
 	this.initProtos();
  this.setupShapeRandomizer('redOrWhite',{step:0.5,min:0,max:2});

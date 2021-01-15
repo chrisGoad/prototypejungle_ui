@@ -32,7 +32,7 @@ const afterMainInstall = function (e,rs) {
 
 const setBackgroundColor = function (item) {
       if (!item.backgroundColor) {
-        item.backgroundColor="gray";
+        item.backgroundColor="black";
       }
    if (!item.__nonRevertable) {
      core.root.set('__nonRevertable',core.lift({backgroundColor:1}));

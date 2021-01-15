@@ -1,7 +1,7 @@
 
 //core.require('/grid/addColorGrid.js',function (colorGridMethods) {
 	//debugger;
-core.require('/gen0/dim2dWalker.js','/gen0/animation.js',function (addRandomMethods,addAnimationMethods) {
+core.require('/shape/rectangle.js','/gen0/dim2dWalker.js','/gen0/animation.js',function (rectPP,addRandomMethods,addAnimationMethods) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
 	//debugger;
   return function (item) {
@@ -50,6 +50,12 @@ item.letterHeight = 4;
 item.fractionInked = 0.4;
 /* three prototypes are expected to be available: blineP (for boundary lines), rlineP (for region lines), and shapeP (unless a shape generation function is specified */
 
+
+item.initBackgroundProtos = function () {
+	core.assignPrototypes(this,'backgroundRectP',rectPP);
+	this.backgroundRectP['stroke-width'] = 0;
+}
+	
 let points = [];
 
 const defaultPositionFunction = function (grid,i,j) {
@@ -1096,9 +1102,10 @@ item.setupPointJiggle = function () {
 	}
 }
 //item.initializeGrid = function (randomizer) {
+item.backgroundPadding = 0;
 item.initializeGrid = function () {
-  let {numRows,numCols,pointJiggle,spatter,outerRadius,backgroundColor} = this;
- // this.initializeProtos();
+  let {numRows,numCols,pointJiggle,spatter,outerRadius,backgroundColor,backgroundPadding,width,height} = this;
+ this.initBackgroundProtos();
  debugger;
  	if (backgroundColor) {
 		let bkr;
@@ -1109,9 +1116,9 @@ item.initializeGrid = function () {
 			bkr.dimension = 2*this.outerRadius;
     } else {
 			
-			bkr = this.set('rect',this.rectP.instantiate());
-			bkr.width = this.width;
-			bkr.height = this.height;
+			bkr = this.set('rect',this.backgroundRectP.instantiate());
+			bkr.width = width + backgroundPadding;
+			bkr.height = height + backgroundPadding;
 		}
 		bkr.show();
 		bkr.fill = this.backgroundColor;

@@ -47,6 +47,7 @@ const seg2line = function (itm,lsg,isLeft) {
 
 item.initialize = function () {
 	debugger;
+	draw.vars.jpgPadFactor = 1.1;
   let left = this.set('left',svg.Element.mk('<g/>'));
   let right = this.set('right',svg.Element.mk('<g/>'));
   this.initializeProto(left,true);

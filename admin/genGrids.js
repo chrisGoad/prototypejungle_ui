@@ -4,6 +4,7 @@ var fs = require('fs');
 
 
 let thePages = [];
+let theTitles = [];
 const  gotoPage = function (id,fmat) {
   location.href = id+'.html';
   location.href = `page.html?what=${id}&fmat=${fmat}`;
@@ -40,9 +41,9 @@ let pageTop = `
      }
   </style>
 </head>
-<body style="font-size:14pt;font-family:arial;background-color:gray" >
+<body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center"> Grids</p>
+<p style="text-align:center">Visual Experiments by Eutelic</p>
 `;
 /*
 <script src="pages.js"></script>
@@ -58,6 +59,7 @@ const thingString = function (ix,dir,fmat,ititle) {
 	let ext = (spix.length === 1)?'jpg':spix[1];
 	let x = path + '.'+ ext;
 	thePages.push(x);
+  theTitles.push(ititle?ititle:0);
 	//let imsrc = `http://localhost:8081/images/${path}.jpg`;
 	let imsrc = `images/${path}.jpg`;
 	let thumbsrc = `thumbs/${path}.jpg`;
@@ -73,9 +75,9 @@ const thingString = function (ix,dir,fmat,ititle) {
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
-	let astart = `<a href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
+	let astart = `<a style="color:white" href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
 	if (forEutelic) {
-		let titleLink = ititle?`${astart}${ititle}</a><br/>`:'';
+		let titleLink = ititle?`${astart}${ititle}</a><br/><br/>`:'';
 		//let titleA = ititle?`<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/>`:'';
 rs = `<div><p style="text-align:center">${titleLink}${astart}<img width="200" src="${thumbsrc}"></a></p></div>
 	`; 
@@ -98,6 +100,7 @@ const writeThing = function (x,dir,fmat,title) {
 }*/
 let numThingsPerLine = 4;
 let sectionString = function (things) {
+	//things.reverse();
 	let numThingsThisLine = 0;
 	let startLine =  `
 <div class="theGrid">
@@ -105,7 +108,7 @@ let sectionString = function (things) {
   `;
 	let rs = `
 <div class="theGrid">
-  <div>START SECTION</div>
+  <div></div>
   `;
 	let ln = things.length;
 	for (let i=0;i<ln;i++) {
@@ -144,7 +147,11 @@ const writeThePages = function () {
 	let js = 'let thePages = '+JSON.stringify(thePages)+';';
 	fs.writeFileSync('www/thePages.js',js);
 }
-	
+const writeTheTitles = function () {
+	let js = 'let theTitles = '+JSON.stringify(theTitles)+';';
+	fs.writeFileSync('www/theTitles.js',js);
+}
+		
 const writePage = function (sections) {
 	
 	let frs = '';
@@ -186,5 +193,6 @@ numPages = countPages(sectionsC.sections);
 
  writePage(sectionsC.sections);
  writeThePages();
+ writeTheTitles();
  console.log('numPages',numPages);
  

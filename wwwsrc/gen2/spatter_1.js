@@ -1,6 +1,6 @@
 
-core.require('/shape/circle.js','/gen0/grid0.js',
-function (circlePP,addGridMethods) {
+core.require('/shape/circle.js','/shape/rectangle.js','/gen0/grid0.js',
+function (circlePP,rectPP,addGridMethods) {
   
 let rs = svg.Element.mk('<g/>');
 
@@ -21,6 +21,8 @@ rs.initProtos = function () {
   this.circleP['stroke-width'] = 0;
   this.circleP['stroke-width'] = 1;
   this.circleP.dimension = 4;
+	core.assignPrototypes(this,'rectP',rectPP);
+  this.rectP['stroke-width'] = 0;
 }  
 
 
@@ -37,11 +39,11 @@ rs.shapeGenerator =  function (rvs,cell,pnt) {
   shape.update();
   return shape;
 }
-
+rs.backgroundColor = 'black';
 rs.initialize = function () {
   debugger;
   this.initProtos();
-  core.root.backgroundColor = 'black';
+ // core.root.backgroundColor = 'black';
 	this.setupShapeRandomizer('shade',{step:35,min:50,max:250});
 	this.setupShapeRandomizer('dimension',{step:5,min:1,max:30});
   this.initializeGrid();

@@ -46,17 +46,19 @@ const initializeLinesProtos = function (lines) {
   lines.circleP.dimension = 2;*/
 }  
 
+item.backgroundColor = 'black';
 
 item.initialize = function () {
   let RA = geom.Ray.mk(Point.mk(0,0),Point.mk(1,1));
  // let RB = geom.Ray.mk(Point.mk(0,1),Point.mk(1,-0.5));
   let RB = geom.Ray.mk(Point.mk(0,1),Point.mk(1,0));
   let RC = RA.intersectRay(RB);
-  core.root.backgroundColor = 'black';
+  //core.root.backgroundColor = 'black';
   let lines = this.set('lines',svg.Element.mk('<g/>'));
   addLinesMethods(lines);
  let grid = this.set('grid',svg.Element.mk('<g/>'));
   addGridMethods(grid);
+	lines.backgroundColor = 'black';
   initializeLinesProtos(lines);
   initializeGridProtos(grid);
   lines.width = 400;

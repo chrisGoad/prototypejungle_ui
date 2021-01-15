@@ -25,6 +25,7 @@ const endsIn = function (string,p) {
 
   }
   
+  
 
 const afterLastChar = function (string,chr,strict) {
   let idx = string.lastIndexOf(chr);
@@ -63,15 +64,58 @@ const afterLastChar = function (string,chr,strict) {
       xferFile(ifl,ofl);
 		}
   }
+	let sectionsC = require('./gridSections.js');
 	
+	const collectContent = function (sections) {
+		let rs = [];
+		//console.log('sections',sections);
+		sections.forEach( (section) => {
+			section.forEach((thing) => {
+				let media = thing[0];
+				let idx = media.lastIndexOf('.');
+				if (idx>=0) {
+				 rs.push(media);
+				} else {
+				 rs.push(media+'.jpg');
+				}
+			})
+		});
+		return rs;
+	}
 	
-	const xferTheFiles = function (files) {
+	let mediaFiles = collectContent(sectionsC.sections);
+	console.log(mediaFiles);
+	
+	const xferMedia = function (mediaFiles) {
+		let idir = './www/images';
+		let itdir = './www/thumbs';
+		let  odir = '../eutelic/public/images'
+		let  otdir = '../eutelic/public/thumbs'
+		let jpgFiles = mediaFiles.filter((file) => endsIn(file,'.jpg'));
+		console.log(jpgFiles);
+		xferFiles(idir,jpgFiles,odir);
+		xferFiles(itdir,jpgFiles,otdir);
+	}
+	xferMedia(mediaFiles);
+	let srcd = 'www/';
+	let dstd = '../eutelic/public/';
+	const xfer = function (srcf,idstf) {
+		let dstf = idstf?idstf:srcf;
+	  xferFile(srcd+srcf,dstd+dstf)
+	}
+	xfer('grids.html','index.html');
+	xfer('page.html');
+	xfer('thePages.js');
+	xfer('theTitles.js');
+	/*
+	const xferTopFiles = function (files) {
 		let idir = './www';
 		let  odir = '../eutelic/public';
 		xferFiles(idir,files,odir);
 	}
-	xferTheFiles(['grids.html','page.html']);
-		
+	xferTopFiles(['grids.html','page.html']);
+	*/
+			
 	
 			return;
 		

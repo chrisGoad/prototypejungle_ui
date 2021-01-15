@@ -41,6 +41,7 @@ rs.shapeGenerator = function (rvs) {
 }
 
 rs.initialize = function () {
+	core.root.backgroundColor = 'gray';
   let {numRows,numCols } = this;
 	this.initProtos();
 	//this.deltaX = this.width/this.numCols;

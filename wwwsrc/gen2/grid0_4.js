@@ -63,10 +63,11 @@ rs.shapeGenerator = function (rvs,cell) {
 	}
 		
 		
-
+rs.backgroundColor = 'black';
+rs.backgroundPadding = 50;
 
 rs.initialize = function () {
-	core.root.backgroundColor = 'black';
+	core.root.backgroundColor = 'gray';
 	this.initProtos();
 	let rnp = {min:0,max:0,step:0}
 	let numCols = this.numCols;

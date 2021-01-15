@@ -26,8 +26,9 @@
 	
 </style>
 </head>
-<body style="color:white;font-size:14pt;font-family:arial;background-color:gray" >
+<body style="color:white;font-size:14pt;font-family:arial;background-color:black" >
 <script src = "thePages.js"></script>
+<script src = "theTitles.js"></script>
 <script>
 debugger;
 const afterLastChar = function (string,chr,strict) {
@@ -73,17 +74,26 @@ const onNext = function () {
 
 	window.location.href = `./page.html?image=${dest}&page=${cPage+1}${lastPageArg}`;
 }
+
+
+const onTop = function () {
+  debugger;
+	
+	window.location.href = './index.html';
+}
 document.addEventListener('DOMContentLoaded', () => {
   debugger;
 	let cWidth =document.documentElement.clientWidth;
 	let cHeight =document.documentElement.clientHeight;
+	let cAR = cWidth/cHeight;
   let image = document.images[0];
 	let getArgs = parseQuerystring();
 	cPage = Number(getArgs.page);
 	lastPage = getArgs.lastPage;
-	let title = getArgs.title;
+	let title = theTitles[cPage];
 	let prevDiv = document.getElementById('prevDiv');
 	let nextDiv = document.getElementById('nextDiv');
+	let topDiv = document.getElementById('topDiv');
 	let titleDiv = document.getElementById('titleDiv');
 	let imageDiv = document.getElementById('imageDiv');
 	let videoDiv = document.getElementById('videoDiv');
@@ -97,8 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	prevDiv.addEventListener('click',onPrev);
 	nextDiv.addEventListener('click',onNext);
-	titleDiv.innerHTML = decodeURI(title);
-	imageEl.width = 0.9*Math.min(cWidth,cHeight);
+	topDiv.addEventListener('click',onTop);
+	if (title) {
+	  titleDiv.innerHTML = decodeURI(title);
+	}
+	
+	//imageEl.width = 0.9*Math.min(cWidth,cHeight);
+	//imageEl.width = 0.9*cWidth;
 	let im = getArgs.image;
 	let ext = extension(im);
 	let dir = (ext==='jpg')?'images/':'videos/';
@@ -107,8 +122,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		 videoEl.src = dir+im;
 	} else {
 	  videoDiv.style.display = 'none';
-    imageEl.src = dir + im;
-  } 
+ 	  imageDiv.style.visibility = 'hidden';
+   imageEl.src = dir + im;
+		imageEl.onload = ()=>{
+		  let imWd = imageEl.naturalWidth;
+		  let imHt = imageEl.naturalHeight;
+			let imAR = imWd/imHt;
+			if (imAR > cAR) {
+			  imageEl.width = 0.75*cWidth;
+			} else {
+			  imageEl.height = 0.75 * cHeight;
+			}	 
+ 	    imageDiv.style.visibility = 'visible';
+
+		  debugger;
+		}
+	}
 });	
 </script>
 </head
@@ -132,6 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
       <source type="video/mp4">
 		</video>
 	</div>
+</div>
+<div id="top" class="theGrid">
+	<div></div>
+	<div  id="topDiv" class="prevNext">Top</div>
+</div>
 </div>
 </body>
 </html>

@@ -4,7 +4,7 @@ core.require('/gen1/grid0_8.js',
 function (rs)	{ 
   let numRows = 64;
 	let topParams = {numRows:numRows,numCols:numRows,width:1000,height:1000,randomizeOrder:1,orderByOrdinal:0,backgroundColor:'blue'};
-	topParams = {numRows:numRows,numCols:numRows,width:1000,height:1000,randomizeOrder:0,orderByOrdinal:1,backgroundColor:'blue',numTimeSteps:50};
+	//topParams = {numRows:numRows,numCols:numRows,width:1000,height:1000,randomizeOrder:1,orderByOrdinal:0,backgroundColor:'blue',numTimeSteps:50};
 	Object.assign(rs,topParams);
 	debugger;
 	rs.setName('grid0_8_3');

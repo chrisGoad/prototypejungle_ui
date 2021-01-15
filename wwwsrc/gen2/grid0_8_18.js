@@ -4,7 +4,7 @@ core.require('/gen1/grid0_8.js',
 function (rs)	{ 
 
 	
-rs.setName('grid0_8_13');
+rs.setName('grid0_8_18');
 	
 let gpInner  = {
 	widthFactor:3,

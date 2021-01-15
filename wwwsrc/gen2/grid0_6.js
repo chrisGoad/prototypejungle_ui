@@ -105,6 +105,7 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
 
 rs.initialize = function () {
 	core.root.backgroundColor = 'black';
+	draw.vars.jpgPadFactor = 1.1;
 	this.initProtos();
 	let endA0 = Point.mk(-100,-10);
 	let endA1 = Point.mk(100,-10);
