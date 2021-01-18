@@ -1,9 +1,9 @@
 
-core.require(function () {
+core.require('/gen0/topRandomMethods.js',function (addTopRandomMethods) {
   return function (item,shape) {
 /*adjustable parameters  */
 
-
+addTopRandomMethods(item);
 item.numCircles = 100;
 item.maxRadius = 100;
 item.minRadius = 50;
@@ -27,7 +27,7 @@ item.lengthMissing = 5;
 */
 
 item.addBrokenCircle = function (radius,startAngle,stopAngle) {
-  let {angleThere,angleMissing,arcs} = this;quad
+  let {angleThere,angleMissing,arcs} = this;
   let radThere = angleThere * (Math.PI/180);
   let radMissing = angleMissing * (Math.PI/180);
   let cRad = startAngle * (Math.PI/180);
@@ -191,6 +191,7 @@ item.pos2shade = function (pos) {
 
 item.addBrokenLine = function (params) {
   let {lineP,lines,start,dir,length:ln,cellI,cellJ,vertical,maxThere,minThere,maxMissing,minMissing,numLines} = params;
+	debugger;
   //let {lines} = this;
   let cLen = 0;
   let cp = start;
@@ -375,12 +376,6 @@ item.initializeArcGrid = function () {
     cR += dR;
   }
   
-}
-
-item.setName = function (name) {
-	this.name = name;
-	core.vars.whereToSave = `images/${name}.jpg`;
-	this.path = `json/${name}.json`;
 }
 
 

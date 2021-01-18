@@ -3,13 +3,11 @@
 <head><meta charset="UTF-8">
 <title>Visual Experiments</title>
 
-<meta charset="UTF-8">
-<title>Visual Experiments</title>
 <style>
 	.theGrid {
 		display:grid;
 		padding-top:10px;
-		grid-template-columns:1fr 3fr 1fr;
+		grid-template-columns:1fr 2fr 1fr;
 	}
 	.centered {
 		display: flex;
@@ -17,11 +15,19 @@
 		justify-content: center;
 	}
 	.prevNext {
+	  font-size:22pt;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor:pointer;
+	}
+	.topLink {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		cursor:pointer;
 		text-decoration:underline;
+		padding-top:20px;
 	}
 	
 </style>
@@ -89,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let image = document.images[0];
 	let getArgs = parseQuerystring();
 	cPage = Number(getArgs.page);
-	lastPage = getArgs.lastPage;
+	//lastPage = getArgs.lastPage;
 	let title = theTitles[cPage];
 	let prevDiv = document.getElementById('prevDiv');
 	let nextDiv = document.getElementById('nextDiv');
@@ -99,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let videoDiv = document.getElementById('videoDiv');
 	let imageEl =  document.getElementById('theImage');
 	let videoEl =  document.getElementById('theVideo');
+	let lastPage = cPage === (thePages.length-1);
 	if (cPage === 0) {
 	 prevDiv.style.visibility = "hidden";
 	}
@@ -140,32 +147,31 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 });	
 </script>
-</head
-<body style="font-size:14pt;font-family:arial;background-color:gray">
+
 <div class="theGrid">
-  <div id="prevDiv"  class="prevNext">Prev</div>
+  <div></div>
   <div id = "titleDiv" class="centered">
 	</div>
-	<div id="nextDiv" class="prevNext">Next</div>
 </div>
 <div id="imageDiv" class="theGrid">
-  <div></div>
+  <div id="prevDiv"  class="prevNext">&lt;</div>
   <div class="centered">
-	  <img/ id="theImage">
+	  <img id="theImage"  alt="Missing Image"/>
 	</div>
+	<div id="nextDiv" class="prevNext">&gt;</div>
+
 </div>
 <div id="videoDiv" class="theGrid">
   <div></div>
   <div class="centered">
 	  <video controls id="theVideo">
-      <source type="video/mp4">
+      <source  type="video/mp4">
 		</video>
 	</div>
 </div>
 <div id="top" class="theGrid">
 	<div></div>
-	<div  id="topDiv" class="prevNext">Top</div>
-</div>
+	<div  id="topDiv" class="topLink">Top</div>
 </div>
 </body>
 </html>

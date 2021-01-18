@@ -17,7 +17,7 @@ function (constructor,addMethods) {
 	
   //let rs = constructor();
 	
-	let gParams = {saveImage:1,loadFromPath:1,numRows:20,numCols:20,width:400,height:400,numDrops:3000,pointJiggle:0,spatter:1};
+	let gParams = {saveImage:1,loadFromPath:0,numRows:20,numCols:20,width:400,height:400,numDrops:3000,pointJiggle:0,spatter:1};
 	
 	let grids = [grid1,grid2,grid3,grid4];
 	//let grids = [grid1,grid2];

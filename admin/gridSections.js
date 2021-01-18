@@ -15,8 +15,8 @@ sections: [
 			 ['spaced9','gen2','wide2','Chaos Within Order'],
 
    ['intersect15','gen2','square','Message'],
-	['spatter_4','gen2','square','Lines 2'],
-		['grid0_5','gen2','square','Smoke'],
+	['spatter_4','gen2','square','Mat'],
+		['grid0_5','gen2','square','Smoke 1'],
 	['grid0_4','gen2','square','Cloth'],
 	
 

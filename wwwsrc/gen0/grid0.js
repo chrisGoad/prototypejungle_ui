@@ -1,7 +1,8 @@
 
 //core.require('/grid/addColorGrid.js',function (colorGridMethods) {
 	//debugger;
-core.require('/shape/rectangle.js','/gen0/dim2dWalker.js','/gen0/animation.js',function (rectPP,addRandomMethods,addAnimationMethods) {
+core.require('/shape/rectangle.js','/gen0/topRandomMethods.js','/gen0/animation.js',function (rectPP,addTopRandomMethods,addAnimationMethods) {
+//core.require('/shape/rectangle.js','/gen0/dim2dWalker.js','/gen0/animation.js',function (rectPP,addRandomMethods,addAnimationMethods) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
 	//debugger;
   return function (item) {
@@ -9,6 +10,7 @@ core.require('/shape/rectangle.js','/gen0/dim2dWalker.js','/gen0/animation.js',f
 /*adjustable parameters  */
 //let item = svg.Element.mk('<g/>');
 addAnimationMethods(item);
+addTopRandomMethods(item);
 item.numRows= 31;
 item.numRows = 11;
 item.numCols = 11;
@@ -1014,7 +1016,7 @@ item.genAwindows = function (szx,szy) {
 }
           
                  
-
+/*
 item.initRandomizer = function () {
 	let rm = this.randomizer;
 	if (!rm) {
@@ -1039,33 +1041,17 @@ item.setupRandomizer = function (tp,nm,params) {
 		params.numCols = kind==='boundaries'?this.numCols+1:this.numCols;
 	}
 	let rm = this.initRandomizer();
-	/*let rm = this.randomizer;
-	if (!rm) {
-		rm = this.randomizer = {};
-	  addRandomMethods(rm);
-	}*/
 	let rnds = this[tp];
-//	if (!rnds) {
-//	  rnds = this[tp] = {};
-//	}
-	//let  cParams = {step:35,min:150,max:250,biasFun,numRows:numRows+1,numCols:numCols+1};
   let rs  = rm.genRandomGrid({timeStep:0,params});
 	rnds[nm]  = rs;
-	
-	//debugger;
 	return rs;
 }
 
 
 item.stepRandomizer = function (tp,nm) {
-	//debugger;
 	let wrnds = this[tp];
 	let rg = wrnds[nm];
-	//let prevValues = rnds.values;
-	//let params = rnds.params;
-	//params.prevValues = prevValues;
 	let rm = this.randomizer;
-	//let rs  = rm.genRandomGrid({timeStep:0,params});
 	let rs  = rm.genRandomGrid(rg);
 	wrnds[nm]  = rs;
 	return rs;
@@ -1089,7 +1075,7 @@ item.setupShapeRandomizer = function (nm,params) {
 item.setupBoundaryRandomizer = function (nm,params) {
   return this.setupRandomizer('randomGridsForBoundaries',nm,params);
 }        
-        
+  */      
 item.setupPointJiggle = function () {     
   let {numRows,numCols,pointJiggle,pointJiggleParams} = this;
   if (pointJiggle) {

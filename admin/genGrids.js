@@ -32,6 +32,19 @@ let pageTop = `
     .indent {
       padding-left:40px;
     }
+		.centered {
+			text-align:center;
+		  font-size:13pt;
+			display: flex;
+		  align-items: center;
+		  justify-content: center;
+		}
+		p {
+			padding-top:5px;
+			padding-bottom:5px;
+			margin-top:0px;
+			margin-bottom:0px;
+		}
     .topPad {
       padding-top:40px;
     }
@@ -43,7 +56,26 @@ let pageTop = `
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center">Visual Experiments by <a style="color:white;text-decoration:underline" href="eutelic.html">Eutelic</a></p>
+<p style="text-align:center;padding-bottom:20px;padding-top:10px">Images by <a style="color:white;text-decoration:underline" href="eutelic.html">Eutelic</a></p>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+	debugger;
+	//let titles =  document.querySelectorAll('#title');
+	let cWidth =document.documentElement.clientWidth;
+	//alert('cWidth = '+cWidth);
+	//let imWid = Math.floor(0.13*cWidth);
+	let imWid = Math.floor(0.09*cWidth);
+	let images = document.querySelectorAll('img');
+	images.forEach((im) => {
+		im.width = ''+imWid;
+	});
+/*	titles.forEach((title) => {
+		title.style.visibility = "";
+	});*/
+});
+</script>	
 `;
 /*
 <script src="pages.js"></script>
@@ -71,16 +103,22 @@ const thingString = function (ix,dir,fmat,ititle) {
 		titleArg = '';
 		title = x
 	}
-	let pageArg = '&page='+pageNumber;
+	let pageArg = 'page='+pageNumber;
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
-	let astart = `<a style="color:white" href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
+	//let astart = `<a style="color:white" href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
+	let astart = `<a style="color:white" href="page.html?image=${x}&${pageArg}">`;
 	if (forEutelic) {
-		let titleLink = ititle?`${astart}${ititle}</a><br/><br/>`:'';
+		//let titleLink = ititle?`${astart}${ititle}</a></p><br/><br/>`:'';
+		let titleLink = ititle?`${astart}${ititle}</a></p>`:'';
 		//let titleA = ititle?`<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/>`:'';
-rs = `<div><p style="text-align:center">${titleLink}${astart}<img width="200" src="${thumbsrc}"></a></p></div>
+rs = `<div><p class="centered">${titleLink}
+<p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>
 	`; 
+	//rs = `<div><p class="centered" style="visibility:hidden" id="title">${titleLink}
+//<p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>
+	//`; 
 	} else {
 		
 rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/><a href="${dir}/${path}.js">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
