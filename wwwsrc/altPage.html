@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<title>Visual Experiments</title>
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 2fr 1fr;
+	}
+	.centered {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.prevNext {
+	  font-size:22pt;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor:pointer;
+	}
+	.topLink {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor:pointer;
+		text-decoration:underline;
+		padding-top:20px;
+	}
+	
+</style>
+</head>
+<body style="color:white;font-size:14pt;font-family:arial;background-color:black" >
+<script src = "altPages.js"></script>
+<script src = "altTitles.js"></script>
+<script>
+debugger;
+const afterLastChar = function (string,chr,strict) {
+  let idx = string.lastIndexOf(chr);
+  if (idx < 0) {
+    return strict?undefined:string;
+  }
+  return string.substr(idx+1);
+}
+
+const extension = function (string) {
+  return afterLastChar(string,'.');
+}
+	
+const parseQuerystring = function() {
+  let nvpair = {};
+  let qs = window.location.search.replace('?','');
+  let pairs = qs.split('&');
+  pairs.forEach(function(v) {
+    let pair = v.split('=');
+    if (pair.length>1) {
+      nvpair[pair[0]] = pair[1];
+    }
+  });
+  return nvpair;
+}
+let cWidth;
+let cPage;
+let lastPage;
+const onPrev = function () {
+  debugger;
+	
+	let dest = thePages[cPage-1];
+	  
+	
+	window.location.href = `./altPage.html?image=${dest}&page=${cPage-1}`;
+}
+const onNext = function () {
+  debugger;
+	
+	let dest = thePages[cPage+1];
+	let lastPageArg = (cPage === (thePages.length - 2))?'&lastPage=1':'';
+
+	window.location.href = `./altPage.html?image=${dest}&page=${cPage+1}${lastPageArg}`;
+}
+
+
+const onTop = function () {
+  debugger;
+	
+	window.location.href = './altGrids.html';
+}
+document.addEventListener('DOMContentLoaded', () => {
+  debugger;
+	let cWidth =document.documentElement.clientWidth;
+	let cHeight =document.documentElement.clientHeight;
+	let cAR = cWidth/cHeight;
+  let image = document.images[0];
+	let getArgs = parseQuerystring();
+	cPage = Number(getArgs.page);
+	//lastPage = getArgs.lastPage;
+	let title = theTitles[cPage];
+	let prevDiv = document.getElementById('prevDiv');
+	let nextDiv = document.getElementById('nextDiv');
+	let topDiv = document.getElementById('topDiv');
+	let titleDiv = document.getElementById('titleDiv');
+	let imageDiv = document.getElementById('imageDiv');
+	let videoDiv = document.getElementById('videoDiv');
+	let imageEl =  document.getElementById('theImage');
+	let videoEl =  document.getElementById('theVideo');
+	let lastPage = cPage === (thePages.length-1);
+	if (cPage === 0) {
+	 prevDiv.style.visibility = "hidden";
+	}
+	if (lastPage) {
+	  nextDiv.style.visibility = "hidden";
+	}
+	prevDiv.addEventListener('click',onPrev);
+	nextDiv.addEventListener('click',onNext);
+	topDiv.addEventListener('click',onTop);
+	if (title) {
+	  titleDiv.innerHTML = decodeURI(title);
+	}
+	
+	//imageEl.width = 0.9*Math.min(cWidth,cHeight);
+	//imageEl.width = 0.9*cWidth;
+	let im = getArgs.image;
+	let ext = extension(im);
+	let dir = (ext==='jpg')?'images/':'videos/';
+	if (ext === 'mp4') {
+	  imageDiv.style.display = 'none';
+		 videoEl.src = dir+im;
+	} else {
+	  videoDiv.style.display = 'none';
+ 	  imageDiv.style.visibility = 'hidden';
+   imageEl.src = dir + im;
+		imageEl.onload = ()=>{
+		  let imWd = imageEl.naturalWidth;
+		  let imHt = imageEl.naturalHeight;
+			let imAR = imWd/imHt;
+			if (imAR > cAR) {
+			  imageEl.width = 0.75*cWidth;
+			} else {
+			  imageEl.height = 0.75 * cHeight;
+			}	 
+ 	    imageDiv.style.visibility = 'visible';
+
+		  debugger;
+		}
+	}
+});	
+</script>
+
+<div class="theGrid">
+  <div></div>
+  <div id = "titleDiv" class="centered">
+	</div>
+</div>
+<div id="imageDiv" class="theGrid">
+  <div id="prevDiv"  class="prevNext">&lt;</div>
+  <div class="centered">
+	  <img id="theImage"  alt="Missing Image"/>
+	</div>
+	<div id="nextDiv" class="prevNext">&gt;</div>
+
+</div>
+<div id="videoDiv" class="theGrid">
+  <div></div>
+  <div class="centered">
+	  <video controls id="theVideo">
+      <source  type="video/mp4">
+		</video>
+	</div>
+</div>
+<div id="top" class="theGrid">
+	<div></div>
+	<div  id="topDiv" class="topLink">Top</div>
+</div>
+</body>
+</html>

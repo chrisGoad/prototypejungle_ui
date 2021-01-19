@@ -64,7 +64,7 @@ const afterLastChar = function (string,chr,strict) {
       xferFile(ifl,ofl);
 		}
   }
-	let sectionsC = require('./gridSections.js');
+	let sectionsC = require('./altSections.js');
 	
 	const collectContent = function (sections) {
 		let rs = [];
@@ -88,13 +88,13 @@ const afterLastChar = function (string,chr,strict) {
 	
 	const xferMedia = function (mediaFiles) {
 		let idir = './www/images';
-		let itdir = './www/thumbs';
+	//	let itdir = './www/thumbs';
 		let  odir = '../eutelic/public/images'
 		let  otdir = '../eutelic/public/thumbs'
 		let jpgFiles = mediaFiles.filter((file) => endsIn(file,'.jpg'));
 		console.log(jpgFiles);
 		xferFiles(idir,jpgFiles,odir);
-		xferFiles(itdir,jpgFiles,otdir);
+	//	xferFiles(itdir,jpgFiles,otdir);
 	}
 	xferMedia(mediaFiles);
 	let srcd = 'www/';

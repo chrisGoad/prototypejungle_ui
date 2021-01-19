@@ -1,8 +1,9 @@
 
-core.require('/gen0/topRandomMethods.js',function (addTopRandomMethods) {
+core.require('/gen0/topRandomMethods.js','/gen0/basics.js',function (addTopRandomMethods,addBasicMethods) {
   return function (item,shape) {
 /*adjustable parameters  */
 
+addBasicMethods(item);
 addTopRandomMethods(item);
 item.numCircles = 100;
 item.maxRadius = 100;

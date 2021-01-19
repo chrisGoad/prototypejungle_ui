@@ -1,15 +1,18 @@
 
-let  forEutelic = 0;
+let  forEutelic = 1;
+let alternate = 1;
+let sectionsPath = alternate?'./altGridSections':'./gridSections';
+let outPath = alternate?'www/altGrids.html':'www/grids.html';
 var fs = require('fs');
 
 
 let thePages = [];
 let theTitles = [];
-const  gotoPage = function (id,fmat) {
+/*const  gotoPage = function (id,fmat) {
   location.href = id+'.html';
   location.href = `page.html?what=${id}&fmat=${fmat}`;
  
-}
+}*/
 /*
 const gotoPage = function (id) {
   debugger;
@@ -94,7 +97,7 @@ const thingString = function (ix,dir,fmat,ititle) {
   theTitles.push(ititle?ititle:0);
 	//let imsrc = `http://localhost:8081/images/${path}.jpg`;
 	let imsrc = `images/${path}.jpg`;
-	let thumbsrc = `thumbs/${path}.jpg`;
+	let thumbsrc = alternate?imsrc:`thumbs/${path}.jpg`;
 	let title,titleArg;
 	if (ititle) {
 		titleArg = '&title='+ititle;
@@ -108,7 +111,7 @@ const thingString = function (ix,dir,fmat,ititle) {
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
 	//let astart = `<a style="color:white" href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
-	let astart = `<a style="color:white" href="page.html?image=${x}&${pageArg}">`;
+	let astart = `<a style="color:white" href="${alternate?'altPage':'page'}.html?image=${x}&${pageArg}">`;
 	if (forEutelic) {
 		//let titleLink = ititle?`${astart}${ititle}</a></p><br/><br/>`:'';
 		let titleLink = ititle?`${astart}${ititle}</a></p>`:'';
@@ -183,11 +186,11 @@ const sectionsString = function (sections) {
 }
 const writeThePages = function () {
 	let js = 'let thePages = '+JSON.stringify(thePages)+';';
-	fs.writeFileSync('www/thePages.js',js);
+	fs.writeFileSync(alternate?'www/altPages.js':'www/thePages.js',js);
 }
 const writeTheTitles = function () {
 	let js = 'let theTitles = '+JSON.stringify(theTitles)+';';
-	fs.writeFileSync('www/theTitles.js',js);
+	fs.writeFileSync(alternate?'www/altTitles.js':'www/theTitles.js',js);
 }
 		
 const writePage = function (sections) {
@@ -195,10 +198,10 @@ const writePage = function (sections) {
 	let frs = '';
 	frs += pageTop;
 	frs +=sectionsString(sections);
-	fs.writeFileSync('www/grids.html',frs);
+	fs.writeFileSync(outPath,frs);
 }
 
-let sectionsC = require('./gridSections.js');
+let sectionsC = require(alternate?'./altSections.js':'./gridSections.js');
 /*let sections = [
 [
 		 ['grid0_8_10','gen2','square'],

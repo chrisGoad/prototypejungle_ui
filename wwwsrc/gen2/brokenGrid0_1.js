@@ -8,9 +8,9 @@ let variant;
 variant = 'c'; //all colors
 
 let item = svg.Element.mk('<g/>');
-
 addMethods(item);
 /*adjustable parameters  */
+item.setName('brokenGrid0_1');
 
 
 item.initializeProto = function () {

@@ -6,7 +6,7 @@ function (constructor) {
   let rs = constructor();
 	//rs.initProtos();
 	rs.saveImage = 0;
-	rs.setName('grid_0_3');
+	rs.setName('grid_0_4');
   rs.loadFromPath = 0;
 	
 	rs.numCols= 40;
