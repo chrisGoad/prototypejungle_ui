@@ -38,7 +38,8 @@ sections: [
    ['intersect23','gen2','square','Lights'],
 	 ['spaced3','gen2','square','Spots'],
 	 ['spaced5','gen2','square','Particles'],
-	 ['mgrid0_0.jpg','gen2','square','Grating'],
+	 ['eye1.jpg','gen2',0,'Eye'],
+	// ['mmgrid0_0.jpg','gen2','square','Grating'],
 	 
 /**/
 	 ['grid0_12.jpg','gen2','square','Grid 3'],
@@ -51,12 +52,17 @@ sections: [
 	 ['grid0_6_0','gen2','square','Beacons'],
 		 ['grid0_8_9','gen2','square','Deco'],
 /**/
-		 ['grid0_9_0','gen2','wide2','Star Maps'],
+				['grid0_9_0','gen2','wide2','Star Maps'],
+		 	['spaced0','gen2',0,'Asteroids'],
+		 	['rwGrid5','gen2',0,'Kachina'],
+		 	['grid24ax_3','gen2',0,'Waves'],
+		
+				 	['grid24d','gen2',0,'Tracks'],
 		   ['grid_0_5','gen2','square','Grid 4'],
 	['spatter_1','gen2','square','Spatter'],
-
-	//	 ['spaced9','gen2','wide2'],
 		 	['grid0_8_18','gen2','wide1','Void'],
+		 //	['gridWRL3','gen2','wide1','Void'],
+		 
 
 
 /**/

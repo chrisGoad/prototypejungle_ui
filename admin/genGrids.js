@@ -1,5 +1,5 @@
 
-let  forEutelic = 1;
+let  forEutelic = 0;
 let alternate = 1;
 let sectionsPath = alternate?'./altGridSections':'./gridSections';
 let outPath = alternate?'www/altGrids.html':'www/grids.html';
@@ -25,7 +25,7 @@ let pageTop = `
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Visual Experiments</title>
+<title>Images by Eutelic</title>
   <style>
     .theGrid {
       display:grid;
@@ -59,8 +59,10 @@ let pageTop = `
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center;padding-bottom:20px;padding-top:10px">Images by <a style="color:white;text-decoration:underline" href="eutelic.html">Eutelic</a></p>
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">Images by <a style="color:white;text-decoration:underline" href="eutelic.html">Eutelic</a></p>
 
+
+<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">Click to Expand</p>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -86,26 +88,29 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 let pageNumber = 0;
 let numPages = 0;
-const thingString = function (ix,dir,fmat,ititle) {
-	
+const thingString = function (ix,dir,useThumb,ititle) {
+	console.log('thingString ix',ix,'useThumb',useThumb,'title',ititle);
 	debugger;
 	let spix = ix.split('.');
 	let path = spix[0];
 	let ext = (spix.length === 1)?'jpg':spix[1];
 	let x = path + '.'+ ext;
 	thePages.push(x);
-  theTitles.push(ititle?ititle:0);
+  let title=ititle?ititle:pageNumber+'';
+  theTitles.push(ititle?ititle:pageNumber+'');
 	//let imsrc = `http://localhost:8081/images/${path}.jpg`;
 	let imsrc = `images/${path}.jpg`;
-	let thumbsrc = alternate?imsrc:`thumbs/${path}.jpg`;
-	let title,titleArg;
-	if (ititle) {
+//	let thumbsrc = alternate?imsrc:`thumbs/${path}.jpg`;
+	let thumbsrc = alternate?imsrc:(useThumb?`thumbs/${path}.jpg`:imsrc);
+	console.log('thumbsrc',thumbsrc);
+	//let title,titleArg;
+/*	if (ititle) {
 		titleArg = '&title='+ititle;
-		title = ititle;
+	//	title = ititle;
 	} else {
 		titleArg = '';
-		title = x
-	}
+	//	title = x
+	}*/
 	let pageArg = 'page='+pageNumber;
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
@@ -114,7 +119,9 @@ const thingString = function (ix,dir,fmat,ititle) {
 	let astart = `<a style="color:white" href="${alternate?'altPage':'page'}.html?image=${x}&${pageArg}">`;
 	if (forEutelic) {
 		//let titleLink = ititle?`${astart}${ititle}</a></p><br/><br/>`:'';
-		let titleLink = ititle?`${astart}${ititle}</a></p>`:'';
+		//let titleLink = ititle?`${astart}${title}</a></p>`:'';
+		let titleLink = `${astart}${title}</a></p>`;
+		console.log('titleLink',titleLink);
 		//let titleA = ititle?`<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/>`:'';
 rs = `<div><p class="centered">${titleLink}
 <p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>

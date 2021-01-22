@@ -175,7 +175,8 @@ item.coordToPoint = function (p) {
 
 // i, j are cell coords
 item.centerPnt = function (i,j) {
-  let points = this.pointJiggle?this.rpoints:this.points;
+	let {pointJiggle,pointJiggleParams} = this;
+  let points = (pointJiggle || pointJiggleParams) ?this.rpoints:this.points;
   let pnt00 =  this.pointAt(points,i,j);
   let pnt11 = this.pointAt(points,i+1,j+1);
   if (pnt00 && pnt11) {
@@ -275,7 +276,8 @@ item.addCellBoundaries = function (frame,fraction) {
     lines = this.set('lines',core.ArrayNode.mk()); 
 	}
  // let lines = this.lines = [];
-  let {numRows,numCols,deltaX,deltaY,boundaryLineGenerator,randomGridsForBoundaries} = this;
+  let {numRows,numCols,deltaX,deltaY,boundaryLineGenerator,randomGridsForBoundaries,
+	  pointJiggle,pointJiggleParams} = this;
   let xdim = numCols * deltaX;
   let ydim = numRows * deltaY;
   let ly = -0.5 * ydim;
@@ -287,7 +289,7 @@ item.addCellBoundaries = function (frame,fraction) {
     }
     for (let j = 0;j <=  numRows; j++) {
 		 	let rvs = this.randomValuesAtCell(randomGridsForBoundaries,i,j);
-      let points = this.pointJiggle?this.rpoints:this.points;
+      let points = (pointJiggle || pointJiggleParams)?this.rpoints:this.points;
       let cell = {x:i,y:j};
       let p11 = this.pointAt(points,i,j);
       let p12 =  this.pointAt(points,i,j+1);
@@ -800,8 +802,9 @@ item.color2rgb = function (c) {
   
 
 item.randomizePoints = function () {
-  let {numRows,numCols,randomizer,pointJiggle,randomGridsForBoundaries} = this;
-  if (!pointJiggle) {
+  let {numRows,numCols,randomizer,pointJiggle,pointJiggleParams,randomGridsForBoundaries} = this;
+	debugger;
+  if (!(pointJiggle || pointJiggleParams)) {
     return;
   }
   let {jiggleX,jiggleY} = randomGridsForBoundaries;
@@ -1078,10 +1081,10 @@ item.setupBoundaryRandomizer = function (nm,params) {
   */      
 item.setupPointJiggle = function () {     
   let {numRows,numCols,pointJiggle,pointJiggleParams} = this;
-  if (pointJiggle) {
+  if (pointJiggle || pointJiggleParams) {
 		let hj = 0.5*this.pointJiggle;
 		let jiggleStep = 0.3 * hj;
-		let jParams = pointJiggleParams?pointJiggleParam:
+		let jParams = pointJiggleParams?pointJiggleParams:
      		{step:jiggleStep,min:-hj,max:hj};
     this.setupBoundaryRandomizer('jiggleX',jParams);
     this.setupBoundaryRandomizer('jiggleY',jParams);
@@ -1090,7 +1093,7 @@ item.setupPointJiggle = function () {
 //item.initializeGrid = function (randomizer) {
 item.backgroundPadding = 0;
 item.initializeGrid = function () {
-  let {numRows,numCols,pointJiggle,spatter,outerRadius,backgroundColor,backgroundPadding,width,height} = this;
+  let {numRows,numCols,pointJiggle,pointJiggleParams,spatter,outerRadius,backgroundColor,backgroundPadding,width,height} = this;
  this.initBackgroundProtos();
  debugger;
  	if (backgroundColor) {
@@ -1121,7 +1124,7 @@ item.initializeGrid = function () {
   core.tlog('initialize');
   this.genPoints();
     core.tlog('genPoints');
-	if (pointJiggle) {
+	if (pointJiggle || pointJiggleParams) {
     this.randomizePoints(0,0);
     core.tlog('randomizePoints');
 	}
@@ -1170,8 +1173,10 @@ item.regenerateShapes = function () {
   this.shapes.remove();
   this.addShapes();
 }
-
-
+item.interpolate = function (cDomain,domainL,domainH,rangeL,rangeH) {
+	let fr = (cDomain-domainL)/(domainH-domainL);
+	return rangeL + fr*(rangeH-rangeL);
+}
 
 item.updateGrid = function () {
   let {numRows,numCols,pointJiggle} = this;

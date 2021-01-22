@@ -90,10 +90,32 @@ rs.computeRandomRowCol = function () {
 }
 */
 // return dir or [dir] ; the latter meaning pattern membership
+
+rs.computeDir = function (x,y) {
+	let {numRows:nr} = this;
+	let hnr = nr/2;
+	let qpi = 0.25*Math.PI;
+	if ((x - y) === hnr) { // diagonally down
+		return [-qpi];
+	}
+	if ((x - y) === -hnr) { // diagonally down
+		return [-qpi];
+	}
+	if ((x + y) === hnr) { // diagonally up
+		return [qpi];
+	}
+	if ((x + y) === nr+hnr) { // diagonally up
+		return [qpi];
+	}
+	return 2*Math.PI * Math.random();
+	
+}
+/*
 rs.computeDir = function (x,y) {
 	return 2*Math.PI * Math.random();
 	
 }
+*/
 rs.computeDirValues = function () {
 	let {numCols,numRows} = this;
 	let rvl = [];
@@ -155,6 +177,14 @@ rs.innerInitialize = function (cb) {
   }
 }
 */
+rs.shapeAdjustor = function (line,dir,color) {
+	let {lineLength} = this;
+	this.setLineEnds(line,lineLength,dir);
+  line.stroke = color;
+	//line.update();
+	line.draw();
+}
+
 rs.shapeGenerator = function (rvs,cell,cnt) {
 	let idx = cell.index;
   let {shapes,dirValues,lineLength} = this;
@@ -200,7 +230,7 @@ rs.showInCircle = function (circle) {
 
 
 
-rs.innerInitialize = function () {
+rs.innerInitialize = function (cb) {
 	debugger;
 	this.initProtos();
 //	this.computeValuesToSave();
@@ -222,7 +252,7 @@ rs.innerInitialize = function () {
 		bkr['stroke-width'] = 0;
 	}*/
 	if (this.saveJson  || this.loadFromPath) {
-		this.outerInitialize();
+		this.outerInitialize(cb);
 	} else {
 	  this.initializeGrid();
 	}
