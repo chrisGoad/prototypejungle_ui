@@ -1,11 +1,11 @@
-core.require('/line/line.js','/gen0/grid0.js',
-function (linePP,addGridMethods) {
+core.require('/line/line.js','/shape/polygon.js','/gen0/grid0.js',
+function (linePP,polygonPP,addGridMethods) {
 
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 let nr = 20;
 let dim = 400;
-let params = {numRows:nr,numCols:nr,width:dim,height:dim,lowJiggle:0,highJiggle:20,lowJiggleStep:0,highJiggleStep:5};
+let params = {numRows:nr,numCols:nr,width:dim,height:dim,lowJiggle:0,highJiggle:20,lowJiggleStep:0,highJiggleStep:5,generatorsDoMovess:1};
 
 Object.assign(rs,params);
 
@@ -13,6 +13,10 @@ rs.initProtos = function () {
 	core.assignPrototypes(this,'blineP',linePP);
 	this.blineP.stroke = 'rgb(255,255,255)';
 	this.blineP['stroke-width'] = 0.5;
+	core.assignPrototypes(this,'polygonP',polygonPP);
+	this.polygonP.stroke = 'rgb(255,255,255)';
+	this.polygonP['stroke-width'] = 0.5;
+	this.polygonP.fill = 'red';
 }  
 
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
@@ -26,6 +30,21 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
 	//}
 	line.show();
 	return line;
+}
+
+rs.shapeGenerator = function (rvs,cell,cnt) {
+	debugger;
+	let {shapes,polygonP} = this;
+	let corners = this.cellCorners(cell);
+	let mcnt = cnt.minus();
+	let rCorners = this.displaceArray(corners,mcnt);
+	let sCorners = this.scaleArray(rCorners,0.5);
+	let pgon = polygonP.instantiate();
+	pgon.corners = sCorners;
+	shapes.push(pgon);
+	pgon.show();
+	pgon.update();
+	return pgon;
 }
 
 rs.initialize = function () {

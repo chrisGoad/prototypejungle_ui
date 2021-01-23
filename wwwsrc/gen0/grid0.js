@@ -325,7 +325,32 @@ item.addCellBoundaries = function (frame,fraction) {
   }
 }
 
+item.cellCorners = function (cell) {
+	let {rpoints,points} = this;
+	let pnts = rpoints?rpoints:points;
+	let {x,y} = cell;
+	let p11 = this.pointAt(pnts,x,y);
+	let p12 =  this.pointAt(pnts,x,y+1);
+	let p21 =  this.pointAt(pnts,x+1,y);
+	let p22 =  this.pointAt(pnts,x+1,y+1);
+	let corners = [p11,p12,p22,p21];
+	return corners;
+}
 
+item.displaceArray = function (a,disp) {
+	let rs = a.map((p)=>p.plus(disp));
+	return rs;
+}
+
+
+item.scaleArray = function (a,scaleX,scaleY) {
+	let rs = a.map((p)=>{
+		let nx = (p.x) * scaleX;
+		let ny = (p.y) * scaleY;
+		return Point.mk(nx,ny);
+	});
+	return rs;
+}
 
 item.updateCellBoundaries = function (frame,fraction) { 
   let points = this.rpoints;

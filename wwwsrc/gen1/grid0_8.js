@@ -1,6 +1,6 @@
 
-core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{ 
+core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/grid0.js','/gen0/lines0.js',
+function (rectPP,linePP,circlePP,polygonPP,addGridMethods,addLineMethods)	{ 
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 
@@ -47,7 +47,7 @@ rs.getParams = function (cell,props) {
 			 
 		
 
-rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,
+rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
 	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
 	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
 	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
@@ -68,6 +68,7 @@ rs.initProtos = function () {
 	core.assignPrototypes(this,'rectP',rectPP);
 	
 		core.assignPrototypes(this,'circleP',circlePP);
+		core.assignPrototypes(this,'polygonP',polygonPP);
 }  
 
 
@@ -197,7 +198,8 @@ rs.computeSize = function (cell) {
 	} else {
 		hf = heightFactor;
 	} */
-	return {x:szf * wf * deltaX,y:szf*hf*deltaY,fc:fc};
+	//return {x:szf * wf * deltaX,y:szf*hf*deltaY,fc:fc};
+	return {x:szf * wf,y:szf*hf,fc:fc};
 }
 
 rs.lookupSize = function (cell) {
@@ -240,8 +242,8 @@ rs.setDims = function (shape,width,height) {
 
 rs.shapeUpdater = function (shape,rvs,cell,center) {
 	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,sizeValues,width,height} = this;
-	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles']);
-	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles} = propVs;
+	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles','genPolygons']);
+	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles,genPolygons} = propVs;
 	let sz;
 	if ((cell.x === 29)&& (cell.y === 15)) {
 	//	debugger;
@@ -255,25 +257,35 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 		shape.hide();
 		return;
 	}
+	if (genPolygons) {
+		let corners = this.cellCorners(cell);
+		let mcnt = center.minus();
+		let rCorners = this.displaceArray(corners,mcnt);
+		let sCorners = this.scaleArray(rCorners,sz.x,sz.y);
+		shape.corners = sCorners;
+	  this.colorSetter(shape,sz.fc,cell);
+		shape.update();
+		return shape;
+	}
 	let cellCenterX = (-0.5*width) + (cell.x +0.5)* deltaX;
 	let cellLeftX = cellCenterX - 0.5*sz.x;
 	let gridLeftX= -0.5*width;
-	let fszx = sz.x;
+	let fszx = deltaX * (sz.x);
 	let nshape;
 	if (cellLeftX < gridLeftX) {
 		let chopX = gridLeftX - cellLeftX;
-		fszx = sz.x - 2*chopX;
+		fszx = deltaX * (sz.x) - 2*chopX;
 	}
-	let cellRightX = cellCenterX + 0.5*sz.x;
+	let cellRightX = cellCenterX + 0.5*deltaX* (sz.x);
 	let gridRightX= 0.5*width;
   if (cellRightX > gridRightX) {
 		let chopX = cellRightX - gridRightX;
-		fszx = sz.x - 2*chopX;
+		fszx = deltaX*(sz.x) - 2*chopX;
 	}	
 	if (genCircles) {
-		shape.dimension = sz.x;
+		shape.dimension = deltaX * (sz.x);
 	} else {
-		this.setDims(shape,fszx,sz.y);
+		this.setDims(shape,fszx,deltaY*(sz.y));
 	}
 	 // shape.width = fszx;
 	 // shape.height= sz.y;
@@ -288,9 +300,11 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 }
 
 rs.shapeGenerator = function (rvs,cell,center) {
-	let {shapes,rectP,circleP} = this;
+	let {shapes,rectP,circleP,polygonP} = this;
 	let genCircles = this.getParam(cell,'genCircles');
-	let shape = genCircles?circleP.instantiate():rectP.instantiate();
+	let genPolygons = this.getParam(cell,'genPolygons');
+	let shape = genCircles?circleP.instantiate():
+	    (genPolygons?polygonP.instantiate():rectP.instantiate());
 	shapes.push(shape);
 	shape.show();
 	//this.shapeUpdater(shape,rvs,cell,center);
