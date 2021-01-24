@@ -3,6 +3,7 @@ function (linePP,polygonPP,addGridMethods) {
 
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
+rs.setName('grid0_28');
 let nr = 20;
 let dim = 400;
 let params = {numRows:nr,numCols:nr,width:dim,height:dim,lowJiggle:0,highJiggle:20,lowJiggleStep:0,highJiggleStep:5,generatorsDoMovess:1};
@@ -38,7 +39,7 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 	let corners = this.cellCorners(cell);
 	let mcnt = cnt.minus();
 	let rCorners = this.displaceArray(corners,mcnt);
-	let sCorners = this.scaleArray(rCorners,0.5);
+	let sCorners = this.scaleArray(rCorners,0.5,0.25);
 	let pgon = polygonP.instantiate();
 	pgon.corners = sCorners;
 	shapes.push(pgon);

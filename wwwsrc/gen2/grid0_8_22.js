@@ -14,7 +14,8 @@ let newGlobalParams  = {
 	szPower:3,
 	genCircles:0,
 	genPolygons:1,
-	sizeMap:{0:1.5,1:1,2:2,3:3,4:4,5:0,6:0},
+	//sizeMap:{0:1.5,1:1,2:2,3:3,4:4,5:0,6:0},
+	sizeMap:{0:.5,1:1,2:2,3:3,4:4,5:0,6:0},
 	//opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
 	opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
   colorMap:{

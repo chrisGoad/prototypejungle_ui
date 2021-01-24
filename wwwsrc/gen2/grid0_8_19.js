@@ -7,7 +7,7 @@ function (rs)	{
 rs.setName('grid0_8_12');
 	
 let newGlobalParams  = {
-
+  genPolygons:1,
 	widthFactor:0.7,
 	heightFactor:0.7,
 	maxSizeFactor:3,
@@ -33,10 +33,10 @@ let newTopParams = {
   ordinalMap : {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7},
 	orderByOrdinal : 0,
 	randomizeOrder : 1,
-  pointJiggle:4,	
+  pointJiggle:2,	
   numRows : 64,
   numCols : 64,
-	backgroundColor : 'yellow',
+	backgroundColor : 'rgb(0,0,100)',//'yellow',
 	outerRadius:50,
   innerRadius:0.1 * 100,
   angleMin:-180,
@@ -50,6 +50,7 @@ Object.assign(rs,newTopParams);
 rs.finishProtos = function () {
 	this.rectP.stroke = 'rgba(0,0,0,.8)';
 	this.rectP['stroke-width'] = 0.2;
+	this.polygonP['stroke-width'] = 0;
 }
 
 return rs;

@@ -1118,7 +1118,7 @@ item.setupPointJiggle = function () {
 //item.initializeGrid = function (randomizer) {
 item.backgroundPadding = 0;
 item.initializeGrid = function () {
-  let {numRows,numCols,pointJiggle,pointJiggleParams,spatter,outerRadius,backgroundColor,backgroundPadding,width,height} = this;
+  let {numRows,numCols,pointJiggle,pointJiggleParams,spatter,outerRadius,backgroundColor,backgroundPadding,backgroundPos,width,height} = this;
  this.initBackgroundProtos();
  debugger;
  	if (backgroundColor) {
@@ -1133,6 +1133,9 @@ item.initializeGrid = function () {
 			bkr = this.set('rect',this.backgroundRectP.instantiate());
 			bkr.width = width + backgroundPadding;
 			bkr.height = height + backgroundPadding;
+		}
+		if (backgroundPos) {
+			bkr.moveto(backgroundPos);
 		}
 		bkr.show();
 		bkr.fill = this.backgroundColor;
