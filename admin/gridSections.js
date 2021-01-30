@@ -38,7 +38,7 @@ sections: [
    ['intersect23','gen2','square','Lights'],
 	 ['spaced3','gen2','square','Spots'],
 	 ['spaced5','gen2','square','Particles'],
-	 ['eye1.jpg','gen2',0,'Eye'],
+	 ['eye1.jpg','gen2',1,'Eye'],
 	// ['mmgrid0_0.jpg','gen2','square','Grating'],
 	 
 /**/

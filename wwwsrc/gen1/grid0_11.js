@@ -267,27 +267,20 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 		shape.update();
 		return shape;
 	}
-	if (genCircles) {
-		let corners = this.cellCorners(cell);
-	  let c0 = corners[0];
-	  let c1 = corners[1];
-	  let c2 = corners[2];
-	  let c3= corners[3];
-	  let deltaX = Math.abs(c0.x - c1.x);
-	  let deltaY = Math.abs(c0.y - c3.y);
-		this.colorSetter(shape,sz.fc,cell);
-   	shape.dimension = Math.min(deltaX,deltaY)* (sz.x);
-		return shape;
-	}
-
+//	let cellCenterX = (-0.5*width) + (cell.x +0.5)* deltaX;
+	let cellCenterX = center;
+	let corners = this.cellCorners(cell);
+  let c0 = corners[0];
+	let c1 = corners[1];
+	let c2 = corners[2];
+	let c3= corners[3];
+	let deltaX = Math.abs(c0.x - c1.x);
+	let deltaY = Math.abs(c0.y - c3.y);
 //	let cellLeftX = cellCenterX - 0.5*sz.x;
 //	let gridLeftX= -0.5*width;
 	let fszx = deltaX * (sz.x);
-	let cellCenterX = (-0.5*width) + (cell.x +0.5)* deltaX;
-	let cellLeftX = cellCenterX - 0.5*sz.x;
-	let gridLeftX= -0.5*width;
 	let nshape;
-	if (cellLeftX < gridLeftX) {
+/*	if (cellLeftX < gridLeftX) {
 		let chopX = gridLeftX - cellLeftX;
 		fszx = deltaX * (sz.x) - 2*chopX;
 	}
@@ -296,7 +289,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
   if (cellRightX > gridRightX) {
 		let chopX = cellRightX - gridRightX;
 		fszx = deltaX*(sz.x) - 2*chopX;
-	}	
+	}	*/
 	if (genCircles) {
 		shape.dimension = deltaX * (sz.x);
 	} else {

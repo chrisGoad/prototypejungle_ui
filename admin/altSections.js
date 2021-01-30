@@ -4,6 +4,11 @@ module.exports = {
 sections: [
 
 [
+  ['grid0_8_24','gen2',1],
+
+  ['grid0_30','gen2',1],
+  ['grid0_1_1','gen2',1],
+  ['grid0_10_0','gen2',1],
   ['grid0_8_23','gen2',1],
   ['grid0_8_22','gen2',1],
   ['grid0_28','gen2',1],

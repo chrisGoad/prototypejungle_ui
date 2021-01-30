@@ -5,10 +5,11 @@ core.require('/shape/rectangle.js','/gen0/topRandomMethods.js','/gen0/animation.
 //core.require('/shape/rectangle.js','/gen0/dim2dWalker.js','/gen0/animation.js',function (rectPP,addRandomMethods,addAnimationMethods) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
 	//debugger;
-  return function (item) {
+  //return function (item) {
   //return function () {
 /*adjustable parameters  */
-//let item = svg.Element.mk('<g/>');
+debugger;
+let item = svg.Element.mk('<g/>');
 addAnimationMethods(item);
 addTopRandomMethods(item);
 item.numRows= 31;
@@ -185,8 +186,6 @@ item.genPoints = function () {
 
 }
 
-// i = column (corresponds to x)  j = row (corresponds to y) //column major // point coords
-
 //points have coords (0 <= x <= numCols,0 <= y <= numRows),  index =  x*(numRows+1) + y;
 //cells have coords (0 <= x < numCols,0 <= y < numCols),  index =  x*numRows + y;
 
@@ -215,6 +214,7 @@ item.indexToPcoord = function (idx) {
 }
 
 
+// i = column (corresponds to x)  j = row (corresponds to y) //column major // point coords
 item.pointAt = function (points,i,j) {
   let {numRows,numCols} = this;
   if ((j<=numRows) && (i<=numCols)) {
@@ -398,8 +398,7 @@ item.cellCorners = function (cell) {
 	let p12 =  this.pointAt(pnts,x,y+1);
 	let p21 =  this.pointAt(pnts,x+1,y);
 	let p22 =  this.pointAt(pnts,x+1,y+1);
-	//let corners = [p11,p12,p22,p21];
-	let corners = [p11,p21,p22,p12];
+	let corners = [p11,p12,p22,p21];
 	return corners;
 }
 
@@ -1445,7 +1444,7 @@ item.outerInitialize = function (cb) {
   }
 }
 
-return;
+return item;
 
  /*
 item.shapeTimeStep  = function() {
@@ -1554,7 +1553,8 @@ item.pauseAnimation = function () {
  item.timeStep = 0;
  */
 
-}
+//}
+
 });
 
       

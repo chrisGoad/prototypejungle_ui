@@ -4,9 +4,10 @@ function (linePP,polygonPP,addGridMethods) {
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 rs.setName('grid0_28');
-let nr = 20;
+let nr = 40;
 let dim = 400;
-let params = {numRows:nr,numCols:nr,width:dim,height:dim,lowJiggle:0,highJiggle:20,lowJiggleStep:0,highJiggleStep:5,generatorsDoMovess:1};
+let params = {numRows:nr,numCols:nr,width:dim,height:dim,lowJiggle:0,highJiggle:20,lowJiggleStep:0,highJiggleStep:5,backgroundColor:'black',backgroundPadding:100,
+ backgroundPos:Point.mk(-17,-20)};
 
 Object.assign(rs,params);
 
@@ -49,12 +50,21 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 }
 
 rs.initialize = function () {
+	core.root.backgroundColor = 'gray';
  this.initProtos();
  let {numRows,numCols,lowJiggle,highJiggle,lowJiggleStep,highJiggleStep} = this;
+ let hnr = numRows/2;
  const walkParams =  (i,j) => {
 //	debugger;
-		let jiggleMax = this.interpolate(i,0,numRows,lowJiggle,highJiggle);
-		let jiggleStep = this.interpolate(i,0,numRows,lowJiggleStep,highJiggleStep);
+    
+   // let fromMiddle = Math.abs(i - (numRows/2));
+		let di = i - hnr;
+		let dj = j - hnr;
+    let fromMiddle = Math.sqrt(di*di + dj*dj);
+		let jiggleMax = this.interpolate(fromMiddle,numRows/2,0,lowJiggle,highJiggle);
+		//let jiggleMax = this.interpolate(i,0,numRows,lowJiggle,highJiggle);
+		//let jiggleStep = this.interpolate(i,0,numRows,lowJiggleStep,highJiggleStep);
+		let jiggleStep = this.interpolate(fromMiddle,numRows/2,0,lowJiggleStep,highJiggleStep);
     return {step:jiggleStep,min:0,max:jiggleMax};
 	}
 	this.pointJiggleParams = {walkParams:walkParams}

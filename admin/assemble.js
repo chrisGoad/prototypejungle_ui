@@ -32,7 +32,7 @@ let prepend = function (what,arr) {
 
 fileLists.core = prepend('core',["root","tree","exception","update","instantiate","serialize","deserialize","pageutils",
                   "install","xpath","log","replace","spread","diff","history"]);//,"geom","geometric_object","replace"]); 
-fileLists.geom = prepend("geom",["geom","geometric_object"]); //linted with eslint 11/22/17
+fileLists.geom = prepend("geom",["geom","three_d","geometric_object"]); //linted with eslint 11/22/17
 fileLists.dom = prepend('dom',["environment","data","dom1","jxon","svg","html","domstringify","svg_serialize"]);
 fileLists.firebase = ["firebase/firebase","firebase/actions"]; // code cleaned
 fileLists.chooser = ["chooser/chooser"];// code cleaned

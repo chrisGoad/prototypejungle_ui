@@ -1,9 +1,9 @@
 
-core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rectPP,linePP,circlePP,polygonPP,addGridMethods,addLineMethods)	{ 
-let rs = svg.Element.mk('<g/>');
-addGridMethods(rs);
-
+core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/grid1.js',
+function (rectPP,linePP,circlePP,polygonPP,rs)	{ 
+//let rs = svg.Element.mk('<g/>');
+//addGridMethods(rs);
+debugger;
 //let sqd = 128;
 let sqd = 48;
 sqd = 16;
@@ -267,25 +267,10 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 		shape.update();
 		return shape;
 	}
-	if (genCircles) {
-		let corners = this.cellCorners(cell);
-	  let c0 = corners[0];
-	  let c1 = corners[1];
-	  let c2 = corners[2];
-	  let c3= corners[3];
-	  let deltaX = Math.abs(c0.x - c1.x);
-	  let deltaY = Math.abs(c0.y - c3.y);
-		this.colorSetter(shape,sz.fc,cell);
-   	shape.dimension = Math.min(deltaX,deltaY)* (sz.x);
-		return shape;
-	}
-
-//	let cellLeftX = cellCenterX - 0.5*sz.x;
-//	let gridLeftX= -0.5*width;
-	let fszx = deltaX * (sz.x);
 	let cellCenterX = (-0.5*width) + (cell.x +0.5)* deltaX;
 	let cellLeftX = cellCenterX - 0.5*sz.x;
 	let gridLeftX= -0.5*width;
+	let fszx = deltaX * (sz.x);
 	let nshape;
 	if (cellLeftX < gridLeftX) {
 		let chopX = gridLeftX - cellLeftX;

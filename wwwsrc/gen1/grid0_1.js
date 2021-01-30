@@ -26,69 +26,14 @@ rs.initProtos = function () {
 		finishProtos();
 	}
 }  
-/*
-rs.positionFunction = function (grid,i,j) {
-	 let {deltaX,deltaY,numRows,numCols,width,height} = grid;
-  //let xdim = numCols * deltaX;
-  //let ydim = numRows * deltaY;
-	let hwy = numRows/2;
-	let bothalf = j<hwy;
-  let botx = -0.5 * width;
-  let boty = -0.5 * height;
-  return Point.mk((bothalf?0*deltaX:0)+botx + deltaX*i,boty + deltaY*j);
-  
-}
-*/
+
 rs.shapeAt = function (x,y) {
 	let {numRows,shapes} = this;
 	let idx = x*numRows + y;
 	return shapes[idx];
 }
-/*
-rs.posFunction = function (i,j) {
-  let {deltaX,deltaY,numRows,numCols,width,height} = this;
-  let botx = 0.5*deltaX + -0.5 * width;
-  let boty = 0.5*deltaY +  -0.5 * height;
-  return Point.mk(botx + deltaX*i,boty + deltaY*j);
-  
-}
 
 
-rs.computeRanges = function (times) {
-	let ctime = 0;
-	let ranges  = [];
-	const addToRanges = function (tm) {
-		ranges.push(ctime);
-		ctime += tm;
-	}
-	times.forEach(addToRanges);
-	this.timeRanges = ranges;
-	this.numTimeSteps = ctime;
-	return ranges;
-}
-rs.whatTimeRange = function () {
-	let {timeRanges,timeStep} = this;
-	let ln = timeRanges.length;
-	for (let i=0;i<ln-1;i++) {
-		if ((timeStep >= timeRanges[i]) && (timeStep < timeRanges[i+1])) {
-			return i;
-		}
-	}
-	return 'done';
-}
-*/
-
-/*
-rs.computeRandomRowCol = function () {
-	let excl = this.randomRowColExclude;
-	let {numRows,numCols} = this;
-  if (this.randomColumn === undefined) {
-    this.randomColumn = excl + Math.floor(Math.random() * (numCols-2*excl));
-    this.randomRow = excl + Math.floor(Math.random() * (numRows-2*excl));
-    alert ('ranrow '+this.randomRow+' rancol '+this.randomColumn);
-  }
-}
-*/
 // return dir or [dir] ; the latter meaning pattern membership
 
 rs.computeDir = function (x,y) {
@@ -137,46 +82,7 @@ rs.computeValuesToSave = function () {
 
 rs.lineLength = 0.5; // this is multiplied by deltaX to get the actual line length
 rs.generateVariant = false;
-/*
-rs.innerInitialize = function (cb) {
-	debugger;
-	//core.root.backgroundColor = 'red';
-	//this.initializeP();
- // this.dirValues = this.computeDirValues();
-	let {path} = this;
-	
-	
-	
-	//this.dirValues = [];
-	if (this.loadFromPath) {
-		debugger;
-	  core.httpGet(path, (error,json) => {
-			let vls = JSON.parse(json);
-			Object.assign(this,vls);
-			this.initializeGrid();
-			if (cb) {
-				cb();
-			}
-			debugger;
-		});
-	} else {
-		//this.ranRowCol = this.randomCell(this.randomCellExclude);
-    this.dirValues = this.computeDirValues();
-		this.initializeGrid();
-		if (this.saveJson) {
-      let jsn = JSON.stringify({dirValues:this.dirValues});
-			if (this.saveJson) {
-	      core.saveJson(path,jsn,function (err,rs) {
-					if (cb) {
-						cb();
-					}
-		      debugger;
-		    });
-			}
-		}
-  }
-}
-*/
+
 rs.shapeAdjustor = function (line,dir,color) {
 	let {lineLength} = this;
 	this.setLineEnds(line,lineLength,dir);
@@ -233,24 +139,6 @@ rs.showInCircle = function (circle) {
 rs.innerInitialize = function (cb) {
 	debugger;
 	this.initProtos();
-//	this.computeValuesToSave();
-	/*if (this.backgroundColor) {
-		let bkr;
-		if (this.outerRadius) {
-			
-			bkr = this.set('backGround',this.circleP.instantiate());
-			bkr.show();
-			bkr.dimension = 2*this.outerRadius;
-    } else {
-			
-			bkr = this.set('rect',this.rectP.instantiate());
-			bkr.width = this.width;
-			bkr.height = this.height;
-		}
-		bkr.show();
-		bkr.fill = this.backgroundColor;
-		bkr['stroke-width'] = 0;
-	}*/
 	if (this.saveJson  || this.loadFromPath) {
 		this.outerInitialize(cb);
 	} else {
