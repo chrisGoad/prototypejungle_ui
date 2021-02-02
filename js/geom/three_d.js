@@ -22,6 +22,10 @@ Point3d.mk = function (x,y,z) {
   
 
 
+Point3d.copy = function () {
+  return Point3d.mk(this.x,this.y,this.z);
+};
+
 Point3d.plus = function (q) {
   let p = this;
   return Point3d.mk(p.x + q.x,p.y + q.y,p.z + q.z);
@@ -112,6 +116,45 @@ Point.to3d = function () {
 	return rs;
 }
 
+geomr.set("Segment3d",core.ObjectNode.mk()).__namedType();
+
+
+let Segment3d = geomr.Segment3d;
+
+Segment3d.mk = function (end0,end1,dontCopy) {
+  let rs = Object.create(Segment3d);
+  if (!end0) {
+    return rs;
+  }
+  if (dontCopy) {
+    rs.set('end0',end0);
+    rs.set('end1',end1);
+  } else {
+    rs.set('end0',end0.copy());
+    rs.set('end1',end1.copy());
+  }
+  return rs;
+}
+
+geomr.set("Shape3d",core.ObjectNode.mk()).__namedType();
+
+let Shape3d = geomr.Shape3d;
+
+Shape3d.mk = function (parts,transform) {
+	let rs = Object.create(Shape3d);
+	if (transform) {
+		rs.set('transform',transform);
+	}
+	let rparts = core.ArrayNode.mk();
+	parts.forEach((part) => rparts.push(part));
+	rs.set('parts',rparts);
+	return rs;
+}
+
+
+
+
+
 geomr.set("Camera",core.ObjectNode.mk()).__namedType();
 let Camera = geomr.Camera;
 
@@ -126,11 +169,13 @@ Camera.mk = function (focalPoint,focalLength,scaling,axis) {
   return rs;
 }
 
-Camera.project = function (p) {
+Camera.projectPoint3d = function (ip,transform) {
 	let {focalPoint:fp,focalLength:fl,scaling:s,axis} = this;
-	if (p === undefined) {
+	//debugger;
+	if (ip === undefined) {
 		debugger;
 	}
+	let p = transform?transform.apply(ip):ip;
 	let v = fp.difference(p);
 	let t,rs;
 	if (axis === 'x') {
@@ -142,7 +187,48 @@ Camera.project = function (p) {
 		}
 	return rs;
 }
-  
+
+Camera.projectSegment3d = function (sg,transform) {
+  let e0 = this.projectPoint3d(sg.end0,transform);
+  let e1 = this.projectPoint3d(sg.end1,transform);
+	let rs = LineSegment.mk(e0,e1);
+	return rs;
+}
+
+
+
+Camera.projectShape3d = function (shp,itrans) {
+	let strans = shp.transform;
+	let trans;
+	if (itrans) {
+		if (strans) {
+			trans = itrans.times(strans);
+		} else {
+			trans = strans;
+		}
+	} else {
+		trans = strans;
+	}
+	let parts = shp.parts;
+	let rs = core.ArrayNode.mk();
+  parts.forEach( (part) => rs.push(this.project(part,trans)));
+	return rs;
+}
+
+Camera.project = function (shp,trans) {
+	let proto = Object.getPrototypeOf(shp);
+	if (proto === Point3d) {
+		return this.projectPoint3d(shp,trans);
+	}
+	if (proto === Segment3d) {
+		return this.projectSegment3d(shp,trans);
+	}
+	if (proto === Shape3d) {
+		return this.projectShape3d(shp,trans);
+	}
+}
+	
+
 
 geomr.set("Affine3d",core.ArrayNode.mk());
 let Affine3d = geomr.Affine3d;
@@ -186,20 +272,101 @@ Affine3d.apply = function (p) {
 	return Point3d.mk(rx,ry,rz);
 }
 
-Affine3d.apply = function (b) {
-  let [a11,a21,a31,a41,a12,a22,a32,a42,a13,a23,a33,a43,a14,a24,a34,a44] = this;
-	let [b11,b21,b31,b41,b12,b22,b32,b42,b13,b23,b33,b43,b14,b24,b34,b44] = b;
-
-	let rx = a11*x + a12*y + a13*z + a14;
-	let ry = a21*x + a22*y + a23*z + a24;
-	let rz = a31*x + a32*y + a33*z + a34;
-	return Point3d.mk(rx,ry,rz);
+Affine3d.row = function (n) {
+	let rs = [];
+	let st = n;
+	for (let i=0;i<4;i++) {
+		rs.push(this[st+4*i]);
+	}
+	return rs;
 }
-	
 
 
+Affine3d.col = function (n) {
+	let rs = [];
+	let st = n*4;
+	for (let i=0;i<4;i++) {
+		rs.push(this[st+i]);
+	}
+	return rs;
+}
+
+Affine3d.identity = function () {
+	let c1 = [1,0,0,0];
+	let c2= [0,1,0,0];
+	let c3= [0,0,1,0];
+	let c4= [0,0,0,1];
+	let rs = Affine3d.mkFromCols(c1,c2,c3,c4);
+	return rs;
+}
+
+Affine3d.test = function () {
+	let c1 = [11,21,31,41];
+	let c2= [12,22,32,42];
+	let c3= [13,23,33,43];
+	let c4= [14,24,34,44];
+	let rs = Affine3d.mkFromCols(c1,c2,c3,c4);
+	return rs;
+}
+Affine3d.testRow = function (n) {
+	let tst = Affine3d.test();
+	return tst.row(n);
+}
+Affine3d.testCol = function (n) {
+	let tst = Affine3d.test();
+	return tst.col(n);
+}
+
+
+Affine3d.times = function (b) {
+	let aRows = [];
+	let bRows = [];
+	let rCols = []
+	for (let i=0;i<4;i++) {
+		aRows.push(this.row(i));
+	}
+	for (let i=0;i<4;i++) {
+		bCols.push(b.col(i));
+	}
+	for (let colN = 0;colN<4;colN++) {
+		let col = [];
+		for (let rowN=0;rowN<4;rowN++) {
+			let aR = aRows[rowN];
+			let bC = bCols[colN];
+			col.push(aDotP(aR,bC));
+		}
+		rCols.push(col);
+	}
+	let rs = Affine3d.mkFromCols(rCols);
+	return rs;
+ 
+}
+
+Affine3d.mkRotation = function (axis,angle) {
+	debugger;
+	let cos = Math.cos(angle);
+	let sin = Math.sin(angle);
+	let c0,c1,c2;
+	if (axis === 'x') {
+		c0 = [1,0,0,0];
+		c1 = [1,cos,sin,0];
+		c2 = [1,-sin,cos,0];
+	} else if (axis === 'y') {
+		c0 = [cos,0,sin,0];
+		c1 = [0,1,0,0];
+		c2 = [-sin,0,cos,0];
+	} else if (axis === 'z') {
+		c0 = [cos,-sin,0,0];
+		c1 = [sin,cos,0,0];
+		c2 = [0,0,1,0];
+	}
+	let c3 = [0,0,0,0];
+	let rs = Affine3d.mkFromCols(c0,c1,c2,c3);
+	return rs;
+}
+		
 	
 	
 
-export {Point3d,Camera,Affine3d	};
+export {Point3d,Camera,Affine3d,Segment3d,Shape3d	};
 

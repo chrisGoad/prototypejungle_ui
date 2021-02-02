@@ -1216,5 +1216,5 @@ Rectangle.randomPoint = function () {
 }
 
 
-export {movetoInGlobalCoords,toOwnCoords,toPoint,angleToDirection,Point,Rectangle,Transform,Ray,
+export {movetoInGlobalCoords,toOwnCoords,toPoint,angleToDirection,Point,Rectangle,Transform,Ray,degreesToRadians,
         LineSegment,Circle,Arc,boundsForRectangles,rp_time};

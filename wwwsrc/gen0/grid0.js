@@ -62,6 +62,7 @@ let points = [];
 
 const defaultPositionFunction = function (grid,i,j) {
   let {deltaX,deltaY,numRows,numCols,width,height,points3d,camera} = grid;
+	debugger;
 	if (points3d) {
 		let idx = grid.pcoordsToIndex(i,j);
 		let p3d = points3d[idx];
