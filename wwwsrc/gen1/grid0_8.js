@@ -114,7 +114,7 @@ rs.sizeFactor = function ( cell) {
   	let py = numPowers(y,szPower);
 	  sf =  Math.min(px,py,maxSizeFactor);
 	}
-	console.log('x',x,'sf',sf);
+	//console.log('x',x,'sf',sf);
 	return sf;
 }
 
@@ -133,6 +133,9 @@ rs.colorSetter = function (shape,fc) {
 
 rs.colorSetter = function (shape,fc,cell) {
 	let colorMap = this.getParam(cell,'colorMap');
+	if (!colorMap) {
+		debugger;
+	}
 	let opacityMap = this.getParam(cell,'opacityMap');
 	let r = 200 + Math.random() * 55;
 	let g = 100 +Math.random() * 155;
@@ -173,13 +176,13 @@ rs.computeSize = function (cell) {
 	let {randomizingFactor,sizeMap,sizePower,widthFactor,heightFactor} = propVs;
 	
   let fc = this.sizeFactor(cell);
-	console.log('cell',cell.x,cell.y,'fc',fc);
+	//console.log('cell',cell.x,cell.y,'fc',fc);
 	let szf = sizeMap[fc]
   let numPy = numPowers(cell.y,sizePower);
 	let szfy = sizeMap[numPy];
 	//if ((!ranRows) || (ranRows.indexOf(cell.y)>-1)) {
 	if (randomizingFactor) {
-		console.log('szf',szf,'szfy',szfy,'numPy',numPy);
+	//	console.log('szf',szf,'szfy',szfy,'numPy',numPy);
 		//debugger;
 		let hszf = 1.0*szf;
 	  szf = Math.max(hszf,szf*(1-randomizingFactor)   + szfy*randomizingFactor * Math.random());
@@ -245,6 +248,9 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles','genPolygons']);
 	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles,genPolygons} = propVs;
 	let sz;
+	if (!shape) {
+		degbugger;
+	}
 	if ((cell.x === 29)&& (cell.y === 15)) {
 	//	debugger;
 	}
@@ -316,6 +322,11 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 
 rs.shapeGenerator = function (rvs,cell,center) {
 	let {shapes,rectP,circleP,polygonP} = this;
+	if (this.hideThisCell(cell)) {
+	  let {x,y} = cell;
+		console.log('hideCell',x,y);
+		return;
+	}
 	let genCircles = this.getParam(cell,'genCircles');
 	let genPolygons = this.getParam(cell,'genPolygons');
 	let shape = genCircles?circleP.instantiate():
@@ -330,6 +341,7 @@ rs.shapeGenerator = function (rvs,cell,center) {
 
 
 rs.innerInitialize = function () {
+	debugger;
 	this.initProtos();
 	this.finishProtos();
 	/*if (this.backgroundColor) {

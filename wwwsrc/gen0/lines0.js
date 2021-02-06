@@ -1090,7 +1090,7 @@ item.moveCircleSegmentBy = function (rect,seg,delta) {
 	
 item.initializeLines = function (irect) {
   debugger;
-  let {width,height,rectP,dimension,includeRect,boardRows,numLines,backgroundColor} = this;
+  let {width,height,backgroundPadding,rectP,dimension,includeRect,boardRows,numLines,backgroundColor} = this;
 	let rect,circle;
 	this.set('segments',core.ArrayNode.mk());
 	
@@ -1114,8 +1114,9 @@ item.initializeLines = function (irect) {
 	}
 	if (backgroundColor) {
 		let rr = rectangleP.instantiate();
-		rr.width = this.width;
-		rr.height = this.height;
+		let bp = backgroundPadding?backgroundPadding:0;
+		rr.width = width + bp;
+		rr.height = height + bp;
 		rr.fill = backgroundColor;
 		this.set('rr',rr);
 	}

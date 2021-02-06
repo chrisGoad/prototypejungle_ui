@@ -107,6 +107,9 @@ Element.__applyDomMap = function () {
   if (transfers) {
     transfers.forEach(function (att) {
       let val = thisHere[att];
+			if ((att === 'width') && (val < 0)) {
+				debugger;
+			}
       if (val !== undefined) {
         el.setAttribute(att,val);
       }

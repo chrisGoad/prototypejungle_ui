@@ -62,10 +62,10 @@ let points = [];
 
 const defaultPositionFunction = function (grid,i,j) {
   let {deltaX,deltaY,numRows,numCols,width,height,points3d,camera} = grid;
-	debugger;
 	if (points3d) {
 		let idx = grid.pcoordsToIndex(i,j);
 		let p3d = points3d[idx];
+		//debugger;
 		let rs = camera.project(p3d);
 		rs.category = p3d.category;
 		return rs;
@@ -341,7 +341,7 @@ item.addCellBoundaries = function (frame,fraction) {
     lines = this.set('lines',core.ArrayNode.mk()); 
 	}
  // let lines = this.lines = [];
- debugger;
+ //debugger;
   let {numRows,numCols,deltaX,deltaY,boundaryLineGenerator,randomGridsForBoundaries,
 	  isPointJiggle} = this;
   let xdim = numCols * deltaX;
@@ -391,6 +391,14 @@ item.addCellBoundaries = function (frame,fraction) {
   }
 }
 
+item.hideThisCell = function (cell) {
+	let {points:pnts} = this;
+	let {x,y} = cell;
+	let rs = (this.pointAt(pnts,x,y).hideMe)||(this.pointAt(pnts,x,y+1).hideMe)||(this.pointAt(pnts,x+1,y).hideMe)||(this.pointAt(pnts,x+1,y+1).hideMe);
+	return rs;
+}
+	
+	
 item.cellCorners = function (cell) {
 	let {rpoints,points,isPointJiggle} = this;
 	let pnts = isPointJiggle?rpoints:points;
@@ -715,7 +723,7 @@ item.addShapes = function () {
     let  shp;
 		if (this.shapeGenerator) {
 			shp = this.shapeGenerator(rvs,cell,cnt,idx);
-			if (this.shapeUpdater) {
+			if (shp && this.shapeUpdater) {
 				this.shapeUpdater(shp, rvs,cell,cnt);
 			}
 		} else {
@@ -755,7 +763,7 @@ item.addShapes = function () {
   }
 	//if (orderByOrdinal && 0) {
 	if (orderByOrdinal) {
-		debugger;
+		//debugger;
 		this.computeCellsByOrdinal();
 		let {maxOrdinal,cellsByOrdinal} = this;
 		for (let o = 0;o<=maxOrdinal;o++) {
@@ -979,7 +987,7 @@ item.addRegions = function () {
   let {occupiedCount,occupied,numRows,numCols,rlines} = this;
   let npnts = (numRows+1) * (numCols+1);
   if ((occupiedCount/ npnts)>this.fractionToOccupy){
-    console.log('last count = ',occupiedCount, 'out of ',npnts);
+   // console.log('last count = ',occupiedCount, 'out of ',npnts);
     return false;
   }
   let seed = Math.max(0,Math.floor((Math.random()-0.001)*npnts));
@@ -1264,8 +1272,8 @@ item.initializeGrid = function () {
   }
     core.tlog('randomizeLines');
   this.show();
-    core.tlog('show');
-  console.log('lowX',this.lowX,'lowY',this.lowY,'highX',this.highX,'highY',this.highY);
+ //   core.tlog('show');
+  //console.log('lowX',this.lowX,'lowY',this.lowY,'highX',this.highX,'highY',this.highY);
 }
 
 item.regenerateShapes = function () {
@@ -1400,7 +1408,7 @@ item.assignValues = function (vls) {
 }
 		
 item.outerInitialize = function (cb) {
-	debugger;
+	//debugger;
 	//core.root.backgroundColor = 'red';
 	//this.initializeP();
  // this.dirValues = this.computeDirValues();
@@ -1408,7 +1416,7 @@ item.outerInitialize = function (cb) {
 	
 	//this.dirValues = [];
 	if (this.loadFromPath) {
-		debugger;
+		//debugger;
 	  core.httpGet(path, (error,json) => {
 			let vls = JSON.parse(json);
 			this.assignValues(vls);
@@ -1416,7 +1424,7 @@ item.outerInitialize = function (cb) {
 			if (cb) {
 				cb();
 			}
-			debugger;
+		//	debugger;
 		});
 	} else {
 		//this.ranRowCol = this.randomCell(this.randomCellExclude);

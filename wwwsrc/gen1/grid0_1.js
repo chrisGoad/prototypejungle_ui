@@ -93,12 +93,14 @@ rs.shapeAdjustor = function (line,dir,color) {
 
 rs.shapeGenerator = function (rvs,cell,cnt) {
 	let idx = cell.index;
+	let {x,y} = cell;
   let {shapes,dirValues,lineLength} = this;
 	let line0 = this.lineP.instantiate();
 	shapes.push(line0);
   //line0.show();
 	//shapes.set(idx,line0);
-	let pdir = dirValues?dirValues[idx]:this.computeDirValues();
+//	let pdir = dirValues?dirValues[idx]:this.computeDirValues();
+	let pdir = dirValues?dirValues[idx]:this.computeDirValue(x,y);
 	let dir,inPattern;
 	if (typeof pdir === 'number') {
 		dir = pdir;

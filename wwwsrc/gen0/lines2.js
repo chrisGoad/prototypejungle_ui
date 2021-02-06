@@ -3,7 +3,6 @@ core.require('/gen0/animation.js','/line/line.js',function (addAnimationMethods,
 
 //core.require(function () {
  return function (item) {
-	 debugger;
 	 addAnimationMethods(item);
 
 /*adjustable parameters  */
@@ -50,7 +49,7 @@ item.addLine = function (i,lsg) {
  // let line = this.lineP.instantiate();
 //  this.lines.push(line);
   if (!lsg) {
-    debugger;
+    debugger; // keep
   }
  
   let seg2line = this.segmentToLineFunction;
@@ -62,6 +61,9 @@ item.addLine = function (i,lsg) {
     let {end0,end1} = lsg;
     line.setEnds(end0,end1);
   }
+	if (lsg.origin && lsg.origin.stroke) {
+		line.stroke = lsg.origin.stroke;
+	}
   //this.lines.set(i,line);
 	if (!this.lines) {
 		this.set('lines',core.ArrayNode.mk());
@@ -74,7 +76,6 @@ item.addLine = function (i,lsg) {
 
 
 item.addLines = function () {
-	debugger;
   let segs = this.segments;
   let num = segs.length;
   for (let i=0;i<num;i++) {
@@ -86,19 +87,29 @@ item.addLines = function () {
 }
 
 // assumes item.segments3d or item.segments
-item.initializeLines = function (irect) {
-  debugger;
+item.updateLines = function (newSegs) {
 	this.initProtos();
   let {segments,shape3d,camera} = this;
 	let rect,circle;
-	if (!segments) {
-	  segments = this.set('segments',core.ArrayNode.mk());
+	if (!newSegs) {
+   	segments.length = 0;
 	}
-	debugger;
+	lines.remove();
+	this.set('lines',core.ArrayNode.mk());
+
+	//}
 	let prj = camera.project(shape3d);
 	prj.forEach( (seg) => segments.push(seg));
   this.addLines();
 }
+
+item.initializeLines = function (irect) {
+	this.set('lines',core.ArrayNode.mk());
+	this.set('segments',core.ArrayNode.mk());
+	this.updateLines();
+}
+
+
 
 }});
 

@@ -26,10 +26,32 @@ Point3d.copy = function () {
   return Point3d.mk(this.x,this.y,this.z);
 };
 
+Point3d.difference = function (q) {
+  let p = this;
+  return Point3d.mk(p.x - q.x,p.y - q.y,p.z - q.z);
+};
+
+
+Point3d.times = function (s) {
+  let p = this;
+  return Point3d.mk(s*p.x,s*p.y,s*p.z);
+};
+
+
+
+Point3d.minus = function () {
+  let p = this;
+  return Point3d.mk(-p.x,-p.y,-p.z);
+};
+
+
+
+
 Point3d.plus = function (q) {
   let p = this;
   return Point3d.mk(p.x + q.x,p.y + q.y,p.z + q.z);
 };
+
 
 
 Point3d.length = function () {
@@ -185,6 +207,10 @@ Camera.projectPoint3d = function (ip,transform) {
 		t = fl/(v.z);
 		rs = Point.mk(s*t*v.x,s*t*v.y);
 		}
+	if (ip.hideMe) {
+		console.log('point hide me');
+		rs.hideMe = 1;
+	}
 	return rs;
 }
 
@@ -192,6 +218,7 @@ Camera.projectSegment3d = function (sg,transform) {
   let e0 = this.projectPoint3d(sg.end0,transform);
   let e1 = this.projectPoint3d(sg.end1,transform);
 	let rs = LineSegment.mk(e0,e1);
+	rs.origin = sg;
 	return rs;
 }
 

@@ -7,7 +7,7 @@ let shrinkFactor = 1;
 vars.jpgPadFactor = 1;
 let jpgMainFactor = 2;// 2
 let jpgThumbFactor = 1;// 2
-let jpgSizeFactor;
+let jpgSizeFactor = jpgMainFactor; // for animation
 const drawInlineSVG = function (svgElement, bbox,xPad,yPad,ctx, callback) {
   //debugger;
   var svgURL = new XMLSerializer().serializeToString(svgElement);
@@ -37,7 +37,7 @@ let jpegMovie = [];
 const convertToJpeg = function (destPath,cb) {
 	//debugger;
 	//const harvestImage = function () {
-    //debugger;
+    debugger;
 		let canvas = document.getElementById('imageCanvas');
 		let svgElement = dom.svgMain.__element
 		let bbox = svgElement.getBBox();

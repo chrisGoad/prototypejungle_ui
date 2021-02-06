@@ -1,9 +1,9 @@
 
-core.require('/gen1/grid0_8.js','/gen1/sphere_setup0.js','/gen1/layeredGrid0.js',
+core.require('/gen1/grid0_8.js','/gen1/sphere_setup0.js','/gen1/layeredGrid1.js',
 
 function (rs,sphereSetup,layeredSetup)	{ 
 	
-rs.setName('grid0_8_24');
+rs.setName('grid0_8_26');
 sphereSetup(rs);
 layeredSetup(rs);
 let newGlobalParams  = {
@@ -15,11 +15,11 @@ let gp = rs.globalParams;
 Object.assign(gp,newGlobalParams);
 	
 let newTopParams = {
-  pointJiggle:5,	
+  pointJiggle:0,	
   numRows : 96,
  numCols : 96,
-//	width:50,
-//	height:50,
+	width:50,
+	height:50,
 	backgroundColor : 'gray',
 }
 Object.assign(rs,newTopParams);

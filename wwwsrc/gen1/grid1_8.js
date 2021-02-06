@@ -114,7 +114,7 @@ rs.sizeFactor = function ( cell) {
   	let py = numPowers(y,szPower);
 	  sf =  Math.min(px,py,maxSizeFactor);
 	}
-	console.log('x',x,'sf',sf);
+	//console.log('x',x,'sf',sf);
 	return sf;
 }
 
@@ -173,13 +173,13 @@ rs.computeSize = function (cell) {
 	let {randomizingFactor,sizeMap,sizePower,widthFactor,heightFactor} = propVs;
 	
   let fc = this.sizeFactor(cell);
-	console.log('cell',cell.x,cell.y,'fc',fc);
+	//console.log('cell',cell.x,cell.y,'fc',fc);
 	let szf = sizeMap[fc]
   let numPy = numPowers(cell.y,sizePower);
 	let szfy = sizeMap[numPy];
 	//if ((!ranRows) || (ranRows.indexOf(cell.y)>-1)) {
 	if (randomizingFactor) {
-		console.log('szf',szf,'szfy',szfy,'numPy',numPy);
+		//console.log('szf',szf,'szfy',szfy,'numPy',numPy);
 		//debugger;
 		let hszf = 1.0*szf;
 	  szf = Math.max(hszf,szf*(1-randomizingFactor)   + szfy*randomizingFactor * Math.random());
