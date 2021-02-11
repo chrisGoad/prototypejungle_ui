@@ -4,37 +4,49 @@ function (rs,addSetName)	{
 addSetName(rs);
 
 
-rs.setName('grid0_1_4');
+rs.setName('grid0_1_5');
 
-let topParams = {loadFromPath:0,saveJson:0,numRows:20,numCols:20,setLow:[0,0],setHigh:[80,360]};///randomizeOrder:1,orderByOrdinal:1,width:300,height:300,pointJiggle:0,backgroundColor:'black',numRows:64,numCols:64};
+let topParams = {loadFromPath:0,saveJson:0,numRows:20,numCols:60,width:90,height:30,numValues:[4,3,4],lineLength:0.5};///randomizeOrder:1,orderByOrdinal:1,width:300,height:300,pointJiggle:0,backgroundColor:'black',numRows:64,numCols:64};
  
 Object.assign(rs,topParams);
 
+rs.finishProtos = function () {
+	
+	this.lineP['stroke-width'] = .4;
+
+}  
+
 rs.inSetN = function (n,cell) {
 	let {numRows,numCols} = this;
+	let lt = numCols/3
+	let rt = (2*numCols)/3;
 	let {x,y} = cell;
 	if (n === 0) {
 		debugger;
-    return x<y;
+    return x<lt;
 	}
-	return x>=y;
+	if (n === 1) {
+		debugger;
+    return  (x>=lt) && (x<rt);
+	}
+	return x>=rt;
 }
 
 rs.computeDir = function (cell) {
-	let {setLow,setHigh} = this;
+	let {numValues} = this;
   let {x,y} = cell;
-	let numSets = setLow.length;
-	let aLow,aHigh,rLow,rHigh;
+	let numSets = numValues.length;
+	let dir;
   for (let i=0;i<numSets;i++) {
-	  if (this.inSetN(i,cell)) {
-		  aLow = setLow[i];
-		  aHigh = setHigh[i];
-		  rLow = geom.degreesToRadians(aLow);
-		  rHigh = geom.degreesToRadians(aHigh);
+		let inSet = this.inSetN(i,cell);
+	
+	  if (inSet) {
+			console.log('in set ',i,' x y ',x,y);
+		  let nmv = numValues[i];
+			dir = (Math.floor(Math.random() * nmv)/nmv)*Math.PI
 		}
 	}
-	let rs = rLow + Math.random()*(rHigh-rLow);
-	return rs;
+	return dir;
 }
 
 

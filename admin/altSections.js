@@ -3,14 +3,23 @@
 module.exports = {
 sections: [
 
-[ ['grid0_32','gen2',1],
+[ 
+  ['grid0_1_5','gen2',1],
+  ['grid0_35','gen2',1],
+  ['grid0_32','gen2',1],
   ['cube2_0','gen2',1],
-  ['sphere2_0','gen2',1],
+  ['sphere2_1','gen2',1],
+  ['sphere2_2','gen2',1],
 
   ['grid0_8_24','gen2',1],
+  ['grid0_8_26','gen2',1],
+  ['grid0_8_28','gen2',1],
 
   ['grid0_30','gen2',1],
+  ['grid0_3_combo3','gen2',1],
   ['grid0_1_1','gen2',1],
+  ['grid0_1_2','gen2',1],
+  ['grid0_1_6','gen2',1],
   ['grid0_10_0','gen2',1],
   ['grid0_8_23','gen2',1],
   ['grid0_8_22','gen2',1],

@@ -130,6 +130,7 @@ const genPointsFunction0 = function (grid) {
 	let hy = -Infinity;
   for (let i = 0;i <= numCols; i++) {
     for (let j = 0;j <= numRows; j++) {
+			console.log('genPoints i j',i,j);
       let p = pf(grid,i,j);
 			let {x,y} = p;
 			if (x<lx) {
@@ -160,9 +161,10 @@ const genPointsFunction0 = function (grid) {
 
 item.genPoints3d = function () {
 	let {numRows,numCols} = this;
+	debugger;
 	let points3d = this.set("points3d",[]);
-	for (let i = 0;i<=numRows;i++) {
-		for (let j=0;j<=numCols;j++) {
+	for (let i = 0;i<=numCols;i++) {
+		for (let j=0;j<=numRows;j++) {
 			let p = this.genPoint3d(i,j);
 			points3d.push(p);
 		}
@@ -266,6 +268,31 @@ item.addLine = function (lines,p1,p2) {
   line.show();
   return line;
   //debugger;
+}
+
+
+item.addShortenedLine = function (p0,p1,shortenBy) {
+ // let blf = 0.2 + Math.random() * 0.8;
+  let sp0,sp1;
+  if (!p1) {
+    debugger; //keep
+    return;
+  }
+	debugger;
+	let lines = this.lines;
+  let vec = p1.difference(p0);
+  let ln = vec.length();
+  let sby = shortenBy ;
+  let svec = vec.times(0.5*sby);
+  let midpoint = p0.plus(p1).times(0.5);
+  sp0 = midpoint.plus(svec.times(-1));
+  sp1 = midpoint.plus(svec);
+  let line = this.blineP.instantiate();
+  line.setEnds(sp0,sp1);    
+  this.lines.push(line);
+  line.update();
+  line.show();
+  return  line;
 }
 
   
@@ -1193,7 +1220,8 @@ item.setupPointJiggle = function () {
 //item.initializeGrid = function (randomizer) {
 item.backgroundPadding = 0;
 item.initializeGrid = function () {
-  let {numRows,numCols,pointJiggle,pointJiggleParams,spatter,outerRadius,backgroundColor,backgroundPadding,backgroundPos,width,height} = this;
+  let {numRows,numCols,pointJiggle,pointJiggleParams,spatter,outerRadius,backgroundColor,backgroundPadding,backgroundPos,width,height,
+	backgroundWidth,backgroundHeight} = this;
  this.initBackgroundProtos();
  debugger;
  this.isPointJiggle = pointJiggle || pointJiggleParams;
@@ -1207,8 +1235,8 @@ item.initializeGrid = function () {
     } else {
 			
 			bkr = this.set('rect',this.backgroundRectP.instantiate());
-			bkr.width = width + backgroundPadding;
-			bkr.height = height + backgroundPadding;
+			bkr.width = backgroundWidth?backgroundWidth:width + backgroundPadding;
+			bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;
 		}
 		if (backgroundPos) {
 			bkr.moveto(backgroundPos);

@@ -23,7 +23,7 @@ rs.initProtos = function () {
 	this.boundaryLineP.stroke = 'rgb(255,255,0)';
 	this.boundaryLineP['stroke-width'] = 1;
 	if (this.finishProtos) {
-		finishProtos();
+		this.finishProtos();
 	}
 }  
 

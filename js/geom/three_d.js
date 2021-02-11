@@ -211,6 +211,7 @@ Camera.projectPoint3d = function (ip,transform) {
 		console.log('point hide me');
 		rs.hideMe = 1;
 	}
+	console.log('project ',ip.x,ip.y,ip.z,' rs ',rs.x,rs.y);
 	return rs;
 }
 

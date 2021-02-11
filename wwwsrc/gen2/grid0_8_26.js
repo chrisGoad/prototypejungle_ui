@@ -4,8 +4,8 @@ core.require('/gen1/grid0_8.js','/gen1/sphere_setup0.js','/gen1/layeredGrid1.js'
 function (rs,sphereSetup,layeredSetup)	{ 
 	
 rs.setName('grid0_8_26');
-sphereSetup(rs);
 layeredSetup(rs);
+sphereSetup(rs);
 let newGlobalParams  = {
 	genPolygons:1,
 	genCircles:0,
@@ -13,14 +13,18 @@ let newGlobalParams  = {
 		
 let gp = rs.globalParams;
 Object.assign(gp,newGlobalParams);
-	
+
+let bkdim = 1500;
+
 let newTopParams = {
   pointJiggle:0,	
   numRows : 96,
  numCols : 96,
 	width:50,
 	height:50,
-	backgroundColor : 'gray',
+		backgroundWidth:bkdim,
+	backgroundHeight:bkdim,
+	backgroundColor : 'white',
 }
 Object.assign(rs,newTopParams);
 
