@@ -12,10 +12,11 @@ let newTopParams = {
 	sphereDiameter:35,
 	focalPoint:Point3d.mk(0,0,50),
 	focalLength:10,
-	cameraScaling:100,
-	fixedSpin  :0.1 * Math.PI,
+	cameraScaling:100
 }
 Object.assign(rs,newTopParams);
+
+
 
 
 rs.genPoint3d = function (i,j) {

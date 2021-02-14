@@ -158,6 +158,11 @@ Segment3d.mk = function (end0,end1,dontCopy) {
   return rs;
 }
 
+LineSegment.to3d = function() {
+	let {end0,end1} = this;
+	return Segment3d.mk(end0.to3d(),end1.to3d())
+}
+
 geomr.set("Shape3d",core.ObjectNode.mk()).__namedType();
 
 let Shape3d = geomr.Shape3d;
@@ -195,7 +200,7 @@ Camera.projectPoint3d = function (ip,transform) {
 	let {focalPoint:fp,focalLength:fl,scaling:s,axis} = this;
 	//debugger;
 	if (ip === undefined) {
-		debugger;
+		debugger; //keep
 	}
 	let p = transform?transform.apply(ip):ip;
 	let v = fp.difference(p);
@@ -212,6 +217,7 @@ Camera.projectPoint3d = function (ip,transform) {
 		rs.hideMe = 1;
 	}
 	console.log('project ',ip.x,ip.y,ip.z,' rs ',rs.x,rs.y);
+	rs.origin = p;
 	return rs;
 }
 
@@ -226,6 +232,7 @@ Camera.projectSegment3d = function (sg,transform) {
 
 
 Camera.projectShape3d = function (shp,itrans) {
+	debugger;
 	let strans = shp.transform;
 	let trans;
 	if (itrans) {
@@ -239,7 +246,18 @@ Camera.projectShape3d = function (shp,itrans) {
 	}
 	let parts = shp.parts;
 	let rs = core.ArrayNode.mk();
-  parts.forEach( (part) => rs.push(this.project(part,trans)));
+ // parts.forEach( (part) => rs.push(this.project(part,trans)));
+  parts.forEach( (part) => {
+		let proto = Object.getPrototypeOf(part);
+		if (proto === Shape3d) {
+			let subparts = part.parts;
+			let prj = this.project(part,trans);
+			prj.forEach( (p) => rs.push(p));
+		//	subparts.forEach( (subpart) => rs.push(this.project(subpart,trans)));
+		} else {
+      rs.push(this.project(part,trans));
+		}
+	});
 	return rs;
 }
 
@@ -266,8 +284,20 @@ Affine3d.select = function (i,j) {
 	return this[i*4+j];
 }
 
-Affine3d.mkFromCols = function (c1,c2,c3,c4) {
+Affine3d.mkFromCols = function (ic1,ic2,ic3,ic4) {
 	let rs = Object.create(Affine3d);
+	let c1,c2,c3,c4;
+	if (ic2) {
+		c1 = ic1;
+		c2 = ic2;
+		c3 = ic3;
+		c4 = ic4;
+	} else {
+		c1 = ic1[0];
+		c2 = ic1[1];
+		c3 = ic1[2];
+		c4 = ic1[3];
+	}
 	c1.forEach((el) => rs.push(el));
 	c2.forEach((el) => rs.push(el));
 	c3.forEach((el) => rs.push(el));
@@ -276,6 +306,7 @@ Affine3d.mkFromCols = function (c1,c2,c3,c4) {
 }
 
 Affine3d.apply = function (p) {
+	//debugger;
 	let {x,y,z} = p;
 	let [a11,a21,a31,a41,a12,a22,a32,a42,a13,a23,a33,a43,a14,a24,a34,a44] = this;
 /*	let a11 = this[0];
@@ -347,8 +378,9 @@ Affine3d.testCol = function (n) {
 
 
 Affine3d.times = function (b) {
+	debugger;
 	let aRows = [];
-	let bRows = [];
+	let bCols = [];
 	let rCols = []
 	for (let i=0;i<4;i++) {
 		aRows.push(this.row(i));
@@ -356,12 +388,21 @@ Affine3d.times = function (b) {
 	for (let i=0;i<4;i++) {
 		bCols.push(b.col(i));
 	}
+	const aDotp = function (a,b) {
+		let ln = a.length;
+		let rs = 0;
+		for (let i=0;i<ln;i++) {
+			rs += a[i]*b[i];
+		}
+		return rs;
+	}
 	for (let colN = 0;colN<4;colN++) {
 		let col = [];
 		for (let rowN=0;rowN<4;rowN++) {
 			let aR = aRows[rowN];
 			let bC = bCols[colN];
-			col.push(aDotP(aR,bC));
+		//	aR.dotp(bC);
+			col.push(aDotp(aR,bC));
 		}
 		rCols.push(col);
 	}
@@ -370,30 +411,58 @@ Affine3d.times = function (b) {
  
 }
 
-Affine3d.mkRotation = function (axis,angle) {
-	debugger;
+Affine3d.mkRotation = function (axis,angle,translation) {
 	let cos = Math.cos(angle);
 	let sin = Math.sin(angle);
 	let c0,c1,c2;
 	if (axis === 'x') {
 		c0 = [1,0,0,0];
-		c1 = [1,cos,sin,0];
-		c2 = [1,-sin,cos,0];
+		c1 = [0,cos,sin,0];
+		c2 = [0,-sin,cos,0];
 	} else if (axis === 'y') {
-		c0 = [cos,0,sin,0];
+		c0 = [cos,0,-sin,0];
 		c1 = [0,1,0,0];
-		c2 = [-sin,0,cos,0];
+		c2 = [sin,0,cos,0];
 	} else if (axis === 'z') {
-		c0 = [cos,-sin,0,0];
-		c1 = [sin,cos,0,0];
+		c0 = [cos,sin,0,0];
+		c1 = [-sin,cos,0,0];
 		c2 = [0,0,1,0];
 	}
-	let c3 = [0,0,0,0];
+	let c3;
+	let tr = translation;
+	if (tr) {
+		let {x,y,z} = tr;
+		c3 = [x,y,z,1]
+	} else {
+	  c3 = [0,0,0,1];
+	}
 	let rs = Affine3d.mkFromCols(c0,c1,c2,c3);
 	return rs;
 }
-		
+Affine3d.mkTranslation = function (tr) {
+	debugger;
+  let {x,y,z} = tr;
+  let c0 = [1,0,0,0];
+  let c1 = [0,1,0,0];
+  let c2 = [0,0,1,0];
+  let c3 = [x,y,z,1];
+	let rs = Affine3d.mkFromCols(c0,c1,c2,c3);
+	return rs;
+}
+
+Point3d.crossP  = function (v) {
+	let u = this;
+	let {x:ux,y:uy,z:uz} = u;
+	let {x:vx,y:vy,z:vz} = v;
+	let rx = uy*vz - vy*uz;
+	let ry = uz*vx - vz*ux;
+	let rz = ux*vy - vx*uy;
+	return Point3d.mk(rx,ry,rz);
+}
 	
+	
+		
+
 	
 
 export {Point3d,Camera,Affine3d,Segment3d,Shape3d	};

@@ -44,6 +44,7 @@ const drawImage = function () {
 	let qs = core.parseQuerystring();
 	let image = qs.image;
 	if (!image) {
+	  draw.initPage();
 	  return;
 	}
 	debugger;
@@ -65,7 +66,16 @@ const drawImage = function () {
 		  natHeight = scale * (img.naturalHeight);
 			canvas.width = natWidth;
 			canvas.height = natHeight;
+			//let data = context.getImageData(imageX, imageY, imageWidth, imageHeight);
 			drawFrame();
+			let wid = Math.floor(natWidth/10);
+			let ht = Math.floor(natHeight/10);
+			let data = ctx.getImageData(0,0, wid,ht);
+			debugger;
+			draw.vars.imageData = data.data;
+			draw.initPage()
+
+			
 		});
 		//showingBox =1;
 		img.src = imageIn;
@@ -93,7 +103,8 @@ window.addEventListener("DOMContentLoaded", () => {
   draw.vars.fitMode = true;// auto-fit items into graphics, with the given factor
   dom.vars.stdExtent = geom.Point.mk(200,200); // if there is no initial content, this is the area in image space originally in view
   core.tlog('doc ready');
-  core.loadTopDefs(() => {drawImage();draw.initPage()});// binds modules to global
+  //core.loadTopDefs(() => {drawImage();draw.initPage()});// binds modules to global
+  core.loadTopDefs(() => {drawImage();});// binds modules to global
   //core.loadTopDefs(() => {drawImage()});// binds modules to global
 });
 </script>

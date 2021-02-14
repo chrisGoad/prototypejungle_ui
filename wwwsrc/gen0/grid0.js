@@ -161,7 +161,7 @@ const genPointsFunction0 = function (grid) {
 
 item.genPoints3d = function () {
 	let {numRows,numCols} = this;
-	debugger;
+	//debugger;
 	let points3d = this.set("points3d",[]);
 	for (let i = 0;i<=numCols;i++) {
 		for (let j=0;j<=numRows;j++) {
@@ -278,7 +278,7 @@ item.addShortenedLine = function (p0,p1,shortenBy) {
     debugger; //keep
     return;
   }
-	debugger;
+	//debugger;
 	let lines = this.lines;
   let vec = p1.difference(p0);
   let ln = vec.length();

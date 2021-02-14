@@ -1088,7 +1088,7 @@ item.moveCircleSegmentBy = function (rect,seg,delta) {
 	}
 }
 	
-item.initializeLines = function (irect) {
+item.initializeLines = function (irect,segmentsOnly) {
   debugger;
   let {width,height,backgroundPadding,rectP,dimension,includeRect,boardRows,numLines,backgroundColor} = this;
 	let rect,circle;
@@ -1131,14 +1131,19 @@ item.initializeLines = function (irect) {
     debugger;
     let ln = shapePairs.length;
     let nlnp = Math.floor((this.numLines)/ln);
+  	let sgs = segmentsOnly?[]:this.segments;
     for (let i = 0;i < ln;i++) {
       let cp = shapePairs[i];
       for (let j=0;j<nlnp;j++) {
-        this.addRandomSegment(this.segments,cp[0],cp[1]);
+        this.addRandomSegment(sgs,cp[0],cp[1]);
       }
     }
-    this.addLines();
-    return;
+		if (segmentsOnly){
+			return sgs;
+		} else {
+      this.addLines();
+			return;
+		}
   }
  // let ocs = this.originatingShapes;
  // let noc = ocs?ocs.length:0;  
@@ -1147,13 +1152,17 @@ item.initializeLines = function (irect) {
 
   let n=this.numLines;
   let i=0;
-  let segments = this.segments;
+  let segments = segmentsOnly?[]:this.segments;
   debugger;
   for (let i=0;i<numLines;i++) {
   //  let which = Math.min(Math.floor(Math.random() * noc),noc-1)+1;
     this.addRandomSegment(segments,null,null,rect)
   }
-  this.addLines();
+  if (segmentsOnly){
+		return segments;
+	} else {
+    this.addLines();
+	}
 }
 
 
