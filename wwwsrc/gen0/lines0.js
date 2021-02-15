@@ -792,9 +792,10 @@ item.genSides = function () {
     
   
 
-item.addLine = function (i,lsg) {
+item.addLine = function (i,lsg,update) {
  // let line = this.lineP.instantiate();
 //  this.lines.push(line);
+  let {lines} = this;
   if (!lsg) {
     debugger;
   }
@@ -808,10 +809,15 @@ item.addLine = function (i,lsg) {
  // line.stroke  = genRandomColor();
   let seg2line = this.segmentToLineFunction;
   let line;
+	
   if (seg2line) {
     line = seg2line(this,lsg);
   } else {
-    line = this.lineP.instantiate();
+		if (update) {
+			line = lines[i]; 
+		} else {
+      line = this.lineP.instantiate();
+		}
     let {end0,end1} = lsg;
     line.setEnds(end0,end1);
   }
@@ -819,7 +825,9 @@ item.addLine = function (i,lsg) {
 	if (!this.lines) {
 		this.set('lines',core.ArrayNode.mk());
 	}
-  this.lines.push(line);
+  if (!update) {
+		this.lines.push(line);
+	}
   if (0 && lsg.oneInHundred) {
     line.stroke = 'red';
     line['stroke-width'] = 1;
@@ -829,19 +837,21 @@ item.addLine = function (i,lsg) {
   //sw = 1;
  // line['stroke-width'] = strokeWidthFactor * sw;
   line.update();
-  line.show();
+  if (!update) {
+		line.show();
+	}
 }
 
    
 
-item.addLines = function () {
+item.addLines = function (update) {
 	debugger;
   let segs = this.segments;
   let num = segs.length;
   for (let i=0;i<num;i++) {
 		let seg = segs[i];
 		if (!seg.hideMe) {
-      this.addLine(i,segs[i]);
+      this.addLine(i,segs[i],update);
 		}
   }
 }

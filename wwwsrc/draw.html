@@ -68,11 +68,13 @@ const drawImage = function () {
 			canvas.height = natHeight;
 			//let data = context.getImageData(imageX, imageY, imageWidth, imageHeight);
 			drawFrame();
-			let wid = Math.floor(natWidth/10);
-			let ht = Math.floor(natHeight/10);
-			let data = ctx.getImageData(0,0, wid,ht);
+			let wd = Math.floor(natWidth);
+			let ht = Math.floor(natHeight);
+			let data = ctx.getImageData(0,0, wd,ht);
 			debugger;
 			draw.vars.imageData = data.data;
+			draw.vars.imWd = wd;
+			draw.vars.imHt = ht;
 			draw.initPage()
 
 			

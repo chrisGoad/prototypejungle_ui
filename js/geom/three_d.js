@@ -213,10 +213,10 @@ Camera.projectPoint3d = function (ip,transform) {
 		rs = Point.mk(s*t*v.x,s*t*v.y);
 		}
 	if (ip.hideMe) {
-		console.log('point hide me');
+		//console.log('point hide me');
 		rs.hideMe = 1;
 	}
-	console.log('project ',ip.x,ip.y,ip.z,' rs ',rs.x,rs.y);
+//	console.log('project ',ip.x,ip.y,ip.z,' rs ',rs.x,rs.y);
 	rs.origin = p;
 	return rs;
 }
@@ -232,7 +232,7 @@ Camera.projectSegment3d = function (sg,transform) {
 
 
 Camera.projectShape3d = function (shp,itrans) {
-	debugger;
+	//debugger;
 	let strans = shp.transform;
 	let trans;
 	if (itrans) {
@@ -378,7 +378,7 @@ Affine3d.testCol = function (n) {
 
 
 Affine3d.times = function (b) {
-	debugger;
+	//debugger;
 	let aRows = [];
 	let bCols = [];
 	let rCols = []
@@ -440,7 +440,7 @@ Affine3d.mkRotation = function (axis,angle,translation) {
 	return rs;
 }
 Affine3d.mkTranslation = function (tr) {
-	debugger;
+	//debugger;
   let {x,y,z} = tr;
   let c0 = [1,0,0,0];
   let c1 = [0,1,0,0];
