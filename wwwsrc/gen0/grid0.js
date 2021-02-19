@@ -130,7 +130,7 @@ const genPointsFunction0 = function (grid) {
 	let hy = -Infinity;
   for (let i = 0;i <= numCols; i++) {
     for (let j = 0;j <= numRows; j++) {
-			console.log('genPoints i j',i,j);
+			//console.log('genPoints i j',i,j);
       let p = pf(grid,i,j);
 			let {x,y} = p;
 			if (x<lx) {

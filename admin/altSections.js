@@ -41,7 +41,7 @@ sections: [
 		 	 ['grid24d'],
 		 	 ['grid13'],
 		 	 ['grid18'],
-		 	 ['grid19'],
+		 	 ['grid19','gen2'],
 		 	 ['eye1'],
 		 	 ['eye0'],
 		 	 ['grid5'],

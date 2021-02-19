@@ -491,10 +491,51 @@ item.intersectSegmentWithRectangle = function (lsg,rect) {
     int1 = tmp;
   }
   let rs =  geom.LineSegment.mk(int0,int1);
-	rs.descriptions = descriptions;
+	rs.end0.side = descriptions[0][0]
+	rs.end1.side = descriptions[1][0]
+	rs.end0.fractionAlong = descriptions[0][1]
+	rs.end1.fractionAlong = descriptions[1][1]
+	//rs.descriptions = descriptions;
   rs.whichCircle = lsg.whichCircle;
   return rs;
 }
+
+item.resetSegment = function (rect,seg) { // use descriptions to determine new  ends
+	debugger;
+	let ds = seg.descriptions;
+	for (let i=0;i<2;i++) {
+		let d = ds[i];
+		let sideName = d[0];
+		let fraction = d[1];
+		let side = rect[sideName];
+		let {end0,end1} = side;
+		let vec = end1.difference(end0);
+		let np = end0.plus(vec.times(fraction));
+		if (i === 0) {
+			seg.set('end0',np);
+		} else {
+			seg.set('end1',np);
+	  }
+	}
+}
+
+item.moveSegmentAroundRect = function (rect,seg,delta) {
+	let ds = seg.descriptions;
+	for (let i=0;i<2;i++) {
+		let d = ds[i];
+		let [sideName,fraction] = d;
+		let nfr = fraction + delta;
+		if (nfr > 1) {
+			nfr = nfr - 1;
+			d[0] = nextSides[sideName];
+		}
+		d[1] = Math.min(1,nfr);
+	}
+}
+
+	
+	
+	
  
 item.genRandomPointInCircle = function (circle) {	
   let r = circle.radius;
@@ -1026,29 +1067,55 @@ item.resetSegments = function (rect) {
 }
 */
 
-item.moveSegment = function (seg) {
-	debugger;
+	let nextSides = {topSide:"rightSide",rightSide:"bottomSide",bottomSide:"leftSide",leftSide:"topSide"};
+
+item.moveSegment = function (seg,idelta) {
+	//debugger;
+	let {rect} = this;
 	let {end0,end1,hideMe} = seg;
 	if (hideMe) {
 		return;
 	}
-	let fr0 = end0.delta+end0.fractionAlong;
-	let fr1 = end1.delta+end1.fractionAlong;
+	const placeAlongSide = (sideName,fr,p) => {
+		let side = rect[sideName];
+		let {end0,end1} = side;
+		let vec = end1.difference(end0);
+		let np = end0.plus(vec.times(fr));
+		p.copyto(np);
+	}
+	let delta0 = idelta?idelta:end0.delta;
+	let delta1 = idelta?idelta:end1.delta;
+	let fr0 = delta0 + end0.fractionAlong;
+	let fr1 = delta1 + end1.fractionAlong;
+	let side0name = end0.side;
+	let side1name = end1.side;
+	if (fr0 > 1) {
+		end0.side = side0name = nextSides[side0name];
+		fr0 = fr0 - 1;
+	}
+	if (fr1 > 1) {
+	  end1.side = side1name = nextSides[side1name];
+		fr1 = fr1 - 1;
+
+	}
+		
 	fr0 = putIn0_1(fr0);
 //	fr0<0?fr0+1:(fr0>1?fr0-1:fr0);
 	fr1 = putIn0_1(fr1);	
 	end0.fractionAlong = fr0;
 	end1.fractionAlong = fr1;
+	placeAlongSide(side0name,fr0,end0);
+	placeAlongSide(side1name,fr1,end1);
 }
 
 
 
-item.moveSegments = function () {
+item.moveSegments = function (delta) {
 	debugger;
 	let {segments} = this;
 	//this.addSides(rect);
 	segments.forEach( (seg) => {
-	  this.moveSegment(seg);
+	  this.moveSegment(seg,delta);
 	});
 }	
 
@@ -1159,6 +1226,7 @@ item.initializeLines = function (irect,segmentsOnly) {
  // let noc = ocs?ocs.length:0;  
 	debugger;
   this.addSides(rect);
+	this.rect = rect;
 
   let n=this.numLines;
   let i=0;

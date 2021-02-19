@@ -1,9 +1,11 @@
-core.require('/line/line.js','/shape/polygon.js','/gen0/grid0.js',
-function (linePP,polygonPP,addGridMethods) {
+core.require('/line/line.js','/shape/polygon.js','/gen0/grid0.js','/gen0/image3.js',
+function (linePP,polygonPP,addGridMethods,addImageMethods) {
 
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 rs.setName('grid0_38');
+addImageMethods(rs);
+
 let nr = 120;
 let dim = 40;
 let params = {numRows:nr,numCols:nr,width:dim,height:dim,pointJiggle:0,quadDim:100,
@@ -23,19 +25,6 @@ rs.initProtos = function () {
 	
 }  
 
-rs.boundaryLineGeneratorr = function (end0,end1,rvs,cell) {
-	//if (!(end0.onSphere) && (!end1.onSphere)) {
-	//	return;
-	//}
-	let {blineP,lines} = this;
-	let line = blineP.instantiate();
-	lines.push(line);
-  line.setEnds(end0,end1);
-	line.show();
-	return line;
-}
-
-
 
 rs.genPoint3d = function (i,j) {
 	
@@ -43,17 +32,6 @@ rs.genPoint3d = function (i,j) {
 	return p;
 }
 /*
-rs.genPoints3d = function () {
-	let {numRows,numCols} = this;
-	let points3d = this.set("points3d",[]);
-	for (let i = 0;i<=numRows;i++) {
-		for (let j=0;j<=numCols;j++) {
-			let p = this.genPoint3d(i,j);
-			points3d.push(p);
-		}
-	}
-}
-*/
 
 rs.setImageParams = function () {
 	debugger;
@@ -118,13 +96,7 @@ rs.rgbOfCell = function (cell) {
 	let {shapes,polygonP} = this;
 	let corners = this.cellCorners(cell);
 	let rgb = this.rgbOfCell(cell);
-	/*let onSphere = 0;
-	corners.forEach( (corner) => {
-	  if (corner.category === 'onSphere') {
-			onSphere = 1;
-		}
-	});
-		*/
+	
 	let mcnt = cnt.minus();
 	let rCorners = this.displaceArray(corners,mcnt);
 	let polygonScale = 1;
@@ -147,7 +119,7 @@ rs.rgbOfCell = function (cell) {
 	return pgon;
 }
 
-
+*/
 		
 	
 rs.initialize = function () {

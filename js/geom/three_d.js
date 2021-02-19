@@ -198,7 +198,7 @@ Camera.mk = function (focalPoint,focalLength,scaling,axis) {
 
 Camera.projectPoint3d = function (ip,transform) {
 	let {focalPoint:fp,focalLength:fl,scaling:s,axis} = this;
-	//debugger;
+	let upsideDown = 1;
 	if (ip === undefined) {
 		debugger; //keep
 	}
@@ -209,7 +209,7 @@ Camera.projectPoint3d = function (ip,transform) {
 		t = fl/(v.x);
 	  rs = Point.mk(s*t*v.y,s*t*v.z);
 	} else if (axis === 'z') {
-		t = fl/(v.z);
+		t = (upsideDown?1:-1)*fl/(v.z);
 		rs = Point.mk(s*t*v.x,s*t*v.y);
 		}
 	if (ip.hideMe) {
