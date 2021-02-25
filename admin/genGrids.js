@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 let pageNumber = 0;
 let numPages = 0;
-const thingString = function (ix,dir,useThumb,ititle) {
+const thingString = function (ix,dir,useThumb,ititle,imageArg) {
 	console.log('thingString ix',ix,'useThumb',useThumb,'title',ititle);
 	debugger;
 	let spix = ix.split('.');
@@ -112,6 +112,7 @@ const thingString = function (ix,dir,useThumb,ititle) {
 	//	title = x
 	}*/
 	let pageArg = 'page='+pageNumber;
+	let theImageArg = imageArg?'&image='+imageArg:'';
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
@@ -131,7 +132,7 @@ rs = `<div><p class="centered">${titleLink}
 	//`; 
 	} else {
 		
-rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/><a href="${dir}/${path}.js">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
+rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js${theImageArg}">${title}</a><br/><a href="${dir}/${path}.js">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
 `;
 	}
 //let rs = `  <div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${title}"><img width="200" src="${imsrc}"></a></p></div>
@@ -161,12 +162,13 @@ let sectionString = function (things) {
 	let ln = things.length;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
-//things.forEach(function (thing) {
-		if (thing.length === 3) {
+    let [file,directory,useThumb,title,image] = thing;
+		rs += thingString(file,directory,useThumb,title,image);
+		/*if (thing.length === 3) {
 			rs += thingString(thing[0],thing[1],thing[2]);
-		} else {
+		} else if (thing.length === 4) {
 				rs += thingString(thing[0],thing[1],thing[2],thing[3]);
-		}
+		}*/
 		numThingsThisLine++;
 		console.log('numThingsThisLine',numThingsThisLine,'i',i,'ln',ln);
 		if ((numThingsThisLine === numThingsPerLine) && (i<(ln-1))) {

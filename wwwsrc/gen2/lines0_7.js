@@ -50,7 +50,6 @@ rs.initialize = function () {
  let hdim = 50;
  
 	const mkSide =  (xf,normal) => {
-		debugger;
 	 // this.initProtos();
 		
 	 // core.root.backgroundColor = 'black';
@@ -58,8 +57,8 @@ rs.initialize = function () {
 		//let segs = this.segments;
 		let segs3d = segs.map((sg) => sg.to3d());
 		//let xf = Affine3d.mk('y',0.25*Math.PI);
-		let shape3d = Shape3d.mk(segs3d,xf,normal);
-		return {shape3d;
+		let shape3d = Shape3d.mk(segs3d,xf);
+		return shape3d;
 
 	}	
 

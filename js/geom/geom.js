@@ -4,6 +4,7 @@
 import * as core from "/js/core-1.1.0.min.js";
 
 let codeRoot = core.codeRoot;
+
 let geomr = codeRoot.set("geom",core.ObjectNode.mk());
 geomr.__builtIn = true;
 geomr.set("Point",core.ObjectNode.mk()).__namedType();
@@ -166,9 +167,14 @@ Point.distance = function (p) {
     vy = this.y;
   }
   return Math.sqrt(vx*vx + vy * vy);
-  
 }
 
+Point.boxcarDistance = function (p) {
+	let {x:ax,y:ay} = this;
+	let {x:bx,y:by} = p;
+	let rs = Math.abs(ax - bx) + Math.abs(ay - by);
+	return rs;
+}
 
 Point.times = function (f) {
   let p = this;
@@ -586,6 +592,71 @@ Ray.intersectRay = function (RB) {
 RA = Window.geom.Ray.mk(Point.mk(0,0),Point.mk(1,1));RB = Window.geom.Ray.mk(Point.mk(0,1),Point.mk(1,-1));RC = RA.intersectRay(RB);
 */
 
+geomr.set("Line",core.ObjectNode.mk()).__namedType();
+
+let Line = geomr.Line;
+
+Line.mk = function (point,direction) {
+	let rs = Object.create(Line);
+	rs.set('point',point.copy());
+	rs.set('direction',direction.copy());
+	return rs;
+}
+
+Line.toEquation = function () {
+	let {direction,point} = this;
+	let {x:dx,y:dy} = direction;
+	let {x:px,y:py} = point;
+	let m = 0;
+	let im = 0;
+	if (Math.abs(dx) > 0.0001) {
+	  m = dy/dx;
+	}
+	if (Math.abs(dy) > 0.0001) {
+	  im = dx/dy;
+	}
+	let a,b,c;
+	if (Math.abs(m) > Math.abs(im)) {
+		a = -m;
+		b = 1;
+		c = m*px-py
+	} else {
+		a = 1;
+		b = -im;
+		c = im*py-px
+	}
+	return {a,b,c};
+}
+// needs fixing - does not work
+Line.nearestPoint = function (p) {
+	debugger;
+	let {point} = this;
+  let {direction} = this;
+	let tpnt = point.plus(direction);
+	let {x:px,y:py} = point;
+	let eqn = this.toEquation();
+	let {a,b,c} = eqn;
+	let xx0 = a*px + b*py + c;
+	let xx1 = a*tpnt.x + b* tpnt.y + c;
+	//let {a,b,c} = eqn;
+	let {x,y} = p;
+	let xr = (b*(b*x - a*y) - a*c)/(a*a + b*b);
+	let yr = (a*(a*y - b*x) - a*c)/(a*a + b*b);
+	let xx2 = a*xr + b*yr + c;
+	let rs = Point.mk(xr,yr);
+	// for checking
+	let vec = rs.difference(p);
+	let ln = vec.length();
+	console.log('ln',ln);
+	if (ln > 5) {
+		debugger;
+	}
+	return rs;
+}
+	
+
+	
+
 geomr.set("LineSegment",core.ObjectNode.mk()).__namedType();
 
 let LineSegment = geomr.LineSegment;
@@ -605,6 +676,19 @@ LineSegment.mk = function (end0,end1,dontCopy) {
   return rs;
 }
 
+LineSegment.toLine = function () {
+	let {end0,end1} = this;
+	let vec = end1.difference(end0);
+	let nvec = vec.normalize();
+	let line = Line.mk(end0,nvec);
+	return line;
+}
+
+LineSegment.nearestPoint = function (p) {
+	let line = this.toLine();
+	let rs = line.nearestPoint(p);
+	return rs;
+}
 
 LineSegment.length = function () {
   return (this.end1.difference(this.end0)).length();
@@ -665,6 +749,55 @@ LineSegment.intersect = function (line1) {
   }
   return false;
   
+}
+
+LineSegment.allIntersections = function (segs) {
+	let rs = [];
+	segs.forEach( (seg) => {
+		if (seg === this) {
+			return;
+		}
+	  let intr = this.intersect(seg);
+		if (intr) {
+		  rs.push([intr,seg]);
+		}
+	});
+	let {end0,end1} = this;
+	let vec = end1.difference(end0);
+	let {x,y} = vec;
+	let orderByX = Math.abs(x) > Math.abs(y);
+	let reverse = orderByX?x<0:y<0;
+	const compare = function (a,b) {
+		let va = orderByX?a[0].x:a[0].y;
+		let vb = orderByX?b[0].x:b[0].y;
+		if (reverse) {
+			let tmp = va;
+			va = vb;
+			vb = tmp;
+		}
+		if (va < vb) {
+			return -1;
+		} else if (va === vb) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+	rs.sort(compare);
+	return rs;
+
+};
+
+Line.sortIntersections = function (intrs,orderBy) {
+	let rs = intrs.map((x) => x);
+	let compare = function (a,b,orderBy) {
+		let av = orderBy==='x'?a[0].x:a[0].y;
+		let bv = orderBy==='y'?a[0].x:a[0].y;
+		if (av < bv) return -1;
+		if (av === bv) return 0;
+		return 1;
+	}
+	rs.sort(compare);
 }
 
 let Circle = geomr.set("Circle",core.ObjectNode.mk()).__namedType();
@@ -1216,5 +1349,5 @@ Rectangle.randomPoint = function () {
 }
 
 
-export {movetoInGlobalCoords,toOwnCoords,toPoint,angleToDirection,Point,Rectangle,Transform,Ray,degreesToRadians,
+export {movetoInGlobalCoords,toOwnCoords,toPoint,angleToDirection,Point,Line,Rectangle,Transform,Ray,degreesToRadians,
         LineSegment,Circle,Arc,boundsForRectangles,rp_time};

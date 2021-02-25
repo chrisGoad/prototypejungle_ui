@@ -60,6 +60,7 @@ item.initBackgroundProtos = function () {
 	
 let points = [];
 
+
 const defaultPositionFunction = function (grid,i,j) {
   let {deltaX,deltaY,numRows,numCols,width,height,points3d,camera} = grid;
 	if (points3d) {
@@ -185,6 +186,7 @@ item.genPoints = function () {
   let {numRows,numCols,deltaX,deltaY,genPointsFunction} = this;
   let gp = genPointsFunction?genPointsFunction:genPointsFunction0;
   gp(this);
+	console.log('lowX highX lowY highY',this.lowX,this.highX,this.lowY,this.highY);
 
 }
 
@@ -352,7 +354,7 @@ item.nextShape = function (proto) {
 			shape = svg.Element.mk('<g/>');
 		}
 		shape.show();
-	  shapes.push(shape);
+	  shapes.push(shape);a
 		shape.draw();
 	}
 	return shape;
@@ -1263,9 +1265,9 @@ item.initializeGrid = function () {
     this.randomizePoints(0,0);
     core.tlog('randomizePoints');
 	}
-  if (this.boundaryLineGenerator) {
-    this.addCellBoundaries();
-  }
+  //if (this.boundaryLineGenerator) {
+ //   this.addCellBoundaries();
+//  }
   if (this.generative) {
     this.set('rlines',core.ArrayNode.mk());
     while (this.addRegions()) {
@@ -1293,6 +1295,9 @@ item.initializeGrid = function () {
   core.tlog('genHorizontalLines');
   if (this.shapeGenerator || this.shapeP  ) {
     this.addShapes();
+  }
+	if (this.boundaryLineGenerator) {
+    this.addCellBoundaries();
   }
 	draw.fitTheContents();
   if (this.lastGridStep) {

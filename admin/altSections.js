@@ -4,8 +4,12 @@ module.exports = {
 sections: [
 
 [ 
+  ['lines0_14','gen2',1],
   ['lines0_7','gen2',1],
   ['grid0_1_5','gen2',1],
+  ['sphere_image0_0','gen2',1,null,'cloud_street_crop0'],
+  ['sphere_image0_1','gen2',1,null,'lenticulars_crop0'],
+  ['sphere_image0_2','gen2',1,null,'face1'],
   ['grid0_35','gen2',1],
   ['grid0_32','gen2',1],
   ['grid0_38','gen2',1],

@@ -3,7 +3,7 @@ core.require('/gen0/animation.js','/shape/rectangle.js',function (addAnimationMe
 
 //core.require(function () {
  return function (item) {
-	 debugger;
+	// debugger;
 //let item = svg.Element.mk('<g/>');
 addAnimationMethods(item);
 
@@ -176,7 +176,7 @@ item.inRange= function (pnt) {
 }
 
 
-
+/*
 item.intersectWithRectangle = function (p,ivec) {
   let vec = ivec.times(this.width * 4);
   let e0 = p.plus(vec.minus()) ;
@@ -199,7 +199,23 @@ item.intersectWithRectangle = function (p,ivec) {
   let [int0,int1] = intersections;
   return (int0.x < int1.x)?[int0,int1]:[int1,int0];
 } 
+*/
 
+item.allIntersections = function (segs) {
+	let rs = [];
+	let ln = segs.length;
+	for (let i=0;i<ln;i++) {
+		for (let j = i+1;j<ln;j++) {
+			let segi = segs[i];
+			let segj = segs[j];
+			let p = segi.intersect(segj);
+			if (p) {
+				rs.push(p);
+			}
+		}
+	}
+	return rs;
+}
 //  snips inLseg by side effect. directions "fromAbove","fromBelow","fromLeft","fromRight"
   
   
@@ -434,7 +450,7 @@ item.generateShapes = function (protos,setDimensions,probabilities) {
   
 /* never tested*/
 item.intersectSegmentWithCircle = function (lsg,circle) {
-	debugger;
+	//debugger;
 	let {end0:p,end1} = lsg;
 	let vec = end1.difference(p);
   let intersections = circle.instersectLine(p,vec);
@@ -499,9 +515,9 @@ item.intersectSegmentWithRectangle = function (lsg,rect) {
   rs.whichCircle = lsg.whichCircle;
   return rs;
 }
-
+/*
 item.resetSegment = function (rect,seg) { // use descriptions to determine new  ends
-	debugger;
+	//debugger;
 	let ds = seg.descriptions;
 	for (let i=0;i<2;i++) {
 		let d = ds[i];
@@ -533,7 +549,7 @@ item.moveSegmentAroundRect = function (rect,seg,delta) {
 	}
 }
 
-	
+	*/
 	
 	
  
@@ -541,7 +557,7 @@ item.genRandomPointInCircle = function (circle) {
   let r = circle.radius;
   let center = circle.center; 
 	if (!center) {
-		debugger;
+		debugger;//keep
 	}
   const genPoint = () => {
     let {x,y} = center;
@@ -836,18 +852,19 @@ item.genSides = function () {
 item.addLine = function (i,lsg,update) {
  // let line = this.lineP.instantiate();
 //  this.lines.push(line);
-  let {lines} = this;
+  let ln  = this.segments.length;
+  let {lines,lineDelta,randomDelta} = this;
   if (!lsg) {
     debugger;
   }
+	//let hideIt = this.hideIt;
 //debugger;
   const genRandomColor = function () {
     const rval  = function () {
-      return Math.floor(Math.random()*150);
+      return Math.floor(Math.random()*150)
     }
     return  `rgb(${rval()},${rval()},${rval()})`;
   }
- // line.stroke  = genRandomColor();
   let seg2line = this.segmentToLineFunction;
   let line;
 	
@@ -862,6 +879,11 @@ item.addLine = function (i,lsg,update) {
     let {end0,end1} = lsg;
     line.setEnds(end0,end1);
   }
+  if (lsg.origin && lsg.origin.hideIt) {
+		line.hide();
+	} else {
+		line.show();
+	}
   //this.lines.set(i,line);
 	if (!this.lines) {
 		this.set('lines',core.ArrayNode.mk());
@@ -877,16 +899,23 @@ item.addLine = function (i,lsg,update) {
  
   //sw = 1;
  // line['stroke-width'] = strokeWidthFactor * sw;
-  line.update();
-  if (!update) {
-		line.show();
+  //line.stroke  = genRandomColor();
+  if (i>ln/2) {
+//		line.stroke = 'cyan';
 	}
+	if (randomDelta && !update) {
+		lsg.delta = (Math.random() - 0.5)*lineDelta;
+	}
+  line.update();
+  //if (!update) {
+	//	line.show();
+	//}
 }
 
    
 
 item.addLines = function (update) {
-	debugger;
+	//debugger;
   let segs = this.segments;
   let num = segs.length;
   for (let i=0;i<num;i++) {
@@ -993,7 +1022,7 @@ item.addOpaqueLayer = function () {
     //  let rgb = `rgba(0,0,0,${opv})`;
    //   let rgb = `rgba(255,255,255,${opv})`;
       let rgb = `rgba(0,0,100,${opv})`;
-	  debugger;
+	//  debugger;
 	  console.log(rgb);
       rect.fill = rgb;
       rect.update();
@@ -1008,10 +1037,10 @@ item.alongCircle = function (circle,fr) {
 	let vec = Point.mk(Math.cos(a),Math.sin(a));
 	return center.plus(vec.times(radius));
 }
-
+/*
 item.resetSegment = function (seg) {
 	let {end0,end1} = seg;
-	debugger;
+	//debugger;
 	let s0 = end0.onShape;
 	let s1 = end1.onShape;
 	let fr0 = end0.fractionAlong;
@@ -1021,10 +1050,7 @@ item.resetSegment = function (seg) {
 	if (Math.abs(fr0-fr1)<0.1) {
 		seg.hideMe = 1;
 		console.log('hideMe');
-	}/*
-	if (fr1 < 0) {
-		fr1 = 0;
-	}*/
+	}
 	let p0 = this.alongCircle(s0,fr0);
 	let p1 = this.alongCircle(s1,fr1);
 	end0.copyto(p0);
@@ -1038,6 +1064,7 @@ item.resetSegments = function () {
 	  this.resetSegment(seg);
 	});
 }
+*/
 /*	
 item.resetSegment = function (rect,seg) {
 	debugger;
@@ -1068,6 +1095,7 @@ item.resetSegments = function (rect) {
 */
 
 	let nextSides = {topSide:"rightSide",rightSide:"bottomSide",bottomSide:"leftSide",leftSide:"topSide"};
+	let prevSides = {topSide:"leftSide",rightSide:"topSide",bottomSide:"rightSide",leftSide:"bottomSide"};
 
 item.moveSegment = function (seg,idelta) {
 	//debugger;
@@ -1092,31 +1120,47 @@ item.moveSegment = function (seg,idelta) {
 	if (fr0 > 1) {
 		end0.side = side0name = nextSides[side0name];
 		fr0 = fr0 - 1;
+	} else if (fr0 < 0) {
+		end0.side = side0name = prevSides[side0name];
+		fr0 = 1 + fr0;
 	}
+		
 	if (fr1 > 1) {
 	  end1.side = side1name = nextSides[side1name];
 		fr1 = fr1 - 1;
-
+	} else if (fr1 < 0) {
+		end1.side = side1name = prevSides[side1name];
+		fr1 = 1 + fr1;
 	}
-		
-	fr0 = putIn0_1(fr0);
-//	fr0<0?fr0+1:(fr0>1?fr0-1:fr0);
-	fr1 = putIn0_1(fr1);	
 	end0.fractionAlong = fr0;
 	end1.fractionAlong = fr1;
 	placeAlongSide(side0name,fr0,end0);
 	placeAlongSide(side1name,fr1,end1);
+	
 }
 
 
 
 item.moveSegments = function (delta) {
-	debugger;
-	let {segments} = this;
-	//this.addSides(rect);
-	segments.forEach( (seg) => {
-	  this.moveSegment(seg,delta);
-	});
+	let {segments,lineDelta} = this;
+	let ln = segments.length;
+	for (let i=0;i<ln;i++) {
+		let seg = segments[i];		
+	//	if (i < (ln/2)) {
+	//    this.moveSegment(seg,delta);
+	//	} else {
+		let delta;
+		if (this.randomDelta) {
+			 delta = seg.delta;
+		} else if (this.computeLineDelta) {
+			delta = this.computeLineDelta(i/ln);
+		} else {
+			delta = lineDelta
+		}
+		this.moveSegment(seg,delta);
+			//this.moveSegment(seg,liineDelta * (0.5 + i/ln));
+	//  }
+	}
 }	
 
 /*
@@ -1166,7 +1210,7 @@ item.moveCircleSegmentBy = function (rect,seg,delta) {
 }
 	
 item.initializeLines = function (irect,segmentsOnly) {
-  debugger;
+ // debugger;
   let {width,height,backgroundPadding,rectP,dimension,includeRect,boardRows,numLines,backgroundColor} = this;
 	let rect,circle;
 	this.set('segments',core.ArrayNode.mk());
@@ -1178,7 +1222,7 @@ item.initializeLines = function (irect,segmentsOnly) {
 			this.addRandomSegment(this.segments,circle,circle);
 		}
 		this.addLines();
-		return;
+		return this.segments;
 	}
 	if (irect) {
 		rect = irect;
@@ -1205,7 +1249,7 @@ item.initializeLines = function (irect,segmentsOnly) {
  // let {whites,blacks} = this;
   let shapePairs = this.shapePairs;
   if (shapePairs) {
-    debugger;
+   // debugger;
     let ln = shapePairs.length;
     let nlnp = Math.floor((this.numLines)/ln);
   	let sgs = segmentsOnly?[]:this.segments;
@@ -1219,19 +1263,19 @@ item.initializeLines = function (irect,segmentsOnly) {
 			return sgs;
 		} else {
       this.addLines();
-			return;
+			return this.segments;
 		}
   }
  // let ocs = this.originatingShapes;
  // let noc = ocs?ocs.length:0;  
-	debugger;
+	//debugger;
   this.addSides(rect);
 	this.rect = rect;
 
   let n=this.numLines;
   let i=0;
   let segments = segmentsOnly?[]:this.segments;
-  debugger;
+ // debugger;
   for (let i=0;i<numLines;i++) {
   //  let which = Math.min(Math.floor(Math.random() * noc),noc-1)+1;
     this.addRandomSegment(segments,null,null,rect)
@@ -1240,6 +1284,7 @@ item.initializeLines = function (irect,segmentsOnly) {
 		return segments;
 	} else {
     this.addLines();
+		return this.segments;
 	}
 }
 
@@ -1296,7 +1341,7 @@ item.initializeGrid = function (irect) {
 	} 
   let shapePairs = this.shapePairs;
   if (shapePairs) {
-    debugger;
+   // debugger;
     let ln = shapePairs.length;
     let nlnp = Math.floor((this.numLines)/ln);
     for (let i = 0;i < ln;i++) {
@@ -1325,7 +1370,7 @@ item.initializeGrid = function (irect) {
   let n=this.numLines;
   let i=0;
   let segments = this.segments;
-  debugger;
+ // debugger;
   while (true) {
     if (boardRows) {
       segments = odd?whiteSegs:blackSegs;

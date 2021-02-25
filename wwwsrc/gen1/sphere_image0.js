@@ -1,18 +1,10 @@
 core.require('/line/line.js','/shape/polygon.js','/gen0/grid0.js','/gen0/image3.js',
 function (linePP,polygonPP,addGridMethods,addImageMethods) {
 
-let rs = svg.Element.mk('<g/>');
+return function (rs) {
+
 addGridMethods(rs);
-rs.setName('grid0_39');
 addImageMethods(rs);
-
-let nr = 240;
-let dim = 40;
-
-let params = {numRows:nr,numCols:nr,width:dim,height:dim,pointJiggle:0,
-sphereCenter:Point3d.mk(0,0,-20),sphereDiameter:35,focalPoint:Point3d.mk(0,0,50),focalLength:10,cameraScaling:100};
-
-Object.assign(rs,params);
 
 rs.initProtos = function () {
 	core.assignPrototypes(this,'blineP',linePP);
@@ -24,6 +16,9 @@ rs.initProtos = function () {
 	this.polygonP['stroke-width'] = 0.5;
 	this.polygonP['stroke-width'] = 0;
 	this.polygonP.fill = 'red';
+	if (this.finishProtos) {
+		this.finishProtos();
+	}
 	
 }  
 
@@ -61,12 +56,12 @@ rs.genPoint3d = function (i,j) {
 	}
 }
 
-	rs.inRegion = function (cell) {
+	rs.inRegion = function (cell,fr) {
 		let {numRows,numCols} = this;
 		let {x,y} = cell;
 		//let fr = 0.3;
-		let fr = 0.195;
-		
+		//let fr = 0.195;
+		//let fr = 
 		let cx = 0.5 * numRows;
 		let cy = 0.5 * numCols;
 		let p0 = Point.mk(cx,cy);
@@ -78,29 +73,34 @@ rs.genPoint3d = function (i,j) {
 	} 
 	
 	rs.colorGenerator = function (rvs,cell) {
-		let inr = this.inRegion(cell);
-		if (inr) {
-		  let rgb = this.rgbOfCell(cell);
-		  return rgb;
+		let {pupilFraction:fri,coronaFraction:fro,irisColor,coronaColor} = this;
+		let inri = this.inRegion(cell,fri);
+		let inrO = fro?this.inRegion(cell,fro):fro;
+		let rgb;
+		if (inri) {
+		  rgb = this.rgbOfCell(cell);
+		} else if (inrO) {
+			rgb = irisColor;
 		} else {
-			return 'purple';
+			rgb = coronaColor;
 		}
+		return rgb;
 	}	
 rs.initialize = function () {
  let {focalPoint,focalLength,cameraScaling} = this;
 // core.root.backgroundColor = 'white';
  this.initProtos();
   this.setImageParams();
-
+/*
   this.setupShapeRandomizer('r', {step:30,min:50,max:250});
   this.setupShapeRandomizer('g', {step:10,min:50,max:250});
   this.setupShapeRandomizer('b', {step:10,min:50,max:250});
- 
+ */
 
  this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
   this.initializeGrid();
 }
 
 return rs;
-})
+}})
 

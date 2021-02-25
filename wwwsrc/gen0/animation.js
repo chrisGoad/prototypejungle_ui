@@ -57,7 +57,7 @@ item.animateIt = function (numFrames,interval,resume) {
 		this.step();
 		dom.svgDraw();
 		if (this.saveVideo) {
-			debugger;
+			//debugger;
 			if ((!everyNthFrame) || (frameNumber%everyNthFrame === 0)) {
 		    draw.saveFrame(everyNthFrame?frameNumber/everyNthFrame:frameNumber);
 			}
@@ -75,7 +75,7 @@ item.animateIt = function (numFrames,interval,resume) {
 item.oneStep = function (save) {
  // let numFrames = 10;
     //svgMain.draw();
-		debugger;
+		//debugger;
 		let everyNthFrame = this.everyNthFrame;
     let nfr = this.timeStep;
 		nfr++;
@@ -123,7 +123,7 @@ item.pauseAnimation = function () {
 // faint box - otherwise ffmpeg gets confused
 
 item.addBox = function (lineP,ipadding,istrokeWidth,icolor) {
-	debugger;
+	//debugger;
 	let {width,height} = this;
 	let padding = ipadding?ipadding:0;
 	let strokeWd = istrokeWidth?istrokeWidth:1;

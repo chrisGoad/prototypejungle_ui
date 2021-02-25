@@ -53,7 +53,6 @@ Point3d.plus = function (q) {
 };
 
 
-
 Point3d.length = function () {
   let {x,y,z} = this;
   return Math.sqrt(x*x + y*y + z*z);
@@ -129,7 +128,7 @@ Point3d.interpolate = function (dst,fc) {
 
 
 Point3d.toString = function () {
-  let {x,y} = this;
+  let {x,y,z} = this;
   return "["+x+","+y+","+z+"]";
 }
 
@@ -161,6 +160,16 @@ Segment3d.mk = function (end0,end1,dontCopy) {
 LineSegment.to3d = function() {
 	let {end0,end1} = this;
 	return Segment3d.mk(end0.to3d(),end1.to3d())
+}
+
+Segment3d.split = function (fr) {
+	let {end0,end1} = this;
+	let vec = end1.difference(end0);
+	let rs0e1 = end0.plus(vec.times(0.5*(1-fr)));
+	let rs1e0 = end1.difference(vec.times(0.5*(1-fr)));
+	let rs0 = Segment3d.mk(end0,rs0e1);
+	let rs1 = Segment3d.mk(rs1e0,end1);
+	return [rs0,rs1];
 }
 
 geomr.set("Shape3d",core.ObjectNode.mk()).__namedType();
@@ -198,7 +207,7 @@ Camera.mk = function (focalPoint,focalLength,scaling,axis) {
 
 Camera.projectPoint3d = function (ip,transform) {
 	let {focalPoint:fp,focalLength:fl,scaling:s,axis} = this;
-	let upsideDown = 1;
+	let upsideDown = 0;
 	if (ip === undefined) {
 		debugger; //keep
 	}
@@ -232,7 +241,6 @@ Camera.projectSegment3d = function (sg,transform) {
 
 
 Camera.projectShape3d = function (shp,itrans) {
-	//debugger;
 	let strans = shp.transform;
 	let trans;
 	if (itrans) {
@@ -244,11 +252,22 @@ Camera.projectShape3d = function (shp,itrans) {
 	} else {
 		trans = strans;
 	}
+	let hideIt = this.hideIt;
+	if (trans) {
+	  let xfx = trans.apply(Point3d.mk(1,0,0));
+	  let xfy = trans.apply(Point3d.mk(0,1,0));
+	  let xfz = trans.apply(Point3d.mk(0,0,1));
+	  hideIt = hideIt || (xfz.z <= 0);
+	}
+	if (hideIt) {
+	//debugger;
+	}
 	let parts = shp.parts;
 	let rs = core.ArrayNode.mk();
  // parts.forEach( (part) => rs.push(this.project(part,trans)));
   parts.forEach( (part) => {
 		let proto = Object.getPrototypeOf(part);
+		part.hideIt = hideIt;
 		if (proto === Shape3d) {
 			let subparts = part.parts;
 			let prj = this.project(part,trans);
@@ -463,7 +482,100 @@ Point3d.crossP  = function (v) {
 	
 		
 
+
+geomr.set("Plane",core.ObjectNode.mk()).__namedType();
+let Plane = geomr.Plane;
+
+
+Plane.mk = function (point,normal) {
+  let rs = Object.create(Plane);
+	rs.point = point;
+	rs.normal = normal;
+  return rs;
+}
+
+Plane.toEquation = function () {
+	let {point,normal} = this;
+	let {x:a,y:b,z:c} = normal;
+	let {x,y,z} = point;
+	let d = -(a*x + b*y + c*z);
+	return {a, b,c,d};
+}
 	
 
-export {Point3d,Camera,Affine3d,Segment3d,Shape3d	};
+
+geomr.set("Line3d",core.ObjectNode.mk()).__namedType();
+let Line3d = geomr.Line3d;
+
+
+Line3d.mk = function (point,direction) {
+  let rs = Object.create(Line3d);
+	rs.point = point;
+	rs.direction = direction;
+  return rs;
+}
+
+Plane.intersect = function (line) {
+	let {point:linePoint,direction} = line;
+	let {x:px,y:py,z:pz} = linePoint
+	let {x:dx,y:dy,z:dz} = direction;
+	let equation = this.toEquation();
+	let {a,b,c,d} = equation;
+	let denominator = (a*dx+b*dy+c*dz);
+	if (Math.abs(denominator) < 0.0002) {
+		return null;
+	}
+	let t = -(a*px+ b*py + c*pz + d)/denominator;
+	let rs = linePoint.plus(direction.times(t));
+	return rs;
+}
+
+
+geomr.set("Cube",core.ObjectNode.mk()).__namedType();
+let Cube = geomr.Cube;
+
+
+Cube.mk = function (dim) {
+  let rs = Object.create(Cube);
+	rs.dimension  = dim;
+	let v = 0.5*dim;
+	let px = Plane.mk(Point3d.mk(v,0,0),Point3d.mk(1,0,0));
+	let pmx = Plane.mk(Point3d.mk(-v,0,0),Point3d.mk(-1,0,0));
+	let py = Plane.mk(Point3d.mk(0,v,0),Point3d.mk(0,1,0));
+	let pmy = Plane.mk(Point3d.mk(0,-v,0),Point3d.mk(0,-1,0));
+	let pz = Plane.mk(Point3d.mk(0,0,v),Point3d.mk(0,0,1));
+	let pmz = Plane.mk(Point3d.mk(0,0,-v),Point3d.mk(0,0,-1));
+  rs.sides = [px,pmx,py,pmy,pz,pmz]
+  return rs;
+}
+
+Cube.within = function (p) {
+	let dim = this.dimension;
+	let v = 0.500001 * dim;
+	let mv = -v;
+	let {x,y,z} = p;
+	let rs = (mv <= x) && (x <= v) && (mv <= y) && (y <= v) && (mv <= z) && (z <= v);
+	return rs;
+}
+
+Cube.intersect = function (line) {
+	let intersections = [];
+  let sides = this.sides;
+	sides.forEach((side) => {
+	  let intr = side.intersect(line);
+		if (intr && this.within(intr)) {
+			intersections.push(intr);
+		}
+	});
+	if (intersections.length !== 2) {
+		debugger; //keep
+	}
+	let rs = Segment3d.mk(intersections[0],intersections[1]);
+	return rs;
+}
+	
+	
+	
+
+export {Point3d,Camera,Affine3d,Segment3d,Shape3d,Plane,Line3d,Cube	};
 

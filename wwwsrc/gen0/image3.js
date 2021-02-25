@@ -44,16 +44,15 @@ item.rgbOfCell = function (cell) {
 	let {x:iy,y:ix} = cell;
 	//let {x:y,y:x} = cell;
 	//let {x,y} = cell;
-	if ((x < offX) || (x > (numCols - offX)) || (y<offY) || (y>(numRows-offY))) {
-	//if ((x < offXY) || (x > (numCols - offX)) || (y<offY) || (y>(numRows-offY))) {
+/*	if ((x < offX) || (x > (numCols - offX)) || (y<offY) || (y>(numRows-offY))) {
 		return 'black';
-	}
+	}*/
 	//if ((x>=numImCols) || (y>=numImRows)) return 'black';
   const indexOfPixel = function (x,y) {
 		return x*imWd*4+y*4;
 		//return y*imHt*4+x*4;
 	}
-	//debugger;
+	//	debugger;
 	//let lowPxX = (x-offX) * pxpc;
 	//let lowPxX = (ix-offX) * pxpc;
 	let lowPxX = (ix-offY) * pxpc;
@@ -67,8 +66,9 @@ item.rgbOfCell = function (cell) {
 	let avG = 0;
 	let avB = 0;
 	let avO = 0;
-	for (let i=0;i<pxpc;i++) {
-		for (let j=0;j<pxpc;j++) {
+	let ovrf = 2;
+	for (let i=0;i<pxpc*ovrf;i++) {
+		for (let j=0;j<pxpc*ovrf;j++) {
 			let idx = indexOfPixel(lowPxX+i,lowPxY+j);
 			//let idx = indexOfPixel(lowPxX+i,lowPxY+j);
 			let r = imageData[idx];
@@ -80,7 +80,7 @@ item.rgbOfCell = function (cell) {
 			avO += imageData[idx+3];
 		}
 	}
-	let pxpc2 = pxpc*pxpc;
+	let pxpc2 = ovrf*ovrf*pxpc*pxpc;
 	avR = Math.floor(avR/pxpc2);
 	avG = Math.floor(avG/pxpc2);
 	avB = Math.floor(avB/pxpc2);
@@ -88,41 +88,47 @@ item.rgbOfCell = function (cell) {
 	let rs = `rgb(${avR},${avG},${avB})`;
 	return rs;
 }
+	/*
+	item.inRegion = function (cell) {
+		let {numRows,numCols} = this;
+		let {x,y} = cell;
+		//let fr = 0.3;
+		let fr = 0.195;
+		
+		let cx = 0.5 * numRows;
+		let cy = 0.5 * numCols;
+		let p0 = Point.mk(cx,cy);
+		let p1 = Point.mk(x,y);
+	  let dist = p0.distance(p1);
+		
+		return dist < fr*numCols;
+		
+	} 
 	
-	
-	
-	
+	item.colorGenerator = function (rvs,cell) {
+		let inr = this.inRegion(cell);
+		if (inr) {
+		  let rgb = this.rgbOfCell(cell);
+		  return rgb;
+		} else {
+			return 'purple';
+		}
+	}
+	*/
 	item.shapeGenerator = function (rvs,cell,cnt) {
 	//debugger;
-	//let imd = draw.vars.imageData;
 	let {shapes,polygonP} = this;
 	let corners = this.cellCorners(cell);
-	let rgb = this.rgbOfCell(cell);
-	/*let onSphere = 0;
-	corners.forEach( (corner) => {
-	  if (corner.category === 'onSphere') {
-			onSphere = 1;
-		}
-	});
-		*/
+	let rgb = this.colorGenerator(rvs,cell);
 	let mcnt = cnt.minus();
 	let rCorners = this.displaceArray(corners,mcnt);
-	let polygonScale = 1;
+	let polygonScale = 1.1;
 	let sCorners = this.scaleArray(rCorners,polygonScale,polygonScale);
 	let pgon = polygonP.instantiate();
 	pgon.corners = sCorners;
-	//if (Math.random() < 0.5) {
-	let r = rvs.r;
-	let g = rvs.g;
-	let b = rvs.b;
-		pgon.fill = 'green';
-	//	pgon.fill = `rgb(0,${r},0)`
 	pgon.fill = rgb;
-	//pgon.fill = `rgb(${r},${g},${b})`
-	//pgon.fill = `rgb(${r},${r},${r})`
 	pgon.show();
 	shapes.push(pgon);
-	//pgon.show();
 	pgon.update();
 	return pgon;
 }

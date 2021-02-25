@@ -5,7 +5,7 @@ debugger;
 let rs = svg.Element.mk('<g/>');
 //addSetName(rs);
 addMethods(rs);
-rs.setName('lines0_9');
+rs.setName('lines0_11');
 
 /*adjustable parameters  */
 let rdim = 100;
@@ -13,12 +13,14 @@ let rdim = 100;
 //let topParams = {width:rdim,height:rdim,numLines:100,angleMin:-90,angleMax:90,saveImage:1,focalPoint:Point3d.mk(0,0,500),focalLength:10,cameraScaling:10};
 //let topParams = {width:rdim,height:rdim,numLines:1000,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:1000};
 let speed = 4;
-let topParams = {width:rdim,height:rdim,numLines:400,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:94,
-segmentDelta:speed * 0.0002*Math.PI,
-shapeDelta:speed*0.0004 * Math.PI,
-shapeAngle: 0.25 * Math.PI,
+let topParams = {width:rdim,height:rdim,numLines:400,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:120,
+segmentDelta:speed * 0.0004*Math.PI,
+shapeDeltaX:speed*0.0004 * Math.PI,
+shapeDeltaY:speed*0.0009 * Math.PI,
+shapeAngleX: 0.35 * Math.PI,
+shapeAngleY: 0.25 * Math.PI,
 //shapeDelta:0.0 * Math.PI,
-focalPoint:Point3d.mk(0,0,500),focalLength:10,cameraScaling:10};
+focalPoint:Point3d.mk(0,0,5000),focalLength:10,cameraScaling:100};
 Object.assign(rs,topParams);
 /*rs.saveImage = true;
 rs.width = 400;
@@ -98,7 +100,7 @@ rs.initialize = function () {
 	let camera = this.camera = geom.Camera.mk(rs.focalPoint,rs.focalLength,rs.cameraScaling,'z');
   //this.shapeAngle = 0.25 * Math.PI;
 	let shape3d = this.shape3d = Shape3d.mk(sideShapes);
-		this.moveShapeTo(Affine3d.mkRotation('x',this.shapeAngle).times(Affine3d.mkRotation('y',this.shapeAngle)));
+		this.moveShapeTo(Affine3d.mkRotation('x',this.shapeAngleX).times(Affine3d.mkRotation('y',this.shapeAngleY)));
 
 	//this.moveShapeTo(Affine3d.mkRotation('x',this.shapeAngle));
 //	this.initializeLines(null,0);
@@ -127,7 +129,9 @@ rs.rebuildSide = function (side) {
 
 rs.moveShapeTo = function (xf,update) {
 	let {shape3d,camera} = this;
-	shape3d.set('transform',xf);
+	if (xf) {
+	  shape3d.set('transform',xf);
+	}
 	let psegs = camera.project(shape3d);
   this.segments = psegs;
 	debugger;
@@ -137,14 +141,19 @@ rs.moveShapeTo = function (xf,update) {
 
 
 rs.step = function ()   {
-	let {shapeAngle,sides,shapeDelta} = this;
+	let {shapeAngleX,shapeAngleY,sides,shapeDeltaX,shapeDeltaY,timeStep} = this;
 	sides.forEach( (side) => {
 		if (side.name === 'side3') {
-		//	this.rebuildSide(side);
+			this.rebuildSide(side);
 		}
 	});
-	shapeAngle = this.shapeAngle = shapeAngle +shapeDelta;
-	this.moveShapeTo(Affine3d.mkRotation('x',this.shapeAngle).times(Affine3d.mkRotation('y',this.shapeAngle)),true);
+	if (timeStep > 68) {
+		this.moveShapeTo(null,1);
+		return;
+	}
+	shapeAngleX = this.shapeAngleX = shapeAngleX +shapeDeltaX;
+	shapeAngleY = this.shapeAngleY = shapeAngleY +shapeDeltaY;
+	this.moveShapeTo(Affine3d.mkRotation('x',this.shapeAngleX).times(Affine3d.mkRotation('y',this.shapeAngleY)),true);
 
 	//this.moveLines(0.005);
 }
