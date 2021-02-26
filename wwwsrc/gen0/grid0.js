@@ -1441,15 +1441,8 @@ item.assignValues = function (vls) {
 }
 		
 item.outerInitialize = function (cb) {
-	//debugger;
-	//core.root.backgroundColor = 'red';
-	//this.initializeP();
- // this.dirValues = this.computeDirValues();
 	let {path} = this;
-	
-	//this.dirValues = [];
 	if (this.loadFromPath) {
-		//debugger;
 	  core.httpGet(path, (error,json) => {
 			let vls = JSON.parse(json);
 			this.assignValues(vls);
@@ -1457,19 +1450,11 @@ item.outerInitialize = function (cb) {
 			if (cb) {
 				cb();
 			}
-		//	debugger;
 		});
 	} else {
-		//this.ranRowCol = this.randomCell(this.randomCellExclude);
-	//	if (this.computeValuesToSave) {
     let vls = this.computeValuesToSave?this.computeValuesToSave():null;
 		this.initializeGrid();
 		if (vls && this.saveJson) {
-		/*  let vls = {};
-			propsToSave.forEach( (prop) => {
-			   let vl = this[prop];
-				 vls[prop] = this[prop];
-		  });*/
       let jsn = JSON.stringify(vls);
 			if (this.saveJson) {
 	      core.saveJson(path,jsn,function (err,rs) {

@@ -476,7 +476,8 @@ item.intersectSegmentWithCircle = function (lsg,circle) {
 
 
 item.intersectSegmentWithRectangle = function (lsg,rect) {
-	//debugger;
+	debugger;
+	let end0 = lsg.end0;
   let intersections = [];
 	let descriptions = [];
 	const fractionAlong = function (seg,p) {
@@ -500,11 +501,22 @@ item.intersectSegmentWithRectangle = function (lsg,rect) {
     debugger;//keep
     return undefined;
   }
+	//end0 should be closer to int0 than int1
+	
   let [int0,int1] = intersections;
-  if (int0.x > int1.x) {
+	let de0i0 = int0.boxcarDistance(end0);
+	let de0i1 = int1.boxcarDistance(end0);
+  if (de0i0 > de0i1) {
     let tmp = int0;
     int0 = int1;
     int1 = tmp;
+		let d0 = descriptions[0];
+		let d1 = descriptions[1];
+		tmp = d0;
+		d0 = d1;
+		d1 = tmp;
+		descriptions[0] = d0;
+		descriptions[1] = d1;
   }
   let rs =  geom.LineSegment.mk(int0,int1);
 	rs.end0.side = descriptions[0][0]
@@ -1208,11 +1220,39 @@ item.moveCircleSegmentBy = function (rect,seg,delta) {
 		d[1] = Math.min(1,nfr);
 	}
 }
+item.preliminaries = function (irect) {
+	let {backgroundColor,backgroundPadding,width,height} = this;
+	let rect;
+	if (irect) {
+		rect = irect;
+	} else {
+		let hw = 0.5 * this.width;
+		let hh = 0.5 * this.height;
+		let corner = Point.mk(-hw,-hh);
+		let extent = Point.mk(width,height);
+	  rect = geom.Rectangle.mk(corner,extent);
+	}
+	this.addSides(rect);
+	this.rect = rect;
+	if (backgroundColor) {
+		let rr = rectangleP.instantiate();
+		let bp = backgroundPadding?backgroundPadding:0;
+		rr.width = width + bp;
+		rr.height = height + bp;
+		rr.fill = backgroundColor;
+		this.set('rr',rr);
+	}
+}
+	
 	
 item.initializeLines = function (irect,segmentsOnly) {
  // debugger;
   let {width,height,backgroundPadding,rectP,dimension,includeRect,boardRows,numLines,backgroundColor} = this;
-	let rect,circle;
+	let circle;
+	if (!segmentsOnly) {
+		this.preliminaries();
+	}
+	let rect = this.rect;
 	this.set('segments',core.ArrayNode.mk());
 	
 	if (dimension) {
@@ -1223,23 +1263,6 @@ item.initializeLines = function (irect,segmentsOnly) {
 		}
 		this.addLines();
 		return this.segments;
-	}
-	if (irect) {
-		rect = irect;
-	} else {
-		let hw = 0.5 * this.width;
-		let hh = 0.5 * this.height;
-		let corner = Point.mk(-hw,-hh);
-		let extent = Point.mk(this.width,this.height);
-	  rect = geom.Rectangle.mk(corner,extent);
-	}
-	if (backgroundColor) {
-		let rr = rectangleP.instantiate();
-		let bp = backgroundPadding?backgroundPadding:0;
-		rr.width = width + bp;
-		rr.height = height + bp;
-		rr.fill = backgroundColor;
-		this.set('rr',rr);
 	}
 	if (!this.lines) {
     this.set('lines',core.ArrayNode.mk());
@@ -1266,11 +1289,6 @@ item.initializeLines = function (irect,segmentsOnly) {
 			return this.segments;
 		}
   }
- // let ocs = this.originatingShapes;
- // let noc = ocs?ocs.length:0;  
-	//debugger;
-  this.addSides(rect);
-	this.rect = rect;
 
   let n=this.numLines;
   let i=0;
@@ -1288,6 +1306,62 @@ item.initializeLines = function (irect,segmentsOnly) {
 	}
 }
 
+
+item.assignValueToPath = function (path,value) {
+	let ln = path.length;
+	let cvl = this;
+	for (let i=0;i<ln-1;i++) {
+		let pel = path[i];
+		let nvl = cvl[pel];
+		if (!nvl) {
+			nvl = {};
+			cvl[pel] = nvl;
+		}
+		cvl = nvl;
+	}
+	let lst = path[ln-1];
+	if (cvl[lst] === undefined) {
+	  cvl[lst] = value;
+	}
+}
+	
+item.assignValues = function (vls) {
+	vls.forEach( (vl) => {
+		let [path,value] = vl;
+		this.assignValueToPath(path,value);
+	});
+}
+	
+item.saveOrRestore = function (cb,context) {
+	let {path} = this;
+	if (this.loadFromPath) {
+	  core.httpGet(path, (error,json) => {
+			let vls = JSON.parse(json);
+			this.assignValues(vls);
+			if (cb) {
+				cb(context);
+			}
+		});
+	} else {
+    let vls = this.computeValuesToSave?this.computeValuesToSave():null;
+		//this.initializeGrid();
+		if (vls && this.saveJson) {
+      let jsn = JSON.stringify(vls);
+			if (this.saveJson) {
+	      core.saveJson(path,jsn,function (err,rs) {
+					if (cb) {
+						cb(context);
+					}
+		      debugger;
+		    });
+			}
+		} else {
+			if (cb) {
+				cb();
+			}
+		}
+  }
+}
 
 item.initializeGrid = function (irect) {
   debugger;
