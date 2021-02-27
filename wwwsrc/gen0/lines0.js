@@ -476,7 +476,6 @@ item.intersectSegmentWithCircle = function (lsg,circle) {
 
 
 item.intersectSegmentWithRectangle = function (lsg,rect) {
-	debugger;
 	let end0 = lsg.end0;
   let intersections = [];
 	let descriptions = [];
@@ -867,7 +866,7 @@ item.addLine = function (i,lsg,update) {
   let ln  = this.segments.length;
   let {lines,lineDelta,randomDelta} = this;
   if (!lsg) {
-    debugger;
+    debugger; //keep
   }
 	//let hideIt = this.hideIt;
 //debugger;
@@ -1352,7 +1351,6 @@ item.saveOrRestore = function (cb,context) {
 					if (cb) {
 						cb(context);
 					}
-		      debugger;
 		    });
 			}
 		} else {
