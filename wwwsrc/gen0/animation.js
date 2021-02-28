@@ -20,24 +20,28 @@ item.shapeTimeStep  = function() {
 			let cell = {x:i,y:j,index:idx};
 			let shp = this.shapeGenerator(rvs,cell,cnt);
 	*/
-item.animateIt = function (numFrames,interval,resume) {
+
+item.breakAtStep = -1;
+
+item.animateIt = function (numFrames,interval,resume,timeStep) {
  // let numFrames = 10;
     //svgMain.draw();
-	let everyNthFrame = this.everyNthFrame;
+	let {everyNthFrame,breakAtStep,frameNumber} = this;
+//	let everyNthFrame = this.everyNthFrame;
 	let animationUnderway = 0;
 	if (resume) {
-	  animationUnderway = this.animationUnderway?this.animationUnderway:0;
+	  animationUnderway = animationUnderway?animationUnderway:0;
 	}
 	this.animationUnderway = 1;
-	let nfr,frameCount,frameNumber;
+	let nfr,frameCount;
 	if (!animationUnderway) {
 		nfr = 0;
 		this.timeStep = 0;
 		frameNumber = this.frameNumber = 0;
 		
 	} else {
-		frameNumber = this.frameNumber;
-		nfr = this.timeStep;
+		//frameNumber = this.frameNumber;
+		nfr = timeStep;
 	}
 	this.paused = false;
 	//let interval = 500;
@@ -46,7 +50,12 @@ item.animateIt = function (numFrames,interval,resume) {
 		if (this.paused) {
 			return;
 		}
-		console.log('timeStep ',nfr,' frameNumber ',frameNumber); 
+		console.log('timeStepp',nfr,' frameNumber ',frameNumber); 
+		if (nfr === breakAtStep) {
+			this.paused = true;
+			return;
+			debugger;
+		}
 		if (nfr === numFrames) {
 			alert('Animation done. Numframes = '+numFrames);
 			return;

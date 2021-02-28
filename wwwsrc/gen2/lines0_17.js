@@ -12,9 +12,9 @@ let rdim = 100;
 //let sideParams = {width:rdim,height:rdim,numLines:300,angleMin:-90,angleMax:90,segmentsOnly:1}
 //let topParams = {width:rdim,height:rdim,numLines:100,angleMin:-90,angleMax:90,saveImage:1,focalPoint:Point3d.mk(0,0,500),focalLength:10,cameraScaling:10};
 //let topParams = {width:rdim,height:rdim,numLines:20,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:200,backgroundColor:'red',lineDelta:.02,randomDelta:0,
-let topParams = {width:rdim,height:rdim,numLines:16,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:200,backgroundColor:'green',backgroundPadding:20,lineDelta:.02,randomDelta:0,
- //markSpeed:100,loadFromPath:1,saveJson:0};
- markSpeed:100,loadFromPath:1,saveJson:0};
+let topParams = {width:rdim,height:rdim,numLines:16,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:200,backgroundColor:'rgb(100,0,100)',backgroundPadding:20,lineDelta:.02,randomDelta:0,
+ //markSpeed:100,loadFromPath:,saveJson:1};
+ markSpeed:100,loadFromPath:0,saveJson:1,breakAtStep:-1};
 Object.assign(rs,topParams);
 
 
@@ -104,7 +104,7 @@ rs.computeValuesToSave = function () {
 	return vls;
 }
 
-
+// the intRect is the field in which intersections are computed
 
 rs.initialize = function () {
 	debugger;
@@ -112,6 +112,10 @@ rs.initialize = function () {
   this.initProtos();
   core.root.backgroundColor = 'white';// 'green';
   let sdim = 0.5*width - 1;
+  let dsdim = 2*sdim;
+	let rect0 = Rectangle.mk(Point.mk(-sdim,-sdim),Point.mk(dsdim,dsdim));
+	let expnd = 0.01;
+	this.intRect = rect0.expandBy(expnd,expnd);
 	let bdim = 0.5*width;
 	let cdim = 0.25*width;
 	let hTop = LineSegment.mk(Point.mk(-bdim,sdim),Point.mk(bdim,sdim));
@@ -158,15 +162,27 @@ this.sides = [hTop,hBot,vLeft,vRight];
 }	
 
 rs.findAllIntersections = function () {
-	let segs = this.iSegments;
+	let {iSegments:segs,intRect} = this;
+	//let segs = this.iSegments;
 	rs = [];
 	let ln = segs.length;
 	for (let i=0;i<ln;i++) {
+		if (i === 4) {
+		//	debugger;
+		}
 		let seg = segs[i];
 		seg.segNumber = i;
 		let intrs = seg.allIntersections(segs);
 		if (intrs) {
-			rs.push(intrs);
+			let cintrs = intrs.filter((intr) => {
+				if (intRect.contains(intr[0])) {
+					return intr;
+				} else {
+				}
+			});
+			//if (cintrs.length > 0) {
+			  rs.push(cintrs);
+			//}
 		}
 	}
 	this.allIntersections = rs;
@@ -186,6 +202,9 @@ rs.findNextIntr = function (segNum,intrNum,reverseEnds) {
 	let nvec = nend1.difference(nend0);
 	let nextSegNum  = nextSeg.segNumber;
 	let nextIntrs = allIntersections[nextSegNum];
+	if (!nextIntrs) {
+		debugger;
+	}
 	// now find the intr on the next segments intersecton list
 	let dist = Infinity;
 	let ln = nextIntrs.length;
@@ -248,6 +267,10 @@ rs.findNextIntr = function (segNum,intrNum,reverseEnds) {
 	
 rs.findAregion = function (isegNum,iintrNum,reverse) {
 	//debugger;
+  if ((isegNum === 4) && (iintrNum === 0)) {
+		debugger;
+	}
+	
 	let {allIntersections, iSegments:segs,segments} = this;
   let segNum = isegNum;
   let intrNum = iintrNum;
@@ -372,17 +395,16 @@ const regionIsBox = (rg) => {
 rs.findAllRegions = function () {
 	
   let {iSegments:segs,allIntersections,segments} = this;	
-	debugger;
+	//debugger;
 	let ln = segs.length;
 	let rs = [];
 	for (let i=0;i<ln;i++) {
 		let intrs = allIntersections[i];
 		let iln = intrs.length;
 	//	for (let j =1;j<iln-1;j++) {
-		for (let j =0;j<iln;j++) {
-			let rg = this.findAregion(i,j,false);
+		const addAregion =  (rg) => {
 			if ((!rg) || regionIsBox(rg)) {
-				continue;
+				return;
 			}
 			let arg = this.annotateRegion(rg);
 			let rln = rs.length;
@@ -397,6 +419,30 @@ rs.findAllRegions = function () {
 				rs.push(arg);
 			}
 		}
+			
+			
+		for (let j =0;j<iln;j++) {
+			let rgCl = this.findAregion(i,j,false);
+			let rgCC = this.findAregion(i,j,true);
+			addAregion(rgCl);
+			addAregion(rgCC);
+		}
+		/*	if ((!rg) || regionIsBox(rg)) {
+				continue;
+			}
+			let arg = this.annotateRegion(rg);
+			let rln = rs.length;
+			let keep = true;
+			for (let k=0;k<rln;k++) {
+				if (this.regionsSame(arg,rs[k],0.1)) {
+					keep = false;
+					break;
+				}
+			}
+			if (keep) {
+				rs.push(arg);
+			}
+		}*/
 	}
 	return rs;
 }
@@ -452,7 +498,7 @@ let regionSeeds = [
 /* return an array of regions in which corresponding regions are at the same index;*/
 
 rs.correlateRegions = function (before,after) {
-	debugger;
+	//debugger;
 	let rs = [];
 	let lnb = before.length;
 	let lna = after.length;
@@ -502,6 +548,7 @@ rs.correlateRegions = function (before,after) {
 	
 rs.computeRegions = function () {
 	debugger;
+
   let fsegs = this.filterSegs(this.segments);
 	//this.iSegments = fsegs.concat(this.sides);
 	this.iSegments = this.sides.concat(fsegs);
@@ -528,10 +575,12 @@ rs.computeRegions = function () {
 		if (i>=pln) {
 			poly = this.polygonP.instantiate();
 			polys.push(poly);
-			let r = Math.floor(255*Math.random());
+			let rr = Math.floor(5*Math.random());
+			let r = Math.floor(rr*(255/5));
+			//let rr = Math.floor(255*Math.random());
 			let g = Math.floor(255*Math.random());
 			let b = Math.floor(255*Math.random());
-			let rgb = `rgb(${r},${r},${r})`;
+			let rgb = `rgb(${r},${0},${r})`;
 			let rm = i%3;
 			let fill;
 			if (rm === 0) {
@@ -541,7 +590,8 @@ rs.computeRegions = function () {
 			} else {
 				fill = 'white';
 			}
-			poly.fill = fill;
+			//poly.fill = fill;
+			poly.fill = rgb;
 			//poly.fill = (i%2 === 0)?'white':'black';
 			poly.show();
 		} else {
@@ -567,7 +617,7 @@ rs.computeRegions = function () {
 
 	
 rs.step = function ()   {
-	debugger;
+	//debugger;
 	  
 	  /*const regionIsBox = (rg) => {
 			let rs = true;
@@ -582,9 +632,10 @@ rs.step = function ()   {
 			}
 			return true;
 		}*/
+		debugger;
 	  this.moveLines();
 		let segments = this.segments;
-		debugger;
+		//debugger;
 		this.computeRegions();
 		
 		
