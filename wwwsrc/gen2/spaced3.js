@@ -69,7 +69,7 @@ item.initialize = function () {
    // let y = shape.getTranslation().y;
     //let ht = 200;
    // let ry = Math.abs(y)	/ht;
-   debugger;
+   //debugger;
     shape.dimension = dim;//ry*dim;
   }
    const setDimension2 = function (grid,shape,dim) {
@@ -94,7 +94,8 @@ item.initialize = function () {
  //this.generateShapes([elementP1,elementP3],[setDimension1,setDimension3],[0.1]	);
 this.generateShapes([elementP1,elementP3],[setDimension1,setDimension3],[1]	);
  //this.generateShapes([elementP1,elementP2],[setDimension1,setDimension2],[0.5]	);
- this.genSides();
+ //this.genSides();
+ this.preliminaries();
  debugger;
  //for (let i = -20;i<20;i++) {
  for (let i = 0;i<this.numLines;i++) {

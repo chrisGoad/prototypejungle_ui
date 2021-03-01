@@ -1,6 +1,6 @@
 
-let  forEutelic = 0;
-let alternate = 1;
+let  forEutelic = 0
+let alternate = 0;
 let sectionsPath = alternate?'./altGridSections':'./gridSections';
 let outPath = alternate?'www/altGrids.html':'www/grids.html';
 var fs = require('fs');

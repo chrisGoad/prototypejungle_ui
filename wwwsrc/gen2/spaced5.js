@@ -89,8 +89,10 @@ item.initialize = function () {
  //this.generateShapes([elementP3],[setDimension3]);
  //this.generateShapes([elementP1,elementP3],[setDimension1,setDimension3],[0.1]	);
 this.generateShapes([elementP1,elementP3],[setDimension1,setDimension3],[1]	);
+ this.preliminaries();
+
  //this.generateShapes([elementP1,elementP2],[setDimension1,setDimension2],[0.5]	);
- this.genSides();
+ //this.genSides();
  debugger;
  //for (let i = -20;i<20;i++) {
  let numLines = this.numLines;

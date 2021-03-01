@@ -5,7 +5,7 @@ debugger;
 let rs = svg.Element.mk('<g/>');
 //addSetName(rs);
 addMethods(rs);
-rs.setName('lines0_12b');
+rs.setName('lines0_14');
 
 /*adjustable parameters  */
 let rdim = 100;

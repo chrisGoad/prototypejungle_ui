@@ -169,6 +169,10 @@ item.addSides = function (rect) {
 
 
 item.inRange= function (pnt) {
+	if (!pnt) {
+		debugger;
+		return;
+	}
   let {x,y} = pnt;
   let hwd = 0.5*this.width;
   let hht = 0.5*this.height;
@@ -346,12 +350,14 @@ item.intersectionsWithLine = function (p,vec,inside) {
       continue;
     }
     let [int0,int1] = ints;
-    rsOut.push(int0);
-    rsOut.push(int1);
-    if (inside) {
-      rsIn.push(int0);
-      rsIn.push(int1);
-    }
+		if (int0 && int1) {
+			rsOut.push(int0);
+			rsOut.push(int1);
+			if (inside) {
+				rsIn.push(int0);
+				rsIn.push(int1);
+			}
+		}
   }
  // this.genSides();
   rsOut.push(boxPoints[1]);
@@ -525,6 +531,14 @@ item.intersectSegmentWithRectangle = function (lsg,rect) {
 	//rs.descriptions = descriptions;
   rs.whichCircle = lsg.whichCircle;
   return rs;
+}
+item.intersectWithRectangle = function (p,ivec) {
+	 let vec = ivec.times(this.width * 4);
+  let e0 = p.plus(vec.minus()) ;
+  let e1 = p.plus(vec);
+  let lsg = geom.LineSegment.mk(e0,e1);
+	let rs = this.intersectSegmentWithRectangle(lsg,this.rect);
+	return rs;
 }
 /*
 item.resetSegment = function (rect,seg) { // use descriptions to determine new  ends
@@ -1355,7 +1369,7 @@ item.saveOrRestore = function (cb,context) {
 			}
 		} else {
 			if (cb) {
-				cb();
+				cb(context);
 			}
 		}
   }
