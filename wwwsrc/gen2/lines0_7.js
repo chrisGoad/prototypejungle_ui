@@ -48,7 +48,7 @@ rs.initialize = function () {
   this.initProtos();
  // core.root.backgroundColor = 'black';
  let hdim = 50;
- 
+  this.preliminaries();
 	const mkSide =  (xf,normal) => {
 	 // this.initProtos();
 		
@@ -82,6 +82,7 @@ rs.initialize = function () {
 	this.shapeAngle = 0;
 	this.shapeDelta = 0.02 * Math.PI;
 	let shape3d = this.shape3d = Shape3d.mk(sides);
+	
 	this.moveShapeTo(Affine3d.mkRotation('x',this.shapeAngle));
 	//let shape3d = Shape3d.mk(sides);
 	//let psegs = camera.project(shape3d);

@@ -50,6 +50,10 @@ c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_8_7_f%03d.jpg -s 1000x10
 c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_8_3_f%03d.jpg -s 1000x1000  www/export/grid0_8_3.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/sphere2_1_f%03d.jpg -s 1000x1000  export/sphere2_1.gif
 
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/lines0_15e_f%03d.jpg -s 500x500  export/lines0_15e.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/lines0_15f_f%03d.jpg -s 700x700  export/lines0_15f.gif
+
+
 rm animations/spatter0_7*
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/spatter0_6_f%03d.jpg -s 1000x1000  export/spatter0_6_1.mp4
 

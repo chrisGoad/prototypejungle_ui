@@ -6,7 +6,6 @@ function (constructor) {
   let rs = constructor();
 	rs.setName('zigzag0_1');
   rs.saveImage = true;
-	rs.setName('zigzag_1');
   let numRows,numCols;
 	numRows = rs.numRows = 40;
 	numRows = rs.numRows = 30;

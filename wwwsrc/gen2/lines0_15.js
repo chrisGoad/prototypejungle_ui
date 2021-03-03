@@ -5,14 +5,17 @@ debugger;
 let rs = svg.Element.mk('<g/>');
 //addSetName(rs);
 addMethods(rs);
-rs.setName('lines0_15');
+rs.setName('lines0_15f');
 
 /*adjustable parameters  */
 let rdim = 100;
 //let sideParams = {width:rdim,height:rdim,numLines:300,angleMin:-90,angleMax:90,segmentsOnly:1}
 //let topParams = {width:rdim,height:rdim,numLines:100,angleMin:-90,angleMax:90,saveImage:1,focalPoint:Point3d.mk(0,0,500),focalLength:10,cameraScaling:10};
 //let topParams = {width:rdim,height:rdim,numLines:20,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:200,backgroundColor:'red',lineDelta:.02,randomDelta:0,
-let topParams = {width:rdim,height:rdim,numLines:20,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:100,backgroundColor:'red',lineDelta:.02,randomDelta:0,
+let topParams = {width:rdim,height:rdim,numLines:20,angleMin:-90,angleMax:90,saveImage:1,numTimeSteps:200,
+backgroundColor:'black',backgroundPadding:20,outerBackgroundColor:'rgb(60,60,60)',
+outerBackgroundPaddingX:40,outerBackgroundPaddingY:40,
+lineDelta:.02,randomDelta:0,
  markSpeed:100,loadFromPath:0,saveJson:1};
 Object.assign(rs,topParams);
 /*rs.saveImage = true;
@@ -30,15 +33,19 @@ rs.initProtos = function () {
   core.assignPrototypes(this,'lineP',linePP);
   this.lineP.stroke = 'white';
   this.lineP['stroke-width'] = .07; 	
+  this.lineP['stroke-width'] = .0; 	
 	 core.assignPrototypes(this,'polygonP',polygonPP);
   this.polygonP.stroke = 'white';
+  this.polygonP.stroke = 'rgb(0,0,200)';
+  this.polygonP.fill = 'rgb(20,20,20)';
   this.polygonP.fill = 'black';
-  this.polygonP['stroke-width'] = .07; 	
+  this.polygonP['stroke-width'] = .17; 	
 	core.assignPrototypes(this,'circleP',circlePP);
-  this.circleP.stroke = 'white';
-  this.circleP.fill = 'blue';
-  this.circleP.dimension = 4;
-  this.circleP['stroke-width'] = .07; 	
+  this.circleP.fill = 'white';
+ //this.circleP.fill = 'red';
+  //this.circleP.fill = 'blue';
+  this.circleP.dimension = 0.4;
+  this.circleP['stroke-width'] = 0; 	
 }  
 
 //side0.initProtos = initProtos;
@@ -146,7 +153,8 @@ rs.initialize = function () {
 			context.segments = segs
 			context.iSegments =  context.sides.concat(segs);
 			context.addLines();
-			context.computeRegions();
+		//	context.computeRegions();
+		  
 			dom.svgDraw();
 			//context.findAllIntersections();
 		}
@@ -227,7 +235,9 @@ rs.findNextIntr = function (segNum,intrNum,reverseEnds) {
 	let theNextIntrs = allIntersections[nextSegNum]
 	let theNextIntr = theNextIntrs[nextIntrNum]
 	if (!theNextIntr) {
-		debugger;
+		if (this.debugIt) {
+			debugger;
+		}
 	}
   return [nextSegNum,nextIntrNum,nreverseEnds];
 }
@@ -247,7 +257,9 @@ rs.findAregion = function (isegNum,iintrNum,reverse) {
 		} else {
 			console.log('intrs null segNum',segNum);
 		}
-		debugger;
+		if (this.debugIt) {
+		  debugger;
+		}
 		return null;
 	}
 	let startPoint = intr[0];
@@ -262,14 +274,18 @@ rs.findAregion = function (isegNum,iintrNum,reverse) {
 		let nintr = nintrs[nextIntrNum];
 		if (!nintr) {
 			console.log('nextIntrNum',nextIntrNum,' max ',nintrs.length - 1);
-			debugger;
+		if (this.debugIt) {
+      debugger;//d
+		}
 			return null;
 		}
 		let p = nintr[0];
 		//let p = allIntersections[next[0]][next[1]][0];
 		let dist = startPoint.boxcarDistance(p)
 		if (dist  < 0.000001) {
-			debugger;
+		  if (this.debugIt) {
+			  debugger; //dd
+			}
 			return rs;
 		}
 		rs.push(p);
@@ -340,9 +356,50 @@ let regionSeeds = [
 [3,1,false],[3,3,false],[3,5,false],
 [3,1,false],[3,3,false],[3,5,false]];
 */
+
+	
+rs.regionCenter = function (rg) {
+	
+	let ln = rg.length;
+	let rs = Point.mk(0,0);
+	for (let i=0;i<ln;i++) {
+		let p = rg[i];
+		rs = rs.plus(p);
+	}
+	let cnt = rs.times(1/ln);
+	return cnt;
+}
+
+rs.markRegionCenter = function (rg) {
+	if (!rg) {
+		return null;
+	}
+	let p = this.regionCenter(rg);
+	let mark = this.circleP.instantiate();
+	this.marks.push(mark);
+	mark.moveto(p);
+	mark.show();
+	mark.update();
+}
+
 rs.step = function ()   {
 	debugger;
-	  
+	  let {timeStep,numTimeSteps,polygonP,lineP} = this;
+		let hts = numTimeSteps/2;
+		let z = 2* Math.abs(timeStep -  hts)/numTimeSteps;
+		let fr;
+		if (z > 0.8) {
+			fr = 1;
+		} else {
+			fr = z/0.8;
+		}
+			
+	//let fr = 2* Math.abs(timeStep-hts)/numTimeSteps;
+    let c = Math.floor(255* (1-fr));
+    //polygonP.fill = `rgb(0,0,${c})`;
+  //  polygonP.stroke = `rgb(${c},${c},${c})`;
+    polygonP.stroke = 'white';
+    polygonP.fill = 'rgb(100,100,100)';
 	  const regionIsBox = (rg) => {
 			let rs = true;
 			let ln = rg.length;
@@ -370,29 +427,33 @@ rs.step = function ()   {
 		let newPolys  = !polys;
 		if (newPolys) {
 			polys = this.set('polys',core.ArrayNode.mk());
+			this.set('marks',core.ArrayNode.mk());
 		}
 		let ln = regions.length;
 		for (let i=0;i<ln;i++) {
 			let poly;
 			let rg = regions[i]
-			if (newPolys) {
-	      poly = this.polygonP.instantiate();
-			  polys.push(poly);
-				poly.show();
-			} else {
-				poly = polys[i];
-			}
-			if (rg && !regionIsBox(rg)) {
-			  poly.corners = rg;
-				poly.show();
-			} else {
-			  if (rg) {
-					console.log('rg is box',rg);
+			if (1) {
+				if (newPolys) {
+					poly = this.polygonP.instantiate();
+					polys.push(poly);
+					poly.show();
+				} else {
+					poly = polys[i];
 				}
+				if (rg && !regionIsBox(rg)) {
+					poly.corners = rg;
+					poly.show();
+				} else {
+					if (rg) {
+						console.log('rg is box',rg);
+					}
 
-				poly.hide();
+					poly.hide();
+				}
+				poly.update();
 			}
-		  poly.update();
+		this.markRegionCenter(rg);
 		}
 	
 }

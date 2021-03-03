@@ -1,10 +1,12 @@
 
-core.require('/gen0/animation.js','/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
+//core.require('/gen0/animation.js','/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
+core.require('/gen0/basics.js','/gen0/animation.js','/shape/rectangle.js',function (addBasicMethods,addAnimationMethods,rectangleP) {
 
 //core.require(function () {
  return function (item) {
 	// debugger;
 //let item = svg.Element.mk('<g/>');
+addBasicMethods(item);
 addAnimationMethods(item);
 
 /*adjustable parameters  */
@@ -1180,7 +1182,9 @@ item.moveSegments = function (delta) {
 		} else if (this.computeLineDelta) {
 			delta = this.computeLineDelta(i/ln);
 		} else {
-			delta = lineDelta
+			//delta = lineDelta
+			delta = (i%2===0)?lineDelta:2*lineDelta;
+
 		}
 		this.moveSegment(seg,delta);
 			//this.moveSegment(seg,liineDelta * (0.5 + i/ln));
@@ -1234,8 +1238,9 @@ item.moveCircleSegmentBy = function (rect,seg,delta) {
 	}
 }
 item.preliminaries = function (irect) {
-	let {backgroundColor,backgroundPadding,width,height} = this;
+	let {backgroundColor,backgroundPadding,outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height} = this;
 	let rect;
+	debugger;
 	if (irect) {
 		rect = irect;
 	} else {
@@ -1247,6 +1252,15 @@ item.preliminaries = function (irect) {
 	}
 	this.addSides(rect);
 	this.rect = rect;
+	if (obc) {
+		let rr = rectangleP.instantiate();
+		let bpx = obpx?obpx:0;
+		let bpy = obpy?obpy:0;
+		rr.width = width + bpx;
+		rr.height = height + bpy;
+		rr.fill = obc;
+		this.set('brr',rr);
+	}
 	if (backgroundColor) {
 		let rr = rectangleP.instantiate();
 		let bp = backgroundPadding?backgroundPadding:0;

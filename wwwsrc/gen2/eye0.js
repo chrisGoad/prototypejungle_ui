@@ -45,7 +45,7 @@ item.initialize = function () {
   this.randomizeWhichLineColors = 'niether';
   this.chanceShape2IsVisible = 0.2;
   //core.root.backgroundColor = 'black';
-  this.shapeGenerationFunction = function (grid,shapes,idx) {
+  this.shapeGenerator = function (grid,shapes,idx) {
     let rs = (Math.random() < 0.5)?grid.shapeP1.instantiate():grid.shapeP2.instantiate();
     shapes.set(idx,rs);
     grid.directLineRandomly(rs,.5);
