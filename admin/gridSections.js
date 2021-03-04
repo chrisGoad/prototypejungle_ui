@@ -14,8 +14,8 @@ sections: [
  		 ['spaced8','gen2','wide2','Order Within Chaos'],
 			 ['spaced9','gen2','wide2','Chaos Within Order'],
 
-   ['intersect15','gen2','square','Message'],
-	['spatter_4','gen2','square','Mat'],
+   ['hybrid00_0','gen2','square','Message'],
+	['grid0_43','gen2','square','Mat'],
 		['grid0_5','gen2','square','Smoke 1'],
 	['grid0_4','gen2','square','Cloth'],
 	
@@ -59,7 +59,7 @@ sections: [
 		
 				 	['grid24d','gen2',0,'Tracks'],
 		   ['grid_0_5','gen2','square','Grid 4'],
-	['spatter_1','gen2','square','Spatter'],
+	['grid0_41','gen2','square','Spatter'],
 		 	['grid0_8_18','gen2','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 

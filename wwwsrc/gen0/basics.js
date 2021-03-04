@@ -16,7 +16,7 @@ item.addBackground = function () {
 	}
 	core.assignPrototypes(this,'backgroundRectP',rectPP);
 	this.backgroundRectP['stroke-width'] = 0;
-	let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor} = this;
+	let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
 	
   let bkr = this.set('brect',this.backgroundRectP.instantiate());
 	bkr.fill = backgroundColor;

@@ -29,12 +29,12 @@ item.theWindow.maxx = 6;
 item.theWindow.miny = 3;
 item.theWindow.maxy = 6;
 */
-//item.visChance = 1; // for the boundary
+item.visChance = 1; // for the boundary
 //item.includeWindow =false;
-//item.includeShapes = false;
-//item.includeCellBoundaries = true;
-//item.boundaryLineFraction = 1;
-//item.fadeIn = false;
+item.includeShapes = false;
+item.includeCellBoundaries = true;
+item.boundaryLineFraction = 1;
+item.fadeIn = false;
 item.ywander = 0;
 item.pathLength = 10;
 item.requireFullPathLength = true;
@@ -381,6 +381,9 @@ item.addCellBoundaries = function (frame,fraction) {
   this.lineIndex = 0
   
   for (let i = 0;i <= numCols; i++) {
+    if (this.fadeIn) {
+      this.boundaryLineFraction = i/numCols;
+    }
     for (let j = 0;j <=  numRows; j++) {
 		 	let rvs = this.randomValuesAtCell(randomGridsForBoundaries,i,j);
       let points = isPointJiggle?this.rpoints:this.points;
