@@ -50,6 +50,7 @@ p1.patternDir = function (x,y) {
 
 p1.patternOp = function (line) {
 	line.stroke = 'red';
+	//line['stroke-width'] = 2;
 }
 
 

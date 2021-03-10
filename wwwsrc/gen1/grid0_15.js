@@ -1,9 +1,10 @@
 
 //core.require('/line/line.js','/gen0/grid0.js','/grid/dim2dWalker2.js',
-core.require('/line/line.js','/shape/circle.js','/gen0/grid0.js',
-function (linePP,circlePP,addGridMethods) {
+core.require('/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/basics.js',
+function (linePP,circlePP,addGridMethods,addBasicMethods) {
 	return function () {
 let rs = svg.Element.mk('<g/>');
+addBasicMethods(rs);
 let inner0 = svg.Element.mk('<g/>');
 rs.inner0 = inner0;
 //rs.set('inner0',inner0);

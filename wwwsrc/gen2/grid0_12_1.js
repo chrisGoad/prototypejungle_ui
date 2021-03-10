@@ -6,7 +6,7 @@ function (constructor) {
 //core.require('/line/line.js','/grid/addGrid8.js',function (linePP,addGridMethods) {
   debugger;
 	rs.saveImage = true;
-	rs.setName('grid0_13_0');
+	rs.setName('grid0_12_1');
   rs.loadFromPath = 0;
   core.root.backgroundColor = 'black';
   rs.initProtos();

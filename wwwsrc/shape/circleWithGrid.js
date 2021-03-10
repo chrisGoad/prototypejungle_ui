@@ -38,7 +38,6 @@ item.update = function () {
   let vvec = Point.mk(0,1);
  // let cnt = 0;
   const addLine =  (ints) => {
-    debugger;
     let line = lineP.instantiate();
     this.lines.push(line);
     line.setEnds(ints[0],ints[1]);

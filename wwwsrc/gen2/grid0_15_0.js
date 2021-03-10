@@ -1,10 +1,12 @@
 
-core.require('/gen2/grid24ax.js',
-function (constructor) {
+core.require('/gen1/grid0_15.js',
+function (constructor,addBasicMethods) {
   debugger;	//this.initProtos();
   let randomRow;
 
   let rs = constructor();
+	
+	rs.setName('grid0_15_0');
 	let inner0 = rs.inner0;
 	inner0.initProtos();
 	inner0.numRows = 4;

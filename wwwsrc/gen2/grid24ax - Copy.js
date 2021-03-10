@@ -1,6 +1,6 @@
 
 //core.require('/line/line.js','/gen0/grid0.js','/grid/dim2dWalker2.js',
-core.require('/line/line.js','/shape/circle.js','/gen0/grid0.js',
+core.require('/line/line.js','/shape/circle.js','/grid/addGrid8.js',
 function (linePP,circlePP,addGridMethods) {
 	return function () {
 let rs = svg.Element.mk('<g/>');
@@ -19,23 +19,23 @@ addGridMethods(inner1);
 addGridMethods(outer);
  // let rs = constructor();
   
-let initInnerProtos = function (grid,which) {
-	core.assignPrototypes(grid,'lineP',linePP);
-	grid.lineP.stroke = 'rgb(255,255,255)';
-	grid.lineP['stroke-width'] = 1;
-	grid.lineP.dimension = 4;
-	core.assignPrototypes(grid,'circleP',circlePP);
-	grid.circleP.stroke = 'rgb(255,255,255)';
-	grid.circleP.stroke = 'rgb(255,255,255)';
-	grid.circleP.fill = which?'black':'white'; 
-	grid.circleP['stroke-width'] = 0.2;
-	core.assignPrototypes(grid,'boundaryLineP',linePP);
-	grid.boundaryLineP.stroke = 'rgb(255,255,0)';
-	grid.boundaryLineP['stroke-width'] = 1;
+let initInnerProtos = function () {
+	core.assignPrototypes(this,'lineP',linePP);
+	this.lineP.stroke = 'rgb(255,255,255)';
+	this.lineP['stroke-width'] = 1;
+	this.lineP.dimension = 4;
+	core.assignPrototypes(this,'circleP',circlePP);
+	this.circleP.stroke = 'rgb(255,255,255)';
+	this.circleP.stroke = 'rgb(255,255,255)';
+	this.circleP.fill = 'black';
+	this.circleP['stroke-width'] = 0.2;
+	core.assignPrototypes(this,'boundaryLineP',linePP);
+	this.boundaryLineP.stroke = 'rgb(255,255,0)';
+	this.boundaryLineP['stroke-width'] = 1;
 }  
 
-inner0.initProtos = function () {initInnerProtos(this,0)};
-inner1.initProtos = function () {initInnerProtos(this,1)};
+inner0.initProtos = initInnerProtos;
+inner1.initProtos = initInnerProtos;
 
 outer.initProtos = function () {
 	core.assignPrototypes(this,'lineP',linePP);
@@ -67,7 +67,7 @@ inner1.initialize =innerInitialize;
 
 */
 outer.initialize = function () {
-	core.root.backgroundColor = 'blue';
+	core.root.backgroundColor = 'red';
 
   this.pattern = [];
 	let {numRows,numCols,width,height} = this;
@@ -88,18 +88,16 @@ const paintElements = function (shape,color) {
 }
 rs.initialize = function () {
 	debugger;
-	this.inner0.initializeGrid();
-	this.inner1.initializeGrid();
+	this.inner0.initialize();
+	this.inner1.initialize();
 	let i0 = inner0.instantiate();
 	let i1 = inner1.instantiate();
 	this.set('i0',i0);
 	this.set('i1',i1);
   showElements(i0);
   showElements(i1);
-	i0.hide();
-	i1.hide();
-	//i0.moveto(-100,0);
-	//i1.moveto(100,0);
+	i0.moveto(-100,0);
+	i1.moveto(100,0);
 	outer.initialize();
 }
 outer.computeRandomRowCol = function () {
@@ -139,8 +137,7 @@ const innerShapeGenerator = function (rvs,cell,cnt) {
 	let {lineLength,shapes,shapeDescriptors} = this;
 	let idx = cell.index;
 	let circle = this.circleP.instantiate();
-	shapes.push(circle);
-	//shapes.set(idx,circle);
+	shapes.set(idx,circle);
 	let dim;
 	let basesz  = 1;
 	let szrange = 3;

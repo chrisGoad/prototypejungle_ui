@@ -1252,6 +1252,8 @@ item.preliminaries = function (irect) {
 	}
 	this.addSides(rect);
 	this.rect = rect;
+	this.addBackground();
+	/*
 	if (obc) {
 		let rr = rectangleP.instantiate();
 		let bpx = obpx?obpx:0;
@@ -1268,7 +1270,7 @@ item.preliminaries = function (irect) {
 		rr.height = height + bp;
 		rr.fill = backgroundColor;
 		this.set('rr',rr);
-	}
+	}*/
 }
 	
 	
@@ -1388,7 +1390,7 @@ item.saveOrRestore = function (cb,context) {
 		}
   }
 }
-
+/*
 item.initializeGrid = function (irect) {
   debugger;
 	let {width,height,numRows,numCols,rectP,dimension,numLines} = this;
@@ -1498,7 +1500,7 @@ item.initializeGrid = function (irect) {
   }
   this.addLines();
 }
-
+*/
 }});
 
       

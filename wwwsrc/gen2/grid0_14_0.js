@@ -8,7 +8,8 @@ function (constructor,addMethods) {
 	let rs = svg.Element.mk('<g/>');
 	addMethods(rs);
 	rs.numTimeSteps = 100;
-	
+	rs.setName('grid0_14_0');
+
 	let grid1 = rs.set('grid1',constructor());
 	let grid2 = rs.set('grid2',constructor());
 	let grid3 = rs.set('grid3',constructor());
@@ -25,7 +26,7 @@ function (constructor,addMethods) {
 	grids.forEach( (grid) => 
 	  {	
 			Object.assign(grid,gParams);
-			grid.setName('spatter0_10','spatter_3');
+			grid.setName(null,'spatter_3');
 			grid.initProtos();
 
 	});
@@ -33,7 +34,6 @@ function (constructor,addMethods) {
 	
 	//rs.saveImage = true;
 	//rs.loadFromPath = 1;
-	rs.setName('spatter0_10');
 	
 	//grid1.setName('spatter0_10','spatter_3');
 	//grid2.setName('spatter0_10','spatter_3');
