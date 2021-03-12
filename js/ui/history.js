@@ -15,6 +15,7 @@ const addToHistory = function (kind,coords,ovr) {
 }
 
 const addCursor = function () {
+	debugger;
   if (core.root.cursor) {
     return;
   }

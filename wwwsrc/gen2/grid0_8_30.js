@@ -73,6 +73,7 @@ core.root.backgroundColor = 'white';
 	addBox(1800,500,1100);
 	addBox(1800,500,1700);
 	addBox(1800,500,2300);
+	addBox(1800,500,2900);
 	
 	/*	
 	let box0 = this.set('box0',this.rectP.instantiate());
@@ -98,15 +99,19 @@ core.root.backgroundColor = 'white';
 	   txt.moveto(pos);
 	   txt.update();
 	}
-	addText('txt0','Mathematical',Point.mk(-600,-400));
-	addText('txt1','Shape with',Point.mk(-635,-300));
-	addText('txt11','Surface Texture',Point.mk(-550,-200));
+	addText('txt0','Mathematical Description',Point.mk(-400,-600));
+	addText('txt01','of Depicted Object',Point.mk(-520,-500));
+//	addText('txt1','Shape with',Point.mk(-635,-300));
+//	addText('txt11','Surface Texture',Point.mk(-550,-200));
 	addText('txt2','Levels of',Point.mk(-1430,-400));
 	addText('txt3','Description',Point.mk(-1400,-300));
-		addText('txt4','Program Execution',Point.mk(-470,1100));
-		addText('txt5','Circuit-level Description',Point.mk(-400,1700));
-		addText('txt6','Physics-level Description:',Point.mk(-340,2200));
-		addText('txt7','Electrons in Wires and Semiconductors',Point.mk(-100,2300));
+		addText('txt4','Description in a High Level ',Point.mk(-350,1000));
+		addText('txt41','Programming Language (C, Python, etc)',Point.mk(-110,1100));
+		addText('txtML','Description in Machine Language ',Point.mk(-220,1700));
+
+		addText('txt5','Circuit-level Description',Point.mk(-400,2300));
+		addText('txt6','Physics-level Description:',Point.mk(-340,2825));
+		addText('txt7','Electrons in Wires and Semiconductors',Point.mk(-100,2925));
 
 
 }
