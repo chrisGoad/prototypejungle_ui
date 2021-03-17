@@ -108,9 +108,9 @@ Element.__applyDomMap = function () {
     transfers.forEach(function (att) {
 			
       let val = thisHere[att];
-			if (att === 'points') {
+			/*if (att === 'points') {
 				debugger;
-			}
+			}*/
 			if ((att === 'width') && (val < 0)) {
 				debugger;
 			}

@@ -28,15 +28,15 @@ item.setImageParams = function () {
 	this.pixelsPerCell = sc;
 	let imXcells = Math.ceil(imWd/sc);
 	let imYcells = Math.ceil(imHt/sc);
-	let offX = this.offX = Math.floor((numCols - imXcells)/2);
-	let offY = this.offY = Math.floor((numRows - imYcells)/2);
+	let offX = this.offX = Math.ceil((numCols - imXcells)/2);
+	let offY = this.offY = Math.ceil((numRows - imYcells)/2);
 	
 	
 	//this.numImCols = Math.floor(imWd/sc);
 	//this.numImRows = Math.floor(imWd/sc);
 }
 
-item.rgbOfCell = function (cell) {
+item.rgbOfCellNumeric = function (cell) {
 	let {imWd,imHt,imageData} = draw.vars;
 	let {pixelsPerCell:pxpc,numRows,numCols,imOffset,offX,offY} = this;
 
@@ -44,9 +44,9 @@ item.rgbOfCell = function (cell) {
 	let {x:iy,y:ix} = cell;
 	//let {x:y,y:x} = cell;
 	//let {x,y} = cell;
-/*	if ((x < offX) || (x > (numCols - offX)) || (y<offY) || (y>(numRows-offY))) {
-		return 'black';
-	}*/
+	if ((x < offX) || (x > (numCols - offX)) || (y<offY) || (y>(numRows-offY))) {
+		return undefined;
+	}
 	//if ((x>=numImCols) || (y>=numImRows)) return 'black';
   const indexOfPixel = function (x,y) {
 		return x*imWd*4+y*4;
@@ -67,17 +67,26 @@ item.rgbOfCell = function (cell) {
 	let avB = 0;
 	let avO = 0;
 	let ovrf = 2;
+	let imln = imageData.length;
 	for (let i=0;i<pxpc*ovrf;i++) {
 		for (let j=0;j<pxpc*ovrf;j++) {
 			let idx = indexOfPixel(lowPxX+i,lowPxY+j);
+			if ((idx >=0)&&(idx<imln)) {
 			//let idx = indexOfPixel(lowPxX+i,lowPxY+j);
-			let r = imageData[idx];
-			let g = imageData[idx+1];
-			let b = imageData[idx+2];
-			avR += imageData[idx];
-			avG += imageData[idx+1];
-			avB += imageData[idx+2];
-			avO += imageData[idx+3];
+				let r = imageData[idx];
+				let g = imageData[idx+1];
+				let b = imageData[idx+2];
+				if ((typeof r !== 'number') || (typeof g !== 'number') || (typeof r !== 'number')) {
+					debugger;
+				}
+				avR += imageData[idx];
+				avG += imageData[idx+1];
+				avB += imageData[idx+2];
+				avO += imageData[idx+3];
+				
+			} else {
+				debugger;
+			}
 		}
 	}
 	let pxpc2 = ovrf*ovrf*pxpc*pxpc;
@@ -85,9 +94,18 @@ item.rgbOfCell = function (cell) {
 	avG = Math.floor(avG/pxpc2);
 	avB = Math.floor(avB/pxpc2);
 	avO = Math.floor(avO/pxpc2);
-	let rs = `rgb(${avR},${avG},${avB})`;
+	let rs = [avR,avG,avB];
 	return rs;
 }
+
+item.rgbOfCell = function (cell) {
+	debugger;
+	let rgbN = this.rgbOfCellNumeric(cell);
+	let [r,g,b] = rgbN;
+  let rs = `rgb(${r},${g},${b})`;
+	return rs;	
+}
+
 	/*
 	item.inRegion = function (cell) {
 		let {numRows,numCols} = this;

@@ -12,7 +12,7 @@ item.role = 'spot';
 item.points = [];
 
 item.update = function () {
-	debugger;
+	//debugger;
 	let {thePoints} = this;
 	let ln = thePoints.length;
 	if (!ln) {
