@@ -323,10 +323,12 @@ item.randomValuesAtCell = function (randomGrids,i,j) {
 	}
 	let randomizer = this.initRandomizer();
   //let {randomizer} = this;  
-	let rs = {};
+	let rs = {}; 
 	for (let prop in randomGrids) {
 	  let randomValues = randomGrids[prop];
-	  rs[prop] = randomizer.valueAt(randomValues,i,j);
+    if ((prop !== 'interpolateTo') && (prop !== 'interpolateFrom') && (prop !== 'nowInterpolating')) {
+	    rs[prop] = randomizer.valueAt(randomValues,i,j);
+    }
 	}
 	return rs;
 }

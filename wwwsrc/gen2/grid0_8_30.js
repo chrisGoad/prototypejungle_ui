@@ -107,6 +107,7 @@ core.root.backgroundColor = 'white';
 	addText('txt3','Description',Point.mk(-1400,-300));
 		addText('txt4','Description in a High Level ',Point.mk(-350,1000));
 		addText('txt41','Programming Language (C, Python, etc)',Point.mk(-110,1100));
+		addText('txt42','"Source Code"',Point.mk(-570,1200));
 		addText('txtML','Description in Machine Language ',Point.mk(-220,1700));
 
 		addText('txt5','Circuit-level Description',Point.mk(-400,2300));
