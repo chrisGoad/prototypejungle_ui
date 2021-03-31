@@ -7,6 +7,7 @@ core.require(function () {
 	// walkParams allows the step, max, and min to be set by a function on grid position and time
 item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,j,rg) {
 	let {timeStep,params} = rg;
+  let oneWay = 0;
 	let min,max,stepx,stepy,lb,ub,rs,correlated,stept;;
 	let firstT = (pv === undefined);
 	let rp = params.walkParams;
@@ -42,7 +43,7 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
   let sumSteps,sumVals,tlb,tub;
 	if (!firstT) {
 		tub = pv + stept; // temoral upper bound;
-		tlb = pv - stept;
+		tlb = oneWay?pv:pv - stept;
 		//debugger;
 	}
 	if (y !==  undefined) { // 2d case	
@@ -55,8 +56,9 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
 		} else {
 		  sumSteps = stepx+stepy;
 			sumVals = x+y;
-			let gub = 0.5 * (sumVals+sumSteps); // an average ; geometric upper bound
-			let glb = 0.5 * (sumVals-sumSteps);
+      let gub,glb;
+		  gub = 0.5 * (sumVals+sumSteps); // an average ; geometric upper bound
+		  glb = 0.5 * (oneWay?sumVals:sumVals-sumSteps);
 			ub = Math.min(gub,tub);
 			lb = Math.max(glb,tlb);
 		}
@@ -83,6 +85,10 @@ item.randomStep = function (iCorrelated,x,y,pv,istepx,istepy,istept,imin,imax,i,
 		lb = Math.max(lb,min);
 		rs =  lb + Math.random() * (ub - lb);
 	}
+  if (oneWay && pv && (rs < pv)) {
+    debugger;
+   // rs = pv;
+  }
 	return rs;
 }
 	
@@ -112,6 +118,9 @@ item.indexFor = function (numRows,i,j) {
 
 
 item.valueAt = function (grid,i,j) {
+  if (!grid) {
+    debugger;
+  }
 	let params = grid.params;
 	let {numRows,biasFun} = params;
   let rv =  grid.values[this.indexFor(numRows,i,j)];
@@ -132,6 +141,7 @@ item.genRandomGrid = function (predecessor) {
   let {kind,biasUp,numCols,numRows,step,stepx:istepx,stepy:istepy,stept,min,max,biasFun,constantFirstRow:cFr,
 	     backwards,convergenceFactor,convergenceValue,walkParams,correlated:pcor} = params;
 	let stepx,stepy,correlated;
+  let oneWay = 0;
 	let timeStep = prevValues?itimeStep+1:0;
 	biasUp = (biasUp === undefined)?0:biasUp;
 	if (walkParams) {
@@ -188,7 +198,7 @@ item.genRandomGrid = function (predecessor) {
 					//let biasUp = 0;//.4;
 					tlb = pv - stept;
 					tub = pv + stept;
-					lb = Math.max(min,pv - stept);
+					lb = Math.max(min,oneWay?pv:pv - stept);
 					ub = Math.min(max,pv + stept);
 				} else {
 					lb = min;

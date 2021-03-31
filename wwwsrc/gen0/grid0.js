@@ -751,7 +751,7 @@ item.addShapes = function () {
     let cell = {x,y,index:idx};
 		let rvs = this.randomValuesAtCell(randomGridsForShapes,x,y);
     let  shp;
-		if (this.shapeGenerator) {
+		if (this.shapeGenerator) {86
 			shp = this.shapeGenerator(rvs,cell,cnt,idx);
 			if (shp && this.shapeUpdater) {
 				this.shapeUpdater(shp, rvs,cell,cnt);
@@ -868,7 +868,7 @@ item.updateShapes = function () {
 			let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
 			let cell = {x:i,y:j,index:idx};
 			let  shp;
-			if (this.shapeUpdater) {
+			if (this.shapeUpdater && shape) {
 				this.shapeUpdater(shape, rvs,cell,cnt,idx);
 			}
 			if (shp) {

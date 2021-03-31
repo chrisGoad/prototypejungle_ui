@@ -751,6 +751,86 @@ LineSegment.intersect = function (line1) {
   
 }
 
+LineSegment.distanceTo = function (p) {
+  let {end0,end1} = this;
+  let vec = end1.difference(end0);
+  let vecln = vec.length();
+  let nvec = vec.times(1/vecln);
+  let nnvec = vec.normal();
+  let e0v = nvec.dotp(end0);
+  let e1v = nvec.dotp(end1);
+  let pv = nvec.dotp(pv);
+ //let d = pv - e0v; // distance along vec
+ // let between = ((e0v <= pv) && (pv <= e1v)) || ((e1v <= pv) && (pv <= e0v));
+  let d;
+  let between = ((e0v <= pv) && (pv <= e1v));
+  if (between)  {
+    let e0nv = nnvec.dotp(end0);
+    let pnv = nnvec.dotp(pv);
+    d = Math.abs(e0nv-pnv);
+  } else {
+    let e0d = end0.distance(p);
+    let e1d = end1.distance(p);
+    d = Math.min(e0d,e1d);
+  }
+  return d;
+}
+
+const separation1  = function (ths,seg) {
+  let {end0:t0,end1:t1} = ths;
+  let tvec = t1.difference(t0);
+  let tvecln = tvec.length();
+  let ntvec = tvec.times(1/tvecln);
+  let nntvec = tvec.normal();
+  let t0v = ntvec.dotp(t0);
+  let t1v = ntvec.dotp(t1);
+  let {end0:e0,end1:e1} = seg;
+  let e0v = ntvec.dotp(e0);
+  let e1v = ntvec.dotp(e1);
+  if (e0v > e1v) {
+    let tmp = e0v;
+    e0v = e1v;
+    e1v = tmp;
+  }
+  let e0beyondt1 = e0v >= t0v;
+  if (e0beyondt1) {
+    let e0distt1 = e0.distance(t1);
+    let e1distt1 = e1.distance(t1);
+    return Math.min(e0distt1,e1distt1);
+  }
+  let e1beforet0 = e1v <= t0v;
+  if (e1beforet0) {
+    let e0distt0 = e0.distance(t0);
+    let e1distt0 = e1.distance(t0);
+    return Math.min(e0distt0,e1distt0);  
+  }
+  const distToPoint = function (p) {
+     let tv = nntvec.dotp(e0);
+     let pv = nntvec.dotp(p);
+     return Math.abs(tv-pv);
+  }
+  let p0,pi;
+  let evec = e1.difference(e0);
+  if ((t0v<e1v) && (e1v <t1v)) {
+     let fr = (t0v-e0v)/(e1v - e0v);
+     let p = e0.plus(evec.times(fr));
+     let d0 = distToPoint(p);
+     let d1 = distToPoint(e1);
+     return Math.min(d0,d1);
+  }
+  let fr = (t1v-e0v)/(e1v - e0v);
+  let p = e0.plus(evec.times(fr));
+	let d0 = distToPoint(p);
+	let d1 = distToPoint(e0);
+	return Math.min(d0,d1);
+}
+
+LineSegment.separation = function (seg) {
+  let sep0 = separation1(this,seg);
+  let sep1 = separation1(seg,this);
+  return Math.min(sep0,sep1);
+}
+      
 LineSegment.allIntersections = function (segs) {
 	let rs = [];
 	segs.forEach( (seg) => {
@@ -942,6 +1022,26 @@ Rectangle.hasNaN = function () {
       return true;
     }
   }
+}
+
+
+Rectangle.addSides = function () {
+  let hw,hh;
+	let {corner,extent} = this;
+	hw = (extent.x)/2;
+	hh = (extent.y)/2;
+	let {x:cx,y:cy} = corner;
+	let {x:ex,y:ey} = extent;
+  let UL = Point.mk(cx,cy)
+  let UR = Point.mk(cx+ex,cy)
+  let LL = Point.mk(cx,cy+ey)
+  let LR  = Point.mk(cx+ex,cy+ey);
+  let sides = this.set('sides',core.ArrayNode.mk());
+  sides.push(geom.LineSegment.mk(UL,UR));
+	sides.push(geom.LineSegment.mk(UR,LR));
+  sides.push(geom.LineSegment.mk(LR,LL));
+  sides.push(geom.LineSegment.mk(LL,UL));
+  return sides;
 }
 
 

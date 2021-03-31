@@ -5,9 +5,7 @@ core.require('/shape/rectangle.js',function (rectPP) {
 
 item.setName = function (name,jsonName) {
 	this.name = name;
-	if (name) {
-		core.vars.whereToSave = name;
-	}
+	core.vars.whereToSave = name;
 	let theName = jsonName?jsonName:name;
 	this.path = `json/${theName}.json`;
 }

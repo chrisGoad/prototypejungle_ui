@@ -53,6 +53,12 @@ c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/sphere2_1_f%03d.jpg -s 1000x10
 c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/lines0_15e_f%03d.jpg -s 500x500  export/lines0_15e.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/lines0_15f_f%03d.jpg -s 700x700  export/lines0_15f.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/grid0_20_3_f%03d.jpg -s 500x500  export/grid0_20_3.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/grid0_20_6_f%03d.jpg -s 500x500  export/grid0_20_6.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_7_f%03d.jpg -s 500x500  export/grid0_20_7.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_8_f%03d.jpg -s 1000x500  export/grid0_20_8.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_9_f%03d.jpg -s 500x500  export/grid0_20_9.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_11_f%03d.jpg -s 500x500  export/grid0_20_11.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_12_f%03d.jpg -s 500x500  export/grid0_20_12.gif
 
 
 rm animations/spatter0_7*

@@ -33,23 +33,43 @@ item.setupRandomizer = function (tp,nm,params) {
 	return rs;
 }
 //interp should be 'From' or 'To'
-item.saveRandomState = function (tp,interp) {
-  debugger;
-	let rnds = this[tp];
-
+item.copyRandomState = function (rnds) {
   let rs = {};
-  //this.initialRandomGridsForShapes = rs;
+  for (let p in rnds) {
+		let orig = rnds[p];
+    let vls = orig.values;
+    if (vls) {
+			let cp = {};
+			cp.timeStep = orig.timeStep;
+			cp.params = orig.params;
+		  cp.values = vls.slice();
+		  rs[p] = cp;
+    }
+  }
+  return rs;
+}
+item.saveRandomState = function (tp,interp) {
+ debugger;
+	let rnds = this[tp];
+/*
+  let rs = {};
   let rgfs = rnds;
   for (let p in rgfs) {
     rs[p] = rgfs[p]; 
-  }
+  }*/
+  let rs = this.copyRandomState(rnds);
   rnds['interpolate'+interp] = rs;
+  return rs;
 }
 
 item.interpolateRandomValues = function(s0,s1,fr) {
+  if (fr > 0.9) {
+     debugger;
+  }
 	let vls0 = s0.values;  
 	let vls1 = s1.values;
 	let ln = Math.min(vls0.length,vls1.length);
+  console.log('ln',ln);
 	let vrs = [];
 	for (let i=0;i<ln;i++) {
 	  let v0 = vls0[i];
@@ -64,29 +84,65 @@ item.interpolateRandomValues = function(s0,s1,fr) {
 
 
 
-
+item.interpolateBetweenRandomStates = function (wrnds,nm,fr) {
+  let i0 = wrnds.interpolateFrom[nm];
+  let i1 = wrnds.interpolateTo[nm];
+  let vls = this.interpolateRandomValues(i0,i1,fr);
+	let rg = wrnds[nm];
+  rg.values = vls;
+}
 
 item.stepRandomizer = function (tp,nm) {
-  let {timeStep,numTimeSteps} = this;
+  let {timeStep,interpolateSteps:isteps,numTimeSteps} = this;
 	let wrnds = this[tp];
 	let rg = wrnds[nm];
   if (wrnds.nowInterpolating) {
-    debugger;
+    //debugger;
     let its = this.interpolateFromStep;
     let fr = (timeStep - its)/(numTimeSteps-its);
-    let i0 = wrnds.interpolateFrom[nm];
+    console.log('ts ',timeStep,'fr ',fr);
+    this.interpolateBetweenRandomStates(wrnds,nm,fr);
+    /*let i0 = wrnds.interpolateFrom[nm];
     let i1 = wrnds.interpolateTo[nm];
     let vls = this.interpolateRandomValues(i0,i1,fr);
-    rg.values = vls;
+    rg.values = vls;*/
     return;
   }
-	let rm = this.randomizer;
+  let rm = this.randomizer;
+ // debugger;
+  if (isteps) {
+    if (timeStep === 0) {
+      debugger;
+    }
+    let fr = (timeStep%isteps)/isteps;
+    let time0 = timeStep === 0;
+    let ifromC,ifrom;
+    if (!wrnds.interpolateTo) {
+      wrnds.interpolateTo = {};
+    }
+    if (fr === 0) {
+      if (time0) {
+        //let rs  = rm.genRandomGrid(rg);
+        ifromC = this.saveRandomState(tp,'From');
+        ifrom = ifromC[nm];
+      }  else {
+         ifrom = wrnds.interpolateFrom[nm] = wrnds.interpolateTo[nm];
+      }
+      wrnds[nm] = ifrom;
+	    let rs  = rm.genRandomGrid(rg);
+      wrnds.interpolateTo[nm] = rs;
+    } else {
+      this.interpolateBetweenRandomStates(wrnds,nm,fr);
+    }
+    return;
+  }
 	let rs  = rm.genRandomGrid(rg);
 	wrnds[nm]  = rs;
 	return rs;
 }
 	
 item.stepShapeRandomizer = function (nm) {
+  debugger;
   return this.stepRandomizer('randomGridsForShapes',nm);
 }
 	

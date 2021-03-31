@@ -1,9 +1,9 @@
 
 core.require('/gen1/grid0_20.js','/gen0/basics.js',
 function (proto,addBasicMethods) {
-  
+ let numTimeSteps = 100;
 let topParams = {width:800,height:400,numRows:40,numCols:80,pointJiggle:10,fcLineX:1,fcLineY:.11,fcGonX:0.5,fcGonY:0.5,fcCircle:0.7,threeD:0,
-fcCrossA0:0.5,fcCrossA1:0.5,fcCrossLength:0.5,options:['cross','horizontalLine','verticalLine','polygon']};//'polygon','circle']};
+fcCrossA0:0.5,fcCrossA1:0.5,fcCrossLength:0.5,options:['cross','horizontalLine','verticalLine','polygon'],frameSpeed:0.05,timeSpeed:0.15,interpolateFromStep:numTimeSteps+10};//'polygon','circle']};
 
 let rs = svg.Element.mk('<g/>');
 addBasicMethods(rs);

@@ -14,6 +14,11 @@ item.points = [];
 item.update = function () {
 	//debugger;
 	let {thePoints} = this;
+  thePoints.forEach((p) => {
+    if (isNaN(p.x) || isNaN(p.y)) {
+       debugger;
+    }
+  });
 	let ln = thePoints.length;
 	if (!ln) {
 		return;

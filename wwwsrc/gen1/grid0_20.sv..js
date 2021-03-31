@@ -8,8 +8,7 @@ addGridMethods(rs);
 addImageMethods(rs);
 //rs.setName('grid0_46');
 let topParams = {width:800,height:400,numRows:100,numCols:100,pointJiggle:0,factorX:0.25,factorY:0.05,crossColor:'yellow',threeD:1,interpolateFromStep:100,interval:30,
-sphereCenter:Point3d.mk(0,0,-20),sphereDiameter:35,focalPoint:Point3d.mk(0,0,50),focalLength:10,cameraScaling:100,randomSpeed:0.2,numTimeSteps:100,
-whichCount:2,uvCount:8,vFactor:2};
+sphereCenter:Point3d.mk(0,0,-20),sphereDiameter:35,focalPoint:Point3d.mk(0,0,50),focalLength:10,cameraScaling:100,randomSpeed:0.2,numTimeSteps:100};
 
 Object.assign(rs,topParams);
 	
@@ -109,63 +108,75 @@ rs.chooseWhich = function () {
   return which;
 }	
 rs.shapeUpdater = function (shape,rvs,cell) {
-	let {shapes,polylineP,polygonP,circleP,lineP,deltaX,deltaY,fcLineX,fcLineY,fcGonX,fcGonY,fcCircle,vFactor,fcTriX,fcTriY,
-	fcCrossA0,fcCrossA1,fcCrossLength,numRows,numCols,options,threeD,smooth,randomizerNames:rNames,uvCount,whichCount,cellData} = this;
-  let rValues = [];
-  rNames.forEach( (nm) => {
-     rValues.push(rvs[nm]);
-  });
+	let {shapes,polylineP,polygonP,circleP,lineP,deltaX,deltaY,fcLineX,fcLineY,fcGonX,fcGonY,fcCircle,
+	fcCrossA0,fcCrossA1,fcCrossLength,numRows,numCols,options,threeD,smooth} = this;
+	let {i00,i01,i02,i03,i04,i05,i06,i07,i08,i10,i11,i12,i13,i14,i15,i16,i17,i18,
+       v00,v01,v02,v03,v04,v05,v06,v07,v08,v10,v11,v12,v13,v14,v15,v16,v17,v18} = rvs;
 	let {x,y} = cell;
+	//let cfi = this.chooseFromImage(rvs,cell);
+	let cfi;
+	//let fcx = 1/4;
+	//let fcy = 1/20;]
+	//debugger;
+//	let shape;
 	let allWhich = this.chooseWhich(rvs,cell);
   if (!allWhich) {
     debugger;
     return;
   }
 	let {which,freeGons,whichRvs}  = allWhich; 
-  whichRvs = whichRvs?whichRvs:0;
-  let uVs = []; // values used
-  let iCount = whichCount*uvCount;
-  let offset = whichRvs*uvCount;
-  if (smooth) {
-	  for (let i=0;i<iCount;i++) {
-      let iv = rValues[i+offset];
-      let vv = rValues[i+iCount+offset];
-     // let uv = this.evolve(iv,vFactor*vv);
-      let uv = this.evolve(iv,vv);
-      uVs.push(uv);
-    }
-	   
-  } else {
-		for (let i=0;i<iCount;i++) {
-			uVs.push(rValues[i+offset]);
-    }
+  let i0,i1,i2,i3,i4,i5,i6,i7,i8,v0,v1,v2,v3,v4,v5,v6,v7,v8,r0,r1,r2,r3,r4,r5,r6,r7,r8;
+	if (!whichRvs) {
+     i0 = i00;i1 = i01;i2 = i02;i3 = i03;i4 = i04;i5 = i05;i6 = i06;i7 = i07;i8 = i08;
+     v0 = v00;v1 = v01;v2 = v02;v3 = v03;v4 = v04;v5 = v05;v6 = v06;v7 = v07;v8 = v08;
+  } else if (whichRvs === 1) {
+    // debugger;
+     i0 = i10;i1 = i11;i2 = i12;i3 = i13;i4 = i14;i5 = i15;i6 = i16;i7 = i17;i8 = i18; 
+     v0 = v10;v1 = v11;v2 = v12;v3 = v13;v4 = v14;v5 = v15;v6 = v16;v7 = v17;v8 = v18;
   }
+  
+	//let whichAndColor = this.chooseWhich(rvs,cell);6
+	//let {which,color} = whichAndColor;
+	
+	if (cfi) {
+    which = cfi;
+	}
+	//console.log('which',which);
+  
 	if (which === 'circle'){ 
 		let fc= fcCircle * deltaX;
+		//shape = circleP.instantiate();
+		//shape.stroke = color;
 		shape.dimension = fc;
 	}
- 
+  debugger;
+  if (smooth) {
+    r0 = this.evolve(i0,v0); r1 = this.evolve(i1,v1); r0 = this.evolve(i2,v2); r3 = this.evolve(i3,v3);
+    r0 = this.evolve(i4,v4); r5 = this.evolve(i5,v5); r6 = this.evolve(i6,v6); r0 = this.evolve(i7,v7);
+	} else { 
+		r0=i0;r1=i1;r2=i2;r3=i3;r4=i4;r5=i5;r6=i6;r7=i7;r8=i8;
+	}
 	if (which === 'polygon') {      
+		//let fc=1;
+  
+    
 		let free =freeGons;
+	//	let isFc = fc !== 1;
 	  let fc = free?2:1;
 		let fcX = fc*fcGonX * deltaX;
 		let fcY = fc*fcGonY * deltaY;
 		let corners;
 		let ul,ur,lr,ll;
 		if (free) {
-			ul = Point.mk(fcX*(uVs[0]-0.5),fcY*(uVs[1]-0.5));
-			ur = Point.mk(fcX*(uVs[2]-0.5),fcY*(uVs[3]-0.5));
-			ll = Point.mk(fcX*(uVs[4]-0.5),fcY*(uVs[5]-0.5));
-			lr = Point.mk(fcX*(uVs[6]-0.5),fcY*(uVs[7]-0.5));
-	/*	ul = Point.mk(fcX*(uVs[0]-0.5),fcY*uVs[1]);
-			ur = Point.mk(fcX*uVs[2],fcY*uVs[3]);
-			ll = Point.mk(fcX*uVs[4],fcY*uVs[5]);
-			lr = Point.mk(fcX*uVs[6],fcY*uVs[7]);*/
+			ul = Point.mk(fcX*r0,fcY*r1);
+			ur = Point.mk(fcX*r2,fcY*r3);
+			ll = Point.mk(fcX*r4,fcY*r5);
+			lr = Point.mk(fcX*r6,fcY*r7);
 		} else {
-			ul = Point.mk(-fcX*uVs[0],-fcY*uVs[1]);
-			ur = Point.mk(fcX*uVs[2],-fcY*uVs[3]);
-			lr = Point.mk(fcX*uVs[4],fcY*uVs[5]);
-			ll = Point.mk(-fcX*uVs[6],fcY*uVs[7]);
+			ul = Point.mk(-fcX*r0,-fcY*r1);
+			ur = Point.mk(fcX*r2,-fcY*r3);
+			lr = Point.mk(fcX*r4,fcY*r5);
+			ll = Point.mk(-fcX*r6,fcY*r7);
 		}
 		if (threeD) {
 			let ul3d = this.to3dAndBack(cell,ul);
@@ -186,40 +197,14 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 		
 		shape.corners = corners;
 	}
-	if (which === 'triangle') {
-    debugger;
-    let fcX = fcTriX * deltaX;
-		let fcY = fcGonY * deltaY;      
-	  let p0 = Point.mk(fcX*uVs[0],fcY*uVs[1]);
-	  let p1 = Point.mk(fcX*uVs[2],fcY*uVs[3]);
-		let p2 = Point.mk(fcX*uVs[4],fcY*uVs[5]);
-    let corners
-    if (threeD) {
-			let p03d = this.to3dAndBack(cell,p0);
-			let p13d = this.to3dAndBack(cell,p1);
-			let p23d = this.to3dAndBack(cell,p2);
-      corners = [p03d,p13d,p23d];
-    } else {
-      corners = [p0,p1,p2];
-    }
-    shape.corners = corners;
-  }
-  
-		
 			
 	if  (which === 'horizontalLine') { 
-	  let idx = x*numCols + y;
-    let idxL;
-    if (x > 0) {
-      idxL = (x-1)*numCols + y;
-    }
 		let fcX = fcLineX * deltaX;
 		let fcY = fcLineY * deltaY;
-    let p0x = -fcX;
-		p0  = Point.mk(-fcX,(x>0)?cellData[idxL]:(uVs[0]-0.5)*fcY);
-		p1  = Point.mk(-0.3333*fcX,(uVs[1]-0.5)*fcY);
-		p2  = Point.mk(0.3333 * fcX,(uVs[2]-0.5)*fcLineY);
-		p3  = Point.mk(fcX,(uVs[3]-0.5)*fcLineY);
+		p0  = Point.mk(-fcX,(r0-0.5)*fcY);
+		p1  = Point.mk(-0.3333*fcX,(r1-0.5)*fcY);
+		p2  = Point.mk(0.3333 * fcX,(r2-0.5)*fcLineY);
+		p3  = Point.mk(fcX,(r3-0.5)*fcLineY);
 		let thePoints;
 		if (threeD) {
 			let p03d = this.to3dAndBack(cell,p0);
@@ -227,7 +212,7 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 			let p23d = this.to3dAndBack(cell,p2);
 			let p33d = this.to3dAndBack(cell,p3);
 			if (p03d && p13d && p23d && p33d) {
-        cellData[idx] = p33d.y;
+
 				//shape = polylineP.instantiate();
 				//shape.stroke = color;
 				thePoints = [p03d,p13d,p23d,p33d];
@@ -238,24 +223,16 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 		}	else {
 			//shape = polylineP.instantiate();
 			thePoints = [p0,p1,p2,p3];
-      cellData[idx] = p3.y;
 		}
 		shape.thePoints = thePoints;
 	} 
 	if (which === 'verticalLine') {
-    let idx = x*numCols + y;
-    let idxL;
-    if (y > 0) {
-      idxL = x*numCols + y - 1;
-    }
 		let fcX = fcLineY * deltaX;
 		let fcY = fcLineX * deltaY;
-		p0  = Point.mk((y>0)?cellData[idxL]:-(uVs[0]-0.5)*fcX,-fcY);
-
-		//p0  = Point.mk(-(uVs[0]-0.5)*fcX,-fcY);
-		p1  = Point.mk(-(uVs[1]-0.5)*fcX,-0.33333 * fcY);
-		p2  = Point.mk(-(uVs[2]-0.5)*fcX,0.3333*fcY);
-		p3  = Point.mk(-(uVs[3]-0.5)*fcX,fcY);
+		p0  = Point.mk(-(r0-0.5)*fcX,-fcY);
+		p1  = Point.mk(-(r1-0.5)*fcX,-0.33333 * fcY);
+		p2  = Point.mk(-(r2-0.5)*fcX,0.3333*fcY);
+		p3  = Point.mk(-(r2-0.5)*fcX,fcY);
 		let thePoints;
 		if (threeD) {
 			let p03d = this.to3dAndBack(cell,p0);
@@ -271,7 +248,6 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 			}
 		} else {
 			//shape = polylineP.instantiate();
-      cellData[idx] = p3.x;
 			thePoints = [p0,p1,p2,p3];
 		}
 		shape.thePoints = thePoints;
@@ -299,8 +275,7 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 			return ln;
 		}
 		//shape =  svg.Element.mk('<g/>');
-    console.log('cross',uVs[0],fcCrossA0);
-		let a0 = fcCrossA0*uVs[0];
+		let a0 = fcAngle0*r0;
 		let a1 = a0  + 0.5*Math.PI;
 		let line0 = shape.line0;
 		let line1 = shape.line1;
@@ -325,17 +300,20 @@ rs.shapeUpdater = function (shape,rvs,cell) {
 		shape.update();
 	}
 	shape.show();
-  const toColor = (v) => {
-    return Math.floor(v*255);
-  };
- // let clr = `rgb(${toColor(uVs[0])},${toColor(uVs[1])},${toColor(uVs[2])})`;
- // shape.stroke = clr;
 	shape.draw();
   return shape;
 }
 
 rs.shapeGenerator = function (rvs,cell) {
 	let {shapes,polylineP,polygonP,circleP,lineP} = this;
+	//let {r0,r1,r2,r3,r4,r5,r6,r7,r8} = rvs;
+	//let {x,y} = cell;
+	//let cfi = this.chooseFromImage(rvs,cell);
+	//debugger;
+	let cfi;
+	//let fcx = 1/4;
+	//let fcy = 1/20;]
+//	debugger;
 	let shape;
 	let allWhich = this.chooseWhich(rvs,cell);
   if (!allWhich) {
@@ -343,14 +321,19 @@ rs.shapeGenerator = function (rvs,cell) {
     return;
   }
 	let {which}= allWhich;
+	//let whichAndColor = this.chooseWhich(rvs,cell);
+	//let {which,color} = whichAndColor;
+	
+	if (cfi) {
+    which = cfi;
+	}
+	//console.log('which',which);
+  
 	if (which === 'circle'){ 
 		shape = circleP.instantiate();
 		//shape.stroke = color;
 	}
 	if (which === 'polygon') {
-		shape = polygonP.instantiate();
-	}
-  if (which === 'triangle') {
 		shape = polygonP.instantiate();
 	}
 			
@@ -374,17 +357,22 @@ rs.shapeGenerator = function (rvs,cell) {
 }
 
 let randomizerNames = [];
+	
 rs.initialize = function () {
   debugger;
-	let {focalPoint,focalLength,cameraScaling,frameSpeed,threeD,timeSpeed,smooth,uvCount,numRows,numCols} = this; // uv = used value count
+	let {focalPoint,focalLength,cameraScaling,frameSpeed,threeD,timeSpeed,smooth} = this;
 	this.generatorsDoMoves = threeD;
   this.initProtos();
 	  this.setImageParams();
-  let rCount = smooth?4*uvCount:2*uvCount;
-  for (let i=0;i<rCount;i++) {
-		randomizerNames.push('v'+i);
+  for (let i=0;i<9;i++) {
+		randomizerNames.push('i0'+i);
+		randomizerNames.push('i1'+i);
+    if (smooth) {
+			randomizerNames.push('v0'+i);
+			randomizerNames.push('v1'+i);
+    }
+    
 	}
-  this.randomizerNames = randomizerNames;
   //core.root.backgroundColor = 'black';
 	let rmin = 0;
 	let rmax = 1;
@@ -395,24 +383,28 @@ rs.initialize = function () {
 	randomizerNames.forEach((nm) => {
 		this.setupShapeRandomizer(nm, {stept:tstep,step:rstep,min:rmin,max:rmax});
 	});
-	this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
-  let cellData = this.cellData = [];
-  cellData.length = numRows*numCols;
+ // this.saveInitialRandomState();
+/*	this.setupShapeRandomizer('r0',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r1',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r2',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r3',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r4',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r5',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r6',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r7',  {tstep,step:rstep,min:rmin,max:rmax});
+	this.setupShapeRandomizer('r8',  {tstep,step:2*rstep,min:rmin,max:rmax});*/
+	 this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
 
   this.initializeGrid();
 	debugger;
-	//let {pixelCount,totalG} = this;
-	//let avgG = totalG/pixelCount;
-	//console.log('avgG',avgG);
+	let {pixelCount,totalG} = this;
+	let avgG = totalG/pixelCount;
+	console.log('avgG',avgG);
 }	
 
-rs.evolve = function (ival,ivel) {
-  let {timeStep:ts,vFactor} = this;
-  let numValues = 4;
-  let vel = Math.floor(ivel*numValues)/numValues;
-  vel = vel?vel:1;
- //console.log('vel',vel,'ival',ival);
-  let vaf = ival + vFactor*vel*ts;
+rs.evolve = function (iv,v) {
+  let {ts:timeStep} = this;
+  let vaf = iv + v*ts;
 	let i = Math.floor(vaf);
 	if (i%2 === 0) {
 		 return vaf - i;
@@ -424,13 +416,12 @@ rs.evolve = function (ival,ivel) {
    
 
 rs.step = function ()   { 
+ // debugger;
   let tp = 'randomGridsForShapes';
-  let {interpolateFromStep:its,timeStep,smooth} = this;
-	if (!smooth) {
-    randomizerNames.forEach((nm) => {
-		  this.stepShapeRandomizer(nm);
-	  });
-  }
+  let {interpolateFromStep:its,timeStep} = this;
+	randomizerNames.forEach((nm) => {
+		this.stepShapeRandomizer(nm);
+	});
   if (its && (timeStep === its)) {
     this.saveRandomState(tp,'From');
     this[tp].nowInterpolating = 1;
