@@ -92,14 +92,16 @@ item.genRandomPoint = function (rect) {
     return Point.mk(x,y);
   }
   let {width,height} = this;
-  let rx = Math.floor((Math.random()-0.5) * width);
-  let ry= Math.floor((Math.random()-0.5) * height);
+ // let rx = Math.floor((Math.random()-0.5) * width);
+  let rx = (Math.random()-0.5) * width;
+ // let ry= Math.floor((Math.random()-0.5) * height);
+   let ry= (Math.random()-0.5) * height;
   return Point.mk(rx,ry);
 }
 
 
-item.genSegment = function (ln,angle) {
-  let cnt = this.genRandomPoint(); 
+item.genSegment = function (cnt,ln,angle) {
+ // let cnt = this.genRandomPoint(); 
   let vec = Point.mk(Math.cos(angle),Math.sin(angle));
   let hln = ln/2
   let hvec = vec.times(hln);
@@ -108,6 +110,60 @@ item.genSegment = function (ln,angle) {
   return LineSegment.mk(e0,e1);
 }
 
+item.genSegments = function (p) {
+  if (Math.random() < 0) {
+    let len,angle;
+    if (this.segParams) {
+      let segP = this.segParams();
+      if (segP.length) {
+        len = segP.length;
+      }
+      if (segP.angle !== undefined) { 
+        angle = segP.angle;
+      }
+    }
+    let seg = this.genSegment(len,angle);
+    let ln = this.genLine(seg);
+    return [[seg],[ln]];
+  }
+  let sizes = [2,5,10,20,40];
+  let which = Math.floor(Math.random()*5);
+  let sz = sizes[which];
+  let wd = sz;
+  let ht = sz;
+  debugger;
+
+  let sg0 = LineSegment.mk(Point.mk(0,0).plus(p),Point.mk(wd,0).plus(p));
+  let sg1 = LineSegment.mk(Point.mk(0,ht).plus(p),Point.mk(wd,ht).plus(p));
+  let sg2 = LineSegment.mk(Point.mk(0,0).plus(p),Point.mk(0,ht).plus(p));
+  let sg3 = LineSegment.mk(Point.mk(wd,0).plus(p),Point.mk(wd,ht).plus(p));
+  //let sg0 = LineSegment.mk(Point.mk(0,0).plus(p),Point.mk(0.5*wd,ht).plus(p));
+  //let sg1 = LineSegment.mk(Point.mk(0.5*wd,ht).plus(p),Point.mk(wd,0).plus(p));
+  let ln0 = this.genLine(sg0);
+  let ln1 = this.genLine(sg1);
+  let ln2 = this.genLine(sg2);
+  let ln3 = this.genLine(sg3);
+  const genRGBval = function () {
+    return 55 + Math.floor(Math.random()*200);
+  }
+  let r = genRGBval();
+  let g = genRGBval();
+  let b = genRGBval();
+  let clr = `rgb(${r},${r},${r})`;
+  ln0.stroke = clr;
+  ln1.stroke = clr;
+  ln2.stroke = clr;
+  ln3.stroke = clr;
+ /* if (which === 0) {
+  ln0['stroke-width']  = 1;
+  ln1['stroke-width']  = 1;
+}*/
+
+  return [[sg0,sg1,sg2,sg3],[ln0,ln1,ln2,ln3]];
+}
+  
+
+/*
 item.genSides = function (rect,addToSegs) {
   let hw,hh;
 	let {corner,extent} = rect;
@@ -128,7 +184,7 @@ item.genSides = function (rect,addToSegs) {
   sides.push(geom.LineSegment.mk(LL,UL));
   return;
 }
-
+*/
 item.addSides = function (rect) {
 	let hw,hh;
 	let {corner,extent} = rect;
@@ -177,32 +233,39 @@ item.setupRect = function () {
 }
 
 item.segmentIntersects = function (seg) {
-  let {extendedSegments:esegs} = this;
-  let ln = esegs.length;
-  for (let i=0;i<ln;i++) {  
-    let ip = seg.intersect(esegs[i]);
-    if (ip) {
-      return true;
-    }
-  }
-}
-
-
-item.segmentTooClose = function (seg) {
-  let {segments,minSeparatation:sep} = this;
+  let {segments} = this;
   let ln = segments.length;
   for (let i=0;i<ln;i++) {  
-    let ip = seg.intersect(esegs[i]);
+    let ip = seg.intersect(segments[i]);
     if (ip) {
       return true;
     }
   }
 }
 
+item.segmentTooClose = function (nseg) {
+  let {segments,minSeparation:minsep} = this;
+  if (!minsep) {
+    return false;
+  }
+  let ln = segments.length;
+  for (let i=0;i<ln;i++) {
+    let seg = segments[i];
+    let sep = nseg.separation(seg);
+    console.log('sep',sep);
+    if (sep < minsep) {
+      return true;
+    }
+
+  }
+}
+
+
 item.addRandomSegments = function () {
-  let {maxDrops,maxTries,segments,lineLength,minSeparation:sep,extendedSegments} = this;
+  let {maxDrops,maxTries,segments,lineLength,minSeparation:sep,extendedSegments,shapes} = this;
   let numDropped = 0;
   let tries = 0;
+  debugger;
   while (true) {
     let ln = lineLength;
     let angle;
@@ -218,8 +281,45 @@ item.addRandomSegments = function () {
     if (angle === undefined) {
       angle = (Math.random())*(Math.PI);
     }
+    if (1) {  
+      let p = this.genRandomPoint(); 
+      debugger;
+      let segsAndLines = this.genSegments(p);
+      let [segs,lines] = segsAndLines;
+      let ifnd = 0;
+      let sln = segs.length;
+      for (let i=0;i<sln;i++) {
+        let seg = segs[i];
+        if (this.segmentIntersects(seg,sep)) {
+          ifnd = true;
+          break;
+        }
+      }
+      if (ifnd) {
+        tries++;
+        if (tries === maxTries) {
+          return numDropped;
+        }359
+      } else {
+        numDropped += sln;
+        tries = 0;
+        this.installSegmentsAndLines(segsAndLines);
+       /* for (let i=0;i<sln;i++) {
+          let seg = segs[i];
+          segments.push(seg);
+          extendedSegments.push(seg);
+          this.installLine(lines[i]);
+        };*/
+        if (numDropped >= maxDrops) {
+          return numDropped;
+        }    
+      }
+      continue;
+    } 
+  
     let seg = this.genSegment(ln,angle);
     let eseg = this.extendSegment(seg,sep);
+    //if (this.segmentIntersects(eseg)||this.segmentTooClose(seg)) {
     if (this.segmentIntersects(eseg)) {
       tries++;
       if (tries === maxTries) {
@@ -238,7 +338,38 @@ item.addRandomSegments = function () {
 }
 
 
+item.genLine = function (lsg) {
+  let line = this.lineP.instantiate();
+  let {end0,end1} = lsg;
+  line.setEnds(end0,end1);
+  return line;
+}
+ 
+item.installLine = function (line) {
+  this.shapes.push(line);
+  line.show();
+  line.update();
+  return line;
+}
 
+item.installSegmentsAndLines = function (seglines) {
+  let {segments} = this;
+  let [segs,lines] = seglines;
+  segs.forEach( (seg) => segments.push(seg));
+  lines.forEach( (line) => this.installLine(line));
+}
+
+
+
+item.addLine = function (lsg) {
+  let {shapes,segments} = this;
+  let line = this.genLine(lsg);
+  shapes.push(line);
+  line.show();
+  line.update();
+  return line;
+}
+/*
 item.addLine = function (lsg) {
   let {shapes,segments,lineDelta,randomDelta} = this;
   let line = this.lineP.instantiate();
@@ -250,7 +381,7 @@ item.addLine = function (lsg) {
   line.update();
   return line;
 }
- 
+ */
 
    
 
@@ -275,13 +406,23 @@ item.initProtos = function () {
 
 item.initializeDrop = function () {
   debugger;
+  let {rectangles} = this;
   this.initProtos();
   this.segments = [];
   this.extendedSegments = [];
   this.set('shapes',core.ArrayNode.mk());
-  this.setupRect();
+  /*this.setupRect();
+  if (rectangles) { 
+			rectangles.forEach( (r) => {
+			this.addSides(r);
+    });
+  }
+  this.addLines();*/
+  this.installSegmentsAndLines(this.initialSegments());
+
+  //let r = geom.Rectangle.mk(Point.mk(-40,-40),Point.mk(80,80));
+  //this.addSides(r);
   this.addRandomSegments();
-  this.addLines();
  }
   
 }});

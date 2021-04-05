@@ -4,7 +4,7 @@ core.require('/gen0/drop0.js',function (addDropMethods) {
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 rs.setName('drop0_0');
-let topParams = {width:200,height:200,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:0}
+let topParams = {width:200,height:200,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:10}
 
 Object.assign(rs,topParams);
 
@@ -16,6 +16,19 @@ rs.finishProtos = function () {
 	this.lineP['stroke-width'] = .3;
 }  
 
+rs.initialSegments = function () {
+  let {width,height} = this; 
+  let hw = 0.5*width;
+  let hh = 0.5*width;
+  let sg0 = LineSegment.mk(Point.mk(-hw,-hh),Point.mk(hw,-hh));
+  let sg1 = LineSegment.mk(Point.mk(-hw,hh),Point.mk(hw,hh));
+  let sg2 = LineSegment.mk(Point.mk(-hw,-hh),Point.mk(-hw,hh));
+  let sg3 = LineSegment.mk(Point.mk(hw,-hh),Point.mk(hw,hh));
+  let segs = [sg0,sg1,sg2,sg3];
+  let lines = segs.map((sg) => this.genLine(sg));  
+  return [segs,lines];
+}
+
 rs.segParams = function () {
   let r = Math.random();
   let np = 4;
@@ -26,6 +39,7 @@ rs.segParams = function () {
   return {angle,length};
 }
 rs.genSegments = function (p) {
+  let {minSeparation:sep} = this;
 	let len,angle;
 	if (this.segParams) {
 		let segP = this.segParams();
@@ -36,9 +50,12 @@ rs.genSegments = function (p) {
 			angle = segP.angle;
 		}
 	}
-	let seg = this.genSegment(len,angle);
+  //let p = this.genRandomPoint();
+	let seg = this.genSegment(p,len,angle);
 	let ln = this.genLine(seg);
-	return [[seg],[ln]];
+	let eseg = this.genSegment(p,len+sep,angle);
+  debugger;
+	return [[eseg],[ln]];
 }
  
 
