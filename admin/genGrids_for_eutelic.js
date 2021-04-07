@@ -1,5 +1,5 @@
 
-let  forKOP = 1;
+let  forEutelic = 0
 let alternate = 0;
 let sectionsPath = alternate?'./altGridSections':'./gridSections';
 let outPath = alternate?'www/altGrids.html':'www/grids.html';
@@ -59,10 +59,10 @@ let pageTop = `
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">Where is the Kindom of Pattern? <a style="color:white;text-decoration:underline" href="essay.html">An Essay.</a></p>
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">Images by <a style="color:white;text-decoration:underline" href="eutelic.html">Eutelic</a></p>
 
 
-<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>
+<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">Click to Expand</p>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -118,7 +118,7 @@ const thingString = function (ix,dir,useThumb,ititle,imageArg) {
 	let rs;
 	//let astart = `<a style="color:white" href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
 	let astart = `<a style="color:white" href="${alternate?'altPage':'page'}.html?image=${x}&${pageArg}">`;
-	if (forKOP) {
+	if (forEutelic) {
 		//let titleLink = ititle?`${astart}${ititle}</a></p><br/><br/>`:'';
 		//let titleLink = ititle?`${astart}${title}</a></p>`:'';
 		let titleLink = `${astart}${title}</a></p>`;

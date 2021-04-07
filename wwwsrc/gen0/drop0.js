@@ -1,12 +1,14 @@
 
 //core.require('/gen0/animation.js','/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
-core.require('/gen0/animation.js','/shape/rectangle.js','/line/line.js',function (addAnimationMethods,rectanglePP,linePP) {
+core.require('/gen0/animation.js','/gen0/basics.js','/shape/rectangle.js','/line/line.js',
+function (addAnimationMethods,addBasicMethods,rectanglePP,linePP) {
 
 //core.require(function () {
  return function (rs) {
 	// debugger;
 //let item = svg.Element.mk('<g/>');
-addAnimationMethods(rs);
+//addAnimationMethods(rs);
+addBasicMethods(rs);
 
 /*adjustable parameters  */
 let topParams = {width:100,height:100,maxDrops:10,maxTries:5,lineLength:10,backgroundColor:undefined,minSeparation:5}
@@ -127,10 +129,8 @@ rs.addRandomSegments = function () {
   }
   let numDropped = 0;
   let tries = 0;
-  debugger;
   while (true) {
 		let p = this.genRandomPoint(); 
-		debugger;
 		let segsAndLines = this.genSegments(p);
 		let [segs,lines] = segsAndLines;
 		let ifnd = 0;
@@ -186,7 +186,6 @@ const dSeg = function (e0,e1,p) { // displaced seg
   return LineSegment.mk(e0.plus(p),e1.plus(p));
 }
 rs.segsFromPoints = function (pnts,p) {
-  debugger;
   let ln = pnts.length;
   let segs = [];
   let p0,p1;
@@ -203,7 +202,42 @@ rs.segsFromPoints = function (pnts,p) {
   return segs;
 }
 
+rs.USegments = function (wd,ht,center) {
+  debugger;
+  let hwd = 0.5 * wd;
+  let hht = 0.5 * ht;
+  let UL = Point.mk(-hwd,-hht);
+  let LL = Point.mk(-hwd,hht);
+  let LR = Point.mk(hwd,hht);
+  let UR = Point.mk(hwd,-hht);
+  let points = [UL,LL,LR,UR];
+  return this.segsFromPoints(points,center);
+}
+
+rs.UUSegments = function (wd,ht,center) {
+  debugger;
+  let hwd = 0.5 * wd;
+  let hht = 0.5 * ht;
+  let UL = Point.mk(-hwd,-hht);
+  let LL = Point.mk(-hwd,hht);
+  let LR = Point.mk(hwd,hht);
+  let UR = Point.mk(hwd,-hht);
+  let points = [LL,UL,UR,LR];
+  return this.segsFromPoints(points,center);
+}
+rs.triangleSegments = function (wd,ht,center) {
+  debugger;
+  let hwd = 0.5 * wd;
+  let hht = 0.5 * ht;
+  let LL = Point.mk(-hwd,hht);
+  let TOP = Point.mk(0,-hht);
+  let LR = Point.mk(hwd,hht);
+  let points = [LL,TOP,LR,LL];
+  return this.segsFromPoints(points,center);
+}
+      
 rs.rectangleSegments = function (wd,ht,center) {
+  debugger;
   let hwd = 0.5 * wd;
   let hht = 0.5 * ht;
   let UL = Point.mk(-hwd,-hht);
@@ -214,50 +248,104 @@ rs.rectangleSegments = function (wd,ht,center) {
   return this.segsFromPoints(points,center);
 }
       
-rs.sizedRectangleSegments = function (sizes,p,square) {
-  debugger;
+rs.sizedRectangleSegments = function (sizes,p,heightRatio=1) {
   let ln = sizes.length;
   let whichWd = Math.floor(Math.random()*ln);
   let whichHt = Math.floor(Math.random()*ln);
   let wd = sizes[whichWd];
-  let ht = square?sizes[whichWd]:whichHt;
+  let ht = heightRatio?heightRatio*wd:whichHt;
   let segs = this.rectangleSegments(wd,ht,p);
   return segs;
 }
 
-rs.triangleSegments = function (sizes,p,sameHt) {
-  debugger;
+rs.sizedTriangleSegments = function (sizes,p,heightRatio=1) {
   let ln = sizes.length;
   let whichWd = Math.floor(Math.random()*ln);
   let whichHt = Math.floor(Math.random()*ln);
   let wd = sizes[whichWd];
-  let ht = sameHt?sizes[whichWd]:whichHt;
-  let sg0 = dSeg(Point.mk(0,0),Point.mk(wd/2,-ht),p);
+  let ht = heightRatio?heightRatio*wd:whichHt;
+ /* let sg0 = dSeg(Point.mk(0,0),Point.mk(wd/2,-ht),p);
   let sg1 = dSeg(Point.mk(wd/2,-ht),Point.mk(wd,0),p);
-  let sg2 = dSeg(Point.mk(wd,0),Point.mk(0,0),p);
- 
-  return [sg0,sg1,sg2];
+  let sg2 = dSeg(Point.mk(wd,0),Point.mk(0,0),p);*/
+  let segs = this.triangleSegments(wd,ht,p);
+  return segs;
 }
 
 
-rs.wigglySegments = function (vertical,widths,heightRatio,numSegs,p) {
+rs.sizedUSegments = function (sizes,p,heightRatio=1) {
+  let ln = sizes.length;
+  let whichWd = Math.floor(Math.random()*ln);
+  let whichHt = Math.floor(Math.random()*ln);
+  let wd = sizes[whichWd];
+  let ht = heightRatio?heightRatio*wd:whichHt;
+  let segs = this.USegments(wd,ht,p);
+  return segs;
+}
+
+rs.sizedUUSegments = function (sizes,p,heightRatio=1) {
+  let ln = sizes.length;
+  let whichWd = Math.floor(Math.random()*ln);
+  let whichHt = Math.floor(Math.random()*ln);
+  let wd = sizes[whichWd];
+  let ht = heightRatio?heightRatio*wd:whichHt;
+  let segs = this.UUSegments(wd,ht,p);
+  return segs;
+}
+
+
+rs.wigglySegments = function (params) {
+  let {zigzag=0,direction=0,randomness=0,vertical=0,widths,heightRatio,numSegs,pos} = params;
+ // debugger;
+  let {width,height} = this;
+  let uvec,nvec,stp;
+  if (direction) {
+    let cs = Math.cos(direction);
+    let sn = Math.sin(direction);
+    uvec = Point.mk(cs,sn);
+    nvec = uvec.normal();
+  }
+  
   let ln = widths.length;
   let which = Math.floor(Math.random()*ln);
   let wd = widths[which];
+  let hwd = 0.5*wd;
+  if (direction) {
+    //stp = pos.plus(uvec.times(-hwd));
+    stp = uvec.times(-hwd);
+  }
   let ht = heightRatio*wd;
   let hht = 0.5*ht;
   let pnts = [];
   let sgwd = wd/numSegs;
-  let xp = 0;
+  let xp = -wd/2;
   for (let i = 0;i<numSegs+1;i++) {
-     let y = (Math.random()-0.5)*ht;
-     let pnt = vertical?Point.mk(y,xp):Point.mk(xp,y);
-     pnts.push(pnt);
-     xp+= sgwd;
+		let y;
+		let odd = i%2 === 1;
+		let up = i%4===1;
+		if (zigzag) {
+		 let absy = odd?ht+randomness*(Math.random()-0.5)*ht:0;
+		 y = up?absy:-absy;
+		} else {
+		 y = (Math.random()-0.5)*ht;
+		}
+    let pnt;
+    if  (direction) {
+      pnt = stp.plus(uvec.times(i*sgwd)).plus(nvec.times(y));
+    } else {
+		  pnt = vertical?Point.mk(y,xp):Point.mk(xp,y);
+    }
+    let mx = 1.05*(width/2);
+    //console.log('pnt.x',pnt.x,'mx',mx);
+    if ((pnt.x) > mx) {
+      debugger;
+    }
+		pnts.push(pnt);
+		xp+= sgwd;
   }
-  let segs =this.segsFromPoints(pnts,p);
+  let segs =this.segsFromPoints(pnts,pos);
   return segs;
 }
+
 
 rs.initProtos = function () {
 	core.assignPrototypes(this,'lineP',linePP);
@@ -272,6 +360,7 @@ rs.initializeDrop = function () {
   debugger;
   let {rectangles} = this;
   this.initProtos();
+  this.addBackground();
   this.segments = [];
   this.extendedSegments = [];
   this.set('shapes',core.ArrayNode.mk());

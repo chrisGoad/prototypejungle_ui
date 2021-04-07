@@ -4,6 +4,12 @@ module.exports = {
 sections: [
 
 [
+    ['grid0_28','gen2',1,'Distortion Field'],
+    ['grid0_16_1','gen2',1,'Waves'],
+    ['grid0_17_0','gen2',1,'Code'],
+    ['grid0_19_1','gen2',1,'Dark Eye'],
+    ['drop0_1','gen2',1,'Starry Night'],
+    ['drop0_0','gen2',1,'Ice'],
 	['grid0_14_0','gen2','square','Variants'],
 		 ['grid0_8_15.jpg','gen2','square','Quilt 1'],
 	 	 ['grid0_18.jpg','gen2','square','World'],
@@ -55,7 +61,7 @@ sections: [
 				['grid0_9_0','gen2','wide2','Star Maps'],
 		 	['lines0_26','gen2',0,'Asteroids'],
 		 	['rwGrid5','gen2',0,'Kachina'],
-		 	['grid0_15_0','gen2',0,'Waves'],
+		 	['grid0_15_0','gen2',0,'Ocean'],
 		
 				 	['grid24d','gen2',0,'Tracks'],
 		   ['grid_0_5','gen2','square','Grid 4'],

@@ -3,8 +3,8 @@ core.require('/gen0/drop0.js',function (addDropMethods) {
 
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
-rs.setName('drop0_3');
-let topParams = {width:200,height:200,maxDrops:100000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:0}
+rs.setName('drop0_5');
+let topParams = {width:400,height:400,maxDrops:100000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:0}
 //let topParams = {width:200,height:200,maxDrops:10000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
 Object.assign(rs,topParams);
@@ -33,7 +33,14 @@ rs.genSegments = function (p) {
   let hh = height/2;
   let fr = (p.y+hh)/height;
   console.log('fr',fr);
-  let segs = (Math.random() < fr)?this.sizedRectangleSegments([2,5,10,40,40],p,1):this.wigglySegments(0,[10,20,50],0.05,15,p);
+ // let segs = this.wigglySegments({zigzag:1,randomness:1,vertical:1,widths:[10,20,50],heightRatio:0.05,numSegs:15,pos:p});
+  let params = {direction:Math.PI/4,zigzag:1,randomness:0,vertical:1,widths:[10],heightRatio:0.05,numSegs:4,pos:p};
+  let params2 = Object.assign({},params);
+  params2.direction = 0;
+  let segs = (Math.random() < 0.5)?this.wigglySegments(params):this.wigglySegments(params2);
+  //let segs = this.wigglySegments({direction:0,zigzag:1,randomness:0,vertical:0,widths:[20],heightRatio:0.05,numSegs:4,pos:p});
+ // let segs = (Math.random() < fr)?this.wigglySegments(1,[10,20,50],0.05,15,p):this.wigglySegments(0,[10,20,50],0.05,15,p);
+ // let segs = (Math.random() < fr)?this.sizedRectangleSegments([2,5,10,40,40],p,1):this.wigglySegments(0,[10,20,50],0.05,15,p);
 //  let segs = (p.y < 0)?this.sizedRectangleSegments([2,5,10,40,40],p,1):this.wigglySegments(0,[10,20,50],0.05,15,p);
  // let segs = Math.random()>0.5?this.wigglySegments(1, [10,20,50],0.05,15,p):this.wigglySegments(0,[10,20,50],0.05,15,p);
  // let segs = Math.random()>0.9?this.rectangleSegments([2,5,10,40,40],p,1):this.wigglySegments([20,50],0.13,15,p);
@@ -45,7 +52,7 @@ rs.genSegments = function (p) {
   let r = genRGBval();
   let g = genRGBval();
   let b = genRGBval();
-  let clr = `rgb(${r},${r},${b})`;
+  let clr = `rgb(${r},${r},${r})`;
   lines.forEach( (line) => line.stroke = clr);
   return [segs,lines];
 }
