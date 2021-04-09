@@ -337,8 +337,16 @@ const snipAtXs = function (sg,x0,x1) {
 }
 
 
-item.intersectionsWithLine = function (p,vec,inside) {	
-  let boxPoints = this.intersectWithRectangle(p,vec);
+item.intersectionsWithLine = function (p,vec,inside) {
+  let boxSeg = this.intersectWithRectangle(p,vec);
+  let boxPoints;
+  if (boxSeg) {
+    boxPoints = [boxSeg.end0,boxSeg.end1];
+  }  else {
+    debugger;
+    return undefined;
+  }	
+ // let boxPoints = this.intersectWithRectangle(p,vec);
   let {points,radii} = this;
   let rsOut = [boxPoints[0]];
   let rsIn = [];

@@ -20,7 +20,7 @@ let panelMode = 'chain'; // mode of the right panel view; one of 'chain' (view t
  // the page structure
 let actionDiv,cols,fileBut,undoBut,unwrapBut,insertBut,replaceBut,insertTab;
 let replaceProtoBut,dataBut,gridBut,fileDisplay,noteDiv,svgDiv;//,protoContainer;
-let messageElement,ctopDiv,noteSpan,saveBut,runBut,resumeBut,saveAnimationBut,pauseBut,stepBut,stepNoSaveBut,repeatFrameBut,upBut,downBut,topBut,svgMessageDiv;
+let messageElement,ctopDiv,noteSpan,saveBut,saveMpixBut,runBut,resumeBut,saveAnimationBut,pauseBut,stepBut,stepNoSaveBut,repeatFrameBut,upBut,downBut,topBut,svgMessageDiv;
 let dataMessage,JSONMessage,rebuildFromDataBut,changeDataSourceBut,saveDataBut,testBut,saveDataAsBut,checkJSONBut,runningSpan,dataButtons,dataDiv,dataContainer,advancedButs;
 let includeActionPanel = false;
 
@@ -42,6 +42,7 @@ let mpg;
 const buildPage = function () {
 	//debugger;
 saveBut = document.getElementById('saveButton');
+saveMpixBut = document.getElementById('saveMpixButton');
 runBut = document.getElementById('runButton');
 resumeBut = document.getElementById('resumeButton');
 saveAnimationBut = document.getElementById('saveAnimationButton');
@@ -50,7 +51,8 @@ stepBut = document.getElementById('stepButton');
 stepNoSaveBut = document.getElementById('stepNoSaveButton');
 repeatFrameBut = document.getElementById('repeatFrameButton');
 //saveBut.addEventListener("click", () => {alert(23);});
-saveBut.addEventListener("click", saveTheImage);
+saveBut.addEventListener("click", () => saveTheImage(0));
+saveMpixBut.addEventListener("click", () => saveTheImage(1));
 runBut.addEventListener("click", runAnimation);
 resumeBut.addEventListener("click", resumeAnimation);
 saveAnimationBut.addEventListener("click", saveAnimation);

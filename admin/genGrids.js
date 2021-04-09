@@ -1,5 +1,5 @@
 
-let  forKOP = 1;
+let  forKOP = 0;
 let alternate = 0;
 let sectionsPath = alternate?'./altGridSections':'./gridSections';
 let outPath = alternate?'www/altGrids.html':'www/grids.html';
@@ -56,10 +56,14 @@ let pageTop = `
       font-weight:bold;
      }
   </style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">Where is the Kindom of Pattern? <a style="color:white;text-decoration:underline" href="essay.html">An Essay.</a></p>
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">Where is the Kingdom of Pattern? <a style="color:white;text-decoration:underline" href="essay.html">An Essay.</a></p>
 
 
 <p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>

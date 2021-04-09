@@ -3,15 +3,16 @@
 core.require('/gen1/drop0_0.js',function (rs) {
 
 rs.setName('drop0_0_1');
-let topParams = {width:400,height:400,maxDrops:100000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:0}
-//topParams = {width:200,height:200,maxDrops:10000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
+let topParams = {width:600,height:400,maxDrops:100000,maxTries:100,lineLength:2,backgroundColor:'rgb(1,1,1)',backgroundPadding:40,minSeparation:0}
+//topParams = {width:600,height:400,maxDrops:10000,maxTries:10,lineLength:2,backgroundColor:'rgb(1,1,1)',backgroundPadding:40,minSeparation:0}
 
 Object.assign(rs,topParams);
 
 
 rs.finishProtos = function () {
 	this.lineP.stroke = 'white';
-	this.lineP.stroke = 'yellow';
+	//this.lineP.stroke = 'yellow';
+	//this.lineP.stroke = 'black';
 	this.lineP['stroke-width'] = .1;
 	this.lineP['stroke-width'] = .6;
 }  

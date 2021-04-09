@@ -4,19 +4,32 @@ module.exports = {
 sections: [
 
 [
+   
+    ['drop0_0','gen2',1,'Ice'],
+		 ['grid0_8_3','gen2','square','Bubbles'],
+	['grid0_14_0','gen2','square','Variants'],
+    ['grid0_10_0','gen2',1,'Bump'],
+
+
+    ['grid0_19_1','gen2',1,'Dark Eye'],
+    ['drop0_0_1','gen2',1,'Clouds'],
+    ['drop0_2','gen2',1,'Threads'],
+    ['drop0_1','gen2',1,'Starry Night'],
+
+    ['grid0_8_26','gen2',1,'Sphere'],
     ['grid0_28','gen2',1,'Distortion Field'],
     ['grid0_16_1','gen2',1,'Waves'],
     ['grid0_17_0','gen2',1,'Code'],
-    ['grid0_19_1','gen2',1,'Dark Eye'],
-    ['drop0_1','gen2',1,'Starry Night'],
-    ['drop0_0','gen2',1,'Ice'],
-	['grid0_14_0','gen2','square','Variants'],
+
+    ['sphere_image0_1.jpg','gen2',1,'Sky Eye'],
+
+
 		 ['grid0_8_15.jpg','gen2','square','Quilt 1'],
 	 	 ['grid0_18.jpg','gen2','square','World'],
 		 	 ['lines0_19','gen2','square','Lines 1'],
+    ['sphere2_1','gen2',1,'Rays'],
 
 	 ['grid0_8_17','gen2','square','Shield'],
-		 ['grid0_8_3','gen2','square','Bubbles'],
  		 ['lines0_20','gen2','wide2','Order Within Chaos'],
 			 ['lines0_21','gen2','wide2','Chaos Within Order'],
 
@@ -27,9 +40,11 @@ sections: [
 	
 
 	 ['grid0_8_12','gen2','square','Quilt 2'],
-	 	 ['grid0_8_11','gen2','square','Quilt 3'],
-		 		['grid0_8_13','gen2','square','Quilt 4'],
-	 ['grid0_8_14','gen2','square','Quilt 5'],
+	 ['grid0_3_combo3','gen2','square','Two Quilts'],
+	 ['grid0_8_14','gen2','square','Quilt 3'],
+
+	/* 	 ['grid0_8_11','gen2','square','Quilt 3'],
+		 		['grid0_8_13','gen2','square','Quilt 4'],*/
 	 
 	 	['grid0_3','gen2','square','Metal'],
 		['grid0_2','gen2','square','Tube'],

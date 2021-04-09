@@ -104,6 +104,7 @@ const afterLastChar = function (string,chr,strict) {
 	  xferFile(srcd+srcf,dstd+dstf)
 	}
 	xfer('grids.html','index.html');
+	xfer('essay.html');
 	xfer('page.html');
 //	xfer('eutelic.html');
 	xfer('thePages.js');

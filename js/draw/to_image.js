@@ -5,7 +5,8 @@
 let shrinkFactor = 1;
 //let jpegPadFactor = 1.2;
 vars.jpgPadFactor = 1;
-let jpgMainFactor = 2;// 2
+let jpgMpixFactor = 6;
+let jpgMainFactor = 2;// 2 for animation, 6 for Mpix
 let jpgThumbFactor = 1;// 2
 let jpgSizeFactor = jpgMainFactor; // for animation
 const drawInlineSVG = function (svgElement, bbox,xPad,yPad,ctx, callback) {
@@ -17,7 +18,11 @@ const drawInlineSVG = function (svgElement, bbox,xPad,yPad,ctx, callback) {
     let lowx = xcenter - xPad*bbox.width/2;
     let ycenter = bbox.y + bbox.height/2;
     let lowy = ycenter - yPad*bbox.height/2;   
-    ctx.drawImage(this, lowx,lowy,xPad*bbox.width,yPad*bbox.height,0,0,jpgSizeFactor*xPad*bbox.width,jpgSizeFactor*yPad*bbox.height);
+    let wd = jpgSizeFactor*xPad*bbox.width;
+    let ht = jpgSizeFactor*yPad*bbox.height;
+    console.log('Image drawn with wd ',wd,' ht ',ht);
+    ctx.drawImage(this, lowx,lowy,xPad*bbox.width,yPad*bbox.height,0,0,wd,ht);
+   // ctx.drawImage(this, lowx,lowy,xPad*bbox.width,yPad*bbox.height,0,0,jpgSizeFactor*xPad*bbox.width,jpgSizeFactor*yPad*bbox.height);
     callback();
   }
   img.src = 'data:image/svg+xml; charset=utf8, '+encodeURIComponent(svgURL);

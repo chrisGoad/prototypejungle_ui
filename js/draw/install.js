@@ -206,21 +206,25 @@ const displayError = function (msg) {
 core.setDisplayError(displayError);
 
 
-const saveTheImage = function () {
+const saveTheImage = function (forMpix) {
 	debugger;
 	//saveTheThumb();
 //	return
-  jpgSizeFactor = jpgMainFactor;
+  
+  jpgSizeFactor = forMpix?jpgMpixFactor:jpgMainFactor;
 	let wts = core.vars.whereToSave;// + '.jpg';
-	if (wts) {
-		let dst = `www/images/${wts}.jpg`;
-	  convertToJpeg(dst,function () {
-		  alert('saved the image at '+dst);
-			saveTheThumb();	
-	  });	
-	} else {
+  if (!wts) {
 		alert('no destination given for image');
-	}
+		return;
+  }
+	let dst = forMpix?`www/images/${wts}.mpix.jpg`:`www/images/${wts}.jpg`;
+	convertToJpeg(dst,function () {
+		alert((forMpix?'saved the Mpix image at ':'saved the image at ')+dst);
+		if (!forMpix) {
+			saveTheThumb();	
+		}
+	});	
+	
 }
 
 

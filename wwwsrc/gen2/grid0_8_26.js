@@ -14,7 +14,7 @@ let newGlobalParams  = {
 let gp = rs.globalParams;
 Object.assign(gp,newGlobalParams);
 
-let bkdim = 1500;
+let bkdim = 1200;
 
 let newTopParams = {
   pointJiggle:0,	
@@ -24,7 +24,7 @@ let newTopParams = {
 	height:50,
 		backgroundWidth:bkdim,
 	backgroundHeight:bkdim,
-	backgroundColor : 'white',
+	backgroundColor : 'black',
 }
 Object.assign(rs,newTopParams);
 
@@ -37,6 +37,8 @@ rs.initialize = function () {
  let {focalPoint,focalLength,cameraScaling} = this;
  this.initProtos();
  debugger;
+  // core.root.backgroundColor = 'black';
+
   this.initializeGrid();
 }
 
