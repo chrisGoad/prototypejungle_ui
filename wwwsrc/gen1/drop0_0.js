@@ -4,7 +4,7 @@ core.require('/gen0/drop0.js',function (addDropMethods) {
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 
-rs.computeWhichByInterpolation = function (p) {
+rs.computeWhichByCornerInterpolation = function (p) {
   let {width,height} = this;
   let frw = (p.x+0.5*width)/width; 
   let frh = (p.y+0.5 * height)/height;  
@@ -26,7 +26,28 @@ rs.computeWhichByInterpolation = function (p) {
     which = 2;
   } else {
     which = 3;
+  }blo
+  return which;
+}
+
+rs.computeWhichByCenterInterpolation = function (p) {
+  let {width,height} = this;
+  let dw = (p.x)/width; 
+  let dh = (p.y)/height;  
+ // let d = Math.abs(dw) + Math.abs(dh);// boxcar dist from center
+  let d = 2*Math.max(Math.abs(dw),Math.abs(dh));// boxcar dist from center
+  let mrg = 0.3;
+  if (d>(1-mrg)) {
+    d=1;
+  } else if (d<mrg) {
+    d=0;
   }
+  let d2 = d*d;
+ // console.log('d ',d);
+
+  let rn = Math.random();
+  let which = (rn < d)?1:0; //1 outside, 0 center
+  
   return which;
 }
 

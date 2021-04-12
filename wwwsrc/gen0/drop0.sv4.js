@@ -71,6 +71,7 @@ rs.collidesWithSegments = function (point,radius) {
 rs.extendSegment = function (seg,ln) {
 
   let {end0,end1} = seg;
+  debugger;
   let cnt= end0.plus(end1).times(0.5);
   let vec = end1.difference(end0);
   let len = vec.length();
@@ -123,20 +124,10 @@ rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
   return rs;
 }
 
-rs.insideCanvas = function (p) {
-  let {width,height} = this;
-  let hw = 0.5*width;  
-  let hh = 0.5*height;  
-  let {x,y} = p;
-  return (-hw < x) && (x < hw) && (-hh < y) && (y < hh);
-}
+  
 
 rs.segmentIntersects = function (seg) {
-  let {segments,width,height} = this;
-  let {end0,end1} = seg;
-  if ((!this.insideCanvas(end0)) || (!this.insideCanvas(end1))) {
-    return true;
-  }
+  let {segments} = this;
   let ln = segments.length;
   for (let i=0;i<ln;i++) {  
     let ip = seg.intersect(segments[i]);
@@ -156,122 +147,32 @@ rs.activeEnds = function () {
   });
   return rs;
 }
-
-rs.addSegmentAtThisEnd = function (end) {
-  let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds} = this;
-  if (!this.genSegments) {
-    return;
-  }
-  let maxTriesPerEnd = 2;
-  let tries = 0;
-  let numDropped = 0;
-  while (true) {
-		let segsAndLines = this.genSegments(end);
-		let [segs,lines] = segsAndLines;
-		let ifnd = 0;
-		let sln = segs.length;
-		for (let i=0;i<sln;i++) {
-			let seg = segs[i];
-			if (this.segmentIntersects(seg,sep)) {
-        
-				ifnd = true;
-				break;
-			}
-		}
-		if (ifnd) {
-			tries++;
-			if (tries === maxTriesPerEnd) {
-        console.log('inactive');
-        debugger;
-        end.inactive = 1;
-				return 0;
-			}
-		} else {
-			numDropped += sln;
-			this.installSegmentsAndLines(segsAndLines);
-			return numDropped;  
-    } 
-  }
-}
-
-rs.addSegmentAtSomeEnd = function () {
-  while (true) {
-    let ae = this.activeEnds();
-    let end;
-		let ln = ae.length;
-		//console.log('ae len',ln);
-		if (ln > 0) {
- //     debugger;
-			let rni = Math.floor(Math.random()*ln);
-			end = ae[rni];
-			let num = this.addSegmentAtThisEnd(end);
-      if (num) {
-        return num;
-      }
-		} else {
-      return "noEndsLeft";
-    }
-	}
-}
-
-rs.addSegmentsAtEnds = function () {
-  debugger;
-  let maxEndTries = 100;
-  let tries = 0; 
-  let numDrops = 0;
-  let loop = 0;
-  let maxLoops = 100;
-  while (loop < maxLoops) {
-    loop++;
-    let num = this.addSegmentAtSomeEnd();
-    if (num === 'noEndsLeft') {
-      if (this.ends.length > 0) {
-        debugger;
-      }
-      return [num,numDrops];
-    }
-    if (num) {
-      numDrops+=num;
-    } else {
-      tries++;
-      if (tries >= maxEndTries) {
-        return ['triesExhausted',numDrops];
-      }
-    }
-  }
-  debugger;
-  return ['loopsExceeded',numDrops];
-}
-       
-    
 rs.addRandomSegments = function () {
   let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds} = this;
   if (!this.genSegments) {
     return;
   }
-  //debugger;
   let numDropped = 0;
   let tries = 0;
-  let endsVsNew = 1;
-  
-  let maxLoops = 20000;
-  let loops = 0;
-  while (loops < maxLoops) {
-    loops++;
-    debugger;
-  // if ((loops > 1) && fromEnds) {
+ 
+  while (true) {
+    let p;
+    let fe;
     if (fromEnds) {
-      if (Math.random() < endsVsNew) {
-        let ae = this.addSegmentsAtEnds();
-        if (ae[0] === 'loopsEExceeded') {
-           return;
-        }
+      let ae = this.activeEnds();
+      let ln = ae.length;
+      console.log('ae len',ln);
+      if (ln > 0) {
+   //     debugger;
+        let rni = Math.floor(Math.random()*ln);
+        p = ae[rni];
+        fe = 1;
       }
-     // break;
+      //p=null;
     }
-		p = this.genRandomPoint(); 
-    console.log('p',p.x,p.y);
-  //  p = Point.mk(0,0);
+    if (!p) {
+		 p = this.genRandomPoint(); 
+    }
 		let segsAndLines = this.genSegments(p);
 		let [segs,lines] = segsAndLines;
 		let ifnd = 0;
@@ -289,6 +190,9 @@ rs.addRandomSegments = function () {
 				return numDropped;
 			}
 		} else {
+      if (fe) {
+        debugger;
+      }
 			numDropped += sln;
 			tries = 0;
 			this.installSegmentsAndLines(segsAndLines);
@@ -328,7 +232,6 @@ rs.installSegmentsAndLines = function (seglines) {
     segments.push(seg);
     if (seg.end) {
       ends.push(seg.end);
-      seg.end.isEnd = 1;
     }
     if (seg.fromEnd) {
       seg.fromEnd.inactive = 1;
@@ -360,6 +263,7 @@ rs.segsFromPoints = function (pnts,p) {
 }
 
 rs.USegments = function (wd,ht,center) {
+  debugger;
   let hwd = 0.5 * wd;
   let hht = 0.5 * ht;
   let UL = Point.mk(-hwd,-hht);
@@ -371,6 +275,7 @@ rs.USegments = function (wd,ht,center) {
 }
 
 rs.UUSegments = function (wd,ht,center) {
+  debugger;
   let hwd = 0.5 * wd;
   let hht = 0.5 * ht;
   let UL = Point.mk(-hwd,-hht);
@@ -381,6 +286,7 @@ rs.UUSegments = function (wd,ht,center) {
   return this.segsFromPoints(points,center);
 }
 rs.triangleSegments = function (wd,ht,center) {
+  debugger;
   let hwd = 0.5 * wd;
   let hht = 0.5 * ht;
   let LL = Point.mk(-hwd,hht);
@@ -391,6 +297,7 @@ rs.triangleSegments = function (wd,ht,center) {
 }
       
 rs.rectangleSegments = function (wd,ht,center) {
+  debugger;
   let hwd = 0.5 * wd;
   let hht = 0.5 * ht;
   let UL = Point.mk(-hwd,-hht);
@@ -402,6 +309,7 @@ rs.rectangleSegments = function (wd,ht,center) {
 }
 
 rs.crossSegments = function (wd,ht,center) {
+  debugger;
   let hwd = 0.5 * wd;
   let hht = 0.5 * ht;
   let UC = Point.mk(0,-hht);
@@ -523,6 +431,7 @@ rs.initProtos = function () {
 }  
 
 rs.initializeDrop = function () {
+  debugger;
   let {rectangles} = this;
   this.initProtos();
   this.addBackground();
