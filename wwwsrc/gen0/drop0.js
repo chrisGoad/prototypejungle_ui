@@ -12,7 +12,7 @@ addBasicMethods(rs);
 addRandomMethods(rs);
 
 /*adjustable parameters  */
-let topParams = {width:100,height:100,maxDrops:10,maxTries:5,lineLength:10,backgroundColor:undefined,minSeparation:5}
+let topParams = {width:100,height:100,maxDrops:10,maxTries:5,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000}
 
 Object.assign(rs,topParams);
 
@@ -150,11 +150,18 @@ rs.segmentIntersects = function (seg) {
 rs.activeEnds = function () {
   let ends = this.ends;
   rs = [];
+	let cnt = 0;
   ends.forEach((end) => {
+		cnt++
     if (!(end.inactive)) {
       rs.push(end);
     }
   });
+	let fr = (rs.length)/cnt;
+	console.log('fraction active',fr);
+	if (fr < 0.5) {
+		this.ends = rs;
+	}
   return rs;
 }
 
@@ -182,7 +189,7 @@ rs.addSegmentAtThisEnd = function (end) {
 		if (ifnd) {
 			tries++;
 			if (tries === maxTriesPerEnd) {
-        console.log('inactive');
+       // console.log('inactive');
         debugger;
         end.inactive = 1;
 				return 0;
@@ -232,7 +239,8 @@ rs.addSegmentsAtEnds = function () {
  // let maxLoops = 100;
   let maxLoops = 10000;
   maxLoops = 20000;
-  while (loop < maxLoops) {
+	let endLoops = this.endLoops
+  while (loop < endLoops) {
     loop++;
     let num = this.addSegmentAtSomeEnd();
     if (num === 'noEndsLeft') {
@@ -284,7 +292,7 @@ rs.addRandomSegments = function () {
       return;
     }
 		p = this.genRandomPoint(); 
-    console.log('p',p.x,p.y);
+    //console.log('p',p.x,p.y);
   //  p = Point.mk(0,0);
 		let segsAndLines = this.genSegments(p);
 		let [segs,lines] = segsAndLines;
@@ -566,15 +574,19 @@ rs.initProtos = function () {
 }  
 
 rs.initializeDrop = function () {
-  let {rectangles} = this;
+  let {rectangles,initialSegments,genSeeds} = this;
   this.initProtos();
   this.addBackground();
   this.segments = [];
   this.extendedSegments = [];
   this.ends = [];
   this.set('shapes',core.ArrayNode.mk());
-  if (this.initialSegments) {
+  if (initialSegments) {
     let isegs = this.initialSegments();
+    this.installSegmentsAndLines(isegs);
+  }
+	if (genSeeds) {
+    let isegs = this.genSeeds();
     this.installSegmentsAndLines(isegs);
   }
   this.addRandomSegments();

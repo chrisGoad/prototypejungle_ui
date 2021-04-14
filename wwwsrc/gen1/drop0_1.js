@@ -30,7 +30,7 @@ rs.genSegmentsFan = function (p,clr) {
   debugger;
 
 	let rn = Math.random();
-  if (p.direction) {
+  if (typeof p.direction === 'number') {
    angle = p.direction + ((rn<0.5)?0.002*Math.PI:-0.002*Math.PI);
   } else{
     angle = Math.floor(Math.random()*4)*0.25*Math.PI;//(r < 0.5)?0:0.5*Math.PI;
@@ -65,16 +65,16 @@ rs.genSegmentsFan = function (p,clr) {
 
 }
 
-rs.initialSegmentsRing = function (clr) {
-  let {width,height,separation:sep,sepNext,numSegStarts:numStarts,ringRadius:radius,lineLength:len} = this;
+rs.ringSeeds = function (clr) {
+  let {width,height,separation:sep,sepNext,numSeeds,ringRadius:radius,lineLength:len} = this;
   let segs = [];
 //  let numStarts = 16;
   let cangle = 0.5* Math.PI;
-  let delta = (Math.PI*2)/numStarts;
+  let delta = (Math.PI*2)/numSeeds;
  // let radius = 0.2* 0.5 * height;
  // let len = 5;//2 + Math.floor(r*4)*4;
   //let zp = Point.mk(0,0);
-  for (let j=0;j<numStarts;j++) {
+  for (let j=0;j<numSeeds;j++) {
     let ip = Point.mk(Math.cos(cangle),Math.sin(cangle)).times(radius)
 		let seg =  this.genSegment(ip,len,cangle,sep,sepNext,0);
 		segs.push(seg); 
@@ -88,13 +88,43 @@ rs.initialSegmentsRing = function (clr) {
 }
 
 
-rs.initialSegmentsGrid = function (clr) {
-  let {width,height,separation:sep,sepNext,fanAngles,numRows,numCols} = this;
+rs.randomSeeds = function (clr) {
+  let {width,height,separation:sep,sepNext,numSeeds,ringRadius:radius,seedDirections,lineLength:len} = this;
+  let segs = [];
+	let ld;
+	if (seedDirections) {
+	  ld = seedDirections.length;
+	}
+  for (let j=0;j<numSeeds;j++) {
+    let ip = this.genRandomPoint();
+		let angle;
+		if (ld) {
+			let ri = Math.floor(Math.random()*ld);
+			angle = seedDirections[ri];
+		} else {
+			angle = 2*Math.random()*Math.PI;
+		}
+		let seg =  this.genSegment(ip,len,angle,sep,sepNext,0);
+		segs.push(seg); 
+  }
+  let lines = segs.map((sg) => this.genLine(sg.end0,sg.end1,1)); 
+  if (clr) {
+    lines.forEach((ln) => ln.stroke = clr);
+  }
+  return [segs,lines];
+}
+
+
+
+
+
+rs.gridSeeds = function (clr) {
+  let {width,height,separation:sep,sepNext,fanAngles,numSeedRows:numRows,numSeedCols:numCols} = this;
 
   let segs = [];//this.rectangleSegments(width,height);
  // let numCols = 4;
 //  let numRows = 4;
-  let invx = width/(numStarts+1);
+  let invx = width/(numCols+1);
   let invy = height/(numRows+1);
   let hwd = width/2;
   let hht = height/2;
@@ -111,14 +141,14 @@ rs.initialSegmentsGrid = function (clr) {
 			ix += invx;
       fanAngles.forEach( (angle) => {
         let seg = this.genSegment(ip,len,angle,sep,sepNext,0);
-			  segs.push(vseg0);
+			  segs.push(seg);
       });
 		}	 
     iy -= invy;
   }
   let lines = segs.map((sg) => this.genLine(sg.end0,sg.end1,1)); 
  // lines.forEach((ln) => ln.stroke = clr);//'white');
-  return [asegs,lines];
+  return [segs,lines];
 }
 
 

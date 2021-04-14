@@ -1,5 +1,5 @@
 
-let  forKOP = 0;
+let  forKOP = 1;
 let alternate = 0;
 let sectionsPath = alternate?'./altGridSections':'./gridSections';
 let outPath = alternate?'www/altGrids.html':'www/grids.html';

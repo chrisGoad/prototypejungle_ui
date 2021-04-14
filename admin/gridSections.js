@@ -5,10 +5,12 @@ sections: [
 
 [
    
-    ['drop0_0_3','gen2',1,'Ice'],
-    ['drop0_0','gen2',1,'Ice'],
+    ['drop0_1_13','gen2',1,'Flower'],
+    //['drop0_0_3','gen2',1,'Ice'],
 		 ['grid0_8_3','gen2','square','Bubbles'],
 	['grid0_14_0','gen2','square','Variants'],
+	    ['drop0_0','gen2',1,'Ice'],
+
     ['grid0_10_0','gen2',1,'Bump'],
 
 
