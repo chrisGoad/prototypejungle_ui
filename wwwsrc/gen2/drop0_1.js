@@ -4,7 +4,7 @@ core.require('/gen0/drop0.js',function (addDropMethods) {
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 rs.setName('drop0_1');
-let topParams = {width:300,height:300,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:0}
+let topParams = {width:300,height:300,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:40,minSeparation:0}
 //topParams = {width:300,height:300,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
 Object.assign(rs,topParams);
@@ -12,9 +12,10 @@ Object.assign(rs,topParams);
 
 rs.finishProtos = function () {
 	this.lineP.stroke = 'white';
-	this.lineP.stroke = 'yellow';
+	//this.lineP.stroke = 'black';
+	//this.lineP.stroke = 'yellow';
 	this.lineP['stroke-width'] = .1;
-	this.lineP['stroke-width'] = .3;
+	this.lineP['stroke-width'] = .5;
 }  
 
 rs.segParams = function () {

@@ -301,7 +301,7 @@ item.addShortenedLine = function (p0,p1,shortenBy) {
 
   
   
-
+/*
  
 item.randomValueAtCell = function (randomGrids,prop,i,j) {
 	if (!randomGrids) {
@@ -332,7 +332,7 @@ item.randomValuesAtCell = function (randomGrids,i,j) {
 	}
 	return rs;
 }
-
+*/
 item.nextLine = function (proto) {
 	let {updating,lines,lineIndex} = this;
 	let line;

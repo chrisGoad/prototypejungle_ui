@@ -2,7 +2,7 @@
 //core.require('/gen0/drop0.js',function (addDropMethods) {
 core.require('/gen1/drop0_0.js',function (rs) {
 
-rs.setName('drop0_0_3');
+rs.setName('drop0_0_5');
 let topParams = {width:600,height:400,maxDrops:20000,maxTries:40,lineLength:2,backgroundColor:'rgb(1,1,1)',backgroundPadding:40,separation:15}
 topParams = {width:600,height:400,maxDrops:10000,maxTries:10,lineLength:2,backgroundColor:'rgb(100,1,1)',backgroundPadding:40,separation:0,fromEnds:1,sepNext:1}
 
@@ -112,7 +112,7 @@ rs.initialSegments = function () {
   let csegs = this.crossSegments(1*width,1*height);
   let asegs = segs.concat(csegs);
   let lines = asegs.map((sg) => this.genLine(sg)); 
-  lines.forEach((ln) => ln.stroke = 'black');
+  lines.forEach((ln) => ln.stroke = 'rgb(100,0,0)');
   return [asegs,lines];
 }
 

@@ -162,6 +162,37 @@ item.setupBoundaryRandomizer = function (nm,params) {
   return this.setupRandomizer('randomGridsForBoundaries',nm,params);
 }        		
 
+  
 
+ 
+item.randomValueAtCell = function (randomGrids,prop,i,j) {
+	if (!randomGrids) {
+		return;
+	}
+	let randomValues  = randomGrids[prop];
+	if (!randomValues) {
+		return;
+	}
+  let {randomizer} = this;  
+	let rs = randomizer.valueAt(randomValues,i,j);
+	return rs;
+}
+    
+ 
+item.randomValuesAtCell = function (randomGrids,i,j) {
+	if (!randomGrids) {
+		return;
+	}
+	let randomizer = this.initRandomizer();
+  //let {randomizer} = this;  
+	let rs = {}; 
+	for (let prop in randomGrids) {
+	  let randomValues = randomGrids[prop];
+    if ((prop !== 'interpolateTo') && (prop !== 'interpolateFrom') && (prop !== 'nowInterpolating')) {
+	    rs[prop] = randomizer.valueAt(randomValues,i,j);
+    }
+	}
+	return rs;
+}
 }   
 });

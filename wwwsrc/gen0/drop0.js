@@ -1,7 +1,7 @@
 
 //core.require('/gen0/animation.js','/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
-core.require('/gen0/animation.js','/gen0/basics.js','/shape/rectangle.js','/line/line.js',
-function (addAnimationMethods,addBasicMethods,rectanglePP,linePP) {
+core.require('/gen0/animation.js','/gen0/basics.js','/gen0/topRandomMethods.js','/shape/rectangle.js','/line/line.js',
+function (addAnimationMethods,addBasicMethods,addRandomMethods,rectanglePP,linePP) {
 
 //core.require(function () {
  return function (rs) {
@@ -9,6 +9,7 @@ function (addAnimationMethods,addBasicMethods,rectanglePP,linePP) {
 //let item = svg.Element.mk('<g/>');
 //addAnimationMethods(rs);
 addBasicMethods(rs);
+addRandomMethods(rs);
 
 /*adjustable parameters  */
 let topParams = {width:100,height:100,maxDrops:10,maxTries:5,lineLength:10,backgroundColor:undefined,minSeparation:5}
@@ -195,6 +196,7 @@ rs.addSegmentAtThisEnd = function (end) {
 }
 
 rs.addSegmentAtSomeEnd = function () {
+  let {extendWhich} = this;
   while (true) {
     let ae = this.activeEnds();
     let end;
@@ -202,7 +204,14 @@ rs.addSegmentAtSomeEnd = function () {
 		//console.log('ae len',ln);
 		if (ln > 0) {
  //     debugger;
-			let rni = Math.floor(Math.random()*ln);
+      let rni;
+      if (extendWhich === 'last') {
+			  rni = ln-1;// Math.floor(Math.random()*ln);
+      } else if (extendWhich === 'random') {
+		  	rni =  Math.floor(Math.random()*ln);
+      } else {
+        rni = 0; 
+      }
 			end = ae[rni];
 			let num = this.addSegmentAtThisEnd(end);
       if (num) {
@@ -220,7 +229,9 @@ rs.addSegmentsAtEnds = function () {
   let tries = 0; 
   let numDrops = 0;
   let loop = 0;
-  let maxLoops = 100;
+ // let maxLoops = 100;
+  let maxLoops = 10000;
+  maxLoops = 20000;
   while (loop < maxLoops) {
     loop++;
     let num = this.addSegmentAtSomeEnd();
@@ -245,7 +256,7 @@ rs.addSegmentsAtEnds = function () {
        
     
 rs.addRandomSegments = function () {
-  let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds} = this;
+  let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds,onlyFromSeeds} = this;
   if (!this.genSegments) {
     return;
   }
@@ -254,7 +265,7 @@ rs.addRandomSegments = function () {
   let tries = 0;
   let endsVsNew = 1;
   
-  let maxLoops = 20000;
+  let maxLoops = 50000;
   let loops = 0;
   while (loops < maxLoops) {
     loops++;
@@ -268,6 +279,9 @@ rs.addRandomSegments = function () {
         }
       }
      // break;
+    }
+    if (onlyFromSeeds) {   
+      return;
     }
 		p = this.genRandomPoint(); 
     console.log('p',p.x,p.y);
@@ -300,7 +314,7 @@ rs.addRandomSegments = function () {
 }
 
 
-rs.genLine = function (lsgOrP0,p1) {
+rs.genLine = function (lsgOrP0,p1,ext) {
   let end0,end1;
   if (p1) {
     end0 = lsgOrP0;
@@ -309,6 +323,26 @@ rs.genLine = function (lsgOrP0,p1) {
     end0= lsgOrP0.end0;
     end1= lsgOrP0.end1;
   }
+
+
+rs.genLine = function (lsgOrP0,p1,ext) {
+  let end0,end1;
+  if (p1) {
+    end0 = lsgOrP0;
+    end1 = p1;
+  } else {
+    end0= lsgOrP0.end0;
+    end1= lsgOrP0.end1;
+  }
+  if (ext) {
+    let vec = end1.difference(end0);
+    let nvec = vec.normalize();
+    end1 = end1.plus(nvec.times(ext));
+  }
+  let line = this.lineP.instantiate();
+  line.setEnds(end0,end1);
+  return line;
+}
   let line = this.lineP.instantiate();
   line.setEnds(end0,end1);
   return line;
@@ -512,6 +546,15 @@ rs.wigglySegments = function (params) {
   return segs;
 }
 
+rs.cellOf  = function (p) {
+  let {x,y} = p;
+  let {width,height,numRows,numCols} = this;
+  let hw = width/2;
+  let hh = height/2;
+  let ix = Math.floor(((x+hw)/width) * numCols);
+  let iy = Math.floor(((y+hh)/height) * numRows);
+  return {x:ix,y:iy};
+}
 
 rs.initProtos = function () {
 	core.assignPrototypes(this,'lineP',linePP);

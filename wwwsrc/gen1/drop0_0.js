@@ -26,7 +26,7 @@ rs.computeWhichByCornerInterpolation = function (p) {
     which = 2;
   } else {
     which = 3;
-  }blo
+  }
   return which;
 }
 

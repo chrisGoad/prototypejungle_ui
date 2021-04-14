@@ -20,9 +20,9 @@ rs.finishProtos = function () {
 rs.genSegments = function (p) {
   let {width,height} = this;
   debugger;
- // let params = {direction:0.75*Math.PI,zigzag:1,randomness:0,vertical:0,widths:[10],heightRatio:0.05,numSegs:4,pos:p};
+  let params = {direction:0.75*Math.PI,zigzag:1,randomness:0,vertical:0,widths:[10],heightRatio:0.05,numSegs:4,pos:p};
 
-  let which = this.computeWhichByInterpolation(p);
+  let which = this.computeWhichByCornerInterpolation(p);
   let rgb0 = [250,0,0];
   let rgb2 = [0,0,250];
   let rgb1 = [250,250,250];
