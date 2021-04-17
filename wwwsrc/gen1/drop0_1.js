@@ -25,6 +25,16 @@ rs.randomColor = function () {
   return {r,g,b}
 }
 
+rs.genOneSegment = function (p,direction,clr) {
+  let {separation:sep,sepNext,splitChance,splitAmount,lineLength:len} = this;
+	let seg = this.genSegment(p,len,direction,sep,sepNext,0);
+	let ln = this.genLine(seg.end0,seg.end1,sepNext);
+  if (clr) {
+		ln.stroke = clr;//'white';//clr;
+  }
+	return [[seg],[ln]];
+}
+
 rs.genSegmentsFan = function (p,clr) {
   let {width,height,separation:sep,sepNext,splitChance,splitAmount,lineLength:len} = this;
   debugger;
@@ -65,8 +75,10 @@ rs.genSegmentsFan = function (p,clr) {
 
 }
 
-rs.ringSeeds = function (clr) {
+//rs.ringSeeds = function (clr,icenter,outward=1,divergence=0) {
+rs.ringSeeds = function (clr,icenter,divergence=0,data) {
   let {width,height,separation:sep,sepNext,numSeeds,ringRadius:radius,lineLength:len} = this;
+	let center = icenter?icenter:Point.mk(0,0);
   let segs = [];
 //  let numStarts = 16;
   let cangle = 0.5* Math.PI;
@@ -74,9 +86,16 @@ rs.ringSeeds = function (clr) {
  // let radius = 0.2* 0.5 * height;
  // let len = 5;//2 + Math.floor(r*4)*4;
   //let zp = Point.mk(0,0);
+	debugger;
   for (let j=0;j<numSeeds;j++) {
-    let ip = Point.mk(Math.cos(cangle),Math.sin(cangle)).times(radius)
-		let seg =  this.genSegment(ip,len,cangle,sep,sepNext,0);
+    let ip = Point.mk(Math.cos(cangle),Math.sin(cangle)).times(radius);
+		let p = ip.plus(center);
+	//	let dir = outward?cangle+divergence:-cangle-divergence;
+		let dir = cangle+divergence;
+		let seg =  this.genSegment(p,len,dir,sep,sepNext,0);
+		if (data) {
+			seg.end.data = data;
+		}
 		segs.push(seg); 
     cangle += delta;
   }

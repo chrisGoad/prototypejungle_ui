@@ -102,23 +102,40 @@ rs.genRandomPoint = function (rect) {
 
 rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
   let vec = Point.mk(Math.cos(angle),Math.sin(angle));
-  let e0,e1,end;
+  let e0,e1,end,rs;
   if (centered) {
     let hln = (ln+sep)/2;
     let hvec = vec.times(hln);
     e0 = p.difference(hvec);
     e1 = p.plus(hvec);
+		rs = LineSegment.mk(e0,e1);
+
   } else {
     e0 = p;
+		p.isEnd = 1;
     end  = p.plus(vec.times(ln+sepNext));
     e1  =  p.plus(vec.times(ln+sep));
+		rs = LineSegment.mk(e0,e1);
+		rs.theEnd = end;
   }
-  let rs = LineSegment.mk(e0,e1);
+	rs.fromEnd = p;
+
+	let g;
   if (p.isEnd) {
-    rs.fromEnd = p;
+		g = p.generation;
+		if (g === undefined) {
+			g = 0;
+			p.generation = 0;
+		}
+  //  rs.fromEnd = p;
   }
   if (end) {
+		console.log('new end data',p.data);
     rs.end = end;
+		if (p.data) {
+			end.data = p.data;
+		}
+		end.generation = g+1;
     end.direction = angle;
   }
   return rs;
@@ -149,7 +166,7 @@ rs.segmentIntersects = function (seg) {
 
 rs.activeEnds = function () {
   let ends = this.ends;
-  rs = [];
+  let rs = [];
 	let cnt = 0;
   ends.forEach((end) => {
 		cnt++
@@ -158,9 +175,9 @@ rs.activeEnds = function () {
     }
   });
 	let fr = (rs.length)/cnt;
-	console.log('fraction active',fr);
+	console.log('active ends ',rs);
 	if (fr < 0.5) {
-		this.ends = rs;
+		//this.ends = rs;
 	}
   return rs;
 }
@@ -170,26 +187,30 @@ rs.addSegmentAtThisEnd = function (end) {
   if (!this.genSegments) {
     return;
   }
-  let maxTriesPerEnd = 2;
+  let maxTriesPerEnd = 20;
   let tries = 0;
   let numDropped = 0;
   while (true) {
 		let segsAndLines = this.genSegments(end);
-		let [segs,lines] = segsAndLines;
 		let ifnd = 0;
-		let sln = segs.length;
-		for (let i=0;i<sln;i++) {
-			let seg = segs[i];
-			if (this.segmentIntersects(seg,sep)) {
-        
-				ifnd = true;
-				break;
+		let sln = 0
+		if (segsAndLines) {
+			let [segs,lines] = segsAndLines;
+			sln = segs.length;
+			for (let i=0;i<sln;i++) {
+				let seg = segs[i];
+				if (this.segmentIntersects(seg,sep)) {				
+					ifnd = true;
+					break;
+				}
 			}
+		} else {
+			ifnd = 1;
 		}
 		if (ifnd) {
 			tries++;
 			if (tries === maxTriesPerEnd) {
-       // console.log('inactive');
+        console.log('inactivated - could not find continuation');
         debugger;
         end.inactive = 1;
 				return 0;
@@ -202,6 +223,26 @@ rs.addSegmentAtThisEnd = function (end) {
   }
 }
 
+rs.randomArrayElement = function (a) {
+	ln = a.length;
+	let rni = Math.floor(ln*Math.random());
+	return a[rni]
+}
+
+rs.lastArrayElement = function (a) {
+	ln = a.length;
+	return a[ln-1]
+}
+
+rs.randomDirection = function (n) {
+	if (n) {
+	  return 2*Math.PI*(Math.floor(n*Math.random())/n);
+	} else {
+		return 2*Math.PI*Math.random();
+	}
+}
+
+
 rs.addSegmentAtSomeEnd = function () {
   let {extendWhich} = this;
   while (true) {
@@ -211,15 +252,13 @@ rs.addSegmentAtSomeEnd = function () {
 		//console.log('ae len',ln);
 		if (ln > 0) {
  //     debugger;
-      let rni;
       if (extendWhich === 'last') {
-			  rni = ln-1;// Math.floor(Math.random()*ln);
+			  end = this.lastArrayElement(ae);
       } else if (extendWhich === 'random') {
-		  	rni =  Math.floor(Math.random()*ln);
+		  	end =  this.randomArrayElement(ae);
       } else {
-        rni = 0; 
+        end = ae[0];
       }
-			end = ae[rni];
 			let num = this.addSegmentAtThisEnd(end);
       if (num) {
         return num;
@@ -277,7 +316,7 @@ rs.addRandomSegments = function () {
   let loops = 0;
   while (loops < maxLoops) {
     loops++;
-    debugger;
+  //  debugger;
   // if ((loops > 1) && fromEnds) {
     if (fromEnds) {
       if (Math.random() < endsVsNew) {
@@ -295,15 +334,22 @@ rs.addRandomSegments = function () {
     //console.log('p',p.x,p.y);
   //  p = Point.mk(0,0);
 		let segsAndLines = this.genSegments(p);
-		let [segs,lines] = segsAndLines;
 		let ifnd = 0;
-		let sln = segs.length;
-		for (let i=0;i<sln;i++) {
-			let seg = segs[i];
-			if (this.segmentIntersects(seg,sep)) {
-				ifnd = true;
-				break;
+		let sln=0;
+		if (segsAndLines) {
+			let [segs,lines] = segsAndLines;
+			sln = segs.length;
+			for (let i=0;i<sln;i++) {
+				let seg = segs[i];
+				if (this.segmentIntersects(seg,sep)) {
+									debugger;
+
+					ifnd = true;
+					break;
+				}
 			}
+		} else {
+			ifnd = 1;
 		}
 		if (ifnd) {
 			tries++;
@@ -366,15 +412,27 @@ rs.installLine = function (line) {
 rs.installSegmentsAndLines = function (seglines) {
   let {segments,ends} = this;
   let [segs,lines] = seglines;
+	let ln = segments.length;
   segs.forEach( (seg) => {
+		seg.number = ln;
+		let {end0,end1,theEnd} = seg;
+		end0.end0of = ln;
+		end1.end1of = ln;
+		if (theEnd) {
+		  theEnd.isEndOf = ln;
+		}
     segments.push(seg);
     if (seg.end) {
       ends.push(seg.end);
       seg.end.isEnd = 1;
+			console.log('generation',seg.end.generation);
     }
-    if (seg.fromEnd) {
-      seg.fromEnd.inactive = 1;
+		let fre = seg.fromEnd;
+    if (fre) {
+			console.log('seg ',ln, ' from end ',fre.isEndOf);
+      fre.inactive = 1;
     }
+		ln++;
   });
   lines.forEach( (line) => this.installLine(line));
 }

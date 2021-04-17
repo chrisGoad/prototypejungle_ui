@@ -707,23 +707,36 @@ LineSegment.middle = function () {
 
   
 LineSegment.intersect = function (line1) {
+	let verbose = false;
   let line0 = this;
   let x0 = line0.end0.x;
   let y0 = line0.end0.y;
   let x1 = line1.end0.x;
   let y1 = line1.end0.y;
+	let e1x0 = line0.end1.x;
+	let e1y0 = line0.end1.y;
+	let e1x1 = line1.end1.x;
+	let e1y1 = line1.end1.y;
   let maxX0 = Math.max(line0.end0.x,line0.end1.x);
   let minX0 = Math.min(line0.end0.x,line0.end1.x);
   let maxX1 = Math.max(line1.end0.x,line1.end1.x);
   let minX1 = Math.min(line1.end0.x,line1.end1.x);
   if ((minX1 > maxX0)||(minX0 > maxX1)) {
+		if (verbose) {
+			console.log('No Intersect 0 [[',x0,y0,'][',e1x0,e1y0,']] [[',x1,y1,'][',e1x1,e1y1,']]');
+		}
     return false;
   }
   let maxY0 = Math.max(line0.end0.y,line0.end1.y);
   let minY0 = Math.min(line0.end0.y,line0.end1.y);
   let maxY1 = Math.max(line1.end0.y,line1.end1.y);
   let minY1 = Math.min(line1.end0.y,line1.end1.y);
-  if ((minY1 > maxY0)||(minY0 > maxY1)) {
+  if ((minY1 > maxY0)||(minY0 > maxY1)) {		
+	  if (verbose) {
+			console.log('No Intersect 1 [[',x0,y0,'][',e1x0,e1y0,']] [[',x1,y1,'][',e1x1,e1y1,']]');
+		}
+
+		
     return false;
   }
  
@@ -737,16 +750,31 @@ LineSegment.intersect = function (line1) {
   let dy = d.y;
   let den = (dx*nx + dy*ny);
   if (Math.abs(den) < 0.001) { // lines are parallel
-    return false;
+    let distN0 = line0.end0.dotp(n);
+    let distN1 = line1.end0.dotp(n);
+		if (Math.abs(distN1-distN0) < 0.001) {
+			if (verbose) {
+				console.log('Intersect 2 [[',x0,y0,'][',e1x0,e1y0,']] [[',x1,y1,'][',e1x1,e1y1,']]');
+			}
+			return true;
+		} else {
+      return false;
+		}
   }
   let t = -((y1-y0)*ny + (x1-x0)*nx)/den;
   if ((t<0) || (t > length+0)) {// line1 terminates before it meets line0
+		if (verbose) {
+			console.log('No Intersect 3 [[',x0,y0,'][',e1x0,e1y0,']] [[',x1,y1,'][',e1x1,e1y1,']]');
+		}
     return false;
   }
   let ip = line1.end0.plus(d.times(t));// intersection point
   if (ip.difference(line0.end0).dotp(ip.difference(line0.end1))<=0) {
     return ip;
   }
+	if (verbose) {
+		console.log('No Intersect 4 [[',x0,y0,'][',e1x0,e1y0,']] [[',x1,y1,'][',e1x1,e1y1,']]');
+	}
   return false;
   
 }

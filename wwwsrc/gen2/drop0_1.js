@@ -5,7 +5,7 @@ let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 rs.setName('drop0_1');
 let topParams = {width:300,height:300,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:40,minSeparation:0}
-//topParams = {width:300,height:300,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
+//topParams = {width:50,height:50,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
 Object.assign(rs,topParams);
 
@@ -50,7 +50,7 @@ rs.genSegments = function (p) {
   let sz = sizes[which];
   let wd = sz;
   let ht = sz;
-  debugger;
+//  debugger;
   let segs = this.rectangleSegments(wd,ht,p);
   let lines = segs.map((sg) => this.genLine(sg));
 
