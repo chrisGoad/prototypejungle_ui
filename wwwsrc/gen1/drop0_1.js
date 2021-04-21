@@ -93,9 +93,12 @@ rs.ringSeeds = function (clr,icenter,divergence=0,data) {
 	//	let dir = outward?cangle+divergence:-cangle-divergence;
 		let dir = cangle+divergence;
 		let seg =  this.genSegment(p,len,dir,sep,sepNext,0);
+		let end = seg.end;
 		if (data) {
-			seg.end.data = data;
+			send.data = data;
 		}
+		end.spoke = j;
+		end.seed = end;
 		segs.push(seg); 
     cangle += delta;
   }

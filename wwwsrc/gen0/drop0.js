@@ -116,11 +116,22 @@ rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
     end  = p.plus(vec.times(ln+sepNext));
     e1  =  p.plus(vec.times(ln+sep));
 		rs = LineSegment.mk(e0,e1);
+		let g = p.generation;
+		if (g === undefined) {
+			g = 0;
+			p.generation = 0;
+		}
+    rs.end = end;
+		if (p.seed) {
+			end.seed = p.seed;
+		}
+		end.generation = g+1;
+    end.direction = angle;		
 	//	rs.theEnd = end;
   }
 	rs.fromEnd = p;
 
-	let g;
+	/*let g;
   if (p.isEnd) {
 		g = p.generation;
 		if (g === undefined) {
@@ -130,15 +141,17 @@ rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
   //  rs.fromEnd = p;
   }
   if (end) {
-		console.log('new end data',p.data);
+		//console.log('new end data',p.data);
     rs.end = end;
 		if (p.data) {
 			end.data = p.data;
-			
+		} 
+		if (p.seed) {
+			end.seed = p.seed;
 		}
 		end.generation = g+1;
     end.direction = angle;
-  }
+  }*/
   return rs;
 }
 
@@ -176,7 +189,7 @@ rs.activeEnds = function () {
     }
   });
 	let fr = (rs.length)/cnt;
-	console.log('active ends ',rs);
+	//console.log('active ends ',rs);
 	if (fr < 0.5) {
 		//this.ends = rs;
 	}
@@ -413,24 +426,24 @@ rs.installSegmentsAndLines = function (seglines) {
 	let ln = segments.length;
   segs.forEach( (seg) => {
 		seg.number = ln;
-		let {end0,end1,theEnd} = seg;
+		let {end0,end1,end} = seg;
 		if (!end0) {
 			debugger;
 		}
 		end0.end0of = ln;
 		end1.end1of = ln;
-		if (theEnd) {
-		  theEnd.isEndOf = ln;
+		if (end) {
+		  end.isEndOf = ln;
 		}
     segments.push(seg);
-    if (seg.end) {
-      ends.push(seg.end);
-      seg.end.isEnd = 1;
-			console.log('generation',seg.end.generation);
+    if (end) {
+      ends.push(end);
+      end.isEnd = 1;
+		//	console.log('generation',seg.end.generation);
     }
 		let fre = seg.fromEnd;
     if (fre) {
-			console.log('seg ',ln, ' from end ',fre.isEndOf);
+			//console.log('seg ',ln, ' from end ',fre.isEndOf);
       fre.inactive = 1;
     }
 		ln++;

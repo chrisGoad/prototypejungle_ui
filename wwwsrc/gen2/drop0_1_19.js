@@ -41,12 +41,17 @@ rs.genGridSegments = function (cell,p) {
   let {deltaX,deltaY,rectangleDim} = this; 
 	let {x,y} = cell;
 	if ((x%1 === 0) && (y%1 === 0)) {
-		debugger;
 	  let dim = rectangleDim*Math.min(deltaX,deltaY);
 	 let segs = this.rectangleSegments(dim,dim,p);
 	 let lines = segs.map((sg) => this.genLine(sg)); 
 	 let  SL = this.genOneSegment(p,0.5*Math.PI,'cyan');
-	 segs.push(SL[0][0]);
+	 let seedSeg = SL[0][0];
+	 segs.push(seedSeg);
+	 let end = seedSeg.end;
+	 //end.params = {directionChange:(x+1) * 0.1 * Math.PI}
+	 end.params = {splitChance: 0.1 * x}
+	 end.seed = end;
+	
 	 lines.push(SL[1][0]);
 	//	let segs = [];
 		let rect = this.rectP0.instantiate();
@@ -77,9 +82,19 @@ rs.inArect = function (p) {
 
 
 rs.genSegments = function (p) {
-  //debugger;
+  debugger;
  // let {r,g,b} = this.randomizerColor(p);
 //	let clr = `rgb(${r},${r},${r})`;
+  let seed = p.seed;
+	
+	if (seed) {
+		let params = seed.params;
+		if (params) {
+			Object.assign(this,params);
+		  //console.log('params',seed.params);
+			//debugger;
+		}
+	}
   return this.genSegmentsFan(p,'white');
 //  return this.genSegmentsFan(p,clr);
 }
