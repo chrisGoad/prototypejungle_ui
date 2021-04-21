@@ -4,7 +4,8 @@ core.require('/gen0/drop0.js',function (addDropMethods) {
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 rs.setName('drop0_0');
-let topParams = {width:200,height:200,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:10}
+let wd = 200;
+let topParams = {width:wd,height:wd,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:10}
 
 Object.assign(rs,topParams);
 
@@ -18,13 +19,14 @@ rs.finishProtos = function () {
 
 rs.initialSegments = function () {
   let {width,height} = this; 
-  let hw = 0.5*width;
+  let segs = this.rectangleSegments(width,height);
+ /* let hw = 0.5*width;
   let hh = 0.5*width;
   let sg0 = LineSegment.mk(Point.mk(-hw,-hh),Point.mk(hw,-hh));
   let sg1 = LineSegment.mk(Point.mk(-hw,hh),Point.mk(hw,hh));
   let sg2 = LineSegment.mk(Point.mk(-hw,-hh),Point.mk(-hw,hh));
   let sg3 = LineSegment.mk(Point.mk(hw,-hh),Point.mk(hw,hh));
-  let segs = [sg0,sg1,sg2,sg3];
+  let segs = [sg0,sg1,sg2,sg3];*/
   let lines = segs.map((sg) => this.genLine(sg));  
   return [segs,lines];
 }
@@ -65,7 +67,7 @@ rs.initialize = function () {
   let r1 = geom.Rectangle.mk(Point.mk(0,-100),Point.mk(100,100));
   let r2 = geom.Rectangle.mk(Point.mk(-100,0),Point.mk(100,100));
   let r3 = geom.Rectangle.mk(Point.mk(0,0),Point.mk(100,100));
-  this.rectangles = [r0,r1,r2,r3];
+ // this.rectangles = [r0,r1,r2,r3];
 	this.initializeDrop();
 }
 

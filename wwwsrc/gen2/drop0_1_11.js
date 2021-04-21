@@ -3,7 +3,7 @@
 core.require('/gen1/drop0_1.js',function (rs) {
 
 rs.setName('drop0_1_11');
-let topParams = {width:1300,height:1300,numRows:20,numCols:30,maxDrops:10000,maxTries:10,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:3,splitChance:0.2,splitAmount:0.08 * Math.PI}
+let topParams = {width:1800,height:1200,numRows:20,numCols:30,maxDrops:10000,maxTries:10,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:3,splitChance:0.2,splitAmount:0.08 * Math.PI}
 
 Object.assign(rs,topParams);
 

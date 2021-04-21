@@ -116,7 +116,7 @@ rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
     end  = p.plus(vec.times(ln+sepNext));
     e1  =  p.plus(vec.times(ln+sep));
 		rs = LineSegment.mk(e0,e1);
-		rs.theEnd = end;
+	//	rs.theEnd = end;
   }
 	rs.fromEnd = p;
 
@@ -134,6 +134,7 @@ rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
     rs.end = end;
 		if (p.data) {
 			end.data = p.data;
+			
 		}
 		end.generation = g+1;
     end.direction = angle;
@@ -367,7 +368,7 @@ rs.addRandomSegments = function () {
   }
 }
 
-
+/*
 rs.genLine = function (lsgOrP0,p1,ext) {
   let end0,end1;
   if (p1) {
@@ -377,7 +378,7 @@ rs.genLine = function (lsgOrP0,p1,ext) {
     end0= lsgOrP0.end0;
     end1= lsgOrP0.end1;
   }
-
+*/
 
 rs.genLine = function (lsgOrP0,p1,ext) {
   let end0,end1;
@@ -397,10 +398,7 @@ rs.genLine = function (lsgOrP0,p1,ext) {
   line.setEnds(end0,end1);
   return line;
 }
-  let line = this.lineP.instantiate();
-  line.setEnds(end0,end1);
-  return line;
-}
+ 
  
 rs.installLine = function (line) {
   this.shapes.push(line);
@@ -416,6 +414,9 @@ rs.installSegmentsAndLines = function (seglines) {
   segs.forEach( (seg) => {
 		seg.number = ln;
 		let {end0,end1,theEnd} = seg;
+		if (!end0) {
+			debugger;
+		}
 		end0.end0of = ln;
 		end1.end1of = ln;
 		if (theEnd) {
@@ -620,6 +621,21 @@ rs.cellOf  = function (p) {
   let ix = Math.floor(((x+hw)/width) * numCols);
   let iy = Math.floor(((y+hh)/height) * numRows);
   return {x:ix,y:iy};
+}
+
+
+
+rs.concatEachArray = function (ays) {
+	let c0 = [];
+	let c1 = [];
+	ays.forEach( (a) => {
+	 let [a0,a1]= a;
+	 c0.push(...a0);
+	 c1.push(...a1);
+	 //c0 = c0.concat(a0);
+	 //c1 = c1.concat(a1);
+  });	 
+	 return [c0,c1];
 }
 
 rs.initProtos = function () {

@@ -1,10 +1,10 @@
 
-core.require('/gen0/drop0.js',function (addDropMethods) {
+core.require('/gen0/drop0.js','/shape/rectangle.js',function (addDropMethods,rectPP) {
 
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 rs.setName('drop0_1');
-let topParams = {width:300,height:300,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:40,minSeparation:0}
+let topParams = {width:300,height:300,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:40,minSeparation:0,}
 //topParams = {width:50,height:50,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
 Object.assign(rs,topParams);
@@ -16,6 +16,8 @@ rs.finishProtos = function () {
 	//this.lineP.stroke = 'yellow';
 	this.lineP['stroke-width'] = .1;
 	this.lineP['stroke-width'] = .5;
+	core.assignPrototypes(this,'rectP0',rectPP);
+	this.rectP0.fill = 'white';
 }  
 
 rs.segParams = function () {
@@ -61,7 +63,21 @@ rs.genSegments = function (p) {
   let g = genRGBval();
   let b = genRGBval();
   let clr = `rgb(${r},${r},${r})`;
-  lines.forEach( (line) => line.stroke = clr);
+  //lines.forEach( (line) => line.stroke = clr);
+	if (which !== 8) {
+    lines.forEach( (line) => line.stroke = 'transparent');
+	}
+	if (which < 2) {
+		let rect = this.rectP0.instantiate();
+		rect.width = wd;
+		rect.height = ht;
+	//	let gRect = Rectangle.mk(Point.mk(p.x-0.5*wd,p.y-0.5*ht),Point.mk(wd,ht));
+	//	this.gRects.push(gRect);
+		rect.show();
+		rect.fill  = clr;
+		lines.push(rect);
+		rect.moveto(p);
+	}
 
   return [segs,lines];
 }
