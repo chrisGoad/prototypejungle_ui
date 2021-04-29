@@ -225,7 +225,7 @@ rs.addSegmentAtThisEnd = function (end) {
 			tries++;
 			if (tries === maxTriesPerEnd) {
         console.log('inactivated - could not find continuation');
-        debugger;
+       //debugger;
         end.inactive = 1;
 				return 0;
 			}
@@ -284,7 +284,7 @@ rs.addSegmentAtSomeEnd = function () {
 }
 
 rs.addSegmentsAtEnds = function () {
-  debugger;
+ // debugger;
   let maxEndTries = 100;
   let tries = 0; 
   let numDrops = 0;
@@ -504,14 +504,23 @@ rs.triangleSegments = function (wd,ht,center) {
   return this.segsFromPoints(points,center);
 }
       
-rs.rectangleSegments = function (wd,ht,center) {
+rs.rectangleSegments = function (wd,ht,center,bottomGap) {
   let hwd = 0.5 * wd;
   let hht = 0.5 * ht;
   let UL = Point.mk(-hwd,-hht);
   let UR = Point.mk(hwd,-hht);
   let LR = Point.mk(hwd,hht);
   let LL = Point.mk(-hwd,hht);
-  let points = [UL,UR,LR,LL,UL];
+	let points;
+	if (bottomGap) {
+		let HL = Point.mk(-0.5*bottomGap,hht);
+		let HR = Point.mk(0.5*bottomGap,hht);
+    points0 = [HL,LL,UL];//,UR,LR,HR];
+    points1 = [UR,LR,HR];
+		return this.segsFromPoints(points0,center).concat(this.segsFromPoints(points1,center));
+	} else {
+    points = [UL,UR,LR,LL,UL];
+	}
   return this.segsFromPoints(points,center);
 }
 
