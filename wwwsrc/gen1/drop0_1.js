@@ -25,9 +25,15 @@ rs.randomColor = function () {
   return {r,g,b}
 }
 
-rs.genOneSegment = function (p,direction,clr) {
-  let {separation:sep,sepNext,splitChance,splitAmount,lineLength:len,lineExt=0} = this;
+rs.genOneSegment = function (p,direction) {
+  let {separation:sep,sepNext,lineLength:len,lineExt=0} = this;
 	let seg = this.genSegment(p,len,direction,sep,sepNext,0);
+  return seg;
+}
+// a "unit" has the form [[segs],[lines]] Seeds are starter units
+rs.genSingletonUnit =  function (p,direction,clr) {
+  let {lineExt=0} = this;
+	let seg = this.genOneSegment(p,direction);
 	//let ln = this.genLine(seg.end0,seg.end1,sepNext);
 	let ln = this.genLine(seg.end0,seg.end1,lineExt);
   if (clr) {
@@ -53,7 +59,7 @@ rs.genSegmentsFan = function (p,clr,params) {
 	}
 	let {width,height,separation:sep,sepNext,splitChance,splitAmount,
 	     lineLength:len,directionChange:dc=0,randomDirectionChange:rdc,lineExt=0} = thisCopy;
-
+  let angle;
 	let rn = Math.random();
   if (typeof p.direction === 'number') {
    angle = p.direction +  dc + ((rn<0.5)?rdc:-rdc);

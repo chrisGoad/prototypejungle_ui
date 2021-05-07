@@ -17,7 +17,8 @@ sections: [
     ['grid0_19_1','gen2',1,'Dark Eye'],
     ['drop0_0_1','gen2',1,'Clouds'],
     ['drop0_2','gen2',1,'Threads'],
-    ['drop0_1','gen2',1,'Starry Night'],
+    /*['drop0_1','gen2',1,'Starry Night'],*/
+    ['drop0__13','gen2',1,'Starry Night'],
 
     ['grid0_8_26','gen2',1,'Sphere'],
     ['grid0_28','gen2',1,'Distortion Field'],
