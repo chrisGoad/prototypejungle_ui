@@ -59,6 +59,9 @@ c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_8_f%03d.jpg -s 1000x5
 c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_9_f%03d.jpg -s 500x500  export/grid0_20_9.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_11_f%03d.jpg -s 500x500  export/grid0_20_11.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/grid0_20_12_f%03d.jpg -s 500x500  export/grid0_20_12.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/drop0__14.anim_f%03d.jpg -s 1000x1000  export/drop0__14.anim.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/drop0__15.anim_f%03d.jpg -s 1000x1000  export/drop0__15.anim.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 15 -i animations/drop0_1_23.anim_f%03d.jpg -s 1000x1000  export/drop0_1_23.anim.gif
 
 
 rm animations/spatter0_7*

@@ -73,7 +73,7 @@ rs.genSegmentsFan = function (p,clr,params) {
  // let a1 = angle-0.02 * Math.PI;
 	//let len = 10;//2 + Math.floor(r*4)*4;
   if (Math.random() < splitChance ) {
-		debugger;
+		//debugger;
 	  let seg0 = this.genSegment(p,len,a0,sep,sepNext,0);
 	  let seg1 = this.genSegment(p,len,a1,sep,sepNext,0);
     p.isEnd = 1;
@@ -184,7 +184,7 @@ rs.gridSeeds = function (clr) {
 	let deltaY = this.deltaY = iheight/numRows;
 	let ix = (-hwd) + 0.5*deltaX;
 	let yv = (-hht) + 0.5*deltaY;
-	debugger;
+//	debugger;
   for (let j=0;j<numRows;j++) {
     xv = ix;
 		for (let i=0;i<numCols;i++) {
@@ -218,13 +218,13 @@ rs.gridSeeds = function (clr) {
   return [segs,lines];
 }
 
-
+/*
 rs.setupColorRandomizer = function (params) {
   this.setupShapeRandomizer('r',params);
   this.setupShapeRandomizer('g',params);
   this.setupShapeRandomizer('b',params);
 }
-  
+  */
 
 return rs;
 

@@ -45,7 +45,7 @@ item.animateIt = function (numFrames,interval,resume,timeStep) {
 	}
 	this.paused = false;
 	//let interval = 500;
-  dom.svgDraw();
+  //dom.svgDraw();
   const doStep = () => {
 		if (this.paused) {
 			return;
@@ -67,7 +67,6 @@ item.animateIt = function (numFrames,interval,resume,timeStep) {
 		dom.svgDraw();
    // debugger;
 		if (this.saveVideo) {
-			//debugger;
 			if ((!everyNthFrame) || (frameNumber%everyNthFrame === 0)) {
 		    draw.saveFrame(everyNthFrame?frameNumber/everyNthFrame:frameNumber);
 			}
@@ -76,14 +75,15 @@ item.animateIt = function (numFrames,interval,resume,timeStep) {
 
 		setTimeout(doStep,interval);
   }
- // debugger;
+//  debugger;
+	this.step();//new
   if (this.saveVideo) {
 		draw.saveFrame(frameNumber);
 	}
   setTimeout(doStep,interval);
 }
 
-item.oneStep = function (save) {
+item.oneStepp = function (save) {
  // let numFrames = 10;
     //svgMain.draw();
 		//debugger;

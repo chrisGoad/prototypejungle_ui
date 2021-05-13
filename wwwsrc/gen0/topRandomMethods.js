@@ -147,6 +147,8 @@ item.stepShapeRandomizer = function (nm) {
 }
 	
 
+  
+
 item.stepBoundaryRandomizer = function (nm) {
   return this.stepRandomizer('randomGridsForBoundaries',nm);
 }
@@ -157,6 +159,13 @@ item.setupShapeRandomizer = function (nm,params) {
   return this.setupRandomizer('randomGridsForShapes',nm,params);
 }
 
+
+
+item.setupColorRandomizer = function (params) {
+  this.setupShapeRandomizer('r',params);
+  this.setupShapeRandomizer('g',params);
+  this.setupShapeRandomizer('b',params);
+}
 
 item.setupBoundaryRandomizer = function (nm,params) {
   return this.setupRandomizer('randomGridsForBoundaries',nm,params);

@@ -12,7 +12,7 @@ addBasicMethods(rs);
 addRandomMethods(rs);
 
 /*adjustable parameters  */
-let topParams = {width:100,height:100,maxDrops:10,maxTries:5,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000}
+let topParams = {width:100,height:100,maxDrops:10,maxTries:5,maxLoops:100000,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000}
 
 Object.assign(rs,topParams);
 
@@ -197,15 +197,20 @@ rs.activeEnds = function () {
 }
 
 rs.addSegmentAtThisEnd = function (end) {
-  let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds} = this;
+  let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds,numRows,randomGridsForShapes} = this;
   if (!this.genSegments) {
     return;
   }
   let maxTriesPerEnd = 20;
   let tries = 0;
   let numDropped = 0;
+	let cell,rvs;
+	if (numRows && randomGridsForShapes) {
+	  cell = this.cellOf(end);
+    rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
+	}
   while (true) {
-		let segsAndLines = this.genSegments(end);
+		let segsAndLines = this.genSegments(end,rvs);
 		let ifnd = 0;
 		let sln = 0
 		if (segsAndLines) {
@@ -278,6 +283,7 @@ rs.addSegmentAtSomeEnd = function () {
         return num;
       }
 		} else {
+			debugger;
       return "noEndsLeft";
     }
 	}
@@ -298,7 +304,7 @@ rs.addSegmentsAtEnds = function () {
     let num = this.addSegmentAtSomeEnd();
     if (num === 'noEndsLeft') {
       if (this.ends.length > 0) {
-        debugger;
+       // debugger;
       }
       return [num,numDrops];
     }
@@ -311,13 +317,13 @@ rs.addSegmentsAtEnds = function () {
       }
     }
   }
-  debugger;
+  //debugger;
   return ['loopsExceeded',numDrops];
 }
        
     
 rs.addRandomSegments = function () {
-  let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds,onlyFromSeeds} = this;
+  let {maxDrops,maxTries,maxLoops,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds,onlyFromSeeds} = this;
   if (!this.genSegments) {
     return;
   }
@@ -326,7 +332,7 @@ rs.addRandomSegments = function () {
   let tries = 0;
   let endsVsNew = 1;
   
-  let maxLoops = 50000;
+  //let maxLoops = 50000;
   let loops = 0;
   while (loops < maxLoops) {
     loops++;
@@ -335,7 +341,7 @@ rs.addRandomSegments = function () {
     if (fromEnds) {
       if (Math.random() < endsVsNew) {
         let ae = this.addSegmentsAtEnds();
-        if (ae[0] === 'loopsEExceeded') {
+        if (ae[0] === 'loopsExceeded') {
            return;
         }
       }
@@ -356,7 +362,7 @@ rs.addRandomSegments = function () {
 			for (let i=0;i<sln;i++) {
 				let seg = segs[i];
 				if (this.segmentIntersects(seg,sep)) {
-									debugger;
+							//		debugger;
 
 					ifnd = true;
 					break;
@@ -414,12 +420,28 @@ rs.genLine = function (lsgOrP0,p1,ext) {
  
  
 rs.installLine = function (line) {
+	if (line.period) {
+	  debugger;
+	}
   this.shapes.push(line);
   line.show();
   line.update();
   return line;
 }
 
+rs.updateShapes = function () {
+	if (!this.shapeUpdater) {
+		return;
+	}
+	let {shapes} = this;
+	let ln = shapes.length;
+	for (let i=0;i<ln;i++) {
+		let shp = shapes[i]
+		this.shapeUpdater(shp);
+	}
+}
+	
+	
 rs.installSegmentsAndLines = function (seglines) {
   let {segments,ends} = this;
   let [segs,lines] = seglines;
@@ -450,6 +472,25 @@ rs.installSegmentsAndLines = function (seglines) {
   });
   lines.forEach( (line) => this.installLine(line));
 }
+
+rs.removeSegmentsAndLines = function (n) {
+	let {segments,shapes} = this;
+	let ln = segments.length;
+	let sln  = shapes.length;
+	console.log('ln sln',ln,sln);
+	let nln = Math.max(0,ln-n);
+	segments.length = nln;
+	for (let i = nln;i<ln;i++) {
+		let shp = shapes[i];
+		if (shp) {
+		  shp.remove();
+		}
+	}
+	shapes.length = nln;
+}
+		
+	
+
 
 
 

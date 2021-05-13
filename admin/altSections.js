@@ -4,6 +4,9 @@ module.exports = {
 sections: [
 
 [ 
+  ['drop0_1_23','gen2',1],
+  ['drop0_0_11','gen2',1],
+  ['drop0_0_9','gen2',1],
   ['drop0_1_21','gen2',1],
   ['drop0_1_19','gen2',1],
   ['drop0_1_18','gen2',1],

@@ -1,9 +1,9 @@
 
 //core.require('/gen0/drop0.js',function (addDropMethods) {
-core.require('/gen1/drop0_1.js',function (rs) {
-
-rs.setName('drop0_1_11');
-let topParams = {width:1800,height:1200,numRows:20,numCols:30,maxDrops:10000,maxTries:10,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,randomDirectionChange:0.2*Math.PI,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:3,splitChance:0.2,splitAmount:0.08 * Math.PI}
+core.require('/gen1/drop0_1.js','/gen0/animation.js',function (rs,addAnimationMethods) {
+rs.setName('drop0_1_23.anim');
+addAnimationMethods(rs);
+let topParams = {width:1800,height:1200,numRows:20,numCols:30,maxDrops:10,maxTries:10,endLoops:20,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,randomDirectionChange:0.2*Math.PI,fromEnds:1,sepNext:.1,onlyFromSeeds:1,extendWhich:'random',numSeeds:3,splitChance:0.2,splitAmount:0.08 * Math.PI,numTimeSteps:500}
 
 Object.assign(rs,topParams);
 
@@ -19,7 +19,7 @@ rs.finishProtos = function () {
 }  
 
 rs.genSegments = function (p) {
-  debugger;
+ // debugger;
   let {r,g,b} = this.randomizerColor(p);
 	let clr = `rgb(${r},${r},${r})`;
   return this.genSegmentsFan(p,clr);
@@ -43,6 +43,16 @@ rs.initialize = function () {
 	this.initializeDrop();
 }
 
+
+rs.step = function () {
+	 this.addRandomSegments();
+}	
+
+rs.animate = function (resume) {
+	this.animateIt(this.numTimeSteps,100,resume);
+	dom.svgDraw();
+
+}
 return rs;
 
 });
