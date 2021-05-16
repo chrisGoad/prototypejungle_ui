@@ -1,8 +1,8 @@
 
 let  forKOP = 0;
 let alternate = 0;
-let sectionsPath = alternate?'./altGridSections':'./gridSections';
-let outPath = alternate?'www/altGrids.html':'www/grids.html';
+let sectionsPath = './printSections';
+let outPath = 'www/prints.html';
 var fs = require('fs');
 
 
@@ -63,8 +63,9 @@ let pageTop = `
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">Where is the Kingdom of Pattern? <a style="color:white;text-decoration:underline" href="essay.html">An Essay.</a></p>
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</	>
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">The following prints are available at my <a style="color:white;text-decoration:underline" href="https://www.etsy.com/shop/KingdomOfPattern">Etsy Store.</a></p>
+
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">If you'd like a print of one of the many images not yet at the store, please message me on Etsy with its title, and I'll add it to the store.</p	>
 
 
 <p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>
@@ -215,7 +216,7 @@ const writePage = function (sections) {
 	fs.writeFileSync(outPath,frs);
 }
 
-let sectionsC = require(alternate?'./altSections.js':'./gridSections.js');
+let sectionsC = require('./printSections.js');
 /*let sections = [
 [
 		 ['grid0_8_10','gen2','square'],

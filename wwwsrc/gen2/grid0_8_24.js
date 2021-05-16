@@ -14,7 +14,7 @@ let newGlobalParams  = {
 let gp = rs.globalParams;
 Object.assign(gp,newGlobalParams);
 
-let bkdim = 1500;
+let bkdim = 1300;
 
 let newTopParams = {
   pointJiggle:5,	

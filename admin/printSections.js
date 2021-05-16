@@ -13,8 +13,8 @@ sections: [
     //['drop0_0_3','gen2',1,'Ice'],
 		 ['grid0_8_3','gen2','square','Bubbles'],
 	['grid0_14_0','gen2','square','Variants'],
-	    ['drop0_0','gen2',1,'Ice'],
-
+	    ['drop0_0','gen2',1,'Ice']
+/*
     ['grid0_10_0','gen2',1,'Bump'],
 
      ['drop0__12','gen2',1,'Sleet'],
@@ -23,7 +23,6 @@ sections: [
     ['grid0_8_24','gen2',1,'Sphere'],
     ['drop0_0_1','gen2',1,'Clouds'],
     ['drop0_2','gen2',1,'Threads'],
-    /*['drop0_1','gen2',1,'Starry Night'],*/
     ['drop0__13','gen2',1,'Starry Night'],
 
     ['grid0_8_26','gen2',1,'Sphere'],
@@ -53,9 +52,6 @@ sections: [
 	 ['grid0_3_combo3','gen2','square','Two Quilts'],
 	 ['grid0_8_14','gen2','square','Quilt 3'],
 
-	/* 	 ['grid0_8_11','gen2','square','Quilt 3'],
-		 		['grid0_8_13','gen2','square','Quilt 4'],*/
-	 
 	 	['grid0_3','gen2','square','Metal'],
 		['grid0_2','gen2','square','Tube'],
 	['grid0_6','gen2','square','Grid 1'],
@@ -72,7 +68,6 @@ sections: [
 	 ['grid0_44.jpg','gen2',1,'Eye'],
 	// ['mmgrid0_0.jpg','gen2','square','Grating'],
 	 
-/**/
 	 ['grid0_12.jpg','gen2','square','Grid 3'],
 	['hybrid00_2.jpg','gen2','square','Lines 3'],
 	 ['grid0_16.jpg','gen2','wide2','Atlas'],
@@ -82,7 +77,6 @@ sections: [
 	 ['grid0_5_10','gen2','square','Signals'],
 	 ['grid0_6_0','gen2','square','Beacons'],
 		 ['grid0_8_9','gen2','square','Deco'],
-/**/
 				['grid0_9_0','gen2','wide2','Star Maps'],
 		 	['lines0_26','gen2',0,'Asteroids'],
 		 	['rwGrid5','gen2',0,'Kachina'],
@@ -95,49 +89,11 @@ sections: [
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 
 
+*/
 
-/**/
 
   
-],
-/* animations 
-[
-   ['zigzag3_3.mp4','gen2','wide2'],
-	 ['grid0_9.mp4','gen2','square','Animation'],
-
-	 ['wander0_1.mp4','gen2','square'],
-	 ['wander0_1_2.mp4','gen2','wide2'],
-	 ['mlines0_4.mp4','gen2','wide2','Rotation'],
-	 ['mlines0_7.mp4','gen2','Square'],
-	 ['zigzag3_3.mp4','gen2','wide2'],
-	 ['grid0_9.mp4','gen2','square','Animation'],
-	
-
-	 ['wander0_1.mp4','gen2','square'],
-	 ['wander0_1_2.mp4','gen2','wide2'],
-	 ['mlines0_4.mp4','gen2','wide2','Rotation'],
-	 ['mlines0_7.mp4','gen2','Square'],
-
-	 ['pulse0_3.mp4','gen2','wide2'],
-	 ['spin0_2.mp4','gen2','wide2'],
-	 ['spatter0_7.mp4','gen2','square'],
-	 ['wander0_3.mp4','gen2','square'],
-
-	 ['mlines0_5.mp4','gen2','wide2'],
-	 ['broken1_2.gif','gen2','square'],
-	 ['broken1_0.gif','gen2','wide2'],
-	 ['broken1_4.gif','gen2','wide2'],
-
-	 ['broken1_5.gif','gen2','square'],
-	 ['broken1_6.gif','gen2','square'],
-	 ['lines0_4.gif','gen2','square'],
-	 ['lines0_5.gif','gen2','square'],
-
-	 ['grid_1_5.gif','gen2','square'],
-	 ['grid_1_9.gif','gen2','square'],
-	 ['grid_1_13.gif','gen2','wide2'],
 ]
-*/
 ]
 };
 	

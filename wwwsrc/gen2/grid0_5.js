@@ -4,18 +4,22 @@ core.require('/shape/rectangle.js','/gen0/grid0.js',
 //core.require(,'/grid/grid24cons.js','/grid/dim2dWalker2.js',
 function (rectPP,addGridMethods) {
   debugger;
-
+let wd = 300;
+let nmc  = 200;
+let topParams = {width:wd,height:wd,numRows:nmc,numCols:nmc,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd}
 
 let rs = svg.Element.mk('<g/>');	
 addGridMethods(rs);
+Object.assign(rs,topParams);
+
 //rs.initProtos();
 rs.saveImage = true;
 rs.setName('grid0_5');
 rs.loadFromPath = 0;
-rs.numRows= 200;
-rs.numCols = 200;
-rs.width = 300;
-rs.height = 300;
+//rs.numRows= 200;
+//rs.numCols = 200;
+//rs.width = 300;
+//rs.height = 300;
 
 rs.initProtos = function () {
 	core.assignPrototypes(this,'rectP',rectPP);
@@ -41,14 +45,14 @@ rs.shapeGenerator = function (rvs) {
 }
 
 rs.initialize = function () {
-	core.root.backgroundColor = 'gray';
+	//core.root.backgroundColor = 'gray';
   let {numRows,numCols } = this;
+	debugger;
 	this.initProtos();
 	//this.deltaX = this.width/this.numCols;
 	//this.deltaY = this.height/this.numRows;
 	let rnp = {correlated:true};
 	const walkParams = function (i,j) {
-		debugger;
 		let fri = i/numRows;
 		let frj = j/numCols;
 		

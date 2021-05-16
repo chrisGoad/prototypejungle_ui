@@ -7,8 +7,9 @@ let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
 rs.saveImage = true;
 rs.setName('grid0_41');
-rs.width = 400;
-  rs.height = 400;
+let ht = 400;
+let topParams = {width:1.5*ht,height:ht,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht};
+Object.assign(rs,topParams);
   rs.numDrops =3000;
   rs.numRows = 20;
   rs.numCols = 20;
@@ -39,7 +40,6 @@ rs.shapeGenerator =  function (rvs,cell,pnt) {
   shape.update();
   return shape;
 }
-rs.backgroundColor = 'black';
 rs.initialize = function () {
   debugger;
   this.initProtos();
