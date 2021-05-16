@@ -203,7 +203,7 @@ rs.addSegmentAtThisEnd = function (end) {
   }
   let maxTriesPerEnd = 20;
   let tries = 0;
-  let numDropped = 0;
+ // let numDropped = 0;
 	let cell,rvs;
 	if (numRows && randomGridsForShapes) {
 	  cell = this.cellOf(end);
@@ -235,9 +235,8 @@ rs.addSegmentAtThisEnd = function (end) {
 				return 0;
 			}
 		} else {
-			numDropped += sln;
 			this.installSegmentsAndLines(segsAndLines);
-			return numDropped;  
+			return 1;  
     } 
   }
 }
@@ -278,9 +277,9 @@ rs.addSegmentAtSomeEnd = function () {
       } else {
         end = ae[0];
       }
-			let num = this.addSegmentAtThisEnd(end);
-      if (num) {
-        return num;
+			let ars = this.addSegmentAtThisEnd(end);
+      if (ars) {
+        return ars;
       }
 		} else {
 			debugger;
@@ -293,32 +292,29 @@ rs.addSegmentsAtEnds = function () {
  // debugger;
   let maxEndTries = 100;
   let tries = 0; 
-  let numDrops = 0;
+//  let numDrops = 0;
   let loop = 0;
  // let maxLoops = 100;
   let maxLoops = 10000;
   maxLoops = 20000;
-	let endLoops = this.endLoops
-  while (loop < endLoops) {
+	//let endLoops = this.endLoops
+	let maxDrops = this.maxDrops;
+ // while (loop < endLoops) {
+  while (this.numDropped  < maxDrops) {
     loop++;
-    let num = this.addSegmentAtSomeEnd();
-    if (num === 'noEndsLeft') {
-      if (this.ends.length > 0) {
-       // debugger;
-      }
-      return [num,numDrops];
+    let ars = this.addSegmentAtSomeEnd();
+    if (ars === 'noEndsLeft') {
+      return ars;
     }
-    if (num) {
-      numDrops+=num;
-    } else {
+    if (!ars) {
       tries++;
       if (tries >= maxEndTries) {
-        return ['triesExhausted',numDrops];
+        return 'triesExhausted';
       }
     }
   }
   //debugger;
-  return ['loopsExceeded',numDrops];
+  return ['loopsExceeded',this.numDropped];
 }
        
     
@@ -328,7 +324,7 @@ rs.addRandomSegments = function () {
     return;
   }
   //debugger;
-  let numDropped = 0;
+  this.numDropped = 0;
   let tries = 0;
   let endsVsNew = 1;
   
@@ -374,14 +370,14 @@ rs.addRandomSegments = function () {
 		if (ifnd) {
 			tries++;
 			if (tries === maxTries) {
-				return numDropped;
+				return this.numDropped;
 			}
 		} else {
-			numDropped += sln;
+			//numDropped += sln;
 			tries = 0;
 			this.installSegmentsAndLines(segsAndLines);
-			if (numDropped >= maxDrops) {
-				return numDropped;
+			if (this.numDropped >= maxDrops) {
+				return this.numDropped;
 			}    
     } 
   }
@@ -426,6 +422,7 @@ rs.installLine = function (line) {
   this.shapes.push(line);
   line.show();
   line.update();
+	this.numDropped++;
   return line;
 }
 
@@ -686,7 +683,14 @@ rs.cellOf  = function (p) {
   return {x:ix,y:iy};
 }
 
-
+rs.segsToSeed = function (segs) {
+  let lines = segs.map((sg) => {
+	  let line = this.genLine(sg);
+		//line.show();
+		return line;
+	});	
+	return [segs,lines];
+}
 
 rs.concatEachArray = function (ays) {
 	let c0 = [];
@@ -715,6 +719,7 @@ rs.initializeDrop = function () {
   this.initProtos();
   this.addBackground();
   this.segments = [];
+	this.numDropped = 0;
   this.extendedSegments = [];
   this.ends = [];
   this.set('shapes',core.ArrayNode.mk());

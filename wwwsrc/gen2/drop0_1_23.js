@@ -4,7 +4,7 @@ core.require('/gen1/drop0_1.js',function (rs) {
 
 rs.setName('drop0_1_23');
 let ht = 800;
-let topParams = {width:ht,height:ht,numRows:20,numCols:30,maxDrops:10000,maxTries:10,endLoops:1000,lineLength:10,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,separation:0,randomDirectionChange:0.2*Math.PI,fromEnds:1,sepNext:.1,lineExt:.2,onlyFromSeeds:1,extendWhich:'random',numSeeds:3,splitChance:0.2,splitAmount:0.08 * Math.PI}
+let topParams = {width:ht,height:ht,numRows:20,numCols:30,maxDrops:1000,maxTries:10,endLoopss:1000,lineLength:10,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,separation:0,randomDirectionChange:0.2*Math.PI,fromEnds:1,sepNext:.1,lineExt:.2,onlyFromSeeds:1,extendWhich:'random',numSeeds:3,splitChance:0.2,splitAmount:0.08 * Math.PI,directionChange:0.0025 * Math.PI}
 
 Object.assign(rs,topParams);
 
@@ -32,17 +32,12 @@ rs.genSeeds = function () {
   debugger;
   let {width,height} = this;
 	let rsgs = this.rectangleSegments(width,height);
-	let rlines = rsgs.map((sg) => {
-		let line = this.genLine(sg);
-		line.show();
-		return line;
-	});
-
-  this.ringRadius = 0.2 * 0.5 * width;
-  let clr = 'cyan'
+	let rseed = this.segsToSeed(rsgs);
+  this.ringRadius = 0.3 * 0.5 * width;
   let seeds =this.ringSeeds();
-	let srs =[rsgs.concat(seeds[0]),rlines.concat(seeds[1])];
-	return srs;
+
+	let grs = this.concatEachArray([rseed,seeds]);
+	return grs;
 }
 
 
