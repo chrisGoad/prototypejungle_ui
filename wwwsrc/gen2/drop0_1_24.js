@@ -1,12 +1,12 @@
 
 core.require('/gen1/drop0_1.js','/shape/rectangle.js',function (rs,rectPP) {
 
-rs.setName('drop0_1_21');
-let ht = 300;
-let wd = 1.5 * ht;
+rs.setName('drop0_1_24');
+let ht = 360;
+let wd = 1* ht;
 //wd = ht; //for instagram
 let topParams = {width:wd,height:ht,numSeedRows:2,numSeedCols:3,maxDrops:1000,maxTries:10,lineLength:5,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,minSeparation:0,rectangleDim:0.8,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:0,splitAmount:0.2 * Math.PI,endLoops:30000,seedDirections:[0.5*Math.PI],directionChange:0.02*Math.PI,randomDirectionChange:0.08*Math.PI}
-topParams = {width:wd,height:ht,numSeedRows:0,numSeedCols:0,maxDrops:1000,maxTries:10,lineLength:5,backgroundColor:'rgb(2,2,2)',backgroundPadding:30,minSeparation:0,rectangleDim:0.2,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:.10,splitAmount:0.005 * Math.PI,endLoops:3000,seedDirections:[0*Math.PI],directionChange:0.0*Math.PI,randomDirectionChange:0.051*Math.PI,lineExt:0}
+topParams = {width:wd,height:ht,numSeedRows:0,numSeedCols:0,numRows:2,numCols:10,maxDrops:10000,maxTries:10,lineLength:5,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,minSeparation:0,rectangleDim:0.2,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',splitChance:.40,splitAmount:0.05 * Math.PI,endLoops:3000,seedDirections:[0*Math.PI],directionChange:0.0*Math.PI,randomDirectionChange:0.051*Math.PI,lineExt:0,numSeeds:15}
 
 //topParams = {width:50,height:50,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
@@ -34,7 +34,7 @@ rs.segParams = function () {
   return {angle,length};ho
 }
 
-rs.genSeeds = function () {
+rs.genSeedss = function () {
 	let {width,height} = this;
 	let hw = 0.5 * width;
 	let hh = 0.5 * height;
@@ -56,36 +56,14 @@ rs.genSeeds = function () {
 }
 
 
-rs.genGridSegmentss = function (cell,p) {
-  let {deltaX,deltaY,rectangleDim} = this; 
-	let {x,y} = cell;
-	debugger;
-	let dim = rectangleDim*Math.min(deltaX,deltaY);
-	//let segs = this.rectangleSegments(dim,dim,p,0.5*dim);
-	let segs = this.rectangleSegments(dim,dim,p);
-	let lines = segs.map((sg) => this.genLine(sg)); 
-	let  SL = this.genSingletonUnit(p.plus(Point.mk(0,-0.4*deltaY)),0.5*Math.PI,'white');
-	let seedSeg = SL[0][0];
-	segs.push(seedSeg);
-	let end = seedSeg.end;
-	end.seed = end;
-	lines.push(SL[1][0]);
-  if ((x%1 === 0) && (y%1 === 0)) {
-	 end.params = {splitChance: 0.1 * x,splitAmount:0.01 * x * Math.PI};
-	}
-	//	let segs = [];
-	let rect = this.rectP0.instantiate();
-	rect.width = dim;
-	rect.height = dim;
-	let hdim = 0.5*dim;
-	let gRect = Rectangle.mk(Point.mk(p.x-hdim,p.y-hdim),Point.mk(dim,dim));
-	this.gRects.push(gRect);
-	rect.show();
-	lines.push(rect);
-	rect.moveto(p);
-	//  return [[],lines];
-	return [segs,lines];
-}	
+rs.genSeeds = function () {
+  debugger;
+  let {width} = this;
+  this.ringRadius = 0.15 * 0.5 * width;
+  return this.ringSeeds('transparent');
+}
+
+
 
 rs.inArect = function (p) {
 	let gRects = this.gRects;
@@ -104,46 +82,42 @@ rs.genSegments = function (p) {
   //debugger;
  // let {r,g,b} = this.randomizerColor(p);
 //	let clr = `rgb(${r},${r},${r})`;
+  let {numRows,numCols} = this;
+	let hr = 0.5*numRows;
+	let hc = 0.5*numCols;
+  let cell = this.cellOf(p);
+  let {x,y} = cell;
+  debugger;
+	let xd = x - hc;
+	let yd = y - hr;
+	let d = Math.sqrt(xd*xd+yd*yd);
+	let maxD = Math.sqrt(hc*hc+hr*hr);
+	let f = 1-d/maxD;
   let seed = p.seed;
 	let params;
-	if (seed) {
+	if (0&&seed) {
 		params = seed.params;
 	} else {
-	//	debugger;
+		params = this.ourParams;
+		if (!params) {
+			this.ourParams = {};
+		  Object.assign(this.ourParams,topParams);
+			params = this.ourParams;
+		}
+		let d = Math.abs(x-hc);
+		//params.directionChange = 0.01*x*Math.PI;
+		console.log('x d hc',x,d,hc);
+		params.directionChange = 0.01*d*Math.PI;
+		params.splitAmount = 0.05*f*Math.PI;
+	
+			
 	}
   return this.genSegmentsFan(p,'white',params);
 //  return this.genSegmentsFan(p,clr);
 }
 
-rs.genSegmentss = function (p) {
-	let inr = this.inArect(p);
-  let sizes = [2,5,10,20,40];
-  let which = Math.floor(Math.random()*5);
-  let sz = sizes[which];
-  let wd = sz;
-  let ht = sz;
-	debugger;
-//  debugger;
-  let dir = Math.random() < 0.5?0:0.5*Math.PI;
-  let SL = this.genSingletonUnit(p,dir,inr?'white':'blue');
-	return SL;
-  //let segs = this.rectangleSegments(wd,ht,p);
-  let lines = segs.map((sg) => this.genLine(sg));
 
-  const genRGBval = function () {
-    return 50 + Math.floor(Math.random()*202);
-  }
-  let r = genRGBval();
-  let g = genRGBval();
-  let b = genRGBval();
-  let clr = `rgb(${r},${r},${r})`;
-  lines.forEach( (line) => line.stroke = clr);
-
-  return [segs,lines];
-}
-
-
-rs.initialSegments = function () {
+rs.initialSegmentss = function () {
   let {width,height} = this; 
   let segs = this.rectangleSegments(width,height);
   let lines = segs.map((sg) => this.genLine(sg)); 

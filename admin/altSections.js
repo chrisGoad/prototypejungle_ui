@@ -3,7 +3,12 @@
 module.exports = {
 sections: [
 
-[ 
+[  
+ ['drop0__16','gen2',1],
+ ['drop0_1_25','gen2',1],
+ ['drop0_1_13','gen2',1],
+
+  ['drop0_1_24','gen2',1],
   ['drop0_1_23','gen2',1],
   ['drop0_0_11','gen2',1],
   ['drop0_0_9','gen2',1],
@@ -14,7 +19,6 @@ sections: [
   ['drop0_1_16','gen2',1],
   ['drop0_1_15','gen2',1],
   ['drop0_1_14','gen2',1],
-  ['drop0_1_13','gen2',1],
   ['drop0_1_12','gen2',1],
   ['drop0_1_11','gen2',1],
   ['drop0_1_10','gen2',1],

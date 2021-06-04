@@ -197,7 +197,7 @@ rs.activeEnds = function () {
 }
 
 rs.addSegmentAtThisEnd = function (end) {
-  let {maxDrops,maxTries,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds,numRows,randomGridsForShapes} = this;
+  let {maxDrops,maxTries,segments,lineLength,ends,extendedSegments,shapes,fromEnds,numRows,randomGridsForShapes} = this;
   if (!this.genSegments) {
     return;
   }
@@ -218,7 +218,7 @@ rs.addSegmentAtThisEnd = function (end) {
 			sln = segs.length;
 			for (let i=0;i<sln;i++) {
 				let seg = segs[i];
-				if (this.segmentIntersects(seg,sep)) {				
+				if (this.segmentIntersects(seg)) {				
 					ifnd = true;
 					break;
 				}
@@ -617,6 +617,35 @@ rs.sizedUUSegments = function (sizes,p,heightRatio=1) {
   let ht = heightRatio?heightRatio*wd:whichHt;
   let segs = this.UUSegments(wd,ht,p);
   return segs;
+}
+
+rs.mkCenteredSeg = function (pos,length,angle) {
+	let hln =0.5*length;
+	let c = Math.cos(angle);
+	let s = Math.sin(angle);
+	let v = Point.mk(c*hln,s*hln);
+	let p0 = pos.difference(v);
+	let p1 = pos.plus(v);
+	return LineSegment.mk(p0,p1);
+}
+
+
+
+rs.mkASeg = function (pos,ln,angle) {
+	let c = Math.cos(angle);
+	let s = Math.sin(angle);
+	let v = Point.mk(c*ln,s*ln);
+	let p1 = pos.plus(v);
+	return LineSegment.mk(pos,p1);
+}
+
+rs.crossedSegments = function (params) {
+	debugger;
+	 let {direction:dir0=0,randomness=0,length0,length1,pos,centered=1} = params;
+	 let dir1 = dir0 + 0.5* Math.PI;
+	 let s0 = centered?this.mkCenteredSeg(pos,length0,dir0):this.mkASeg(pos,length0,dir0);
+	 let s1 = centered?this.mkCenteredSeg(pos,length1,dir1):this.mkASeg(pos,length1,dir1);
+	 return [s0,s1];
 }
 
 

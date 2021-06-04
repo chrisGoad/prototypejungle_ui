@@ -65,7 +65,7 @@ let pageTop = `
 
 <p style="text-align:center;padding-bottom:0px;padding-top:10px">The following prints are available at my <a style="color:white;text-decoration:underline" href="https://www.etsy.com/shop/KingdomOfPattern">Etsy Store.</a></p>
 
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">If you'd like a print of one of the many images not yet at the store, please message me on Etsy with its title, and I'll add it to the store.</p	>
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">If you'd like a print of one of the many images not yet at the store,<br/> please message me on Etsy with its title, and I'll add it to the store.</p	>
 
 
 <p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>

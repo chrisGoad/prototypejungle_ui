@@ -58,7 +58,7 @@ rs.genSegmentsFan = function (p,clr,params) {
 		thisCopy = this;
 	}
 	let {width,height,separation:sep,sepNext,splitChance,splitAmount,
-	     lineLength:len,directionChange:dc=0,randomDirectionChange:rdc,lineExt=0} = thisCopy;
+	     lineLength:len,directionChange:dc=0,randomDirectionChange:rdc=0,lineExt=0} = thisCopy;
   let angle;
 	let rn = Math.random();
   if (typeof p.direction === 'number') {
@@ -117,7 +117,7 @@ rs.ringSeeds = function (clr,icenter,divergence=0,data) {
 		let seg =  this.genSegment(p,len,dir,sep,sepNext,0);
 		let end = seg.end;
 		if (data) {
-			send.data = data;
+			end.data = data;
 		}
 		end.spoke = j;
 		end.seed = end;
@@ -130,6 +130,32 @@ rs.ringSeeds = function (clr,icenter,divergence=0,data) {
   }
   return [segs,lines];
 }
+rs.sideSeeds = function (clr,data) {
+  let {width,height,separation:sep,sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
+  let segs = [];
+//  let numStarts = 16;
+  let delta  = height/(numSeeds+1);
+		let hw = width/2;
+	let cy = delta-hw;
+  for (let j=0;j<numSeeds;j++) {
+    let ip = Point.mk(-hw,cy);
+	//	let dir = outward?cangle+divergence:-cangle-divergence;
+		let seg =  this.genSegment(ip,len,0,sep,sepNext,0);
+		let end = seg.end;
+		if (data) {
+			send.data = data;
+		}
+		end.seed = end;
+		segs.push(seg); 
+    cy += delta;
+  }
+  let lines = segs.map((sg) => this.genLine(sg.end0,sg.end1,lineExt)); 
+  if (clr) {
+    lines.forEach((ln) => ln.stroke = clr);
+  }
+  return [segs,lines];
+}
+
 
 
 rs.randomSeeds = function (clr) {

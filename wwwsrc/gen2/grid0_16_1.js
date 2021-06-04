@@ -3,7 +3,7 @@ core.require('/gen1/grid0_16.js',
 function (rs) {
   
 rs.setName('grid0_16_1');
-
+let wd = 400;
 let topParams = {width:400,height:400,numRows:100,numCols:100,pointJiggle:10};
 
 Object.assign(rs,topParams);

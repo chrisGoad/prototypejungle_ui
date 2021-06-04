@@ -5,7 +5,7 @@ rs.setName('drop0_1_19');
 let ht = 300;
 let wd = 1.5 * ht;
 //wd = ht; //for instagram
-let topParams = {width:wd,height:ht,numSeedRows:4,numSeedCols:6,maxDrops:1000,maxTries:10,lineLength:5,backgroundColor:'rgb(2,2,2)',backgroundPadding:10,minSeparation:0,rectangleDim:0.9,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:0,splitAmount:0.2 * Math.PI,endLoops:3000,seedDirections:[0.5*Math.PI],directionChange:0.2*Math.PI,randomDirectionChange:0.08*Math.PI}
+let topParams = {width:wd,height:ht,numSeedRows:4,numSeedCols:6,maxDrops:1000,maxTries:10,lineLength:5,lineExt:1,backgroundColor:'rgb(2,2,2)',backgroundPadding:10,minSeparation:0,rectangleDim:0.9,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:0,splitAmount:0.2 * Math.PI,endLoops:3000,seedDirections:[0.5*Math.PI],directionChange:0.2*Math.PI,randomDirectionChange:0.08*Math.PI}
 
 //topParams = {width:50,height:50,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
@@ -49,7 +49,7 @@ rs.genGridSegments = function (cell,p) {
 	 segs.push(seedSeg);
 	 let end = seedSeg.end;
 	 //end.params = {directionChange:(x+1) * 0.1 * Math.PI}
-	 end.params = {splitChance: 0.1 * x}
+	 //end.params = {splitChance: 0.1 * x}
 	 end.seed = end;
 	
 	 lines.push(SL[1][0]);

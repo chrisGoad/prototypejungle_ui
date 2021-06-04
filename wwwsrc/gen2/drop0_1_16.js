@@ -3,7 +3,8 @@
 core.require('/gen1/drop0_1.js','/shape/circle.js',function (rs,circlePP) {
 
 rs.setName('drop0_1_16');
-let topParams = {width:2000,height:1000,numRows:20,numCols:30,maxDrops:10000,maxTries:10,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:30000}
+let topParams = {width:2000,height:1000,numRows:20,numCols:30,maxDrops:10000,maxTries:100,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:30000}
+topParams = {width:2000,height:1000,numRows:20,numCols:30,maxDrops:10000,maxTries:100,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:0.1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:30000}
 
 Object.assign(rs,topParams);
 
@@ -45,6 +46,7 @@ rs.genSegments = function (p) {
 	}
 	//r = 0;
 	//clr = `rgb(${r},${r},${r})`;
+	debugger
   return this.genSegmentsFan(p,clr);
 }
 

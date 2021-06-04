@@ -3,18 +3,26 @@
 module.exports = {
 sections: [
 
-[
+[   ['drop0_0','gen2',1,'Ice'],
+
      ['drop0_0_9','gen2',1,'Arrows'],
-     ['drop0_1_22','gen2',1,'Whorls'],
+		     ['drop0__13','gen2',1,'Starry Night'],
+	 ['grid0_3_combo3','gen2','square','Two Quilts'],
+	     ['drop0_0_1','gen2',1,'Clouds'],
 
+	 	 ['grid0_19.jpg','gen2','square','World'],
+		      ['drop0_1_22','gen2',1,'Whorls'],
+		 	 ['lines0_19','gen2','square','Lines 1'],
+ 		 ['lines0_20','gen2','wide2','Order Within Chaos'],
 
+	 ['drop0__12','gen2',1,'Sleet'],
+	 		['grid0_5','gen2','square','Smoke'],
     ['grid0_43','gen2',1,'Mat'],
-    ['drop0_1_13','gen2',1,'Flower'],
-    //['drop0_0_3','gen2',1,'Ice'],
-		 ['grid0_8_3','gen2','square','Bubbles'],
-	['grid0_14_0','gen2','square','Variants'],
+			 ['grid0_8_3','gen2','square','Bubbles'],
+	
+		 ['grid0_5_10','gen2','square','Signals'],
+	/*['grid0_14_0','gen2','square','Variants'],
 	    ['drop0_0','gen2',1,'Ice']
-/*
     ['grid0_10_0','gen2',1,'Bump'],
 
      ['drop0__12','gen2',1,'Sleet'],

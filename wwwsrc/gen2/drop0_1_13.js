@@ -3,7 +3,10 @@
 core.require('/gen1/drop0_1.js','/shape/circle.js',function (rs,circlePP) {
 
 rs.setName('drop0_1_13');
-let topParams = {width:1200,height:1200,numRows:20,numCols:30,maxDrops:10000,maxTries:10,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:10000};
+let wd = 1000;
+let topParams = {width:wd,height:wd,numRows:20,numCols:30,maxDrops:30000,maxTries:100,lineLength:10,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd,separation:0.1,fromEnds:1,sepNext:1,lineExt:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,randomDirectionChange:0*Math.PI,endLoops:10000};
+//topParams = {width:wd,height:wd,numRows:20,numCols:30,maxDrops:100,maxTries:100,lineLength:10,backgroundColorr:'rgb(200,2,2)',backgroundPadding:0.1*wd,separation:1,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:10000};
+
 //topParams = {width:1200,height:1200,numRows:20,numCols:30,maxDrops:1000,maxTries:10,lineLength:10,backgroundColor:'black',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:3000}
 
 Object.assign(rs,topParams);
@@ -16,7 +19,7 @@ rs.finishProtos = function () {
 	//this.lineP.stroke = 'black';
 	this.lineP['stroke-width'] = .1;
 	this.lineP['stroke-width'] = .6;
-	this.lineP['stroke-width'] = 3;
+	this.lineP['stroke-width'] = 1;
 	core.assignPrototypes(this,'circleP',circlePP);
 	this.circleP.fill = 'rgb(100,100,100)';
 	this.circleP.fill = 'rgb(0,100,100)';
