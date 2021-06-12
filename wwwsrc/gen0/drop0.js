@@ -99,36 +99,40 @@ rs.genRandomPoint = function (rect) {
   return Point.mk(rx,ry);
 }
 
+// When in fromEnds mode, the segment has an "end" which is sepNext beyond end1, this end is where the next segment can be droppe
+// normally sepNext is an invisible distance which prevents the detection of an intersection with the segment which is being continued.
 
-rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
+rs.genSegment = function (p,ln,angle,sepNext=0) {
+//rs.genSegment = function (p,ln,angle,sep=0,sepNext=0,centered=1) {
   let vec = Point.mk(Math.cos(angle),Math.sin(angle));
   let e0,e1,end,rs;
-  if (centered) {
+  /*if (centered) {
     let hln = (ln+sep)/2;
     let hvec = vec.times(hln);
     e0 = p.difference(hvec);
     e1 = p.plus(hvec);
 		rs = LineSegment.mk(e0,e1);
 
-  } else {
-    e0 = p;
-		p.isEnd = 1;
-    end  = p.plus(vec.times(ln+sepNext));
-    e1  =  p.plus(vec.times(ln+sep));
-		rs = LineSegment.mk(e0,e1);
-		let g = p.generation;
-		if (g === undefined) {
-			g = 0;
-			p.generation = 0;
-		}
-    rs.end = end;
-		if (p.seed) {
-			end.seed = p.seed;
-		}
-		end.generation = g+1;
-    end.direction = angle;		
-	//	rs.theEnd = end;
-  }
+  } else {*/
+	e0 = p;
+	p.isEnd = 1;
+	end  = p.plus(vec.times(ln+sepNext));
+	e1  =  p.plus(vec.times(ln));
+ // e1  =  p.plus(vec.times(ln+sep));
+	rs = LineSegment.mk(e0,e1);
+	let g = p.generation;
+	if (g === undefined) {
+		g = 0;
+		p.generation = 0;
+	}
+	rs.end = end;
+	if (p.seed) {
+		end.seed = p.seed;
+	}
+	end.generation = g+1;
+	end.direction = angle;		
+//	rs.theEnd = end;
+ // }
 	rs.fromEnd = p;
 
 	/*let g;
@@ -178,6 +182,28 @@ rs.segmentIntersects = function (seg) {
   }
 }
 
+rs.rectangleIntersects = function (rect) {
+  let {segments,width,height} = this;
+ /* let {end0,end1} = seg;
+  if ((!this.insideCanvas(end0)) || (!this.insideCanvas(end1))) {
+    return true;
+  }*/
+	//debugger;
+  let ln = segments.length;
+  for (let i=0;i<ln;i++) {  
+	  let seg = segments[i];
+		let ints;
+		if (geom.Rectangle.isPrototypeOf(seg)) {
+			ints =  rect.intersectsRectangle(seg)
+		} else {
+			ints = rect.intersectsSegment(seg);
+		}
+    if (ints) {
+      return true;
+    }
+  }
+}
+
 rs.activeEnds = function () {
   let ends = this.ends;
   let rs = [];
@@ -197,7 +223,7 @@ rs.activeEnds = function () {
 }
 
 rs.addSegmentAtThisEnd = function (end) {
-  let {maxDrops,maxTries,segments,lineLength,ends,extendedSegments,shapes,fromEnds,numRows,randomGridsForShapes} = this;
+  let {maxDrops,maxTries,segments,lineLength,ends,shapes,fromEnds,numRows,randomGridsForShapes} = this;
   if (!this.genSegments) {
     return;
   }
@@ -319,7 +345,8 @@ rs.addSegmentsAtEnds = function () {
        
     
 rs.addRandomSegments = function () {
-  let {maxDrops,maxTries,maxLoops,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds,onlyFromSeeds} = this;
+  //let {maxDrops,maxTries,maxLoops,segments,lineLength,ends,minSeparation:sep,extendedSegments,shapes,fromEnds,onlyFromSeeds} = this;
+  let {maxDrops,maxTries,maxLoops,segments,lineLength,ends,shapes,fromEnds,onlyFromSeeds} = this;
   if (!this.genSegments) {
     return;
   }
@@ -354,14 +381,25 @@ rs.addRandomSegments = function () {
 		let sln=0;
 		if (segsAndLines) {
 			let [segs,lines] = segsAndLines;
-			sln = segs.length;
-			for (let i=0;i<sln;i++) {
-				let seg = segs[i];
-				if (this.segmentIntersects(seg,sep)) {
-							//		debugger;
+			let rect;
+			//if    (segsAndLines.isRectangle) {
+			if    (!Array.isArray(segs)) {
+				rect = segs;
+				rectShape = lines;
+				if (this.rectangleIntersects(rect)) {
+					 ifnd  = 1;
+				}
+			} else {	 
+				sln = segs.length;
+				for (let i=0;i<sln;i++) {
+					let seg = segs[i];
+					//if (this.segmentIntersects(seg,sep)) {
+					if (this.segmentIntersects(seg)) {
+								//		debugger;
 
-					ifnd = true;
-					break;
+						ifnd = true;
+						break;
+					}
 				}
 			}
 		} else {
@@ -441,8 +479,17 @@ rs.updateShapes = function () {
 	
 rs.installSegmentsAndLines = function (seglines) {
   let {segments,ends} = this;
+  let ln = segments.length;
   let [segs,lines] = seglines;
-	let ln = segments.length;
+//	if (seglines.isRectangle) {
+	if (!Array.isArray(segs)) {
+		let rect = segs;
+		let rectShape = lines;
+		segments.push(rect);
+		this.installLine(rectShape);
+		return;
+	}
+
   segs.forEach( (seg) => {
 		seg.number = ln;
 		let {end0,end1,end} = seg;
@@ -749,7 +796,7 @@ rs.initializeDrop = function () {
   this.addBackground();
   this.segments = [];
 	this.numDropped = 0;
-  this.extendedSegments = [];
+ // this.extendedSegments = [];
   this.ends = [];
   this.set('shapes',core.ArrayNode.mk());
   if (initialSegments) {

@@ -151,6 +151,14 @@ const mkInterval = function (lb,ub) {
   return Interval.mk(lb,ub);
 }
 
+Interval.intersectsInterval = function (intv) {
+	let {lb,ub} = this;
+	let lb1 = intv.lb;
+	let ub1 = intv.ub;
+	let ni = (ub < lb1) || (ub1 < lb);
+	return !ni;
+}
+
 Point.setCoords = function (x,y) {
   this.set("x",x);
   this.set("y",y);
@@ -705,6 +713,26 @@ LineSegment.middle = function () {
   return this.pointAlong(0.5);
 }
 
+LineSegment.xBounds = function () {
+	let {end0,end1} = this;
+	let x0 = end0.x;
+	let x1 = end1.x;
+	if (x0<x1) {
+		return Interval.mk(x0,x1);
+	}
+	return Interval.mk(x1,x0);
+}
+
+LineSegment.yBounds = function () {
+	let {end0,end1} = this;
+	let y0 = end0.y;
+	let y1 = end1.y;
+	if (y0<y1) {
+		return Interval.mk(y0,y1);
+	}
+	return Interval.mk(y1,y0);
+}
+
   
 LineSegment.intersect = function (line1) {
 	let verbose = false;
@@ -1030,6 +1058,15 @@ Rectangle.mk = function (a0,a1) {
   rs.__setPoint("extent",e);
   return rs;
 }
+
+Rectangle.mkCentered = function (center,extent) {
+	let {x,y} = extent;
+	let {x:cx,y:cy} = center;
+	let corner = Point.mk(cx-0.5*x,cy - 0.5*y);
+	let rs = Rectangle.mk(corner,extent);
+	return rs;
+}
+
   
 Rectangle.toString = function () {
   let corner,extent;
@@ -1090,6 +1127,53 @@ Rectangle.corners = function () {
   rs.push(Point.mk(cx,cy+xty));
   return rs;
 }
+
+Rectangle.xBounds = function () {
+	let {corner,extent} = this
+	let lb = corner.x;
+	let ub = corner.x + extent.x;
+	return Interval.mk(lb,ub);
+}
+Rectangle.yBounds = function () {
+	let {corner,extent} = this
+	let lb = corner.y;
+	let ub = corner.y + extent.y;
+	return Interval.mk(lb,ub);
+}
+
+Rectangle.intersectsRectangle = function (rect) {
+	let xb0 = this.xBounds();
+	let xb1 = rect.xBounds();
+	let yb0 = this.yBounds();
+	let yb1 = rect.yBounds();
+	let xi = xb0.intersectsInterval(xb1);
+	let yi = yb0.intersectsInterval(yb1);
+	let rs = xi && yi;
+	if (!rs) {
+		debugger;
+		xi = xb0.intersectsInterval(xb1);
+	 yi = yb0.intersectsInterval(yb1);
+		
+	}
+	return rs;
+}
+
+Rectangle.intersectsLineSegment = function (seg) {
+	let xb0 = this.xBounds();
+	let yb0 = this.yBounds();
+	let xb1 = seg.xBounds();
+	let yb1 = seg.yBounds();
+	if ((!xb0.intersectsInterval(xb1)) || (!yb0.intersectsInterval(yb1))) {
+		return false;
+	}
+	let {end0,end1} = seg;
+	if (this.contains(end0)||this.contains(end1)) {
+		return true;
+	}
+// now the hard case
+  return true;
+}
+  
 
 
 Rectangle.sides = function () {

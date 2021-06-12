@@ -4,7 +4,7 @@ core.require('/gen1/drop0_1.js',function (rs) {
 
 rs.setName('drop0_1_9');
 let ht  = 400;
-let topParams = {width:1.5*ht,height:ht,numRows:20,numCols:30,numSeedRows:4,numSeedCols:4,maxDrops:1000,maxTries:10,lineLength:10,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'last',numSegStarts:16,splitChance:1,splitAmount:0.02 * Math.PI,fanAngles:[0.5*Math.PI,-0.5*Math.PI],randomDirectionChange:0.1*Math.PI}
+let topParams = {width:1.5*ht,height:ht,numRows:20,numCols:30,numSeedRows:4,numSeedCols:4,maxDrops:10000,maxTries:10,lineLength:10,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'last',numSegStarts:16,splitChance:1,splitAmount:0.02 * Math.PI,fanAngles:[0.5*Math.PI,-0.5*Math.PI],randomDirectionChange:0.1*Math.PI}
 
 Object.assign(rs,topParams);
 

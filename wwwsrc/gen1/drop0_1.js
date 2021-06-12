@@ -26,8 +26,8 @@ rs.randomColor = function () {
 }
 
 rs.genOneSegment = function (p,direction) {
-  let {separation:sep,sepNext,lineLength:len,lineExt=0} = this;
-	let seg = this.genSegment(p,len,direction,sep,sepNext,0);
+  let {sepNext,lineLength:len,lineExt=0} = this;
+	let seg = this.genSegment(p,len,direction,sepNext);
   return seg;
 }
 // a "unit" has the form [[segs],[lines]] Seeds are starter units
@@ -57,7 +57,7 @@ rs.genSegmentsFan = function (p,clr,params) {
 	} else {
 		thisCopy = this;
 	}
-	let {width,height,separation:sep,sepNext,splitChance,splitAmount,
+	let {width,height,sepNext,splitChance,splitAmount,
 	     lineLength:len,directionChange:dc=0,randomDirectionChange:rdc=0,lineExt=0} = thisCopy;
   let angle;
 	let rn = Math.random();
@@ -74,8 +74,8 @@ rs.genSegmentsFan = function (p,clr,params) {
 	//let len = 10;//2 + Math.floor(r*4)*4;
   if (Math.random() < splitChance ) {
 		//debugger;
-	  let seg0 = this.genSegment(p,len,a0,sep,sepNext,0);
-	  let seg1 = this.genSegment(p,len,a1,sep,sepNext,0);
+	  let seg0 = this.genSegment(p,len,a0,sepNext);
+	  let seg1 = this.genSegment(p,len,a1,sepNext);
     p.isEnd = 1;
 		let ln0 = this.genLine(seg0.end0,seg0.end1,lineExt);
 		let ln1 = this.genLine(seg1.end0,seg1.end1,lineExt);
@@ -85,7 +85,7 @@ rs.genSegmentsFan = function (p,clr,params) {
     }
 		return [[seg0,seg1],[ln0,ln1]];
   } else {
-	  let seg = this.genSegment(p,len,angle,sep,sepNext,0);
+	  let seg = this.genSegment(p,len,angle,sepNext);
     p.isEnd = 1;
 		let ln = this.genLine(seg.end0,seg.end1,lineExt);
 	//	let clr = `rgb(${r},${r},${r})`;
@@ -99,7 +99,7 @@ rs.genSegmentsFan = function (p,clr,params) {
 
 //rs.ringSeeds = function (clr,icenter,outward=1,divergence=0) {
 rs.ringSeeds = function (clr,icenter,divergence=0,data) {
-  let {width,height,separation:sep,sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
+  let {width,height,sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
 	let center = icenter?icenter:Point.mk(0,0);
   let segs = [];
 //  let numStarts = 16;
@@ -114,7 +114,7 @@ rs.ringSeeds = function (clr,icenter,divergence=0,data) {
 		let p = ip.plus(center);
 	//	let dir = outward?cangle+divergence:-cangle-divergence;
 		let dir = cangle+divergence;
-		let seg =  this.genSegment(p,len,dir,sep,sepNext,0);
+		let seg =  this.genSegment(p,len,dir,sepNext);
 		let end = seg.end;
 		if (data) {
 			end.data = data;
@@ -131,7 +131,7 @@ rs.ringSeeds = function (clr,icenter,divergence=0,data) {
   return [segs,lines];
 }
 rs.sideSeeds = function (clr,data) {
-  let {width,height,separation:sep,sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
+  let {width,height,sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
   let segs = [];
 //  let numStarts = 16;
   let delta  = height/(numSeeds+1);
@@ -140,7 +140,7 @@ rs.sideSeeds = function (clr,data) {
   for (let j=0;j<numSeeds;j++) {
     let ip = Point.mk(-hw,cy);
 	//	let dir = outward?cangle+divergence:-cangle-divergence;
-		let seg =  this.genSegment(ip,len,0,sep,sepNext,0);
+		let seg =  this.genSegment(ip,len,0,sepNext);
 		let end = seg.end;
 		if (data) {
 			send.data = data;
@@ -159,7 +159,7 @@ rs.sideSeeds = function (clr,data) {
 
 
 rs.randomSeeds = function (clr) {
-  let {width,height,separation:sep,sepNext,numSeeds,ringRadius:radius,seedDirections,lineLength:len,lineExt=0} = this;
+  let {width,height,sepNext,numSeeds,ringRadius:radius,seedDirections,lineLength:len,lineExt=0} = this;
   let segs = [];
 	let ld;
 	if (seedDirections) {
@@ -174,7 +174,7 @@ rs.randomSeeds = function (clr) {
 		} else {
 			angle = 2*Math.random()*Math.PI;
 		}
-		let seg =  this.genSegment(ip,len,angle,sep,sepNext,0);
+		let seg =  this.genSegment(ip,len,angle,sepNext);
 		segs.push(seg); 
   }
   let lines = segs.map((sg) => this.genLine(sg.end0,sg.end1,lineExt)); 
@@ -189,7 +189,7 @@ rs.randomSeeds = function (clr) {
 
 
 rs.gridSeeds = function (clr) {
-  let {width,height,separation:sep,sepNext,fanAngles,numSeedRows:numRows,numSeedCols:numCols,gridPadding:padding=0,lineExt=0} = this;
+  let {width,height,sepNext,fanAngles,numSeedRows:numRows,numSeedCols:numCols,gridPadding:padding=0,lineExt=0} = this;
   let segs = [];//this.rectangleSegments(width,height);
 	let lines = [];
  // let numCols = 4;
@@ -224,7 +224,7 @@ rs.gridSeeds = function (clr) {
 				}
 		  } else {
 				fanAngles.forEach( (angle) => {
-					let seg = this.genSegment(ip,len,angle,sep,sepNext,0);
+					let seg = this.genSegment(ip,len,angle,sepNext);
 					segs.push(seg);
 					lines.push(this.genLine(seg.end0,seg.end1,lineExt));
 				});

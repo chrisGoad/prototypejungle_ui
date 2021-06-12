@@ -3,7 +3,7 @@
 core.require('/gen1/drop0_1.js','/shape/circle.js',function (rs,circlePP) {
 
 rs.setName('drop0_1_10');
-let topParams = {width:1200,height:1200,numRows:20,numCols:30,maxDrops:10000,maxTries:10,lineLength:10,backgroundColor:'yellow',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:30000}
+let topParams = {width:1200,height:1200,numRows:20,numCols:30,maxDrops:50000,maxTries:10,lineLength:10,backgroundColor:'yellow',/*'rgb(100,1,1)',*/backgroundPadding:40,separation:0,fromEnds:1,sepNext:1,onlyFromSeeds:1,extendWhich:'random',numSeeds:16,splitChance:0.2,splitAmount:0.03 * Math.PI,endLoops:30000}
 
 Object.assign(rs,topParams);
 
