@@ -4,11 +4,15 @@ module.exports = {
 sections: [
 
 [  
+ ['drop0_1_26','gen2',1],
+ ['drop0_1_23','gen2',1],
+ ['drop0__21','gen2',1],
+ ['drop0__19','gen2',1],
  ['drop0__16','gen2',1],
  ['drop0_1_25','gen2',1],
  ['drop0_1_13','gen2',1],
 
-  ['drop0_1_24','gen2',1],
+ // ['drop0_1_24','gen2',1],
   ['drop0_1_23','gen2',1],
   ['drop0_0_11','gen2',1],
   ['drop0_0_9','gen2',1],
@@ -16,7 +20,7 @@ sections: [
   ['drop0_1_19','gen2',1],
   ['drop0_1_18','gen2',1],
   ['drop0_1_17','gen2',1],
-  ['drop0_1_16','gen2',1],
+ // ['drop0_1_16','gen2',1],
   ['drop0_1_15','gen2',1],
   ['drop0_1_14','gen2',1],
   ['drop0_1_12','gen2',1],
@@ -26,10 +30,10 @@ sections: [
   ['drop0__6','gen2',1],
   ['drop0__5','gen2',1],
   ['drop0_0_2','gen2',1],
-  ['drop0_0_1','gen2',1],
+ // ['drop0_0_1','gen2',1],
   ['drop0_0_0','gen2',1],
   ['drop0__11','gen2',1],
-  ['drop0__12','gen2',1],
+ // ['drop0__12','gen2',1],
   ['drop0_3','gen2',1],
   ['drop0_2','gen2',1],
   ['drop0_1','gen2',1],

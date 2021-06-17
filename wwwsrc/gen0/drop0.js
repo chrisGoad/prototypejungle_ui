@@ -175,14 +175,14 @@ rs.segmentIntersects = function (seg) {
   }
   let ln = segments.length;
   for (let i=0;i<ln;i++) {  
-    let ip = seg.intersect(segments[i]);
+    let ip = seg.intersects(segments[i]);
     if (ip) {
       return true;
     }
   }
 }
 
-rs.rectangleIntersects = function (rect) {
+rs.intersectsSomething = function (g) {
   let {segments,width,height} = this;
  /* let {end0,end1} = seg;
   if ((!this.insideCanvas(end0)) || (!this.insideCanvas(end1))) {
@@ -192,15 +192,9 @@ rs.rectangleIntersects = function (rect) {
   let ln = segments.length;
   for (let i=0;i<ln;i++) {  
 	  let seg = segments[i];
-		let ints;
-		if (geom.Rectangle.isPrototypeOf(seg)) {
-			ints =  rect.intersectsRectangle(seg)
-		} else {
-			ints = rect.intersectsSegment(seg);
+		if (g.intersects(seg)) {
+			return true;
 		}
-    if (ints) {
-      return true;
-    }
   }
 }
 
@@ -386,7 +380,7 @@ rs.addRandomSegments = function () {
 			if    (!Array.isArray(segs)) {
 				rect = segs;
 				rectShape = lines;
-				if (this.rectangleIntersects(rect)) {
+				if (this.intersectsSomething(rect)) {
 					 ifnd  = 1;
 				}
 			} else {	 
@@ -394,7 +388,7 @@ rs.addRandomSegments = function () {
 				for (let i=0;i<sln;i++) {
 					let seg = segs[i];
 					//if (this.segmentIntersects(seg,sep)) {
-					if (this.segmentIntersects(seg)) {
+					if (this.intersectsSomething(seg)) {
 								//		debugger;
 
 						ifnd = true;
@@ -619,6 +613,18 @@ rs.crossSegments = function (wd,ht,center) {
   let RC = Point.mk(hwd,0);
   let hseg = LineSegment.mk(LFTC,RC);
   return [vseg,hseg];
+}
+
+rs.diagSegments = function (wd,ht,center) {
+  let hwd = 0.5 * wd;
+  let hht = 0.5 * ht;
+  let ULC = Point.mk(-hwd,-hht);
+  let LLC = Point.mk(-hwd,hht);
+	let URC = Point.mk(hwd,-hht);
+	let LRC = Point.mk(hwd,hht);
+  let seg0 = LineSegment.mk(ULC,LRC);
+  let seg1 = LineSegment.mk(URC,LLC);
+  return [seg0,seg1];
 }
       
       

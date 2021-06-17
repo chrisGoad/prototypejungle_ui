@@ -3,7 +3,7 @@ core.require('/shape/rectangle.js','/gen0/drop0.js',function (rectPP,addDropMeth
 
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
-rs.setName('drop0__19');
+rs.setName('drop0_19');
 let ht= 2000;
 let topParams = {width:ht,height:ht,maxDrops:50000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:20}
 

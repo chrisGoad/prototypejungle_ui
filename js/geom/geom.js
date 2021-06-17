@@ -806,7 +806,9 @@ LineSegment.intersect = function (line1) {
   return false;
   
 }
-
+LineSegment.intersectsLineSegment = function (seg) {
+	return !!this.intersect(seg);
+}
 LineSegment.distanceTo = function (p) {
   let {end0,end1} = this;
   let vec = end1.difference(end0);
@@ -1171,9 +1173,30 @@ Rectangle.intersectsLineSegment = function (seg) {
 		return true;
 	}
 // now the hard case
-  return true;
+  let sides = this.sides();
+	debugger;
+	let rs = seg.intersect(sides[0]) || seg.intersect(sides[1]) || seg.intersect(sides[2]) || seg.intersect(sides[3]);
+  return rs;
 }
-  
+ Rectangle.intersects = function (g) {
+	 if (Rectangle.isPrototypeOf(g)) {
+		 return this.intersectsRectangle(g);
+	 } else if (LineSegment.isPrototypeOf(g)) {
+		 return this.intersectsLineSegment(g);
+	 } else {
+		 error('unsupported case for Rectangle.intersects');
+	 }
+ }
+
+LineSegment.intersects = function (g) {
+	 if (Rectangle.isPrototypeOf(g)) {
+		 return g.intersectsRectangle(this);
+	 } else if (LineSegment.isPrototypeOf(g)) {
+		 return this.intersectsLineSegment(g);
+	 } else {
+		 error('unsupported case for LineSegment.intersects');
+	 }
+}
 
 
 Rectangle.sides = function () {
