@@ -8,6 +8,7 @@ let wd = 1* ht;
 let topParams = {width:wd,height:ht,numSeedRows:2,numSeedCols:3,maxDrops:5000,maxTries:10,lineLength:5,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,minSeparation:0,rectangleDim:0.8,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:0,splitAmount:0.2 * Math.PI,endLoops:30000,seedDirections:[0.5*Math.PI],directionChange:0.02*Math.PI,randomDirectionChange:0.08*Math.PI}
 topParams = {width:wd,height:ht,numSeedRows:0,numSeedCols:0,numRows:2,numCols:10,maxDrops:5000,maxTries:10,lineLength:5,backgroundColor:'rgb(200,2,2)',backgroundPadding:0.1*ht,minSeparation:0,rectangleDim:0.2,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',splitChance:.40,splitAmount:0.02 * Math.PI,endLoops:3000,seedDirections:[0*Math.PI],directionChange:0.0*Math.PI,randomDirectionChange:0.0051*Math.PI,lineExt:0,numSeeds:5}
 
+
 //topParams = {width:50,height:50,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
 
@@ -32,7 +33,7 @@ rs.segParams = function () {
   let length = 2 + Math.floor(r*np)*4;
   
  // let rs = r>0.5?Math.PI/2:0;
-  return {angle,length};ho
+  return {angle,length};
 }
 
 rs.genSeedss = function () {

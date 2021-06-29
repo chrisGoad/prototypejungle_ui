@@ -4,7 +4,7 @@ function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{
 
 let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
-rs.setName('grid0_24');
+rs.setName('grid0_24_1');
 rs.randomizeOrder = 1;
 let sqsz= 50;
 //let sqd = 128;

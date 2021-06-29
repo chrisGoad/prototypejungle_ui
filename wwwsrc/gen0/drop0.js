@@ -167,12 +167,43 @@ rs.insideCanvas = function (p) {
   return (-hw < x) && (x < hw) && (-hh < y) && (y < hh);
 }
 
+
 rs.segmentIntersects = function (seg) {
-  let {segments,width,height} = this;
+  let {segments,width,height,exclusionZones,doNotCross,doNotExit} = this;
   let {end0,end1} = seg;
   if ((!this.insideCanvas(end0)) || (!this.insideCanvas(end1))) {
     return true;
   }
+	if (exclusionZones) {
+		debugger;
+		let eln = exclusionZones.length;
+		for (let i=0;i<eln;i++) {
+			let zone = exclusionZones[i];
+			if (zone.contains(end0) || zone.contains(end1)) {
+				return true;
+			}
+		}
+	}
+	if (doNotCross) {
+		debugger;
+		let eln = doNotCross.length;
+		for (let i=0;i<eln;i++) {
+			let zone = doNotCross[i];
+			if (zone.contains(end0) !== zone.contains(end1)) {
+				return true;
+			}
+		}
+	}
+	if (doNotExit) {
+		debugger;
+		let eln = doNotExit.length;
+		for (let i=0;i<eln;i++) {
+			let zone = doNotExit[i];
+			if ((!zone.contains(end0)) ||  (!zone.contains(end1))) {
+				return true;
+			}
+		}
+	}
   let ln = segments.length;
   for (let i=0;i<ln;i++) {  
     let ip = seg.intersects(segments[i]);
@@ -442,10 +473,27 @@ rs.genLine = function (lsgOrP0,p1,ext) {
     end1 = end1.plus(nvec.times(ext));
   }
   let line = this.lineP.instantiate();
-  line.setEnds(end0,end1);
+	if (this.genPoint3d) {
+		let e03d = this.via3d(end0);
+		let e13d = this.via3d(end1);
+    line.setEnds(e03d,e13d);
+	} else {
+    line.setEnds(end0,end1);
+	}
   return line;
 }
  
+ 
+rs.via3d = function (p) {
+	if (this.genPoint3d) {
+		let p3d = this.genPoint3d(p);
+		//debugger;
+		let rs = this.camera.project(p3d);
+		return rs;
+	}
+  return p;
+  
+}
  
 rs.installLine = function (line) {
 	if (line.period) {

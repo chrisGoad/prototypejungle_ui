@@ -1,9 +1,9 @@
 
 //core.require('/gen0/drop0.js',function (addDropMethods) {
-core.require('/gen0/drop0.js',function (addDropMethods) {
+core.require('/gen0/cgon0.js',function (addCgonMethods) {
 
 let rs = svg.Element.mk('<g/>');
-addDropMethods(rs);
+addCgonMethods(rs);
 
 
 rs.randomizerColor = function (p) {

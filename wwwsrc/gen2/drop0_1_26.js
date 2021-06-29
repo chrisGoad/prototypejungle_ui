@@ -36,8 +36,9 @@ rs.genSeeds = function () {
   this.ringRadius = 0.3 * 0.5 * width;
   let seeds =this.ringSeeds();
 
-	let grs = this.concatEachArray([rseed,seeds]);
-	return grs;
+	//let grs = this.concatEachArray([rseed,seeds]);
+	return seeds;
+	//return grs;
 }
 
 

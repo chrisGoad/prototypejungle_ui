@@ -27,6 +27,22 @@ Point.mk = function (x,y) {
   }
   return rs;
 }
+
+const rotationMatrix  = function (th) {
+	let r00 = Math.cos(th);
+	let r10 = -Math.sin(th);
+	let r01 = -r10;
+	let r11 = r00;
+	return [r00,r01,r10,r11];
+}
+
+Point.rotate =  function (rm) {
+	let [r00,r01,r10,r11] = rm;
+	let {x,y} = this;
+	let rx = r00*x + r10 * y;
+	let ry = r10*x + r11 * y;
+	return Point.mk(rx,ry);
+}
   
 Point.nonNegative = function () {
   this.x = Math.max(0,this.x);
@@ -981,9 +997,9 @@ Circle.intersectLine = function (point,vec) {
 }
 
 Circle.contains = function (point) {
-  let v = point.difference(Circle.center);
+  let v = point.difference(this.center);
   let {x,y}= v;
-  let r = circle.radius;
+  let r = this.radius;
   return (x*x + y*y) < r*r;
 }
 
@@ -1207,6 +1223,15 @@ Rectangle.sides = function () {
   rs.push(LineSegment.mk(corners[2].copy(),corners[3].copy()));
   rs.push(LineSegment.mk(corners[3].copy(),corners[0].copy()));
   return rs;
+}
+const pointArrayToLineSegments = function (ar) {
+  let ln = ar.length;
+	let rs = [];
+	for (let i=0;i<ln-1;i++) {
+		let lns = LineSegment.mk(ar[i],ar[i+1]);
+		rs.push(lns);
+	}
+	return rs;
 }
 // The point is some point outide the rectangle. This determines where a ray from the center with the given direction 
 // intersects the rectangle. Used in graph construction interface. Could be optimized in several ways
@@ -1584,5 +1609,5 @@ Rectangle.randomPoint = function () {
 }
 
 
-export {movetoInGlobalCoords,toOwnCoords,toPoint,angleToDirection,Point,Line,Rectangle,Transform,Ray,degreesToRadians,
-        LineSegment,Circle,Arc,boundsForRectangles,rp_time};
+export {rotationMatrix,movetoInGlobalCoords,toOwnCoords,toPoint,angleToDirection,Point,Line,Rectangle,Transform,Ray,degreesToRadians,
+        LineSegment,Circle,Arc,boundsForRectangles,rp_time,pointArrayToLineSegments};
