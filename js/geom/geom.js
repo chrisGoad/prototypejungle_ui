@@ -749,6 +749,17 @@ LineSegment.yBounds = function () {
 	return Interval.mk(y1,y0);
 }
 
+LineSegment.lengthen = function (ln) {
+	let {end0,end1} = this;
+	let cntr = end0.plus(end1).times(0.5);
+	let vc= end1.difference(end0);
+	let hvc = vc.times(0.5);
+	let nvc = vc.normalize();
+	let nhvc = hvc.plus(nvc.times(0.5*ln));
+	let nend0 = cntr.difference(nhvc);
+	let nend1 = cntr.plus(nhvc);
+	return LineSegment.mk(nend0,nend1);
+}
   
 LineSegment.intersect = function (line1) {
 	let verbose = false;
@@ -964,6 +975,17 @@ Circle.mk = function(center,radius) {
   return rs;
 }
 
+Circle.intersectsCircle = function (crc) {
+	let {center:tc,radius:tr} = this;
+	let {center:cc,radius:cr} = crc;
+	let d = tc.distance(cc);
+	return d <(tr + cr);
+}
+
+Circle.intersects = function (target) {
+  return this.intersectsCircle(target);
+}
+	
 Circle.intersectLine = function (point,vec) {
   let px = point.x;
   let py = point.y;
