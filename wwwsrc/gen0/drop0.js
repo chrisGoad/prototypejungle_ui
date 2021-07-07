@@ -499,16 +499,8 @@ rs.installLine = function (line) {
 	if (line.period) {
 	  debugger;
 	}
-	/*const rcolor = () => {
-		return Math.floor(255*Math.random());
-	}
-	let r = rcolor();
-	let g = rcolor();
-	let b = rcolor();
-	let rclr = `rgb(${r},${g},${b})`;*/
   this.shapes.push(line);
   line.show();
-	//line.stroke = rclr;
   line.update();
 	this.numDropped++;
   return line;
@@ -892,15 +884,15 @@ rs.pointsFromCircleDrops = function () {
 	});
 	return pnts;
 }
-	
-// addConnectors adds segments connecting nearby circles which do no intersect other connectors
+/*	
+// addConnectors adds segments connecting nearby points which do no intersect other connectors
 rs.addConnectors = function (pnts) {
-	let {maxConnectorLength:mxCln} = this;
+	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,shortenBy=10} = this;
 	debugger;
 	let cPoints = this.cPoints = pnts;
 	let nbp = this.nearbyPoints = [];
 	
-	console.log('cPoints',cPoints);
+	//console.log('cPoints',cPoints);
   let cln = cPoints.length;
 	for (let i=0;i<cln;i++) {
 		let nears = [];
@@ -911,7 +903,7 @@ rs.addConnectors = function (pnts) {
 			let pi = cPoints[i];
 			let pj = cPoints[j];
 			let d = pi.distance(pj);
-			if (d < mxCln) {
+			if ((mnCln < d) && (d < mxCln)) {
 				nears.push(j);
 			}
 		}
@@ -927,7 +919,7 @@ rs.addConnectors = function (pnts) {
 		return rs;
 	}
 
-						console.log('initial nbp',copyNbp());
+					//	console.log('initial nbp',copyNbp());
   debugger;
 	
 	const randomHasNears = () => {
@@ -969,9 +961,9 @@ rs.addConnectors = function (pnts) {
 	  if ((typeof ri !== 'number') || (typeof rjv !== 'number')) {
 		  debugger;
 		}
-		console.log('nears',nears,'rj',rj);
+		//console.log('nears',nears,'rj',rj);
 		nears.splice(rj,1);
-		console.log('in C nbp',copyNbp(),'nears',nears,'ri',ri);
+		//console.log('in C nbp',copyNbp(),'nears',nears,'ri',ri);
 
 		return [ri,rjv];
 	}
@@ -982,9 +974,9 @@ rs.addConnectors = function (pnts) {
 		let rc = randomCandidate();
 		if (!rc) {
 			    
-					console.log('candidates',candidates);
-					console.log('nbp',nbp);
-      debugger;
+			//		console.log('candidates',candidates);
+			//		console.log('nbp',nbp);
+      //debugger;
 		  let rhn = randomHasNears();
 			break;
 		}
@@ -1012,12 +1004,14 @@ rs.addConnectors = function (pnts) {
 	debugger;
 
 	 connectSegs.forEach((sg) => {
-	  let line = this.genLine(sg);
+		ssg = sg.lengthen(-shortenBy);
+	  let line = this.genLine(ssg);
+		
     this.installLine(line);		
 	});	
 }	
 		
-		
+*/		
 	
 		
 		

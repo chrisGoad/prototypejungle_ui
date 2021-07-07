@@ -1,14 +1,19 @@
+ore.require('/gen0/basics.js','/gen0/topRandomMethods.js','/gen0/animation.js',function (rectPP,addBasicMethods,addTopRandomMethods,addAnimationMethods) {
 
-core.require('/shape/rectangle.js','/shape/circle.js','/gen0/drop0.js',function (rectPP,circlePP,addDropMethods) {
+  return function (item) {
+ 
+addAnimationMethods(item);
+addBasicMethods(item);
+addTopRandomMethods(item);
 
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
-rs.setName('drop0__24');
+rs.setName('drop0__23');
 let ht= 2000;
-ht = 3000;
-let nrc=15;
-let topParams = {numRows:nrc,numCols:nrc,width:ht,height:ht,maxDrops:50000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:20,maxConnectorLength:200}
-topParams = {width:2*ht,height:2*ht,numRings:nrc,radius:ht,maxDrops:1000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,minSeparation:20,maxConnectorLength:2000}
+ht = 2000;
+let nrc=10;
+let topParams = {numRows:nrc,numCols:nrc,width:ht,height:ht,maxDrops:50000,maxTries:100,lineLength:2,backgroundColor:'rgb(200,2,2)',backgroundPadding:20,minSeparation:20,maxConnectorLength:200}
+topParams = {numRows:nrc,numCols:nrc,width:ht,height:ht,maxDrops:1000,maxTries:100,lineLength:2,backgroundColor:'rgb(200,2,2)',backgroundPadding:20,minSeparation:20,maxConnectorLength:1000}
 
 Object.assign(rs,topParams);
 
@@ -17,7 +22,7 @@ rs.finishProtos = function () {
 	this.lineP.stroke = 'white';
 	//this.lineP.stroke = 'yellow';
 	this.lineP['stroke-width'] = .1;
-	this.lineP['stroke-width'] = 10;
+	this.lineP['stroke-width'] = 2;
 	let circleP = this.set('circleP',circlePP.instantiate()).hide();
   circleP.fill = 'transparent';
   circleP.stroke = 'red';
@@ -70,28 +75,32 @@ rs.genSegments = function (p) {
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	debugger;
-	let {numRings,radius} = this;
+	let {width,height,numRows,numCols} = this;
   let r0 = geom.Rectangle.mk(Point.mk(-100,-100),Point.mk(100,100));
   let r1 = geom.Rectangle.mk(Point.mk(0,-100),Point.mk(100,100));
   let r2 = geom.Rectangle.mk(Point.mk(-100,0),Point.mk(100,100));
   let r3 = geom.Rectangle.mk(Point.mk(0,0),Point.mk(100,100));
 	let pnts = [];
-	let dr = radius/numRings;
-	let da = (2*Math.PI/numRings)
-  let rnd = 100;
-	let r = radius;
-  for (let i = 0;i<numRings;i++) {
-		let angle = 0;
-
-		for (let j = 0;j<numRings;j++) {
-			let rr = r + rnd*(Math.random()-0.5);
-			let p = Point.mk( Math.cos(angle)*rr,Math.sin(angle)*rr);
-			pnts.push(p);
-			angle += da;
+	let dx = width/numRows;
+	let dy = height/numCols;
+	let x = (dx-width)/2;
+	let y;
+	let b = 3;
+	let hwp = (numRows/2)-1;
+	for (let i = 0;i<numRows;i++) {
+		y = (dy-height)/2;
+		let iob = ((i>(hwp-b)) && (i<(hwp + b)));
+		for (let j=0;j<numCols;j++) {
+			let job = ((j>(hwp-b)) && (j<(hwp + b)));
+			let p = Point.mk(x,y);
+			//if (!(iob && job)) {
+			if (!iob) {
+			  pnts.push(p);
+			}
+			y += dy;
 		}
-		r -= dr;
+		x += dx;
 	}
-
 	debugger;
  // this.rectangles = [r0,r1,r2,r3];
 	this.initializeDrop();

@@ -5,9 +5,9 @@ let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 rs.setName('drop0__22');
 let ht= 2000;
-ht = 2000;
+ht = 8000;
 let topParams = {width:ht,height:ht,maxDrops:50000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:20,maxConnectorLength:200}
-topParams = {width:ht,height:ht,maxDrops:1000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:20,maxConnectorLength:700}
+topParams = {width:ht,height:ht,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:20,maxConnectorLength:1500}
 
 Object.assign(rs,topParams);
 
@@ -16,7 +16,7 @@ rs.finishProtos = function () {
 	this.lineP.stroke = 'white';
 	//this.lineP.stroke = 'yellow';
 	this.lineP['stroke-width'] = .1;
-	this.lineP['stroke-width'] = 2;
+	this.lineP['stroke-width'] = 5;
 	let circleP = this.set('circleP',circlePP.instantiate()).hide();
   circleP.fill = 'transparent';
   circleP.stroke = 'red';
@@ -73,7 +73,7 @@ rs.initialize = function () {
   let r2 = geom.Rectangle.mk(Point.mk(-100,0),Point.mk(100,100));
   let r3 = geom.Rectangle.mk(Point.mk(0,0),Point.mk(100,100));
  // this.rectangles = [r0,r1,r2,r3];
-  this.zone = geom.Circle.mk(Point.mk(0,0),0.5*this.width);
+  //this.zone = geom.Circle.mk(Point.mk(0,0),0.5*this.width);
 	this.initializeDrop();
 	let pnts = this.pointsFromCircleDrops();
 	this.addConnectors(pnts);
