@@ -51,61 +51,16 @@ rs.initialSegments = function () {
 	debugger;
   let {width,height,zig0,zig1} = this; 
 	let zigzag0 = this.zigzagP.instantiate();
-	//let zigzag1 = this.zigzagP.instantiate();
 	zigzag0.show();
-	//zigzag1.show();
-	//zigzag1.location = Point.mk(-height/2,0);
 	this.set('zig0',zigzag0);
 	//this.set('zig1',zigzag1);
 	zigzag0.update();
 	let segs = [];
 	let lines = [];
-	//zigzag1.update();
-	/*let lineP = this.lineP;
-	let lines  = [];
-	let segs = [];
-	//let cs = this.set('cs',core.ArrayNode.mk());
-	let y = -2000;
-	let maxh;
-	let hinc = 10;
-	let winc = 80;
-	winc = 60;
-	let n = 40;
-	let gap = 0;
-	let wd = 20;
-	let ht = 10;
-	let fc = 0;
-	for  (let i=0;i<n;i++) {
-		let hw = 0.5*wd;
-	  let hh = 0.5*ht;
-		if (i===(n/2)) {
-			hinc = -hinc;
-			winc = -winc;
-		}
-		let ln = lineP.instantiate();
-		let rn1 = fc*(Math.random()-1);
-		let rn2 = fc*(Math.random()-1);
-		let e0 = Point.mk(-wd,y+rn1);
-		let e1 = Point.mk(wd,y+rn2);
-		ln.setEnds(e0,e1);
-		ln.stroke  = 'blue';
-		let sg = LineSegment.mk(e0,e1)
-		ln.show();
-		lines.push(ln);
-		segs.push(sg);
-
-		y = y+ 1.0*ht;
-		ht = ht +hinc;
-		wd = wd +winc;
-
-	}*/
+	
 	debugger;
 	let zsegs0 = zigzag0.segments;
-//	let zsegs1 = zigzag1.segments;
 	segs.push(...zsegs0);
-	//segs.push(...zsegs1);
- // let segs = this.rectangleSegments(width,height);
- // let lines = segs.map((sg) => this.genLine(sg)); 
   return [segs,lines];
 }
 rs.genSegments = function (p) {
@@ -133,60 +88,12 @@ rs.initialize = function () {
   core.root.backgroundColor = 'rgb(200,0,0)';
   core.root.backgroundColor = 'rgb(0,0,0)';
 	this.initProtos();
-/*	let zigzag0 = this.zigzagP.instantiate();
-	let zigzag1 = this.zigzagP.instantiate();
-		zigzag0.show();
-		zigzag1.show();
-		zigzag1.location = Point.mk(-ht/2,0);
-		this.set('zig0',zigzag0);
-		this.set('zig1',zigzag1);
-		zigzag0.update();
-		zigzag1.update();*/
 		this.initializeDrop();
 		
 }
 
 
-		/*
-		c.width = width + 4*i;
-		if (i<10) {
-			maxh  = height + 2*i;
-		
-		  c.height =  maxh;
-		} else {
-			debugger;
-			c.height = maxh - 2*(i-10); 
-		}
-		hw = 0.5 * c.width;
-		//c.update();
-		cs.push(c);
-		c.show();
-		c.moveto(Point.mk(-hw,y));
-		y = y + 2*(c.height-1)-2*armHeight;
-		
-	}
-	y = height - 1.0*armHeight;
-  hw = 0.5*width;
-	for (let i=0;i<20;i++) {
-		let c = cgonP.instantiate();
-		if (i<10) {
-			maxh  = height + 2*i;
-		
-		  c.height =  maxh;
-		} else {
-			debugger;
-			c.height = maxh - 2*(i-10); 
-		}
-
-		c.rotation = Math.PI;
-		cs.push(c);
-		c.show();
-		c.moveto(Point.mk(hw,y));
-				y = y + 2*(c.height-1)-2*armHeight;
-
-
-	}
-	*/
+	
 
   
 

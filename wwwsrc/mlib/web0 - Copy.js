@@ -4,7 +4,7 @@ function () {
 //core.require(function () {
  return function (rs) {
 
-rs.pairFilterr = function (i,j) {
+rs.pairFilter = function (i,j) {
 	return true;
 }
 
@@ -46,91 +46,76 @@ rs.addWeb = function (pnts,fringe) {
 
 					//	console.log('initial nbp',copyNbp());
   debugger;
-
-	const numPassFilter = function (total,filter) {
-		if (!filter) {
-			return total;
-		}
-		let rs = 0;
-		for (let i=0;i<total;i++) {
-			if (filter(i)) {
-				rs++;
-			}
-		}
-		return rs;
-	}
-
-	const randomFiltered = function (total,filter,numPass) {
-		let rnv = Math.floor(numPass*Math.random());
-		if (!filter) {
-			return rnv;
-		}
-		let cnt = 0;
-		for (let i=0;i<total;i++) {
-			if (filter(i)) {
-				if (cnt === rnv) {
-					return i;
-				}
-				cnt++;
-			}
-		}
-	}
-		
 	
-	const isCandidateForI  =  (i) => { // returns the number of candidates for j
-		let nears = nbp[i];
-		if (!nears) {
-			debugger;
+const isCandidateForI  =  (i) => { // returns the number of candidates for j
+	let nears = nbp[i];
+	let ln = nears.length;
+	let nmj = 0;
+	for (let j=0;j<ln;j++) {
+		if (this.pairFilter(i,j)) {
+			nmj++;
 		}
-		if (this.pairFilter) {
-			let ln = nears.length;
-			let filter = (j) => {
-				let jv = nears[j];
-				return this.pairFilter(i,jv);
-			}
-			let npf = numPassFilter(ln,filter);
-		  return npf;
-		}
-		return nears.length;
-	}
-	
+	}	
+	return nmj;
+}
 	const randomI = () => { // returns [i,numCandidates for j]
-	  let ln  = nbp.length;
-    let filter = (i) => {
-			return isCandidateForI(i);
-		};
-		let npf = numPassFilter(ln,filter);
-		if (npf === 0) {
-			return [0,0];
+		let numCandidates= 0;
+		let nl = nbp.length;
+		for (let i=0;i<nl;i++) {
+			if (isCandidateForI(i)) {
+			  numCandidates++;
+			}
 		}
-		let rf = randomFiltered(ln,filter,npf);
-		let nc = isCandidateForI(rf);
-		return [rf,nc];
+		if (numCandidates === 0) {
+			return [0,0]
+		}
+		let rx  = Math.floor(numCandidates * Math.random());
+	//	let ln = nbp.length;
+    let nsf = 0;
+		for (let i = 0;i<nl;i++) {
+			let nmj = isCandidateForI(i);
+			if (nmj) {
+				if (nsf === rx) {
+				  return [i,nmj];
+				}
+				nsf++;
+			}
+		}
 	}
 	
 		
 	const randomPair = () => {
 		//let ri = cln * (Math.random()/cln);
+
 		let [ri,numCandidates] = randomI();
 		if (numCandidates === 0) {
-			return undefined
+			return undefined;
 		}
 		let nears = nbp[ri];
 		let nl = nears.length;
-		let filter;
-		if (this.pairFilter) {
-			let filter =  (j) => {
-				let nj = nears[j];
-				return this.pairFilter(ri,nj)
-			}
+		let rj = Math.floor(numCandidates * Math.random());
+		let rjv;
+    let cnt = 0;
+//		for (let j=0;j<numCandidates;j++) {
+		for (let j=0;j<nl;j++) {
+			 let nj = nears[j];
+			 if (this.pairFilter(ri,nj)) {
+				 if (cnt == rj) {
+					 rjv = nj;
+					 break;
+				 } 
+				 cnt++;
+			 }
 		}
-		let nmp = numPassFilter(nl,filter);
-		let rj = randomFiltered(nl,filter,nmp);
-		let rjv = nears[rj];
+	  if ((typeof ri !== 'number') || (!rjv !== 'number')) {
+		  debugger;
+		}
+		//console.log('nears',nears,'rj',rj);
 		nears.splice(rj,1);
+		//console.log('in C nbp',copyNbp(),'nears',nears,'ri',ri);
+
 		return [ri,rjv];
 	}
-	
 	let connectSegs = [];
 	let candidates = []; // for debugging
 	this.numDropped++;

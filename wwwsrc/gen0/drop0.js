@@ -1,6 +1,6 @@
 
 //core.require('/gen0/animation.js','/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
-core.require('/gen0/animation.js','/gen0/basics.js','/gen0/topRandomMethods.js','/shape/rectangle.js','/line/line.js',
+core.require('/mlib/animation.js','/mlib/basics.js','/mlib/topRandomMethods.js','/shape/rectangle.js','/line/line.js',
 function (addAnimationMethods,addBasicMethods,addRandomMethods,rectanglePP,linePP) {
 
 //core.require(function () {

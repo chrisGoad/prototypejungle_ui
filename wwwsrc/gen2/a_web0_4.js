@@ -24,6 +24,10 @@ rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initBasis();
 	debugger;
+		this.initializeDrop();
+
+  let pnts = this.pointsFromCircleDrops();
+
 	let pnts = this.genRings(this);
 	this.addWeb(pnts);
 }
