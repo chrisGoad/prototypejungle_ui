@@ -4,7 +4,6 @@ function () {
 
 
 rs.genRings = function (params) {
-	debugger;
 	let {numRings,radius,randomFactor = 0} = params;
 	let pnts = [];
 	let dr = radius/numRings;

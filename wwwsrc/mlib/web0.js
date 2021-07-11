@@ -4,35 +4,42 @@ function () {
 //core.require(function () {
  return function (rs) {
 
-rs.pairFilterr = function (i,j) {
-	return true;
+rs.pairFilter = function (i,j) {
+	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,cPoints} = this;
+	let pi = cPoints[i];
+	let pj = cPoints[j];
+	let d = pi.distance(pj);
+	return (mnCln < d) && (d < mxCln);
 }
 
 
+
 rs.addWeb = function (pnts,fringe) {
-	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,shortenBy=10} = this;
+	let {shortenBy=10} = this;
 	debugger;
 	let cPoints = this.cPoints = pnts;
 	let nbp = this.nearbyPoints = [];
-	
-	//console.log('cPoints',cPoints);
-  let cln = cPoints.length;
-	for (let i=0;i<cln;i++) {
-		let nears = [];
-		for (let j=0;j<cln;j++) {
-			if (i>=j) {
-				continue;
+  
+	const computeNears = () => {
+		let {cPoints,nearbyPoints:nbp} = this;
+		let cln = cPoints.length;
+		for (let i=0;i<cln;i++) {
+			let nears = [];
+			for (let j=0;j<cln;j++) {
+				if (i>=j) {
+					continue;
+				}
+				if (this.pairFilter(i,j)) {
+					nears.push(j);
+				}
 			}
-			let pi = cPoints[i];
-
-			let pj = cPoints[j];
-			let d = pi.distance(pj);
-			if ((mnCln < d) && (d < mxCln)) {
-				nears.push(j);
-			}
+			nbp.push(nears);
 		}
-		nbp.push(nears);
 	}
+	
+	computeNears();
+	//console.log('cPoints',cPoints);
+
 	
 
 	
@@ -118,12 +125,12 @@ rs.addWeb = function (pnts,fringe) {
 		let nears = nbp[ri];
 		let nl = nears.length;
 		let filter;
-		if (this.pairFilter) {
+	/*	if (this.pairFilter) {
 			let filter =  (j) => {
 				let nj = nears[j];
 				return this.pairFilter(ri,nj)
 			}
-		}
+		}*/
 		let nmp = numPassFilter(nl,filter);
 		let rj = randomFiltered(nl,filter,nmp);
 		let rjv = nears[rj];
@@ -142,7 +149,7 @@ rs.addWeb = function (pnts,fringe) {
 			/*		console.log('candidates',candidates);
 					console.log('nbp',nbp);
       debugger;*/
-		  let rhn = randomI();
+		//  let rhn = randomI();
 			break;
 		}
 		candidates.push(rc);
@@ -170,7 +177,8 @@ rs.addWeb = function (pnts,fringe) {
 	debugger;
 
 	 connectSegs.forEach((sg) => {
-		ssg = sg.lengthen(-shortenBy);
+		 debugger;
+		let ssg = sg.lengthen(-shortenBy);
 	  let line = this.genLine(ssg);
 		
     this.installLine(line);		
