@@ -51,12 +51,6 @@ item.copyRandomState = function (rnds) {
 item.saveRandomState = function (tp,interp) {
  debugger;
 	let rnds = this[tp];
-/*
-  let rs = {};
-  let rgfs = rnds;
-  for (let p in rgfs) {
-    rs[p] = rgfs[p]; 
-  }*/
   let rs = this.copyRandomState(rnds);
   rnds['interpolate'+interp] = rs;
   return rs;
@@ -83,7 +77,6 @@ item.interpolateRandomValues = function(s0,s1,fr) {
 
 
 
-
 item.interpolateBetweenRandomStates = function (wrnds,nm,fr) {
   let i0 = wrnds.interpolateFrom[nm];
   let i1 = wrnds.interpolateTo[nm];
@@ -102,10 +95,7 @@ item.stepRandomizer = function (tp,nm) {
     let fr = (timeStep - its)/(numTimeSteps-its);
     console.log('ts ',timeStep,'fr ',fr);
     this.interpolateBetweenRandomStates(wrnds,nm,fr);
-    /*let i0 = wrnds.interpolateFrom[nm];
-    let i1 = wrnds.interpolateTo[nm];
-    let vls = this.interpolateRandomValues(i0,i1,fr);
-    rg.values = vls;*/
+  
     return;
   }
   let rm = this.randomizer;
@@ -187,7 +177,7 @@ item.randomValueAtCell = function (randomGrids,prop,i,j) {
 	return rs;
 }
     
- 
+
 item.randomValuesAtCell = function (randomGrids,i,j) {
 	if (!randomGrids) {
 		return;
@@ -203,5 +193,11 @@ item.randomValuesAtCell = function (randomGrids,i,j) {
 	}
 	return rs;
 }
+
+item.rvsAtCell = function (cell) {
+	return this.randomValuesAtCell(this.randomGridsForShapes,cell.x,cell.y);
 }   
-});
+
+}});
+
+

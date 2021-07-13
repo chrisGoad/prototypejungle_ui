@@ -27,7 +27,7 @@ rs.initProtos = function () {
 }  
 
 rs.genSegments = function (p) {
-	console.log('px',p.x);
+	//console.log('px',p.x);
 	rd = 30;
 	let gcrc = geom.Circle.mk(p,rd);
 	let scrc = this.circleP.instantiate();

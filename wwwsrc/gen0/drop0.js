@@ -867,7 +867,6 @@ rs.initializeDrop = function (doDrop=1) {
 }// now the connectors
 
 rs.pointsFromCircleDrops = function () {
-	debugger;
 	let zone = this.zone;
 	let pnts = [];
 	this.segments.forEach( (seg) => {

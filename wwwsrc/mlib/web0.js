@@ -12,14 +12,19 @@ rs.pairFilter = function (i,j) {
 	return (mnCln < d) && (d < mxCln);
 }
 
+rs.singletonFilter = function (i) {
+	return true;
+}
 
 
-rs.addWeb = function (pnts,fringe) {
+
+rs.beforeAddSeg = function (seg) {
+}
+rs.addWeb = function (pnts) {
 	let {shortenBy=10} = this;
 	debugger;
 	let cPoints = this.cPoints = pnts;
 	let nbp = this.nearbyPoints = [];
-  
 	const computeNears = () => {
 		let {cPoints,nearbyPoints:nbp} = this;
 		let cln = cPoints.length;
@@ -35,6 +40,17 @@ rs.addWeb = function (pnts,fringe) {
 			}
 			nbp.push(nears);
 		}
+		// now add the near pairs in the other direction
+		for (let i=0;i<cln;i++) {
+			let nearsi = nbp[i];
+			nearsi.forEach( (j) => {
+				if (i < j	) {
+				  let nearsj = nbp[j];
+				  nearsj.push(i); 
+				}
+			});
+		}
+		debugger;
 	}
 	
 	computeNears();
@@ -52,7 +68,6 @@ rs.addWeb = function (pnts,fringe) {
 	}
 
 					//	console.log('initial nbp',copyNbp());
-  debugger;
 
 	const numPassFilter = function (total,filter) {
 		if (!filter) {
@@ -89,7 +104,7 @@ rs.addWeb = function (pnts,fringe) {
 		if (!nears) {
 			debugger;
 		}
-		if (this.pairFilter) {
+		if (0 && this.pairFilter) {
 			let ln = nears.length;
 			let filter = (j) => {
 				let jv = nears[j];
@@ -98,7 +113,8 @@ rs.addWeb = function (pnts,fringe) {
 			let npf = numPassFilter(ln,filter);
 		  return npf;
 		}
-		return nears.length;
+		let sf = this.singletonFilter(i);
+		return sf?nears.length:0
 	}
 	
 	const randomI = () => { // returns [i,numCandidates for j]
@@ -116,14 +132,14 @@ rs.addWeb = function (pnts,fringe) {
 	}
 	
 		
-	const randomPair = () => {
+	const randomPairs = (ri) => {
 		//let ri = cln * (Math.random()/cln);
-		let [ri,numCandidates] = randomI();
-		if (numCandidates === 0) {
-			return undefined
-		}
-		let nears = nbp[ri];
-		let nl = nears.length;
+	//	let [ri,numCandidates] = randomI();
+	
+	//	if (this.choosePairs) {
+			
+		let nearsi = nbp[ri];
+		let nl = nearsi.length;
 		let filter;
 	/*	if (this.pairFilter) {
 			let filter =  (j) => {
@@ -133,27 +149,35 @@ rs.addWeb = function (pnts,fringe) {
 		}*/
 		let nmp = numPassFilter(nl,filter);
 		let rj = randomFiltered(nl,filter,nmp);
-		let rjv = nears[rj];
-		nears.splice(rj,1);
-		return [ri,rjv];
+		let rjv = nearsi[rj];
+		nearsi.splice(rj,1);
+		// remove the pair going the other direction
+		nearsj = nbp[rjv];
+		let ii = nearsj.indexOf(ri);
+		if ((ii === -1)) {
+			debugger;
+		} else {
+		  nearsj.splice(ii,1);
+		}
+		return [[ri,rjv]];
 	}
 	
 	let connectSegs = [];
 	let candidates = []; // for debugging
 	this.numDropped++;
 	while (1) {
-	//	debugger;
-		let rc = randomPair();
-		if (!rc) {
-			    
-			/*		console.log('candidates',candidates);
-					console.log('nbp',nbp);
-      debugger;*/
-		//  let rhn = randomI();
+	//	debugger'	//	
+	   let [randI,numCandidates] = randomI();
+		if (numCandidates === 0) {
 			break;
 		}
-		candidates.push(rc);
-		let [ri,rj] = rc;
+		let rc = randomPairs(randI);
+		if (rc.length === 0) {
+			break;
+		}
+		let  rc0 = rc[0]
+		candidates.push(rc0);
+		let [ri,rj] = rc0;
 		let rip = cPoints[ri];
 		let rjp = cPoints[rj];
 		if ((!rip) || (!rjp)) {
@@ -169,7 +193,8 @@ rs.addWeb = function (pnts,fringe) {
         break;
 			}
 		}
-    if (0 || !fnd) {
+    if ( !fnd) {
+			this.beforeAddSeg(ri,rj);
       connectSegs.push(rseg);
 			this.numDropped++;
 		}
