@@ -9,10 +9,10 @@ addWebMethods(rs);
 rs.setName('min0_1');
 let ht= 2000;
 ht = 3000;
-let nrc=64;
+let nrc=32;
 let mcl = 1.6*(ht/nrc);
 //nrc = 2;
-let  topParams = {width:ht,height:ht,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl*2};
+let  topParams = {width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+100};
 
 Object.assign(rs,topParams);
 
@@ -30,43 +30,70 @@ rs.pairFilter = function (i,j) {
 	return true;
 }
 
+rs.restrictRange = function (idir) {
+	let dir = idir;
+	while (dir > Math.PI){
+	 dir = dir - 2*Math.PI;
+	}
+	while (dir < -Math.PI){
+	 dir = dir + 2*Math.PI;
+	}
+	return dir;
+}
 rs.direction = function (p) {
 	rs = Math.atan2(p.y,p.x);
-  return rs;
+  return this.restrictRange(rs);
 }
-
+rs.cprc =0;
 rs.choosePairs = function (i) {
 	let {cPoints,nearbyPoints} = this;
+//	debugger;
+	this.cprc++;
+	if (this.cprc > 100) {
+		debugger;
+	}
 	let nears = this.nearbyPoints[i];
+	let nl = nears.length;
 	let pi = cPoints[i];
 	let minDev = Infinity;
 	let idir = pi.direction;
-	let rs;
-	if (pi.direction) {
-		nears.forEach((j) => {
+	let ni;
+	let bias =0.0 * Math.PI;
+	if ( idir) {
+		for (let nic=0;nic < nl;nic++) {
+			let j = nears[nic];
 			let pj = cPoints[j];
 			let jdir = this.direction(pj.difference(pi));
-			let dev = Math.abs(jdir-idir);
+			//console.log('i',i,'j',j,'idir',idir,'jdir',jdir);
+			let dev = Math.abs(bias -  (jdir-idir));
 			if (dev < minDev) {
 				minDev = dev;
-				rs = j;
+				ni = nic;
 			}
-		});
-		return [rs];
+		}
+		if (ni === undefined) {
+			return [];
+		}
+	} else {
+	  let nl = nears.length;
+	  ni = Math.floor (nl* Math.random());
 	}
-	let nl = nears.length;
-	return [Math.floor (nl* Math.random())];
+	console.log('minDev',minDev);
+	return [[i,ni]];
 }
 	
 			
 
 rs.beforeAddSeg = function (i,j) {
   let {cPoints}  = this;
-	debugger;
+//	debugger;
 	let pi = cPoints[i];
+	let idir = pi.direction;
 	let pj = cPoints[j];
 	pj.predecessor = i;
-	pj.direction = this.direction(pj.difference(pi));
+  let jdir = this.direction(pj.difference(pi));
+  console.log('i',i,'j',j,'idir',idir,'jdir',jdir);
+	pj.direction = jdir;
 	pi.interior = 1;
 	pi.onFringe = 0;
 	pj.onFringe= 1;
@@ -92,6 +119,19 @@ rs.initProtos = function () {
 	
 }  
 
+rs.selectNonFringe = function () {
+	let {cPoints,maxFringeTries} = this;
+	let ln = cPoints.length;
+	for (let i=0;i<maxFringeTries;i++)  {
+	  let ri = Math.floor(ln*Math.random());
+		let pi = cPoints[ri];
+		if (!(pi.onFringe || pi.interior)) {
+			return ri;
+		}
+	}
+	return -1;
+}
+	
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
@@ -100,7 +140,24 @@ rs.initialize = function () {
 	let p = pnts[0];
 	p.onFringe = 1
 	this.placeShapesAtPoints(pnts,this.circleP);
-	this.addWeb(pnts);
+	this.initWeb(pnts);
+	this.addWeb();
+	this.addSegs();
+  let {cPoints,connectSegs} = this;
+
+	debugger;
+	for (let i=0;i<50;i++) {
+		let nf = this.selectNonFringe();
+		if (nf > -1) {
+			let pf = cPoints[nf];
+			pf.onFringe = 1;
+			let sgl = connectSegs.length;
+			this.addWeb();
+			this.addSegs(sgl);
+		} else {
+			return;
+		}
+	}
 }
 
 
