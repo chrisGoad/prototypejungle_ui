@@ -34,11 +34,17 @@ rs.initWeb = function (pnts) {
 }
 
 rs.addSegs = function (fromIndex=0) {
+	debugger;
 	let {connectSegs,shortenBy=10} = this;
   let ln = connectSegs.length;
 	for (let i=fromIndex;i<ln;i++) {
+		if (i===(ln-1)) {
+			debugger;
+		}
 		let sg = connectSegs[i];
 		let ssg = sg.lengthen(shortenBy);
+		ssg.index0 = sg.index0;
+		ssg.index1 = sg.index1;
 	  let line = this.genLine(ssg);
     this.installLine(line);		
 	}
@@ -175,6 +181,9 @@ const removeFromNears = function (i,ni) {
 	let nearsi = nbp[i];
 	let j = nearsi[ni];
 	let nearsj = nbp[j];
+	if (!nearsj) {
+		debugger;
+	}
 	nearsi.splice(ni,1);
 	let ii = nearsj.indexOf(i);
 	if ((ii === -1)) {
@@ -196,6 +205,9 @@ const removeFromNears = function (i,ni) {
 			return pp;
 		}*/
 		  let cp = this.choosePairs(i);
+			if (cp === undefined) {
+				debugger;
+			}
 			let rss = cp.map( (pr) => {
 				let [i,ni] = pr;
 				let nears = nbp[i];;
@@ -245,29 +257,32 @@ const removeFromNears = function (i,ni) {
 		if (rc.length === 0) {
 			break;
 		}
-		let  rc0 = rc[0]
-		candidates.push(rc0);
-		let [ri,rj] = rc0;
-		let rip = cPoints[ri];
-		let rjp = cPoints[rj];
-		if ((!rip) || (!rjp)) {
-		  debugger;
-		}
-		let rseg  = geom.LineSegment.mk(rip,rjp).lengthen(-10);
-		let lnc = connectSegs.length;
-		let fnd = 0;
-		for (let i = 0;i<lnc;i++) {
-			let csg = connectSegs[i];
-			if (rseg.intersects(csg)) {
-        fnd = 1;
-        break;
+		rc.forEach( (rp) => {
+			candidates.push(rp); // for debugging
+			let [ri,rj] = rp;
+			let rip = cPoints[ri];
+			let rjp = cPoints[rj];
+			if ((!rip) || (!rjp)) {
+				debugger;
 			}
-		}
-    if ( !fnd) {
-			this.beforeAddSeg(ri,rj);
-      connectSegs.push(rseg);
-			this.numDropped++;
-		}
+			let rseg  = geom.LineSegment.mk(rip,rjp).lengthen(-10);
+			let lnc = connectSegs.length;
+			let fnd = 0;
+			for (let i = 0;i<lnc;i++) {
+				let csg = connectSegs[i];
+				if (rseg.intersects(csg)) {
+					fnd = 1;
+					break;
+				}
+			}
+			if ( !fnd) {
+				this.beforeAddSeg(ri,rj);
+				rseg.index0 = ri;
+		    rseg.index1 = rj;
+				connectSegs.push(rseg);
+				this.numDropped++;
+			}
+		});
 	}
 	debugger;
   if (pnts) {
@@ -277,6 +292,8 @@ const removeFromNears = function (i,ni) {
 	 connectSegs.forEach((sg) => {
 		 debugger;
 		let ssg = sg.lengthen(-shortenBy);
+		ssg.index0 = ri;
+		ssg.index1 = rj;
 	  let line = this.genLine(ssg);
 		
     this.installLine(line);		

@@ -22,13 +22,12 @@ rs.direction = function (p) {
 
 rs.beforeAddSeg = function (i,j) {
   let {cPoints}  = this;
-//	debugger;
 	let pi = cPoints[i];
 	let idir = pi.direction;
 	let pj = cPoints[j];
 	pj.predecessor = i;
   let jdir = this.direction(pj.difference(pi));
-  console.log('i',i,'j',j,'idir',idir,'jdir',jdir);
+  //console.log('i',i,'j',j,'idir',idir,'jdir',jdir);
 	pj.direction = jdir;
 	pi.interior = 1;
 	pi.onFringe = 0;
@@ -43,7 +42,6 @@ rs.singletonFilter  = function (i) {
 	
 	return !(i%50);
 }
-
 
 rs.selectNonFringe = function () {
 	let {cPoints,maxFringeTries} = this;

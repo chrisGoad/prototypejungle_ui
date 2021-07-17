@@ -5,9 +5,9 @@ let rs = svg.Element.mk('<g/>');
 addBasis(rs);
 addPointGenMethods(rs);
 addWebMethods(rs);
-addWebTree,Methods(rs);
+addWebTreeMethods(rs);
 //addWebMethods(rs);
-rs.setName('min0_1');
+rs.setName('min0_2');
 let ht= 2000;
 ht = 3000;
 let nrc=32;
@@ -16,7 +16,7 @@ let mcl = 1.6*(ht/nrc);
 let  topParams = {width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+100};
 
 Object.assign(rs,topParams);
-
+/*
 rs.pairFilter = function (i,j) {
 	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,cPoints,numDropped,width} = this;
   let pi = cPoints[i];
@@ -44,7 +44,7 @@ rs.restrictRange = function (idir) {
 rs.direction = function (p) {
 	rs = Math.atan2(p.y,p.x);
   return this.restrictRange(rs);
-}
+}*/
 rs.cprc =0;
 rs.choosePairs = function (i) {
 	let {cPoints,nearbyPoints} = this;
@@ -113,9 +113,9 @@ rs.genLine = function (sg,ext=0) {
 
   return line;
 }
+/*
 rs.beforeAddSeg = function (i,j) {
   let {cPoints}  = this;
-//	debugger;
 	let pi = cPoints[i];
 	let idir = pi.direction;
 	let pj = cPoints[j];
@@ -127,15 +127,16 @@ rs.beforeAddSeg = function (i,j) {
 	pi.onFringe = 0;
 	pj.onFringe= 1;
 }
+*/
 
-
+/*
 rs.singletonFilter  = function (i) {
 	let pi = this.cPoints[i];
 	return pi.onFringe;
 	
 	return !(i%50);
 }
-
+*/
 
 
 rs.initProtos = function () {	
@@ -147,7 +148,7 @@ rs.initProtos = function () {
 	circleP.fill = 'transparent';
 	
 }  
-
+/*
 rs.selectNonFringe = function () {
 	let {cPoints,maxFringeTries} = this;
 	let ln = cPoints.length;
@@ -160,7 +161,7 @@ rs.selectNonFringe = function () {
 	}
 	return -1;
 }
-	
+	*/
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
@@ -175,6 +176,8 @@ rs.initialize = function () {
   let {cPoints,connectSegs} = this;
 
 	debugger;
+	this.loopFringeAddition(150);
+	return;
 	for (let i=0;i<150;i++) {
 		let nf = this.selectNonFringe();
 		if (nf > -1) {
