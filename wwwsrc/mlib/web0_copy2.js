@@ -32,41 +32,20 @@ rs.initWeb = function (pnts) {
 		this.connectSegs = [];
 	}
 }
-/*
-const interpolate = function (v1,v2,f) {
-	return v1 + (v2-v1)*f;
-}
-const interpolateColor = function (c0,c1,f) {
-	let [r0,g0,b0] =c0;
-	let [r1,g1,b1] =c1;
-	let  r = interpolate(r0,r1,f);
-	let  g = interpolate(g0,g1,f);
-	let  b = interpolate(b0,b1,f);
-	let rs = `rgb(${r},${g},${b})`;
-	console.log('rs',rs);
-	return rs;
-}
-*/
+
 rs.addSegs = function (fromIndex=0) {
 	debugger;
 	let {connectSegs,shortenBy=10} = this;
   let ln = connectSegs.length;
 	for (let i=fromIndex;i<ln;i++) {
 		if (i===(ln-1)) {
-//			debugger;
+			debugger;
 		}
 		let sg = connectSegs[i];
 		let ssg = sg.lengthen(shortenBy);
 		ssg.index0 = sg.index0;
 		ssg.index1 = sg.index1;
 	  let line = this.genLine(ssg);
-		let {end0,end1} = ssg;
-		if (this.colorFromPoint) {
-			line.stroke = this.colorFromPoint(end0);
-		}
-		/*let c0 = [250,0,0];
-		let c1 = [0,0,250];
-		line . stroke = interpolateColor(c0,c1,i/(ln-1));*/
     this.installLine(line);		
 	}
 }	
@@ -75,48 +54,27 @@ rs.removeFromNears = function (i,ni) {
 	let {nearbyPoints:nbp} = this;
 	let nearsi = nbp[i];
 	let j = nearsi[ni];
-	nearsi[ni] = -(j+1);
-}
-	
-
-// actual nears are encoded by n+1 removed by -(n+1)
-rs.encodeNear = (i) => i;
-rs.decodeNear = (i) => i;
-
-rs.realNears = (nears) => {
-	return nears.filter((i) => i>=0);
-}
-rs.rnearsIndex2NearsIndex = function (nears,ri) {
-	let nl = nears.length;
-	let cnt = 0;
-	for (let i=0;i<nl;i++) {
-		let iv = nears[i];
-		if (iv >= 0) {
-			if (cnt === ri) {
-				return i;
-			}
-			cnt++;
-		}
-	}
-	error('unexpected');
-}
-rs.rnearsIndex2NearsIndexViaIndexOf = function (nears,rnears,ri) {
-  let v = rnears[ri];
-	let rs = nears.indexOf(v);
-	if (rs === -1) {
-		console.log('unexpected');
+	let nearsj = nbp[j];
+	nearsi.splice(ni,1);
+	let ii = nearsj.indexOf(i);
+	if ((ii === -1)) {
 		debugger;
+	} else {
+		nearsj.splice(ii,1);
 	}
-	return rs;
 }
-		
-	
-	
+
+
+rs.encodeNear = (i) => i+1;
+rs.decodeNear = (i) =>
+  return (i<0)?null:i-1;
+ }
+
 rs.addWeb = function (pnts) {
 	if (pnts) {
 		this.initWeb(pnts);
 	}
-	let {cPoints,nearbyPoints,connectSegs,shortenBy=10,maxLoops = 10000} = this;
+	let {cPoints,nearbyPoints,connectSegs,shortenBy=10} = this;
 	debugger;
 		let nbp = this.nearbyPoints = [];
 	const computeNears = () => {
@@ -137,11 +95,11 @@ rs.addWeb = function (pnts) {
 		// now add the near pairs in the other direction
 		for (let i=0;i<cln;i++) {
 			let nearsi = nbp[i];
-			nearsi.forEach( (j) => {
+			nearsi.forEach( (j) => 
 			  let dj = this.decodeNear(j);
 				if (i < dj	) {
 				  let nearsj = nbp[dj];
-				  nearsj.push(this.encodeNear(i)); 
+				  nearsj.push(this.encodeNear(i); 
 				}
 			});
 		}
@@ -229,9 +187,18 @@ rs.addWeb = function (pnts) {
 const removeFromNears = function (i,ni) {
 	let nearsi = nbp[i];
 	let j = nearsi[ni];
-	nearsi[ni] = -(j+1);
+	let nearsj = nbp[j];
+	if (!nearsj) {
+		debugger;
+	}
+	nearsi.splice(ni,1);
+	let ii = nearsj.indexOf(i);
+	if ((ii === -1)) {
+		debugger;
+	} else {
+		nearsj.splice(ii,1);
+	}
 }
-
 		
 	const randomPairs = (i) => {
 		//let i = cln * (Math.random()/cln);
@@ -251,7 +218,7 @@ const removeFromNears = function (i,ni) {
 			let rss = cp.map( (pr) => {
 				let [i,ni] = pr;
 				let nears = nbp[i];;
-				let j = this.decodeNear(nears[ni]);
+				let j = nears[ni];
 				removeFromNears(i,ni);
 				return [i,j];
 			});
@@ -259,17 +226,18 @@ const removeFromNears = function (i,ni) {
 			return rss;
 		}
 		let nearsi = nbp[i];
-		let rnearsi = this.realNears(nearsi);
-	  let nl = rnearsi.length;
-		if (nl === 0) {
-			return [];
-		}
-		let rni = Math.floor(Math.random()*nl);
-		//let nl = nearsi.length;
-		let j = rnearsi[rni];
-		let ni = this.rnearsIndex2NearsIndexViaIndexOf(nearsi,rnearsi,rni);
-		//let j = this.decodeNear(nearsi[ni]);
-		this.removeFromNears(i,ni);
+		let nl = nearsi.length;
+		let filter;
+	/*	if (this.pairFilter) {
+			let filter =  (j) => {
+				let nj = nears[j];
+				return this.pairFilter(i,nj)
+			}
+		}*/
+		let nmp = numPassFilter(nl,filter);
+		let ni = randomFiltered(nl,filter,nmp);
+		let j = nearsi[ni];
+		removeFromNears(i,ni);
 		/*nearsi.splice(rj,1);
 		// remove the pair going the other direction
 		nearsj = nbp[rjv];
@@ -285,18 +253,16 @@ const removeFromNears = function (i,ni) {
 	//let connectSegs = [];
 	let candidates = []; // for debugging
 	this.numDropped++;
-	for (let ii=0;ii<maxLoops;ii++)  {
+	while (1) {
 	//	debugger'	//	
 	   let [randI,numCandidates] = randomI();
 		if (numCandidates === 0) {
-			debugger;
 			break;
 		}
 		let rc = randomPairs(randI);
 	//	console.log('rc',rc)
 		if (rc.length === 0) {
-		//	debugger;
-			continue;
+			break;
 		}
 		rc.forEach( (rp) => {
 			candidates.push(rp); // for debugging

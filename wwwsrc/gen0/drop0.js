@@ -866,20 +866,58 @@ rs.initializeDrop = function (doDrop=1) {
 	}
 }// now the connectors
 
+rs.inAzone = function (zones,p) {
+	if (!zones) {
+		return 0;
+	}
+	let fnd = false;
+	let eln = zones.length;
+	for (let i=0;i<eln;i++) {
+		let zone = zones[i];
+		if (zone.contains(p)) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
 rs.pointsFromCircleDrops = function () {
-	let zone = this.zone;
+	let {zone,exclusionZones} = this;
+/*	const inExclusionZone = function (p) {
+	  if (exclusionZones) {
+			debugger;
+			let fnd = false;
+			let eln = exclusionZones.length;
+			for (let i=0;i<eln;i++) {
+				let xzone = exclusionZones[i];
+				if (xzone.contains(p)) {
+					fnd = true;
+					break;
+				}
+			}
+			if (fnd) {
+		    return true;
+			}
+		} else {
+			return false;
+		}
+  }*/
 	let pnts = [];
 	this.segments.forEach( (seg) => {
 	  if (geom.Circle.isPrototypeOf(seg)) {
 			let p = seg.center;
 			if (zone) {
-				if (zone.contains(p)) {
-			    pnts.push(p);
-				} 
-			} else {
-			  pnts.push(p);
+				if (!zone.contains(p)) {
+					return;
+				}
 			}
-		}
+			
+			let inex = this.inAzone(exclusionZones,p);
+			if (!inex) {
+				pnts.push(p);
+			}
+	  }
 	});
 	return pnts;
 }

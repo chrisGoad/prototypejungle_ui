@@ -4,7 +4,7 @@ core.require('/gen1/web0.js','/mlib/webTree.js',function (addWebMethods,addWebTr
 let rs = svg.Element.mk('<g/>');
 addWebMethods(rs);
 //addWebTreeMethods(rs);
-rs.setName('drop0_web0_7');
+rs.setName('drop0_web0_10');
 let ht= 2000;
 ht = 6000;
 let nrc = 20;
@@ -18,7 +18,7 @@ Object.assign(rs,topParams);
 rs.finishProtos = function () {
 	this.lineP.stroke = 'white';
 	this.lineP['stroke-width'] = .1;
-	this.lineP['stroke-width'] = 6;
+	this.lineP['stroke-width'] = 10;
 }  
 
 const nearDiagonal = function (pi,pj,howNear) {
@@ -35,7 +35,6 @@ const nearDiagonal = function (pi,pj,howNear) {
 	
 rs.numCalls = 0;
 rs.pairFilter = function (i,j) {
-	debugger;
 	//let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,cPoints,numDropped,width,randomGridsForShapes} = this;
 	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,cPoints,numDropped,width} = this;
 	
@@ -53,14 +52,54 @@ rs.pairFilter = function (i,j) {
 		return true;// nearDiagonal(pi,pj,40);
 	}
 }
+let fr = 0.6;
+rs.yellowZones = [ Rectangle.mk(Point.mk(-0.5*fr*rs.width,-0.5*fr*rs.height),Point.mk(fr*rs.width,fr*rs.height))];
+
+rs.genLine = function (sg) {
+	 debugger;
+	let {cPoints,yellowZones} = this;
+	
+  let {index0,index1,end0,end1} = sg;
+	let p0 = cPoints[index0];
+	let p1 = cPoints[index1];
+	let line = this.lineP.instantiate();
+	let cell = this.cellOf(p0);
+
+	let rvs = this.rvsAtCell(cell);
+	let cln = Math.floor((250/500)*rvs.connectorLn);
+	let {r,g,b} = rvs;
+	let ri = Math.floor(r);
+	let gi = Math.floor(g);
+	let bi = Math.floor(b);
+	let clr;
+	/*if (this.inAzone(yellowZones,p0)) {
+	  clr = `rgb(${ri},${ri},0)`;
+	  clr = `rgb(${ri},0,0)`;
+		clr = 'rgb(150,50,50)';
+	} else {
+    clr = `rgb(${ri},${ri},${ri})`;
+  }
+	clr = `rgb(${cln},${cln},${cln})`;*/
+    clr = `rgb(${ri},${ri},${ri})`;
+
+	line.stroke = clr;
+  line.setEnds(end0,end1);
+
+  return line;
+}
 
 
 rs.initialize = function () {
-		let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,width} = this;
+		let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,width,height} = this;
 
   core.root.backgroundColor = 'black';
 	this.setupShapeRandomizer('connectorLn',{step:80,stept:0.5,min:50,max:500});
-
+	this.setupShapeRandomizer('r',{step:40,min:100,max:255});
+	this.setupShapeRandomizer('g',{step:40,min:100,max:255});
+	this.setupShapeRandomizer('b',{step:40,min:100,max:255});
+	let fr = 0.6;
+  let exz = Rectangle.mk(Point.mk(-0.5*fr*width,-0.5*fr*height),Point.mk(fr*width,fr*height));
+	//this.exclusionZones = [exz];
  // this.zone = geom.Circle.mk(Point.mk(0,0),0.5*this.width);
 	this.initializeDrop();
 	debugger;

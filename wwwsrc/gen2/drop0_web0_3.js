@@ -7,7 +7,7 @@ rs.setName('drop0_web0_3');
 let ht= 2000;
 ht = 8000;
 
-let topParams = {width:ht,height:ht,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:20,minConnectorLength:2000,maxConnectorLength:2300,shortenBy:20}
+let topParams = {width:ht,height:ht,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:20,minConnectorLength:2000,maxConnectorLength:2300,shortenBy:20,maxLoops:500000}
 Object.assign(rs,topParams);
 
 rs.finishProtos = function () {

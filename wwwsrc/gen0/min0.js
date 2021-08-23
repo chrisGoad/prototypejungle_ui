@@ -31,31 +31,13 @@ rs.genLine = function (sg,ext=0) {
   return line;
 }
 
-rs.genRingsss = function (params) {
-	debugger;
-	let {numRings,radius,randomFactor = 0} = params;
-	let pnts = [];
-	let dr = radius/numRings;
-	let da = (2*Math.PI/numRings)
-  let rnd = 100;
-	let r = radius;
-  for (let i = 0;i<numRings;i++) {
-		let angle = 0;
 
-		for (let j = 0;j<numRings;j++) {
-			let rr = r + randomFactor*(Math.random()-0.5);
-			let p = Point.mk( Math.cos(angle)*rr,Math.sin(angle)*rr);
-			pnts.push(p);
-			angle += da;
-		}
-		r -= dr;
-	}
-  return pnts;
-}
 
 rs.initBasis = function () {
-	this.set('shapes',core.ArrayNode.mk());
 	this.initProtos();
+	this.addBackground();
+  this.set('shapes',core.ArrayNode.mk());
+
 }
 
 return rs;

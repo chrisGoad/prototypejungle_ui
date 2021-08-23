@@ -5,17 +5,20 @@ let rs = svg.Element.mk('<g/>');
 addBasis(rs);
 addPointGenMethods(rs);
 addWebMethods(rs);
-addWebTreeMethods(rs);
+//addWebTreeMethods(rs);
 //addWebMethods(rs);
-rs.setName('min0_2');
+rs.setName('min0_4');
 let ht= 2000;
 ht = 3000;
-let nrc=32;
-//nrc = 8;
+let hht = ht/2;
+let qht = ht/24;
+let nrc=64;
+//nrc = 32;
+//nrc = 4;
 let mcl = 1.6*(ht/nrc);
-//mcl = 3.6*(ht/nrc);
+mcl = 2.6*(ht/nrc);
 //nrc = 2;
-let  topParams = {width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+100,numPairs:2,fringeColor:'blue'};
+let  topParams = {width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+100,numPairs:2,fringeColor:'gray',left:geom.LineSegment.mk(Point.mk(-hht,-hht),Point.mk(-hht,hht)), right: geom.LineSegment.mk(Point.mk(hht,hht),Point.mk(hht,-hht))};
 
 Object.assign(rs,topParams);
 /*
@@ -158,10 +161,10 @@ rs.initProtos = function () {
   let lineP = this.set('lineP',linePP.instantiate()).hide();
 	lineP['stroke-width'] = 5;
 	lineP.stroke  = 'white';
-	lineP.stroke  = 'blue';
   let circleP = this.set('circleP',circlePP.instantiate()).hide();
 	circleP.dimension = 20;
 	circleP.fill = 'transparent';
+	//circleP.fill = 'red';
 	
 }  
 /*
@@ -186,13 +189,14 @@ rs.initialize = function () {
 	let p = pnts[0];
 	p.onFringe = 1
 	this.placeShapesAtPoints(pnts,this.circleP);
+//	return;
 	this.initWeb(pnts);
 	this.addWeb();
 	this.addSegs();
   let {cPoints,connectSegs} = this;
 
 	debugger;
-	this.loopFringeAddition(0);
+	//this.loopFringeAddition(10);
 	return;
 	for (let i=0;i<150;i++) {
 		let nf = this.selectNonFringe();

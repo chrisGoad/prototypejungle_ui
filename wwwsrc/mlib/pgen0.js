@@ -23,7 +23,7 @@ rs.genRings = function (params) {
 	}
   return pnts;
 }
-
+/*
 rs.genGrid = function (params) {
 	let {width,height,numRows,numCols} = params;
 	let dx = width/numCols;
@@ -42,6 +42,44 @@ rs.genGrid = function (params) {
 	return rs;
 }
 
+*/
+
+
+const interpolate = function (end0,end1,fr) {
+	let v = end1.difference(end0);	
+	let rs = end0.plus(v.times(fr));
+	return rs;
+}
+	
+rs.genGrid = function (params) {
+	let {width,height,numRows,numCols,left:ileft,right:iright} = params;
+	let rs  = [];
+	debugger;
+  if (ileft) {
+		left = ileft;
+		right = iright
+	} else {
+		let hw = 0.5*width;
+		let hh = 0.5*height;
+		let ul = Point.mk(-hw,-hh);
+		let ll = Point.mk(-hw,hh);
+		let ur = Point.mk(hw,-hh);
+		let lr = Point.mk(hw,hh);
+		left = geom.LineSegment.mk(ul,ll);
+		right = geom.LineSegment.mk(ur,lr);
+	}
+	let {end0:left0,end1:left1} = left;
+	let {end0:right0,end1:right1} = right;
+	for (let j=0;j<=numRows;j++) {
+		let end0 = interpolate(left0,left1,j/numRows);
+		let end1 = interpolate(right0,right1,j/numRows);
+		for (let i=0;i<numCols;i++) {
+			let p = interpolate(end0,end1,i/numCols);
+			rs.push(p);
+		}
+	}
+	return rs;
+}
 
 
 rs.placeShapesAtPoints = function (pnts,shapeP) {
