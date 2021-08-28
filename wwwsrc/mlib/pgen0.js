@@ -45,14 +45,25 @@ rs.genGrid = function (params) {
 */
 
 
-const interpolate = function (end0,end1,fr) {
+
+const interpolate = function (v0,v1,fr) {
+	let d  = v1-v0;
+	if (d===0) {
+		return v0;
+	}
+	let rs = v0+fr*d;
+	return rs;
+}
+	
+
+const interpolatePoints = function (end0,end1,fr) {
 	let v = end1.difference(end0);	
 	let rs = end0.plus(v.times(fr));
 	return rs;
 }
 	
 rs.genGrid = function (params) {
-	let {width,height,numRows,numCols,left:ileft,right:iright} = params;
+	let {width,height,numRows,numCols,left:ileft,right:iright,k=1} = params;
 	let rs  = [];
 	debugger;
   if (ileft) {
@@ -70,13 +81,24 @@ rs.genGrid = function (params) {
 	}
 	let {end0:left0,end1:left1} = left;
 	let {end0:right0,end1:right1} = right;
+	//the constant k: the first two points are 1/numCols apart and the last are k*j/numRows 
+	// but this leads to a length of greater than the distance from end0 to end1 so we need to scale by kf
+	let tln = 0;
+	let lns = [];
+	for (let i=0;i<numCols;i++) {
+		let cd = (1/numCols) * interpolate(1,k,i/(numCols-1));
+		lns.push(tln);
+		tln += cd;
+	}
+	let kf = 1/tln;
 	for (let j=0;j<=numRows;j++) {
-		let end0 = interpolate(left0,left1,j/numRows);
-		let end1 = interpolate(right0,right1,j/numRows);
+		let end0 = interpolatePoints(left0,left1,j/numRows);
+		let end1 = interpolatePoints(right0,right1,j/numRows);
 		for (let i=0;i<numCols;i++) {
-			let p = interpolate(end0,end1,i/numCols);
+			let p = interpolatePoints(end0,end1,kf * lns[i]);
 			rs.push(p);
 		}
+		rs.push(end1);
 	}
 	return rs;
 }
@@ -87,7 +109,6 @@ rs.placeShapesAtPoints = function (pnts,shapeP) {
 	pnts.forEach( (p) => {
 		let shape = shapeP.instantiate();
 		shape.show();
-		this.shapes.push(shape);
 		this.shapes.push(shape);
 		shape.moveto(p);
 	});
