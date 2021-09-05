@@ -20,10 +20,11 @@ minc = 40;
 //mcl = 50;
 //mcl = 3.6*(ht/nrc);
 //nrc = 2;
-let  topParams = {backgroundColor:'yellow',width:2*ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,numPairs:2,fringeColor:'blue',k:1};
 
 let ldim = 1000;
 let rdim = 3000;
+let  topParams = {backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2* ht,width:2*ht,height:2.0*rdim,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,numPairs:2,fringeColor:'blue',k:1};
+
 topParams.left = geom.LineSegment.mk(Point.mk(-ht,-ldim),Point.mk(-ht,ldim));
 topParams.right= geom.LineSegment.mk(Point.mk(ht,-rdim),Point.mk(ht,rdim));
 
@@ -60,6 +61,8 @@ rs.initialize = function () {
  // core.root.backgroundColor = 'white';
 	this.initProtos();
 	debugger;
+	this.addBackground();
+
 	let pnts = this.genGrid(this);
 	let p = pnts[0];
 //	p.onFringe = 1

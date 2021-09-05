@@ -63,7 +63,17 @@ const interpolatePoints = function (end0,end1,fr) {
 }
 	
 rs.genGrid = function (params) {
-	let {width,height,numRows,numCols,left:ileft,right:iright,k=1} = params;
+	let {width,height,numRows,numCols,left:ileft,right:iright,k=1,missingRows=0,missingCols=0,jiggle=0} = params;
+	const doJiggle = function (p) {
+		if (jiggle) {
+			let {x,y} = p;
+			let jx = Math.random() * jiggle;
+			let jy = Math.random() * jiggle;
+			return Point.mk(x+jx,y+jy);
+		} else {
+			return p;
+		}
+	}
 	let rs  = [];
 	debugger;
   if (ileft) {
@@ -85,20 +95,30 @@ rs.genGrid = function (params) {
 	// but this leads to a length of greater than the distance from end0 to end1 so we need to scale by kf
 	let tln = 0;
 	let lns = [];
+	let hcols = 0.5*numCols;
+	let hrows = 0.5 *numRows;
+	debugger;
 	for (let i=0;i<numCols;i++) {
 		let cd = (1/numCols) * interpolate(1,k,i/(numCols-1));
 		lns.push(tln);
-		tln += cd;
+	  tln += cd;
 	}
 	let kf = 1/tln;
 	for (let j=0;j<=numRows;j++) {
-		let end0 = interpolatePoints(left0,left1,j/numRows);
-		let end1 = interpolatePoints(right0,right1,j/numRows);
-		for (let i=0;i<numCols;i++) {
-			let p = interpolatePoints(end0,end1,kf * lns[i]);
-			rs.push(p);
+		if (Math.abs(j-hrows) >= missingRows) {
+			let end0 = interpolatePoints(left0,left1,j/numRows);
+			let end1 = interpolatePoints(right0,right1,j/numRows);
+			
+			for (let i=0;i<numCols;i++) {
+				if (Math.abs(i-hcols) >= missingCols) {
+					let p = interpolatePoints(end0,end1,kf * lns[i]);
+					
+						
+					rs.push(doJiggle(p));
+				}
+			}
+			rs.push(doJiggle(end1));
 		}
-		rs.push(end1);
 	}
 	return rs;
 }
