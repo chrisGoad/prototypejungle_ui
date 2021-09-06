@@ -112,12 +112,16 @@ rs.genGrid = function (params) {
 			for (let i=0;i<numCols;i++) {
 				if (Math.abs(i-hcols) >= missingCols) {
 					let p = interpolatePoints(end0,end1,kf * lns[i]);
+					let jp = doJiggle(p);
+					jp.gridc = Point.mk(i,j);
 					
-						
-					rs.push(doJiggle(p));
+					rs.push(jp);
 				}
 			}
-			rs.push(doJiggle(end1));
+			let jp = doJiggle (end1);
+			jp.gridc = Point.mk(numCols,j);
+
+			rs.push(jp);
 		}
 	}
 	return rs;

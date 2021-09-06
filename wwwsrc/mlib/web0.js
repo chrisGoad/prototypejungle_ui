@@ -48,7 +48,7 @@ const interpolateColor = function (c0,c1,f) {
 }
 */
 rs.addSegs = function (fromIndex=0) {
-	debugger;
+	//debugger;
 	let {connectSegs,shortenBy=10} = this;
   let ln = connectSegs.length;
 	for (let i=fromIndex;i<ln;i++) {
@@ -117,7 +117,7 @@ rs.addWeb = function (pnts) {
 		this.initWeb(pnts);
 	}
 	let {cPoints,nearbyPoints,connectSegs,shortenBy=10,maxLoops = 10000} = this;
-	debugger;
+	//debugger;
 		let nbp = this.nearbyPoints = [];
 	const computeNears = () => {
 		let {cPoints,nearbyPoints:nbp} = this;
@@ -145,7 +145,7 @@ rs.addWeb = function (pnts) {
 				}
 			});
 		}
-		debugger;
+		//debugger;
 	}
 	
 	computeNears();
@@ -307,6 +307,11 @@ const removeFromNears = function (i,ni) {
 				debugger;
 			}
 			let rseg  = geom.LineSegment.mk(rip,rjp).lengthen(-10);
+			//debugger;
+			let {end0,end1} = rseg;
+			end0.gridc = rip.gridc;
+			end1.gridc = rjp.gridc;
+			//let rseg  = geom.LineSegment.mk(rip,rjp);
 			let lnc = connectSegs.length;
 			let fnd = 0;
 			for (let i = 0;i<lnc;i++) {
@@ -317,6 +322,7 @@ const removeFromNears = function (i,ni) {
 				}
 			}
 			if ( !fnd) {
+			//	debugger;
 				this.beforeAddSeg(ri,rj);
 				rseg.index0 = ri;
 		    rseg.index1 = rj;
@@ -325,20 +331,20 @@ const removeFromNears = function (i,ni) {
 			}
 		});
 	}
-	debugger;
+	//debugger;
   if (pnts) {
 		this.addSegs();
 	}
 	return;
-	 connectSegs.forEach((sg) => {
-		 debugger;
+	/* connectSegs.forEach((sg) => Fbugger;
 		let ssg = sg.lengthen(-shortenBy);
 		ssg.index0 = ri;
 		ssg.index1 = rj;
+		
 	  let line = this.genLine(ssg);
 		
     this.installLine(line);		
-	});	
+	});	*/
 }	
 		
 
