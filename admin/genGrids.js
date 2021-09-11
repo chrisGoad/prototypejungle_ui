@@ -63,7 +63,7 @@ let pageTop = `
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">Where and What is the Kingdom of Pattern? <a style="color:white;text-decoration:underline" href="essay.html">A Brief Phenomenological Investigation.</a></p>
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">What is the Kingdom of Pattern? <a style="color:white;text-decoration:underline" href="essay.html">A Brief Phenomenological Investigation.</a></p>
 <!--
 <p style="text-align:center;padding-bottom:0px;padding-top:10px"><a style="color:white;text-decoration:underline" href="essay.html">A Short Philosophical Essay.</a></p>
 <p style="text-align:center;padding-bottom:0px;padding-top:10px">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</	>-->

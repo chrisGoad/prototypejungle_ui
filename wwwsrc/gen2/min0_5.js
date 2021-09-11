@@ -19,7 +19,7 @@ let minc = 20;
 //mcl = 50;
 //mcl = 3.6*(ht/nrc);
 //nrc = 2;
-let  topParams = {backgroundColor:'yellow',width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,numPairs:2,fringeColor:'blue'};
+let  topParams = {backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,numPairs:2,fringeColor:'blue',sign:1,sigColor:'white',sigScale:5};
 
 Object.assign(rs,topParams);
 
@@ -36,6 +36,7 @@ rs.initProtos = function () {
   let circleP = this.set('circleP',circlePP.instantiate()).hide();
 	circleP.dimension = 20;
 	circleP.fill = 'transparent';
+	circleP.stroke = 'transparent';
 	 let circleP2 = this.set('circleP2',circlePP.instantiate()).hide();
 	circleP2.dimension = 500;
 	circleP2.fill = 'black';
@@ -123,6 +124,7 @@ rs.initialize = function () {
   core.root.backgroundColor = 'black';
   core.root.backgroundColor = 'rgb(50,50,50)';
 	this.initProtos();
+	this.addBackground();
 	debugger;
 	let pnts = this.genGrid(this);
 	let p = pnts[0];

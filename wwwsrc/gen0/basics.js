@@ -1,4 +1,4 @@
-core.require('/shape/rectangle.js',function (rectPP) {
+core.require('/shape/rectangle.js','/shape/textOneLine.js',function (rectPP,textPP) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
 	//debugger;
   return function (item) {
@@ -13,11 +13,12 @@ item.setName = function (name,jsonName) {
 item.addBackground = function () {
 	let {backgroundColor:bkc,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy, 
 	backgroundWidth,backgroundHeight,
-	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height} =  this;
+	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height,sign,sigScale,sigColor} =  this;
 	if (!bkc) {
 		return;
 	}
 	
+
 	core.assignPrototypes(this,'backgroundRectP',rectPP);
 	this.backgroundRectP['stroke-width'] = 0;
 	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
@@ -36,6 +37,23 @@ item.addBackground = function () {
   //bkr.width = backgroundWidth?backgroundWidth:width + backgroundPadding;
 //	bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;
 	bkr.show();
+		core.assignPrototypes(this,'textP',textPP);
+	this.textP['stroke'] = 'white';
+	let sig = this.set('sig',this.textP.instantiate())
+	sig.show();
+	
+	let w = bkr.width;
+	let h = bkr.height;
+	if (sign)  {
+		sig.text = 'C.G.';
+		sig.moveto(Point.mk(0.45*w,0.45*h));
+		sig.stroke = sigColor;
+		sig['font-family'] = 'Trattatello';
+		sig['font'] = 'fantasy';
+		//sig['font-size'] = "30"	;
+		sig.setScale(sigScale);
+	}
+	
 	if (obc) {
 		let obkr = this.set('obrect',this.backgroundRectP.instantiate());
 		obkr.fill = obc;

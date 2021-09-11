@@ -32,6 +32,13 @@ Object.assign(rs,topParams);
 rs.cprc =0;
 rs.choosePairs = rs.choosePairsAtRandom;
 
+rs.source = 'UL'
+rs.target = 'LR';
+rs.nontargets = ['UR','LL'];
+
+rs.source = 'UR'
+rs.target = 'LL';
+rs.nontargets = ['UL','LR'];
 
 rs.initProtos = function () {	
   let lineP = this.set('lineP',linePP.instantiate()).hide();
@@ -192,22 +199,33 @@ rs.colorFromPoint = function (p) {
 	return 'white';
 	
 }*/
-rs.source = 'UL'
-rs.target = 'LR';
-rs.nontargets = ['UR','LL'];
+
 
 rs.displacementQ = function (source,target) {
 let {width:w,numCols:nrc} = this;
  let cellsz = w/nrc;
 	let hw = 0.5*w + cellsz;
-	if ((source === 'UL') && (target ==='UR')) {
-		return Point.mk(hw,0);
+	if (source === 'UL') {
+		if (target ==='UR') {
+		  return Point.mk(hw,0);
+		}
+	  if (target ==='LL') {
+		  return Point.mk(0,hw);
+	  }
+	  if (target ==='LR') {
+		  return Point.mk(hw,hw);
+	  }
 	}
-	if ((source === 'UL') && (target ==='LL')) {
-		return Point.mk(0,hw);
-	}
-	if ((source === 'UL') && (target ==='LR')) {
-		return Point.mk(hw,hw);
+	if (source === 'UR') {
+		if (target ==='UL') {
+		  return Point.mk(-hw,0);
+		}
+	  if (target ==='LL') {
+		  return Point.mk(-hw,hw);
+	  }
+	  if (target ==='LR') {
+		  return Point.mk(0,hw);
+	  }
 	}
 }
 	
@@ -272,7 +290,7 @@ rs.addSegs = function (fromIndex=0) {
 
 rs.stage = 0;
 rs.pairFilter = function (i,j) {
-	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,width,height,cPoints,stage,target} = this;
+	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,width,height,cPoints,stage,source,target} = this;
 	//debugger;
 	let pi = cPoints[i];
 	let pj = cPoints[j];
@@ -310,13 +328,19 @@ rs.pairFilter = function (i,j) {
 	//let q = this.quadrant(pi);
 	let activeQuadrants;
 	if (stage===0) {
-	  activeQuadrants = {'UL':1};
+	  activeQuadrants = {};
+		activeQuadrants[source] = 1;
+		console.log('ddd',activeQuadrants,qi);
 		if (!activeQuadrants[qi]) {
 			return false;
+		} else {
+			console.log('EEEEE');
 		}
 
 	} else {
-		activeQuadrants = {'LR':1}
+		activeQuadrants = {};
+		activeQuadrants[target] = 1;
+
 		if (!activeQuadrants[qi]) {
 		  return false;
 		}
@@ -329,12 +353,16 @@ rs.pairFilter = function (i,j) {
 			return false;
 		}
 	}
-  mnCln = 1.1*cellsz;
-  mnCln = 1.1*cellsz;
-  mxCln = mnCln + cellsz;
-  mxCln = mnCln + 2*cellsz;
+	if (qi === target ) {
 	
-	//debugger;
+		mnCln = 1.1*cellsz;
+		mxCln = mnCln + 2*cellsz; 
+	} else {
+		mnCln = 1.1*cellsz;
+    mxCln = mnCln + 1*cellsz;
+    mxCln = mnCln + 3*cellsz;
+	}
+	
 	let rs = (mnCln < d) && (d < mxCln);
 	if (rs) {
 	//	debugger;

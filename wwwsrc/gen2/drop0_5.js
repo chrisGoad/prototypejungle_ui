@@ -3,7 +3,7 @@ core.require('/gen0/drop0.js',function (addDropMethods) {
 
 let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
-rs.setName('drop0__12');
+rs.setName('drop0_5');
 let topParams = {width:400,height:400,maxDrops:100000,maxTries:100,lineLength:2,backgroundColor:undefined,minSeparation:0}
 //let topParams = {width:200,height:200,maxDrops:10000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
