@@ -7,7 +7,7 @@ addPointGenMethods(rs);
 addWebMethods(rs);
 //addWebTreeMethods(rs);
 //addWebMethods(rs);
-rs.setName('min0_5');
+rs.setName('min0_8');
 let ht= 2000;
 ht = 3000;
 let nrc=64;
@@ -23,7 +23,7 @@ let minc = 20;
 //nrc = 2;
 let cellsz = ht/nrc;
 
-let  topParams = {backgroundColor:'yellow',width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,numPairs:2,fringeColor:'blue',missingCols:1,missingRows:1,jiggle:0.0*cellsz};
+let  topParams = {backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,numPairs:2,fringeColor:'blue',missingCols:1,missingRows:1,jiggle:0.0*cellsz};
 let source, target;
 
 console.log('cellsz',cellsz);
@@ -50,7 +50,7 @@ rs.initProtos = function () {
 	circleP.dimension = 20;
 	//circleP.dimension = 100;
 	circleP.fill = 'transparent';
-	circleP.fill = 'red';
+	//circleP.fill = 'red';
 	 let circleP2 = this.set('circleP2',circlePP.instantiate()).hide();
 	circleP2.dimension = 500;
 	circleP2.fill = 'black';
@@ -375,6 +375,7 @@ rs.initialize = function () {
   core.root.backgroundColor = 'black';
   core.root.backgroundColor = 'rgb(50,50,50)';
 	this.initProtos();
+	this.addBackground();
 	debugger;
 	let pnts = this.genGrid(this);
 	let p = pnts[0];

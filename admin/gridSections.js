@@ -34,7 +34,7 @@ sections: [
 	    ['drop0_0','gen2',1,'Ice'],
 
     ['grid0_10_0','gen2',1,'Bump'],
-    ['grid0_19_1','gen2',,1,'Dark Eye'],
+    ['grid0_19_1','gen2',1,'Dark Eye'],
     ['drop0_0_1','gen2',1,'Clouds'],
 
     // ['drop0__12','gen2',1,'Sleet'],

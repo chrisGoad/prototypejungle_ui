@@ -27,6 +27,7 @@ rs.initialize = function () {
 	debugger;
 	let pnts = this.genRings(this);
 	this.addWeb(pnts);
+	this.addSegs();
 }
 
 

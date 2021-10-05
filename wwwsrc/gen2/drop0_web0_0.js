@@ -29,6 +29,7 @@ rs.initialize = function () {
 
   let pnts3d = this.pointsTo3dAndBack(pnts);
 	this.addWeb(pnts3d);
+	this.addSegs();
 }
 
 return rs;

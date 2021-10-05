@@ -19,14 +19,16 @@ rs.installLine = function (line) {
 }
 
 
-rs.genLine = function (sg,ext=0) {
+rs.genLine = function (sg,ext=0,lineP) {
   let {end0,end1} = sg;
   if (ext) {
     let vec = end1.difference(end0);
     let nvec = vec.normalize();
     end1 = end1.plus(nvec.times(ext));
   }
-  let line = this.lineP.instantiate();
+	let theLineP = lineP?lineP:this.lineP;
+	
+  let line = theLineP.instantiate();
   line.setEnds(end0,end1);
   return line;
 }

@@ -63,7 +63,7 @@ const interpolatePoints = function (end0,end1,fr) {
 }
 	
 rs.genGrid = function (params) {
-	let {width,height,numRows,numCols,left:ileft,right:iright,k=1,missingRows=0,missingCols=0,jiggle=0} = params;
+	let {width,height,numRows,numCols,left:ileft,right:iright,k=1,missingRows=0,missingCols=0,jiggle=0,pos=Point.mk(0,0)} = params;
 	const doJiggle = function (p) {
 		if (jiggle) {
 			let {x,y} = p;
@@ -75,17 +75,18 @@ rs.genGrid = function (params) {
 		}
 	}
 	let rs  = [];
-	debugger;
+//	debugger;
   if (ileft) {
 		left = ileft;
 		right = iright
 	} else {
+		
 		let hw = 0.5*width;
 		let hh = 0.5*height;
-		let ul = Point.mk(-hw,-hh);
-		let ll = Point.mk(-hw,hh);
-		let ur = Point.mk(hw,-hh);
-		let lr = Point.mk(hw,hh);
+		let ul = Point.mk(-hw,-hh).plus(pos);
+		let ll = Point.mk(-hw,hh).plus(pos);
+		let ur = Point.mk(hw,-hh).plus(pos);
+		let lr = Point.mk(hw,hh).plus(pos);
 		left = geom.LineSegment.mk(ul,ll);
 		right = geom.LineSegment.mk(ur,lr);
 	}
@@ -97,7 +98,7 @@ rs.genGrid = function (params) {
 	let lns = [];
 	let hcols = 0.5*numCols;
 	let hrows = 0.5 *numRows;
-	debugger;
+	//debugger;
 	for (let i=0;i<numCols;i++) {
 		let cd = (1/numCols) * interpolate(1,k,i/(numCols-1));
 		lns.push(tln);

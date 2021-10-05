@@ -69,6 +69,7 @@ let pageTop = `
 <p style="text-align:center;padding-bottom:0px;padding-top:10px">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</	>-->
 
 
+<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">Images by Chris Goad (via JavaScript)</p>
 <p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>
 
 <script>

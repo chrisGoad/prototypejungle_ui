@@ -1,6 +1,8 @@
 core.require(
 function () {
 
+// parameters: maxLoops, cPoints (initWeb(pnts), called by addWeb copies pnts into cPoints)
+// used in pairFilter only: minConnnectorLength,maxConnectorLength
 //core.require(function () {
  return function (rs) {
 
@@ -22,14 +24,16 @@ rs.beforeAddSeg = function (seg) {
 }
 rs.initWeb = function (pnts) {
 	let {cPoints,nearbyPoints,connectSegs} = this;
-	if (!cPoints) {
+	//if (!cPoints) {
 		this.cPoints = pnts;
-	}
+	//}
 	if (!nearbyPoints) {
 		this.nearbyPoints = [];
 	}
 	if (!connectSegs) {
 		this.connectSegs = [];
+	} else {
+		this.numSegs = connectSegs.length;
 	}
 }
 /*
@@ -48,7 +52,8 @@ const interpolateColor = function (c0,c1,f) {
 }
 */
 rs.addSegs = function (fromIndex=0) {
-	//debugger;
+	debugger;
+//	let fromIndex = this.numSegs?this.numSegs:fromIndexi;
 	let {connectSegs,shortenBy=10} = this;
   let ln = connectSegs.length;
 	for (let i=fromIndex;i<ln;i++) {
@@ -59,7 +64,7 @@ rs.addSegs = function (fromIndex=0) {
 		let ssg = sg.lengthen(shortenBy);
 		ssg.index0 = sg.index0;
 		ssg.index1 = sg.index1;
-	  let line = this.genLine(ssg);
+	  let line = this.genLine(ssg,0,sg.lineP);
 		let {end0,end1} = ssg;
 		if (this.colorFromPoint) {
 			line.stroke = this.colorFromPoint(end0);
@@ -112,12 +117,16 @@ rs.rnearsIndex2NearsIndexViaIndexOf = function (nears,rnears,ri) {
 		
 	
 	
-rs.addWeb = function (pnts) {
+rs.addWeb = function (pnts,lineP) {	
 	if (pnts) {
 		this.initWeb(pnts);
 	}
+	/*let lineP;
+	if (params && params.lineP) {
+		lineP = params.lineP;
+	}*/
 	let {cPoints,nearbyPoints,connectSegs,shortenBy=10,maxLoops = 10000} = this;
-	//debugger;
+	//debugger;initial
 		let nbp = this.nearbyPoints = [];
 	const computeNears = () => {
 		let {cPoints,nearbyPoints:nbp} = this;
@@ -307,6 +316,9 @@ const removeFromNears = function (i,ni) {
 				debugger;
 			}
 			let rseg  = geom.LineSegment.mk(rip,rjp).lengthen(-10);
+			if (lineP) {
+				rseg.lineP = lineP;
+			}
 			//debugger;
 			let {end0,end1} = rseg;
 			end0.gridc = rip.gridc;
@@ -332,9 +344,9 @@ const removeFromNears = function (i,ni) {
 		});
 	}
 	//debugger;
-  if (pnts) {
-		this.addSegs();
-	}
+  //if (pnts) {
+	//	this.addSegs();
+	//}
 	return;
 	/* connectSegs.forEach((sg) => Fbugger;
 		let ssg = sg.lengthen(-shortenBy);

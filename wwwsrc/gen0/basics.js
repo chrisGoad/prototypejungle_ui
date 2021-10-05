@@ -10,10 +10,37 @@ item.setName = function (name,jsonName) {
 	this.path = `json/${theName}.json`;
 }
 
+item.addSignature = function() {
+	let {width,height,sigScale,sigColor,sigX=0.45,sigY=0.45,sigRectX,sigRectY,backgroundWidth:bkw,backgroundHeight:bkh,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy} = this;
+	debugger;
+	if (!bkw) {
+		let bkPx = bkpx?bkpx:bkp;
+		let bkPy = bkpy?bkpy:bkp;
+		bkw = width + (bkPx?bkPx:0);
+		bkh = height + (bkPy?bkPy:0);
+	}
+	let sigC = this.set('sigC',svg.Element.mk('<g/>'));
+	if (sigRectX) {
+	  let sigR = sigC.set('sigR', this.sigRectP.instantiate());
+	  sigR.show();
+		sigR.width = 0.05*width;
+	  sigR.height = 0.05*width;
+	}
+	let sig = sigC.set('sig',this.textP.instantiate())
+	sig.show();
+	sig.text = 'C.G.';
+	sigC.moveto(Point.mk(sigX*bkw,sigY*bkh));
+	sig.stroke = sigColor;
+	sig['font-family'] = 'Trattatello';
+	sig['font'] = 'fantasy';
+	//sig['font-size'] = "30"	;
+	sig.setScale(sigScale);
+}
+
 item.addBackground = function () {
 	let {backgroundColor:bkc,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy, 
 	backgroundWidth,backgroundHeight,
-	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height,sign,sigScale,sigColor} =  this;
+	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height} =  this;
 	if (!bkc) {
 		return;
 	}
@@ -21,6 +48,8 @@ item.addBackground = function () {
 
 	core.assignPrototypes(this,'backgroundRectP',rectPP);
 	this.backgroundRectP['stroke-width'] = 0;
+	core.assignPrototypes(this,'sigRectP',rectPP);
+	this.sigRectP.fill = 'red';
 	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
 	
   let bkr = this.set('brect',this.backgroundRectP.instantiate());
@@ -39,20 +68,8 @@ item.addBackground = function () {
 	bkr.show();
 		core.assignPrototypes(this,'textP',textPP);
 	this.textP['stroke'] = 'white';
-	let sig = this.set('sig',this.textP.instantiate())
-	sig.show();
+
 	
-	let w = bkr.width;
-	let h = bkr.height;
-	if (sign)  {
-		sig.text = 'C.G.';
-		sig.moveto(Point.mk(0.45*w,0.45*h));
-		sig.stroke = sigColor;
-		sig['font-family'] = 'Trattatello';
-		sig['font'] = 'fantasy';
-		//sig['font-size'] = "30"	;
-		sig.setScale(sigScale);
-	}
 	
 	if (obc) {
 		let obkr = this.set('obrect',this.backgroundRectP.instantiate());

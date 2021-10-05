@@ -5,7 +5,9 @@ var fs = require('fs');
    var noScripts = 1;//{account:1};
  
   
-  
+let transferMedia = process.argv[2];
+
+//console.log('xfM',transferMedia);
   
 const endsIn = function (string,p) {
   return string.substr(string.length-p.length) === p;
@@ -84,7 +86,7 @@ const afterLastChar = function (string,chr,strict) {
 	}
 	
 	let mediaFiles = collectContent(sectionsC.sections);
-	console.log(mediaFiles);
+//	console.log(mediaFiles);
 	
 	const xferMedia = function (mediaFiles) {
 		let idir = './www/images';
@@ -96,7 +98,10 @@ const afterLastChar = function (string,chr,strict) {
 		xferFiles(idir,jpgFiles,odir);
 		xferFiles(itdir,jpgFiles,otdir);
 	}
-	xferMedia(mediaFiles);
+	if (transferMedia) {
+		console.log('transfering media (jpgs)');
+		xferMedia(mediaFiles);
+	}
 	let srcd = 'www/';
 	let dstd = '../kop/public/';
 	const xfer = function (srcf,idstf) {
