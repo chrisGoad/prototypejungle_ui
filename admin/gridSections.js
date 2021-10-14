@@ -5,6 +5,9 @@ sections: [
 
 [
  // ['drop0_1_16','gen2',1,'Stars'],
+  ['min0_11','gen2',1,'Stripes'],
+  ['min0_10','gen2',1,'Stripes'],
+  ['min0_9_5','gen2',1,'Stripes'],
   ['min0_5','gen2',1,'Diamond'],
 
    ['drop0_1_27','gen2',1,'Iris'],

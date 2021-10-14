@@ -47,13 +47,14 @@ item.addBackground = function () {
 	
 
 	core.assignPrototypes(this,'backgroundRectP',rectPP);
-	this.backgroundRectP['stroke-width'] = 0;
+	this.backgroundRectP['stroke-width'] = 1;
+	this.backgroundRectP.fill = 'transparent';
 	core.assignPrototypes(this,'sigRectP',rectPP);
 	this.sigRectP.fill = 'red';
 	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
 	
   let bkr = this.set('brect',this.backgroundRectP.instantiate());
-	bkr.fill = bkc;
+	bkr.stroke = bkc;
 	if (backgroundWidth) {
 		bkr.width = backgroundWidth;
 		bkr.height = backgroundHeight;
@@ -73,7 +74,7 @@ item.addBackground = function () {
 	
 	if (obc) {
 		let obkr = this.set('obrect',this.backgroundRectP.instantiate());
-		obkr.fill = obc;
+		obkr.stroke = obc;
 		let obkPx = obkpx?obkpx:obkp;
 		let objPy = obkpy?obkpy:obkp;
 		obkr.width = width + (bkPx?bkPx:0);

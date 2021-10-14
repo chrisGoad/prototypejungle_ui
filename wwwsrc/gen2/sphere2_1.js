@@ -74,10 +74,27 @@ rs.initialize = function () {
 	debugger;
 	this.initProtos();
 	let rect = this.set('rect',this.rectP.instantiate());
-	let bk = 'red';
+	/*let rectR = this.set('rectR',this.rectP.instantiate());
+	let rectL = this.set('rectL',this.rectP.instantiate());
+	let rectT = this.set('rectT',this.rectP.instantiate());
+	let rectB = this.set('rectB',this.rectP.instantiate());*/
+	let bk = 'black';
+	let mrw = 300;
 	rect.width = 180;
+	rect.width = mrw;
 	rect.height = 180;
-	rect.fill = bk;
+	rect.height = mrw
+	rect.fill = 'black';
+	/*rectR.width = rlw;
+	rectL.width = rlw;
+	rectT.width = rtw;
+	rectB.width = rtw;
+  rectR.height = rlh;
+	rectL.height = rlh;
+	rectT.height = rth;
+	rectB.height = rth;*/
+	//rect.fill = bk;
+	
 	rect.show();
 	this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
   core.root.backgroundColor =bk;

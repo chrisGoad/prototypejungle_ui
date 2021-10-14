@@ -5,17 +5,18 @@ let rs = svg.Element.mk('<g/>');
 addBasis(rs);
 addPointGenMethods(rs);
 addWebMethods(rs);
-rs.setName('min0_9_5');
+rs.setName('min0_10');
 let wd= 2000;
 let ht = 0.2*wd;
+let nr  = 2;
 
 //let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*wd,minConnectorLength:ht,maxConnectorLength:2*ht,maxLoops:100000}
-let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(2,2,2)',backgroundWidth:1.2*wd,backgroundHeight:1.2*wd,minConnectorLength:ht,maxConnectorLength:1.5*ht,maxLoops:100000}
-let  grid0Params = {width:wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,-2*ht)}
-let  grid1Params = {width:1*wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,-1*ht)};
-let  grid2Params = {width:wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,0*ht)}
-let  grid3Params = {width:wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,1*ht)}
-let  grid4Params = {width:wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,2*ht)}
+let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(2,2,2)',backgroundWidth:1.2*wd,backgroundHeight:1.2*wd,minConnectorLength:0.5*ht,maxConnectorLength:1.2*ht,maxLoops:100000}
+let  grid0Params = {width:wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,-2*ht)}
+let  grid1Params = {width:1*wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,-1*ht)};
+let  grid2Params = {width:wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,0*ht)}
+let  grid3Params = {width:wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,1*ht)}
+let  grid4Params = {width:wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,2*ht)}
 
 
 Object.assign(rs,topParams);
@@ -42,6 +43,7 @@ rs.initProtos = function () {
 
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
+  //core.root.backgroundColor = 'blue';
 	this.initBasis();
 	this.addBackground();
 	debugger;

@@ -5,7 +5,6 @@ function (rs)	{
 
 	
 rs.setName('grid0_8_17');
-
 let opacity = 0.7;
 let newGlobalParams  = {
 	widthFactor:1,
@@ -30,14 +29,20 @@ let newGlobalParams  = {
 let gp = rs.globalParams;
 Object.assign(gp,newGlobalParams);
 	
+let wd = 400;
+
 let newTopParams = {
-  ordinalMap : {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7},
+  width:wd,
+	height:wd,
+	backgroundColor:'rgb(2,2,2)',
+	backgroundPadding:0.1*wd,
+	ordinalMap : {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7},
 	orderByOrdinal : 1,
 	randomizeOrder : 0,
   pointJiggle:2,	
   numRows : 96,
   numCols : 96,
-	backgroundColor : 'black'
+	//backgroundColor : 'black'
 }
 Object.assign(rs,newTopParams);
 
@@ -56,6 +61,7 @@ rs.finishProtos = function () {
 rs.positionFunction = rs.radialPositionFunction;
 
 rs.initialize = function () {
+	debugger;
 	core.root.backgroundColor = 'black';
 	this.innerInitialize();
 }

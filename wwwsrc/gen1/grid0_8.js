@@ -58,8 +58,8 @@ rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,
 	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
 		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
 		};
-
-let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,
+let wd = 300;
+let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:wd,height:wd,backgroundColor:'rgb(200,2,2)',backgroundPadding:0.1*wd,pointJiggle:3,
 ordinalMap: {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7}}
 
 Object.assign(rs,topParams);
