@@ -5,7 +5,7 @@ let rs = svg.Element.mk('<g/>');
 addBasis(rs);
 addPointGenMethods(rs);
 addWebMethods(rs);
-rs.setName('min0_11');
+rs.setName('min0_12');
 let wd= 2000;
 let ht = 0.05*wd;
 let sht = 0.4*wd

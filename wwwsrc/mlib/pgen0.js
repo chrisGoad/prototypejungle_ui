@@ -4,7 +4,7 @@ function () {
 
 
 rs.genRings = function (params) {
-	let {numRings,radius,randomFactor = 0} = params;
+	let {numRings,radius,pos=Point.mk(0,0),randomFactor = 0} = params;
 	let pnts = [];
 	let dr = radius/numRings;
 	let da = (2*Math.PI/numRings)
@@ -16,7 +16,7 @@ rs.genRings = function (params) {
 		for (let j = 0;j<numRings;j++) {
 			let rr = r + randomFactor*(Math.random()-0.5);
 			let p = Point.mk( Math.cos(angle)*rr,Math.sin(angle)*rr);
-			pnts.push(p);
+			pnts.push(p.plus(pos));
 			angle += da;
 		}
 		r -= dr;

@@ -9,7 +9,8 @@ rs.setName('min0_0');
 let ht= 2000;
 ht = 3000;
 let nrc=20;
-let  topParams = {width:2*ht,height:2*ht,numRings:nrc,radius:ht,maxDrops:1000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*ht,minSeparation:20,maxConnectorLength:2000,maxLoops:100000}
+let  topParams = {numRings:nrc,radius:ht,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*ht,minnConnectorLength:500,maxConnectorLength:2000,maxLoops:100000}
+//let  topParams = {width:2*ht,height:2*ht,numRings:nrc,radius:ht,maxDrops:1000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*ht,minSeparation:20,maxConnectorLength:2000,maxLoops:100000}
 
 Object.assign(rs,topParams);
 
