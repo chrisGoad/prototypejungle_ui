@@ -58,7 +58,7 @@ rs.initialize = function () {
 	this.addWeb(pnts2,this.lineP);
 	this.addWeb(pnts3,this.lineP2);
 	this.addWeb(pnts4,this.lineP);
-	this.addSegs();
+//	this.addSegs();
 }
 
 

@@ -22,10 +22,11 @@ let  grid3Params = {width:wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,1*s
 let  grid4Params = {width:wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,2*sht)}
 let ringParams = {numRings:nrc,radius:ht,pos:Point.mk(0,-0.5*sht)};
 
+let connectorParams = {{minConnectorLength:minConnectorLength,maxConnectorLength:maxConnectorLength};
 
 Object.assign(rs,topParams);
 
-
+/*
 rs.pairFilter = function (i,j) {
 	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,cPoints} = this;
 	let pi = cPoints[i];
@@ -42,7 +43,7 @@ rs.pairFilterRing = function (i,j) {
 	let d = pi.distance(pj);
 	return (mnCln < d) && (d < mxCln);
 }
-
+*/
 let grayblue = 'rgb(50,50,100)';
 rs.initProtos = function () {	
   let lineP = this.set('lineP',linePP.instantiate()).hide();
@@ -112,7 +113,13 @@ rs.initialize = function () {
 	let pnts3 = this.genGrid(grid3Params);
 	let pnts4 = this.genGrid(grid4Params);
 	//this.addWeb(pnts0,this.lineP);
-	this.addWeb(pnts1,this.lineP2);
+	this.addWeb(Object.assign({lineP:this.lineP2,points;pnts1},webparams));
+	this.addWeb(Object.assign({lineP:this.lineP,points:pnts2},webparams));
+	this.addWeb(Object.assign({lineP:this.lineP2,points:pnts3},webparams));
+
+	/*this.addWeb({points:pnts1,lineP:this.lineP2,minConnectorLength:minConnector});
+	this.addWeb({points:pnts2,lineP:this.lineP});
+	this.addWeb({points:pnts3,lineP:this.lineP2});
 	this.addWeb(pnts2,this.lineP);
 	this.addWeb(pnts3,this.lineP2);
 	this.minConnectorLength = this.maxRingConnectorLength;
@@ -121,6 +128,7 @@ rs.initialize = function () {
 
 	//this.addWeb(pnts3,this.lineP2);
 	//this.addWeb(pnts4,this.lineP);
+	*/
 	this.addSegs();
 }
 
