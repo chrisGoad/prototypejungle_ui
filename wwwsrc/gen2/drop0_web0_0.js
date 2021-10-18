@@ -1,4 +1,4 @@
-
+//active
 core.require('/gen1/web0.js',function (addWebMethods) {
 
 let rs = svg.Element.mk('<g/>');
@@ -29,7 +29,6 @@ rs.initialize = function () {
 
   let pnts3d = this.pointsTo3dAndBack(pnts);
 	this.addWeb(pnts3d);
-	this.addSegs();
 }
 
 return rs;

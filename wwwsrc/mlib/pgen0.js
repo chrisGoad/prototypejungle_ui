@@ -1,3 +1,4 @@
+//active
 core.require(
 function () {
 	 return function (rs) {

@@ -1,10 +1,21 @@
-
+//active
 //core.require('/gen0/drop0.js',function (addDropMethods) {
-core.require('/gen0/drop0.js',function (addDropMethods) {
+core.require('/mlib/basics.js','/mlib/topRandomMethods.js','/mlib/drop0.js','/line/line.js',function (addBasics,addRandomMethods,addDropMethods,linePP) {
 
 let rs = svg.Element.mk('<g/>');
+addBasics(rs);
+addRandomMethods(rs);
 addDropMethods(rs);
 
+
+rs.initProtos = function () {
+	core.assignPrototypes(this,'lineP',linePP);
+	this.lineP.stroke = 'white';
+	this.lineP['stroke-width'] = 1;
+	if (this.finishProtos) {
+		this.finishProtos();
+	}
+}  
 
 rs.randomizerColor = function (p) {
   let {randomGridsForShapes} = this;

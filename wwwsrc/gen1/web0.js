@@ -1,5 +1,5 @@
-
-core.require('/shape/circle.js','/line/line.js','/gen0/drop0.js','/mlib/web0.js',
+//active
+core.require('/shape/circle.js','/line/line.js','/mlib/drop0.js','/mlib/web0.js',
 function (circlePP,linePP,addDropMethods,addWebMethods)  {
 //core.require(function () {
  return function (rs) {

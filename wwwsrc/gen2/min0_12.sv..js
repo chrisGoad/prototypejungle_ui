@@ -1,28 +1,17 @@
-// activeb
-core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/mlib/basics.js','/mlib/pgen0.js','/mlib/web0.js',function (linePP,rectPP,circlePP,addBasis,addPointGenMethods,addWebMethods) {
+
+core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/gen0/min0.js','/mlib/pgen0.js','/mlib/web0.js',function (linePP,rectPP,circlePP,addBasis,addPointGenMethods,addWebMethods) {
 
 let rs = svg.Element.mk('<g/>');
-let stripes = rs.set('stripes',svg.Element.mk('<g/>'));
-let topWeb = rs.set('top',svg.Element.mk('<g/>'));
-let middleWeb = rs.set('middle',svg.Element.mk('<g/>'));
-let bottomWeb = rs.set('bottom',svg.Element.mk('<g/>'));
 addBasis(rs);
 addPointGenMethods(rs);
-//addPointGenMethods(bottomWeb);
-addBasis(topWeb);
-addBasis(middleWeb);
-addBasis(bottomWeb);
-addWebMethods(topWeb);
-addWebMethods(middleWeb);
-addWebMethods(bottomWeb);
-rs.setName('min0_11');
+addWebMethods(rs);
+rs.setName('min0_12');
 let wd= 2000;
 let ht = 0.05*wd;
 let sht = 0.4*wd
 let nr = 1;
 let nrc =8;
 //let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*wd,minConnectorLength:ht,maxConnectorLength:2*ht,maxLoops:100000}
-let  webParams = {numRings:nrc,radius:ht,width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(2,2,2)',backgroundWidth:1.2*wd,backgroundHeight:0.4*wd,minConnectorLength:0.5*ht,maxConnectorLength:1.2*ht,P:0.05*ht,maxRingConnectorLength:3.2*sht,maxLoops:100000}
 let  topParams = {numRings:nrc,radius:ht,width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(2,2,2)',backgroundWidth:1.2*wd,backgroundHeight:0.4*wd,minConnectorLength:0.5*ht,maxConnectorLength:1.2*ht,P:0.05*ht,maxRingConnectorLength:3.2*sht,maxLoops:100000}
 let  grid0Params = {width:wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,-2*sht)}
 let  grid1Params = {width:1*wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,-1*sht)};
@@ -33,11 +22,9 @@ let  grid3Params = {width:wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,1*s
 let  grid4Params = {width:wd,height:ht,numRows:2,numCols:150,pos:Point.mk(0,2*sht)}
 let ringParams = {numRings:nrc,radius:ht,pos:Point.mk(0,-0.5*sht)};
 
+let connectorParams = {minConnectorLength:minConnectorLength,maxConnectorLength:maxConnectorLength};
 
 Object.assign(rs,topParams);
-Object.assign(topWeb,webParams);
-Object.assign(middleWeb,webParams);
-Object.assign(bottomWeb,webParams);
 
 /*
 rs.pairFilter = function (i,j) {
@@ -93,7 +80,7 @@ rs.initialize = function () {
 
 	let {circleP,rectP} = this;
 	const mkStripe = (nm,pos,clr) => {
-		let stripe = stripes.set(nm,rectP.instantiate().show());
+		let stripe = this.set(nm,rectP.instantiate().show());
 		stripe.width = wd;
 		stripe.height = ht;
 		stripe.fill = clr;
@@ -117,9 +104,7 @@ rs.initialize = function () {
 		circle1.fill = 'blue';
 	}
 
-	topWeb.set('shapes',core.ArrayNode.mk());
-	middleWeb.set('shapes',core.ArrayNode.mk());
-	bottomWeb.set('shapes',core.ArrayNode.mk());
+	this.set('shapes',core.ArrayNode.mk());
 	debugger;
 	let rpnts = this.genRings(ringParams);
 	let pnts0 = this.genGrid(grid0Params);
@@ -128,12 +113,23 @@ rs.initialize = function () {
 	let pnts3 = this.genGrid(grid3Params);
 	let pnts4 = this.genGrid(grid4Params);
 	//this.addWeb(pnts0,this.lineP);
-	topWeb.addWeb(pnts1,this.lineP2);
-	middleWeb.addWeb(pnts2,this.lineP);
-	bottomWeb.addWeb(pnts3,this.lineP2);
-	/*topWeb.addSegs();
-	middleWeb.addSegs();
-	bottomWeb.addSegs();*/
+	this.addWeb(Object.assign({lineP:this.lineP2,points;pnts1},webparams));
+	this.addWeb(Object.assign({lineP:this.lineP,points:pnts2},webparams));
+	this.addWeb(Object.assign({lineP:this.lineP2,points:pnts3},webparams));
+
+	/*this.addWeb({points:pnts1,lineP:this.lineP2,minConnectorLength:minConnector});
+	this.addWeb({points:pnts2,lineP:this.lineP});
+	this.addWeb({points:pnts3,lineP:this.lineP2});
+	this.addWeb(pnts2,this.lineP);
+	this.addWeb(pnts3,this.lineP2);
+	this.minConnectorLength = this.maxRingConnectorLength;
+	this.minConnectorLength = this.minRingConnectorLength;
+	//this.addWeb(rpnts,this.lineP2);
+
+	//this.addWeb(pnts3,this.lineP2);
+	//this.addWeb(pnts4,this.lineP);
+	*/
+	this.addSegs();
 }
 
 

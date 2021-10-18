@@ -1,6 +1,6 @@
-//min0
+//active
 
-core.require('/gen0/animation.js','/gen0/basics.js','/gen0/topRandomMethods.js',
+core.require('/mlib/animation.js','/mlib/basics.js','/mlib/topRandomMethods.js',
 function (addAnimationMethods,addBasicMethods,addRandomMethods) {
 
 //core.require(function () {

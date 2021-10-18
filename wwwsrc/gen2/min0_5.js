@@ -1,5 +1,5 @@
-
-core.require('/gen0/min0.js','/shape/circle.js','/line/line.js','/mlib/pgen0.js','/mlib/webTree.js','/mlib/web0.js',function (addBasis,circlePP,linePP,addPointGenMethods,addWebTreeMethods,addWebMethods) {
+//active
+core.require('/mlib/basics.js','/shape/circle.js','/line/line.js','/mlib/pgen0.js','/mlib/web0.js',function (addBasis,circlePP,linePP,addPointGenMethods,addWebMethods) {
 
 let rs = svg.Element.mk('<g/>');
 addBasis(rs);
@@ -135,24 +135,6 @@ rs.initialize = function () {
 	this.addSegs();
 	this.set('cc',this.circleP2.instantiate()).show();
 	this.addSignature();
-	return;
-  let {cPoints,connectSegs} = this;
-
-	debugger;
-	this.loopFringeAddition(0);
-	return;
-	for (let i=0;i<150;i++) {
-		let nf = this.selectNonFringe();
-		if (nf > -1) {
-			let pf = cPoints[nf];
-			pf.onFringe = 1;
-			let sgl = connectSegs.length;
-			this.addWeb();
-			this.addSegs(sgl);
-		} else {
-			return;
-		}
-	}
 }
 
 

@@ -1,11 +1,13 @@
-
-core.require('/mlib/animation.js','/mlib/basics.js','/mlib/topRandomMethods.js','/shape/rectangle.js','/line/line.js',
-function (addAnimationMethods,addBasicMethods,addRandomMethods,rectanglePP,linePP) {
+//active
+//core.require('/mlib/animation.js','/mlib/basics.js','/mlib/topRandomMethods.js','/shape/rectangle.js','/line/line.js',
+core.require(
+//function (addAnimationMethods,addBasicMethods,addRandomMethods,rectanglePP,linePP) {
+function () {
 
 //core.require(function () {
  return function (rs) {
-addBasicMethods(rs);
-addRandomMethods(rs);
+//addBasicMethods(rs);
+//addRandomMethods(rs);
 
 /*adjustable parameters  */
 let topParams = {width:100,height:100,maxDrops:10,maxTries:5,maxLoops:100000,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000}
