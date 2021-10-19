@@ -191,6 +191,7 @@ rs.initialize = function () {
 	  grid2.initialize();
     let jsn = JSON.stringify(
 		{dirValues:this.dirValues,diffIndices:diffIndices});
+		debugger;
 	  core.saveJson(this.path,jsn,function (err,rs) {
 		  debugger;
 		});

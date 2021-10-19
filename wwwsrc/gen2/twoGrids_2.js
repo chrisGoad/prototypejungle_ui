@@ -7,7 +7,7 @@ function (constructor) {
 	rs.saveImage = 1;
 	rs.setName('twoGrids_2','twoGrids_1');
 	rs.initProtos();
-  rs.loadFromPath = 1;
+  rs.loadFromPath = 0;
 	rs.numRows = 20;
 	rs.numCols = 20;
 	rs.width = 300;

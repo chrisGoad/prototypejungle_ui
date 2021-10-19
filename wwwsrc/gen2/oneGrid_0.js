@@ -1,11 +1,11 @@
 
-core.require('/gen1/twoGrids.js',
+core.require('/gen1/oneGrid.js',
 function (constructor) {
   debugger;	//this.initProtos();
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
   let rs = constructor();
 	rs.saveImage = 1;
-	rs.setName('twoGrids_1');
+	rs.setName('oneGrid');
 	rs.initProtos();
   rs.loadFromPath = 0;
 	rs.numRows = 20;

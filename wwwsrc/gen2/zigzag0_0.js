@@ -5,7 +5,7 @@ function (constructor) {
 
   let rs = constructor();
   rs.saveImage = true;
-	rs.setName('zigzag_1');
+	rs.setName('zigzag0_0');
 	rs.initProtos();
   let numRows,numCols;
 	numRows = rs.numRows = 40;
