@@ -1,20 +1,23 @@
 //active
-core.require(
-function () {
+core.require('/shape/polygon.js',
+
+function (polygonPP) {
 	 return function (rs) {
 
 
 rs.genRings = function (params) {
-	let {numRings,radius,pos=Point.mk(0,0),randomFactor = 0} = params;
+	let {numRings,radius,pos=Point.mk(0,0),randomFactor = 0,fromAngle=0,toAngle=2*Math.PI,numPointsPerRing=20,ringSeparation} = params;
 	let pnts = [];
-	let dr = radius/numRings;
-	let da = (2*Math.PI/numRings)
+	let dr = ringSeparation?ringSeparation:radius/numRings;
+	let spread = toAngle - fromAngle;
+//	let da = (2*Math.PI/numRings)
+	let da = spread/numPointsPerRing;
   let rnd = 100;
 	let r = radius;
   for (let i = 0;i<numRings;i++) {
-		let angle = 0;
-
-		for (let j = 0;j<numRings;j++) {
+		let angle = fromAngle;
+	//	for (let j = 0;j<numRings;j++) {
+		for (let j = 0;j<numPointsPerRing;j++) {
 			let rr = r + randomFactor*(Math.random()-0.5);
 			let p = Point.mk( Math.cos(angle)*rr,Math.sin(angle)*rr);
 			pnts.push(p.plus(pos));
@@ -23,6 +26,26 @@ rs.genRings = function (params) {
 		r -= dr;
 	}
   return pnts;
+}
+
+const ringPoints2PolygonPoints = function (pnts) {
+	let ln = pnts.length;
+	let pp = [];
+	lno2 = ln/2;
+	for (let i=0;i<lno2;i++) {
+		pp.push(pnts[i]);
+	}
+	for (let i=ln-1;i>=lno2;i--) {
+		pp.push(pnts[i]);
+	}
+	return pp;
+}
+
+rs.rings2polygon = function (pnts) {
+	let ppnts = ringPoints2PolygonPoints(pnts);
+	let pgon = polygonPP.instantiate();
+	pgon.corners = ppnts;
+	return pgon;
 }
 /*
 rs.genGrid = function (params) {

@@ -42,7 +42,7 @@ item.addSignature = function() {
 item.addBackground = function () {
 	let {backgroundColor:bkc,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy, 
 	backgroundWidth,backgroundHeight,
-	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height} =  this;
+	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height,backgroundVisible} =  this;
 	if (!bkc) {
 		return;
 	}
@@ -56,7 +56,12 @@ item.addBackground = function () {
 	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
 	
   let bkr = this.set('brect',this.backgroundRectP.instantiate());
-	bkr.stroke = bkc;
+	if (backgroundVisible) {
+		bkr['stroke-width'] = 10;
+		bkr.stroke = 'red';
+	} else {
+	  bkr.stroke = bkc;
+	}
 	if (backgroundWidth) {
 		bkr.width = backgroundWidth;
 		bkr.height = backgroundHeight;

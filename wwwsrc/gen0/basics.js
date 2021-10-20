@@ -47,7 +47,7 @@ item.addBackground = function () {
 	
 
 	core.assignPrototypes(this,'backgroundRectP',rectPP);
-	this.backgroundRectP['stroke-width'] = 1;
+	this.backgroundRectP['stroke-width'] = 10;
 	this.backgroundRectP.fill = 'transparent';
 	core.assignPrototypes(this,'sigRectP',rectPP);
 	this.sigRectP.fill = 'red';

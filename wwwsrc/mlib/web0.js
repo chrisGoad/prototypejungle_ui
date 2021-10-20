@@ -28,13 +28,16 @@ rs.singletonFilter = function (i) {
 rs.beforeAddSeg = function (seg) {
 }
 rs.initWeb = function (pnts) {
-	let {cPoints,nearbyPoints,connectSegs} = this;
+	let {cPoints,nearbyPoints,connectSegs,shapes} = this;
   this.cPoints = pnts;
 	if (!nearbyPoints) {
 		this.nearbyPoints = [];
 	}
 	if (!connectSegs) {
 		this.connectSegs = [];
+	} 
+	if (!shapes) {
+		this.set('shapes',core.ArrayNode.mk());
 	} 
 }
 
