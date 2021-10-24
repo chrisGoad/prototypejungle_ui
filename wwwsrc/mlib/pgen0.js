@@ -68,7 +68,31 @@ rs.genGrid = function (params) {
 
 */
 
-
+rs.genRandomWalk = function (params) {
+	let {initialPos,initialDirection,width,step,delta,numSteps}  = params;
+	let cpos = initialPos;
+	let sidepos;
+	let cdir = initialDirection;
+	let pnts = [];
+	let sidepnts = [];
+	for (let i=0;i<=numSteps;i++) {
+		let unitvec = Point.mk(Math.cos(cdir),Math.sin(cdir));
+    let toside = (unitvec.normal()).times(-width);
+    let along = unitvec.times(step);
+    let next = cpos.plus(along);
+		if (!sidepos) {
+			sidepos = cpos.plus(toside);
+		}
+		pnts.push(cpos);
+	//	pnts.push(sidepos);
+		sidepnts.push(sidepos);
+		cpos = next;
+		sidepos = next.plus(toside);
+		cdir = cdir + delta * (Math.random() - 0.5);
+	}
+	return pnts.concat(sidepnts);
+}
+	
 
 const interpolate = function (v0,v1,fr) {
 	let d  = v1-v0;
@@ -82,7 +106,7 @@ const interpolate = function (v0,v1,fr) {
 
 const interpolatePoints = function (end0,end1,fr) {
 	let v = end1.difference(end0);	
-	let rs = end0.plus(v.times(fr));
+	let rs = end0.plus(v.times(fr));		
 	return rs;
 }
 	
@@ -152,7 +176,24 @@ rs.genGrid = function (params) {
 	return rs;
 }
 
-
+rs.genPascal = function (params) {
+	let {numRows,rowSep} = this;
+	let cy = 0;
+	pnts = [];
+	let disp = 0.5*numRows*rowSep;
+	for (let i=0;i<numRows;i++) {
+		let cx = -i*0.5*rowSep;
+		for (let j=0;j<=i;j++) {
+			pnts.push(Point.mk(cx,cy-disp));
+			cx += rowSep;
+		}
+		cy += rowSep;
+	}
+	return pnts;
+}
+			
+		
+	
 rs.placeShapesAtPoints = function (pnts,shapeP) {
 	this.set('shapes',core.ArrayNode.mk());
 	pnts.forEach( (p) => {

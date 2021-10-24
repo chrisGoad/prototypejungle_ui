@@ -1,9 +1,8 @@
-
-core.require('/line/line.js','/gen0/grid0.js',
-function (linePP,addGridMethods) {
+//active
+core.require('/line/line.js','/gen0/GridRandom.js',
+function (linePP,GridP) {
   
-let rs = svg.Element.mk('<g/>');
-addGridMethods(rs);
+let rs = GridP;
 
 let wd = 400;
 

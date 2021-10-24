@@ -1,8 +1,7 @@
-
-core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rectPP,linePP,circlePP,polygonPP,addGridMethods,addLineMethods)	{ 
-let rs = svg.Element.mk('<g/>');
-addGridMethods(rs);
+//active
+core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/GridLinesRandom.js',
+function (rectPP,linePP,circlePP,polygonPP,GridLinesRandomP)	{ 
+let rs = GridLinesRandomP;
 
 //let sqd = 128;
 let sqd = 48;

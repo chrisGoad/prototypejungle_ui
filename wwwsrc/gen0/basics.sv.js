@@ -1,5 +1,3 @@
-//active
-
 core.require('/shape/rectangle.js','/shape/textOneLine.js',function (rectPP,textPP) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
 	//debugger;
@@ -42,26 +40,21 @@ item.addSignature = function() {
 item.addBackground = function () {
 	let {backgroundColor:bkc,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy, 
 	backgroundWidth,backgroundHeight,
-	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height,backgroundVisible} =  this;
+	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height} =  this;
 	if (!bkc) {
 		return;
 	}
 	
 
 	core.assignPrototypes(this,'backgroundRectP',rectPP);
-	this.backgroundRectP['stroke-width'] = 1;
+	this.backgroundRectP['stroke-width'] = 10;
 	this.backgroundRectP.fill = 'transparent';
 	core.assignPrototypes(this,'sigRectP',rectPP);
 	this.sigRectP.fill = 'red';
 	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
 	
   let bkr = this.set('brect',this.backgroundRectP.instantiate());
-	if (backgroundVisible) {
-		bkr['stroke-width'] = 10;
-		bkr.stroke = 'red';
-	} else {
-	  bkr.stroke = bkc;
-	}
+	bkr.stroke = bkc;
 	if (backgroundWidth) {
 		bkr.width = backgroundWidth;
 		bkr.height = backgroundHeight;
@@ -97,40 +90,6 @@ item.addBackground = function () {
 	}
 }
 
-
-
-item.installLine = function (line) {
-  this.shapes.push(line);
-  line.show();
-  line.update();
-	this.numDropped++;
-  return line;
-}
-
-
-item.genLine = function (sg,lineP,ext=0) {
-  let {end0,end1} = sg;
-  if (ext) {
-    let vec = end1.difference(end0);
-    let nvec = vec.normalize();
-    end1 = end1.plus(nvec.times(ext));
-  }
-	let theLineP = lineP?lineP:this.lineP;
-	
-  let line = theLineP.instantiate();
-  line.setEnds(end0,end1);
-  return line;
-}
-
-
-item.initBasis = function () {
-	if (this.initProtos) {
-	  this.initProtos();
-	}
-	this.addBackground();
-  this.set('shapes',core.ArrayNode.mk());
-
-}
 
 
 }}); 

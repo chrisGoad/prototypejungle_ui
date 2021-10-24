@@ -1,10 +1,9 @@
 
 
-core.require('/shape/rectangle.js','/gen0/grid0.js',
-function (rectPP,addGridMethods)	{ 
+core.require('/shape/rectangle.js','/gen0/GridRandom.js',
+function (rectPP,GridP)	{ 
+let rs = GridP;
 
-  let rs = svg.Element.mk('<g/>');
-  addGridMethods(rs);
 	let wd = 400;
 	let topParams = {width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd};
 	Object.assign(rs,topParams);

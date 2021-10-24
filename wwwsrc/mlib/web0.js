@@ -41,16 +41,16 @@ rs.initWeb = function (pnts) {
 	} 
 }
 
-rs.addSegs = function (fromIndex=0) {
+rs.addSegs = function (lineP) {
 	debugger;
 	let {connectSegs,shortenBy=10} = this;
   let ln = connectSegs.length;
-	for (let i=fromIndex;i<ln;i++) {
+	for (let i=0;i<ln;i++) {
 		let sg = connectSegs[i];
 		let ssg = sg.lengthen(shortenBy);
 		ssg.index0 = sg.index0;
 		ssg.index1 = sg.index1;
-	  let line = this.genLine(ssg,sg.lineP);
+	  let line = this.genLine(ssg,lineP);
 		let {end0,end1} = ssg;
 		if (this.colorFromPoint) {
 			line.stroke = this.colorFromPoint(end0);
@@ -253,9 +253,9 @@ const removeFromNears = function (i,ni) {
 				debugger;
 			}
 			let rseg  = geom.LineSegment.mk(rip,rjp).lengthen(-10);
-			if (lineP) {
+			/*if (lineP) {
 				rseg.lineP = lineP;
-			}
+			}*/
 			let {end0,end1} = rseg;
 			end0.gridc = rip.gridc;
 			end1.gridc = rjp.gridc;
@@ -278,7 +278,7 @@ const removeFromNears = function (i,ni) {
 		});
 	}
 	if (pnts) {
-	  this.addSegs();
+	  this.addSegs(lineP);
 	}
 }	
 }
