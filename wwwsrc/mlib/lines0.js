@@ -1,4 +1,4 @@
-
+//active
 //core.require('/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
 core.require(function () {
 

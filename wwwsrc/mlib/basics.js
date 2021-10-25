@@ -39,63 +39,56 @@ item.addSignature = function() {
 	sig.setScale(sigScale);
 }
 
-item.addBackground = function () {
-	let {backgroundColor:bkc,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy, 
-	backgroundWidth,backgroundHeight,
-	outerBackgroundColor:obc,outerBackgroundPaddingX:obpx,outerBackgroundPaddingY:obpy,width,height,backgroundVisible} =  this;
+// add a stripe around the image, to control the size of the jpg when saved
+item.addBackStripe = function () {
+	let {backStripeColor:bkc,backStripePadding:bkp,backStripePaddingX:bkpx,backStripePaddingy:bkpy, 
+	backStripeWidth,backStripeHeight,width,height,backStripeVisible} =  this;
 	if (!bkc) {
 		return;
 	}
-	
-
-	core.assignPrototypes(this,'backgroundRectP',rectPP);
-	this.backgroundRectP['stroke-width'] = 1;
-	this.backgroundRectP.fill = 'transparent';
-	core.assignPrototypes(this,'sigRectP',rectPP);
-	this.sigRectP.fill = 'red';
-	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
-	
-  let bkr = this.set('brect',this.backgroundRectP.instantiate());
-	if (backgroundVisible) {
+	core.assignPrototypes(this,'backStripeRectP',rectPP);
+	this.backStripeRectP['stroke-width'] = 1;
+	this.backStripeRectP.fill = 'transparent';
+  let bkr = this.set('brect',this.backStripeRectP.instantiate());
+	if (backStripeVisible) {
 		bkr['stroke-width'] = 10;
 		bkr.stroke = 'red';
 	} else {
 	  bkr.stroke = bkc;
 	}
-	if (backgroundWidth) {
-		bkr.width = backgroundWidth;
-		bkr.height = backgroundHeight;
+	if (backStripeWidth) {
+		bkr.width = backStripeWidth;
+		bkr.height = backStripeHeight;
 	} else {
-		let bkPx = bkpx?bkpx:bkp;
-		let bkPy = bkpy?bkpy:bkp;
-		bkr.width = width + (bkPx?bkPx:0);
-		bkr.height = height + (bkPy?bkPy:0);
+		let bkPx = bkpx?bkpx:(bkp?bkp:0.1*width);
+		let bkPy = bkpy?bkpy:(bkp?bkp:0.1*height);
+		bkr.width = width + bkPx;
+		bkr.height = height + bkPy;
 	}
+  //bkr.width = backStripeWidth?backStripeWidth:width + backStripePadding;
+//	bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;
+	bkr.show();
+}
+
+
+item.addBackground = function () {
+	let {backgroundColor:bkc,width,height} =  this;
+	if (!bkc) {
+		return;
+	}
+	core.assignPrototypes(this,'backgroundRectP',rectPP);
+	this.backgroundRectP['stroke-width'] = 0;
+	this.backgroundRectP.fill = bkc;
+	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
+  let bkr = this.set('backRect',this.backgroundRectP.instantiate());
+  bkr.width = width;
+	bkr.height = height;
   //bkr.width = backgroundWidth?backgroundWidth:width + backgroundPadding;
 //	bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;
 	bkr.show();
-		core.assignPrototypes(this,'textP',textPP);
-	this.textP['stroke'] = 'white';
-
 	
-	
-	if (obc) {
-		let obkr = this.set('obrect',this.backgroundRectP.instantiate());
-		obkr.stroke = obc;
-		let obkPx = obkpx?obkpx:obkp;
-		let objPy = obkpy?obkpy:obkp;
-		obkr.width = width + (bkPx?bkPx:0);
-		obkr.height = height + (bkPy?bkPy:0);
-		obkr.show();
-		/*let rr = rectangleP.instantiate();
-		let bpx = obpx?obpx:0;
-		let bpy = obpy?obpy:0;
-		rr.width = width + bpx;
-		rr.height = height + bpy;
-		rr.fill = obc;
-		this.set('brr',rr);*/
-	}
 }
+
 
 
 

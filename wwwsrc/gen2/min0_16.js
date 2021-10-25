@@ -7,16 +7,20 @@ let stripes = rs.set('stripes',svg.Element.mk('<g/>'));
 rs.setName('min0_16');
 
 let sep = 100;
-let nr = 40;
+let nr = 20;
 let wd = nr * sep;
 
 //let  webParams = {minConnectorLength:0.5*sep,maxConnectorLength:2.2*sep,maxLoops:100000};
-let  webParams = [{minConnectorLength:1*sep,maxConnectorLength:2*sep,maxLoops:100000},
-									{minConnectorLength:2*sep,maxConnectorLength:3*sep,maxLoops:100000},
-									{minConnectorLength:1*sep,maxConnectorLength:2*sep,maxLoops:100000}]
+let  webParams = [{minConnectorLength:3*sep,maxConnectorLength:4*sep,maxLoops:100000},
+									{minConnectorLength:1*sep,maxConnectorLength:2*sep,maxLoops:100000},
+									{minConnectorLength:3*sep,maxConnectorLength:4*sep,maxLoops:100000},
+									{minConnectorLength:1*sep,maxConnectorLength:2*sep,maxLoops:100000},
+									{minConnectorLength:1*sep,maxConnectorLength:2*sep,maxLoops:100000},
+									{minConnectorLength:3*sep,maxConnectorLength:4*sep,maxLoops:100000}];
+									
 									//{minConnectorLength:4*sep,maxConnectorLength:5*sep,maxLoops:100000}]
 //let  webParams = {minConnectorLength:5*ht,maxConnectorLength:10.2*ht,maxLoops:100000};
-let  topParams = {width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundWidth:3.2*wd,backgroundHeight:1.2*wd,backgroundVisible:0};
+let  topParams = {width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backStripeWidth:3.2*wd,backStripeHeight:3.2*wd,backStripeVisible:0};
 //let  gridParams = {width:1*wd,height:ht,numRows:1,numCols:150};
 //	let {initialPos,initialDirection,width,step,delta,numSegs}  = params;
 
@@ -28,7 +32,7 @@ let toRadians = Math.PI/180;
 Object.assign(rs,topParams);
 Object.assign(rs,gridParams);
 	
-let numWalks = 3;
+let numWalks = 6;
 let polygons = rs.set('polygons',core.ArrayNode.mk());
 
 let webs = rs.set('webs',core.ArrayNode.mk());
@@ -38,11 +42,18 @@ for (let i=0;i<numWalks;i++) {
 	webs.push(w);
 }
 let grayblue = 'rgb(50,50,100)';
-let triangleColors = ['yellow','red','yellow'];
+//let triangleColors = ['yellow','red','yellow','green','green','red'];
+  let dg = 'rgb(50,50,100)';
+
+//let triangleColors = ['red','green','red','green','green','red'];
+let iclr = 'black';
+let oclr = 'red';
+let triangleColors = [oclr,iclr,'red',iclr,iclr,'red'];
 
 rs.initProtos = function () {	
   let lineP = this.set('lineP',linePP.instantiate()).hide();
 	this.lineP.stroke = 'blue';
+	this.lineP.stroke = 'white';
 	this.lineP['stroke-width'] = 0.1*sep;
 	let lineP2 = this.set('lineP2',linePP.instantiate()).hide();
 	this.lineP2.stroke = 'blue';
@@ -61,12 +72,13 @@ rs.initProtos = function () {
 	this.circleP.fill = 'red';
 	this.circleP['stroke-width'] = 0;
 }  
+let disp = wd;
 
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
 	debugger;
-	this.addBackground();
+	this.addBackStripe();
 	let {circleP,rectP,polygonP} = this;
 	let rws = [];
 	for (let i=0;i<numWalks;i++) {
@@ -74,6 +86,7 @@ rs.initialize = function () {
 		rws.push(this.genPascal(gridParams));
 		//rws = rws.concat(this.genRandomWalk(gridParams));
 	}
+	
 // this.placeShapesAtPoints(rws[0],circleP);
  //return;
 
@@ -121,20 +134,34 @@ rs.initialize = function () {
 		pg.fill = clr;
 		return pg;
 	}
-	for (let i=0;i<numWalks;i++) {
+	const mkTriWeb = (i,clr,ps) => {
 		let w = webs[i];
 		let tr = mkTriangle(triangleColors[i]);
 		w.addWeb(rws[i],this.lineP);
-		let ps = Point.mk((i-1)*(wd+sep),0);
-		
 		w.moveto(ps);
 		tr.moveto(ps);
-		//continue;
-		let lgap = mkTriangle('gray',1);
-		lgap.moveto(Point.mk(-hwd-hsep,-sep));
-		let rgap = mkTriangle('gray',1);
-		rgap.moveto(Point.mk(hwd+hsep,-sep));
 	}
+	for (let i=0;i<3;i++) {
+		let ps = Point.mk((i-1)*(wd),disp);
+		mkTriWeb(i,triangleColors[i],ps);
+	}
+		/*let w = webs[i];
+		let tr = mkTriangle(triangleColors[i]);
+		w.addWeb(rws[i],this.lineP);
+		
+		w.moveto(ps);
+		tr.moveto(ps);*/
+	//continue;
+	mkTriWeb(3,triangleColors[3],Point.mk(-0.5*wd,disp-wd));
+	mkTriWeb(4,triangleColors[4],Point.mk(0.5*wd,disp-wd));
+	let lgap = mkTriangle(dg,1);
+	lgap.moveto(Point.mk(-hwd-hsep,disp-sep));
+	let rgap = mkTriangle(dg,1);
+	rgap.moveto(Point.mk(hwd+hsep,disp-sep));
+  let tgap = mkTriangle(dg,1);
+	tgap.moveto(Point.mk(0,disp-wd-2*sep));
+	mkTriWeb(5,triangleColors[5],Point.mk(0,disp-2*wd));
+
 	
 }
 return rs;

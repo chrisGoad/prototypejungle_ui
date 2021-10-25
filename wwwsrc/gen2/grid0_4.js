@@ -5,7 +5,7 @@ function (rectPP,GridP)	{
 let rs = GridP;
 
 	let wd = 400;
-	let topParams = {width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd};
+	let topParams = {width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backStripePadding:0.2*wd,backStripeVisible:0};
 	Object.assign(rs,topParams);
 	//rs.initProtos();
 	rs.saveImage = 1;

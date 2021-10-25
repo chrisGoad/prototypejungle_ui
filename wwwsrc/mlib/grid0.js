@@ -1,5 +1,5 @@
 
-
+//active
 core.require('/shape/rectangle.js',function (rectPP) {
 //core.require('/shape/rectangle.js','/gen0/basics.js','/gen0/topRandomMethods.js','/gen0/animation.js',function (rectPP,addBasicMethods,addTopRandomMethods,addAnimationMethods) {
 //core.require('/shape/rectangle.js','/gen0/dim2dWalker.js','/gen0/animation.js',function (rectPP,addRandomMethods,addAnimationMethods) {
@@ -54,12 +54,12 @@ item.letterHeight = 4;
 item.fractionInked = 0.4;
 /* three prototypes are expected to be available: blineP (for boundary lines), rlineP (for region lines), and shapeP (unless a shape generation function is specified */
 
-
+/*
 item.initBackgroundProtos = function () {
 	core.assignPrototypes(this,'backgroundRectP',rectPP);
 	this.backgroundRectP['stroke-width'] = 0;
 }
-	
+	*/
 let points = [];
 
 
@@ -1225,10 +1225,11 @@ item.backgroundPadding = 0;
 item.initializeGrid = function () {
   let {numRows,numCols,pointJiggle,pointJiggleParams,spatter,outerRadius,backgroundColor,backgroundPadding,backgroundPos,width,height,
 	backgroundWidth,backgroundHeight} = this;
- this.initBackgroundProtos();
+ //this.initBackgroundProtos();
  debugger;
  this.isPointJiggle = pointJiggle || pointJiggleParams;
  this.addBackground();
+ this.addBackStripe();
  /*
  	if (backgroundColor) {
 		let bkr;

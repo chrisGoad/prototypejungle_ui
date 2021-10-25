@@ -11,7 +11,7 @@ let ht = 0.05*wd; // height  of stripes
 let sep = 0.4*wd; // separation between stripes
 
 let  webParams = {minConnectorLength:0.5*ht,maxConnectorLength:1.2*ht,maxRingConnectorLength:3.2*sep,maxLoops:100000};
-let  topParams = {width:wd,height:ht,backgroundColor:'rgb(2,2,2)',backgroundWidth:1.2*wd,backgroundHeight:2.1*(sep+ht)};
+let  topParams = {width:wd,height:ht,backStripeColor:'rgb(2,2,2)',backStripeWidth:1.2*wd,backStripeHeight:2.1*(sep+ht)};
 let  gridParams = {width:1*wd,height:ht,numRows:1,numCols:150};
 let topPos = Point.mk(0,-sep);
 let midPos = Point.mk(0,0);
@@ -47,7 +47,7 @@ rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
 	debugger;
-	this.addBackground();
+	this.addBackStripe();
 	let {circleP,rectP} = this;
 	const mkStripe = (nm,pos,clr) => {
 		let stripe = stripes.set(nm,rectP.instantiate().show());

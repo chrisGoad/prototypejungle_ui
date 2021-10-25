@@ -1,7 +1,7 @@
-
-core.require('/gen1/grid0_8.js',
+//active
+core.require('/shape/rectangle.js','/gen1/grid0_8.js',
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rs)	{ 
+function (rectPP,rs)	{ 
 
 	
 rs.setName('grid0_8_12');
@@ -34,16 +34,50 @@ let newTopParams = {
   pointJiggle:4,	
   numRows : 64,
   numCols : 64,
-	backgroundColor : 'yellow'
+//	width:1000,
+//	height:1000,
+	backgroundColor : 'yellow',
+	backStripeColor : 'rgb(2,2,2)' 
+	
 }
 Object.assign(rs,newTopParams);
 
-	
-	
+
+rs.initProtos = function () {
+	core.assignPrototypes(this,'rectP',rectPP);
+	this.rectP.stroke = 'rgba(0,0,0,.8)';
+	this.rectP['stroke-width'] = 0;
+  //core.assignPrototypes(this,'circleP',circlePP);
+	//	core.assignPrototypes(this,'polygonP',polygonPP);
+}  
+
+
 rs.finishProtos = function () {
+	this.rectP.stroke = 'rgba(0,0,0,.8)';
+	this.rectP['stroke-width'] = 0;
+	this.circleP.stroke = 'rgba(0,0,0,.8)';
+	this.circleP['stroke-width'] = 0;
+}
+
+	
+	
+rs.initProtoss = function () {
 	this.rectP.stroke = 'rgba(0,0,0,.8)';
 	this.rectP['stroke-width'] = 0.2;
 	this.polygonP['stroke-width'] = 0.2;
+}
+
+
+rs.initialize = function () {
+	debugger;
+  core.root.backgroundColor = 'black'
+	this.initProtos();
+/*	let backRect = this.set('backRect',this.rectP.instantiate().show());
+	backRect.width = this.width;
+	backRect.height = this.height;
+	this.backgroundPadding = 0.1*this.height;
+	backRect.fill = 'yellow';*/
+	this.innerInitialize();
 }
 
 return rs;

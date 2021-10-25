@@ -342,7 +342,7 @@ rs.shapeGenerator = function (rvs,cell,center) {
 rs.innerInitialize = function () {
 	debugger;
 	this.initProtos();
-	this.finishProtos();
+//	this.finishProtos();
 	/*if (this.backgroundColor) {
 		let bkr;
 		if (this.outerRadius) {
