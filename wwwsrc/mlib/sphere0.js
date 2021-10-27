@@ -1,9 +1,10 @@
 //active
 //core.require('/shape/circle.js','/line/line.js','/mlib/drop0.js','/mlib/web0.js',
-core.require('/gen0/DropWeb.js',
-function (DropWeb)  {
+core.require(
+function ()  {
 //core.require(function () {
-let rs = DropWeb;
+	 return function (rs) {
+
 
 rs.mkSphereParams = function () {
 	let wd = this.width;
@@ -26,6 +27,7 @@ rs.mkSphereParams = function () {
 }  
 */
 rs.genSegments = function (p) {
+	debugger;
 	//console.log('px',p.x);
 	rd = 30;
 	let gcrc = geom.Circle.mk(p,rd);

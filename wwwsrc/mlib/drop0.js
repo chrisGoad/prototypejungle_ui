@@ -750,7 +750,7 @@ rs.concatEachArray = function (ays) {
   });	 
 	 return [c0,c1];
 }
-
+/*
 rs.initProtos = function () {
 	core.assignPrototypes(this,'lineP',linePP);
 	this.lineP.stroke = 'white';
@@ -759,10 +759,12 @@ rs.initProtos = function () {
 		this.finishProtos();
 	}
 }  
+*/
 
 rs.initializeDrop = function (doDrop=1) {
   let {rectangles,initialSegments,genSeeds} = this;
   this.initProtos();
+  this.addBackStripe();
   this.addBackground();
   this.segments = [];
 	this.numDropped = 0;

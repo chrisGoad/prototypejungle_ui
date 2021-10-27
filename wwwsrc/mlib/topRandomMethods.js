@@ -200,6 +200,25 @@ item.rvsAtCell = function (cell) {
 	return this.randomValuesAtCell(this.randomGridsForShapes,cell.x,cell.y);
 }   
 
+
+item.randomizerColor = function (p) {
+  let {randomGridsForShapes} = this;
+  let angle;
+  let cell = this.cellOf(p);
+  let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
+  let {r,g,b} =rvs;
+  return {r,g,b}
+}
+
+item.randomColor = function () {
+  const rrgb = () => {
+    return 0 + Math.floor(Math.random()*154);
+  }
+  let r = rrgb();
+  let g = rrgb();
+  let b = rrgb();
+  return {r,g,b}
+}
 }});
 
 

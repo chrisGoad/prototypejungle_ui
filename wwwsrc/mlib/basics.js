@@ -41,6 +41,7 @@ item.addSignature = function() {
 
 // add a stripe around the image, to control the size of the jpg when saved
 item.addBackStripe = function () {
+	debugger;
 	let {backStripeColor:bkc,backStripePadding:bkp,backStripePaddingX:bkpx,backStripePaddingy:bkpy, 
 	backStripeWidth,backStripeHeight,width,height,backStripeVisible} =  this;
 	if (!bkc) {

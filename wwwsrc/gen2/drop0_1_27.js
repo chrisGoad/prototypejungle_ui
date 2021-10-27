@@ -1,7 +1,9 @@
 //active
 //core.require('/gen0/drop0.js',function (addDropMethods) {
 //core.require('/gen1/drop0_1.js','/gen1/sphere_setup_for_drop0.js',function (rs,sphereSetup) {
-core.require('/gen1/drop0_1.js','/gen1/sphere_setup_for_drop0.js',function (rs) {
+//core.require('/gen1/drop0_1.js','/gen1/sphere_setup_for_drop0.js',function (rs) {
+//core.require('/line/line.js','/gen0/DropSeedsRandom.js','/gen1/sphere_setup_for_drop0.js',function (linePP,rs,sphereSetup) {
+core.require('/line/line.js','/gen0/DropSeedsRandom.js',function (linePP,rs) {
 
 rs.setName('drop0_1_27');
 //sphereSetup(rs);
@@ -13,7 +15,12 @@ topParams = {width:ht,height:ht,numRows:20,numCols:30,maxDrops:50000,maxTries:10
 	
 Object.assign(rs,topParams);
 
-
+rs.initProtos = function () {
+	core.assignPrototypes(this,'lineP',linePP);
+	this.lineP.stroke = 'white';
+	this.lineP['stroke-width'] = 2;
+}  
+/*
 rs.finishProtos = function () {
 	this.lineP.stroke = 'white';
 	//this.lineP.stroke = 'transparent';
@@ -23,7 +30,7 @@ rs.finishProtos = function () {
 	this.lineP['stroke-width'] = .6;
 	this.lineP['stroke-width'] = 2;
 }  
-
+*/
 rs.genSegments = function (p,rvs) {
   debugger;
  // let {r,g,b} = this.randomizerColor(p);

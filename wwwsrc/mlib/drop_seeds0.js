@@ -1,42 +1,11 @@
 //active
 //core.require('/gen0/drop0.js',function (addDropMethods) {
 //core.require('/mlib/basics.js','/mlib/topRandomMethods.js','/mlib/drop0.js','/line/line.js',function (addBasics,addRandomMethods,addDropMethods,linePP) {
-core.require(function (addBasics,addRandomMethods,addDropMethods,linePP) {
+core.require(function () {
 
-let rs = svg.Element.mk('<g/>');
-addBasics(rs);
-addRandomMethods(rs);
-addDropMethods(rs);
-
-
-rs.initProtos = function () {
-	core.assignPrototypes(this,'lineP',linePP);
-	this.lineP.stroke = 'white';
-	this.lineP['stroke-width'] = 1;
-	if (this.finishProtos) {
-		this.finishProtos();
-	}
-}  
-
-rs.randomizerColor = function (p) {
-  let {randomGridsForShapes} = this;
-  let angle;
-  let cell = this.cellOf(p);
-  let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
-  let {r,g,b} =rvs;
-  return {r,g,b}
-}
-
-rs.randomColor = function () {
-  const rrgb = () => {
-    return 0 + Math.floor(Math.random()*154);
-  }
-  let r = rrgb();
-  let g = rrgb();
-  let b = rrgb();
-  return {r,g,b}
-}
-
+//core.require(function () {
+ return function (rs) {
+debugger;
 rs.genOneSegment = function (p,direction) {
   let {sepNext,lineLength:len,lineExt=0} = this;
 	let seg = this.genSegment(p,len,direction,sepNext);
@@ -272,5 +241,5 @@ rs.setupColorRandomizer = function (params) {
 
 return rs;
 
-});
+ }});
 

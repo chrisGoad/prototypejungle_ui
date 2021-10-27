@@ -5,6 +5,8 @@ sections: [
 
 [  
 /* Puzzle: Which three of the quadrants are the same, and which is different? Before you saw the differences in what sense did you "see" the quadrants?"*/
+ ['min0_16','gen2',1],
+ ['min0_15','gen2',1],
  ['min0_8','gen2',1],
  ['min0_6','gen2',1],
  //['min0_5','gen2',1],
