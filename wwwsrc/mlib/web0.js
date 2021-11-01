@@ -42,7 +42,6 @@ rs.initWeb = function (pnts) {
 }
 
 rs.addSegs = function (lineP) {
-	debugger;
 	let {connectSegs,shortenBy=10} = this;
   let ln = connectSegs.length;
 	for (let i=0;i<ln;i++) {

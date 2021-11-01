@@ -41,8 +41,8 @@ let grid2 = rs.set('grid2',WebP.instantiate());
 let grid3 = rs.set('grid3',WebP.instantiate());
 let grid4 = rs.set('grid4',WebP.instantiate());
 
-//let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*wd,minConnectorLength:ht,maxConnectorLength:2*ht,maxLoops:100000}
-let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backgroundColor:'rgb(100,22,22)',backgroundWidth:1.2*wd,backgroundHeight:1.2*wd,minConnectorLength:0.5*ht,maxConnectorLength:1.2*ht,maxLoops:100000}
+//let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backStrikeColor:'rgb(2,2,2)',backgroundPadding:0.2*wd,minConnectorLength:ht,maxConnectorLength:2*ht,maxLoops:100000}
+let  topParams = {width:wd,height:ht,numRows:2,numCols:100,backStripeColor:'rgb(100,22,22)',backStripeWidth:1.2*wd,backStripeHeight:1.2*wd,backStripeVisible:0,minConnectorLength:0.5*ht,maxConnectorLength:1.2*ht,maxLoops:100000}
 let  gridParams = {width:wd,height:ht,numRows:nr,numCols:150}
 /*let  grid0Params = {width:wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,-2*ht)}
 let  grid1Params = {width:1*wd,height:ht,numRows:nr,numCols:150,pos:Point.mk(0,-1*ht)};
@@ -61,14 +61,17 @@ rs.initialize = function () {
 	let pnts = this.genGrid(gridParams);
 	grid0.moveto(Point.mk(0,-2*ht));
 	grid1.moveto(Point.mk(0,-ht));
+	grid2.moveto(Point.mk(0,0*ht));
 	grid3.moveto(Point.mk(0,ht));
 	grid4.moveto(Point.mk(0,2*ht));
+	debugger;
 	this.grid0.addWeb(pnts,this.lineP);
 	this.grid1.addWeb(pnts,this.lineP2);
 	this.grid2.addWeb(pnts,this.lineP);
 	this.grid3.addWeb(pnts,this.lineP2);
 	this.grid4.addWeb(pnts,this.lineP);
-}
+	this.addBackStripe();
+	}
 
 
 return rs;

@@ -1,7 +1,8 @@
 //active
-core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/GridLinesRandom.js',
-function (rectPP,linePP,circlePP,polygonPP,GridLinesRandomP)	{ 
-let rs = GridLinesRandomP;
+core.require('/gen0/GridLinesRandom.js',
+//core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/GridLinesRandom.js',
+function (rs)	{ 
+//function (rectPP,linePP,circlePP,polygonPP,GridLinesRandomP)	{ 
 
 //let sqd = 128;
 let sqd = 48;
@@ -62,7 +63,7 @@ let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:wd,height:wd
 ordinalMap: {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7}}
 
 Object.assign(rs,topParams);
-	
+/*	
 rs.initProtos = function () {
 	core.assignPrototypes(this,'rectP',rectPP);
 	
@@ -77,6 +78,7 @@ rs.finishProtos = function () {
 	this.circleP.stroke = 'rgba(0,0,0,.8)';
 	this.circleP['stroke-width'] = 0;
 }
+*/
 
 
 const numPowers = function(n,p) {

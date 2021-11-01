@@ -410,7 +410,7 @@ rs.via3d = function (p) {
   return p;
   
 }
- 
+ /*
 rs.installLine = function (line) {
 	if (line.period) {
 	  debugger;
@@ -421,7 +421,7 @@ rs.installLine = function (line) {
 	this.numDropped++;
   return line;
 }
-
+*/
 rs.updateShapes = function () {
 	if (!this.shapeUpdater) {
 		return;
@@ -760,8 +760,8 @@ rs.initProtos = function () {
 
 rs.initializeDrop = function (doDrop=1) {
   let {rectangles,initialSegments,genSeeds} = this;
-  this.initProtos();
-  this.addBackground();
+  //this.initProtos();
+  //this.addBackground();
   this.segments = [];
 	this.numDropped = 0;
   this.ends = [];

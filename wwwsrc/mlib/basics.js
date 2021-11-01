@@ -117,12 +117,25 @@ item.genLine = function (sg,lineP,ext=0) {
 }
 
 
+item.installLine = function (line) {
+  let lines =  this.lines;
+	if (!lines) {
+		lines = this.lines =this.set('lines',core.ArrayNode.mk());
+	}
+  lines.push(line);
+  line.show();
+  line.update();
+	this.numDropped++;
+  return line;
+}
+
 item.initBasis = function () {
 	if (this.initProtos) {
 	  this.initProtos();
 	}
 	this.addBackground();
-  this.set('shapes',core.ArrayNode.mk());
+	this.addBackStripe();
+//  this.set('shapes',core.ArrayNode.mk());
 
 }
 

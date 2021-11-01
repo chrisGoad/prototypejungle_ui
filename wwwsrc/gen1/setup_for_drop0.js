@@ -1,11 +1,11 @@
-//active
+	
 core.require(
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
 function ()	{ 
   return function (rs) {
 
 	
-	
+		
 let newTopParams = {
 	sphereCenter:Point3d.mk(0,0,-400),
 	sphereDiameter:600,

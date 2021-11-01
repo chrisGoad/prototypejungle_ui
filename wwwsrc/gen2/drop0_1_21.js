@@ -1,28 +1,27 @@
-
-core.require('/gen1/drop0_1.js','/shape/rectangle.js',function (rs,rectPP) {
+//active
+core.require('/gen0/DropSeedsRandom.js','/shape/rectangle.js','/line/line.js',function (rs,rectPP,linePP) {
 
 rs.setName('drop0_1_21');
 let ht = 300;
 let wd = 1.5 * ht;
 //wd = ht; //for instagram
 let topParams = {width:wd,height:ht,numSeedRows:2,numSeedCols:3,maxDrops:1000,maxTries:10,lineLength:5,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,minSeparation:0,rectangleDim:0.8,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:0,splitAmount:0.2 * Math.PI,endLoops:30000,seedDirections:[0.5*Math.PI],directionChange:0.02*Math.PI,randomDirectionChange:0.08*Math.PI}
-topParams = {width:wd,height:ht,numSeedRows:0,numSeedCols:0,maxDrops:1000,maxTries:10,lineLength:5,backgroundColor:'rgb(2,2,2)',backgroundPadding:30,minSeparation:0,rectangleDim:0.2,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:.10,splitAmount:0.005 * Math.PI,endLoops:3000,seedDirections:[0*Math.PI],directionChange:0.0*Math.PI,randomDirectionChange:0.051*Math.PI,lineExt:0}
+topParams = {width:wd,height:ht,numSeedRows:0,numSeedCols:0,maxDrops:1000,maxTries:10,lineLength:5,backStripeColor:'rgb(2,2,2)',backStripePadding:30,backStripeVisible:0,minSeparation:0,rectangleDim:0.2,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:.10,splitAmount:0.005 * Math.PI,endLoops:3000,seedDirections:[0*Math.PI],directionChange:0.0*Math.PI,randomDirectionChange:0.051*Math.PI,lineExt:0}
 
 //topParams = {width:50,height:50,maxDrops:1000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
 Object.assign(rs,topParams);
 
 
-rs.finishProtos = function () {
+rs.initProtos = function () {
+	core.assignPrototypes(this,'lineP',linePP);
 	this.lineP.stroke = 'white';
-	//this.lineP.stroke = 'black';
-	//this.lineP.stroke = 'yellow';
-	this.lineP['stroke-width'] = .1;
 	this.lineP['stroke-width'] = .5;
-  core.assignPrototypes(this,'rectP0',rectPP);
+	core.assignPrototypes(this,'rectP0',rectPP);
 	this.rectP0.fill = 'blue';
-
+	
 }  
+
 
 rs.segParams = function () {
   let r = Math.random();
@@ -153,6 +152,9 @@ rs.initialSegments = function () {
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	//this.setupColorRandomizer({step:10,min:150,max:240});
+	
+  this.addBackStripe();
+this.initProtos();
 
 	this.gRects = [];
   /*let r0 = geom.Rectangle.mk(Point.mk(-100,-100),Point.mk(100,100));

@@ -1,7 +1,7 @@
 
-core.require('/gen1/grid0_8.js',
+core.require('/shape/circle.js','/gen1/grid0_8.js',
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rs)	{ 
+function (circlePP,rs)	{ 
   let numRows = 64;
 	let ht = 1000;
 	
@@ -26,10 +26,17 @@ const setParamsByRow = function () {
 setParamsByRow();
 			
 			
+
+rs.initProtos = function () {	
+	core.assignPrototypes(this,'circleP',circlePP);
+  this.circleP.fill = 'white';
+  this.circleP.stroke = 'rgba(0,0,0,.8)';
+	this.circleP['stroke-width'] = 2;  
+}
 		
 		
 	
-rs.finishProtos = function () {
+rs.finishProtoss = function () {
 	debugger;
 	this.rectP.stroke = 'rgba(0,0,0,.8)';
 	this.rectP['stroke-width'] = 0.2;

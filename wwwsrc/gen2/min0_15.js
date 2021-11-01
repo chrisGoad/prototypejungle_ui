@@ -12,12 +12,12 @@ let sep = 0.4*wd; // separation between stripes
 
 let  webParams = {minConnectorLength:0.5*ht,maxConnectorLength:2.2*ht,maxRingConnectorLength:3.2*sep,maxLoops:100000};
 //let  webParams = {minConnectorLength:5*ht,maxConnectorLength:10.2*ht,maxLoops:100000};
-let  topParams = {width:wd,height:ht,backgroundColor:'rgb(2,2,2)',backgroundWidth:1.2*wd,backgroundHeight:2.1*(sep+ht),backgroundVisible:0};
+let  topParams = {width:wd,height:ht,backStripeColor:'rgb(2,2,2)',backStripeWidth:1.5*wd,backStripeHeight:1.5*wd,backStripeVisible:0};
 //let  gridParams = {width:1*wd,height:ht,numRows:1,numCols:150};
 //	let {initialPos,initialDirection,width,step,delta,numSegs}  = params;
 
 //let  gridParams = {initialPos:Point.mk(-0.5*wd,0),initialDirection:0,width:ht,step:0.01*wd,delta:0.05*Math.PI,numSteps:100};
-let  gridParams = {initialPos:Point.mk(-0.5*wd,0),initialDirection:0,width:ht,step:0.01*wd,delta:0.02*Math.PI,numSteps:70};
+let  gridParams = {initialPos:Point.mk(-0.0*wd,0),initialDirection:0,width:ht,step:0.01*wd,delta:0.02*Math.PI,numSteps:70};
 let toRadians = Math.PI/180;
 
 
@@ -56,7 +56,7 @@ rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
 	debugger;
-	this.addBackground();
+	this.addBackStripe();
 	let {circleP,rectP} = this;
 	let rws = [];
 	for (let i=0;i<numWalks;i++) {
@@ -73,9 +73,9 @@ rs.initialize = function () {
 //	let pnts = this.genGrid(gridParams);
 	//let topPnts = this.genRings(topRingParams);
 	debugger;
-	let stripe0  = this.rings2polygon(rws[0]);
+	/*let stripe0  = this.rings2polygon(rws[0]);
 	stripes.set('topStripe',stripe0);
-  stripe0.fill = 'blue';
+  stripe0.fill = 'blue';*/
 /*	let topStripe = this.rings2polygon(topPnts);
 	stripes.set('topStripe',topStripe);
 	topStripe.fill = grayblue;

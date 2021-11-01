@@ -8,7 +8,7 @@ let ht= 2000;
 ht = 6000;
 
 //let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.2*ht,backStripeVisible:0,minSeparation:20,minConnectorLength:0,maxConnectorLength:300,shortenBy:20}
-let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.2*ht,backStripeVisible:0,minSeparation:20,minConnectorLength:300,maxConnectorLength:600,shortenBy:20}
+let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.16*ht,backStripeVisible:0,minSeparation:20,minConnectorLength:300,maxConnectorLength:600,shortenBy:20}
 Object.assign(rs,topParams);
 Object.assign(rs,rs.mkSphereParams());
 rs.sphereCenter = Point3d.mk(0,0,-0.4*ht)
@@ -17,7 +17,7 @@ rs.initProtos = function () {
 	debugger;
 	let lineP = this.set('lineP',linePP.instantiate()).hide();
 	this.lineP.stroke = 'yellow';
-	this.lineP['stroke-width'] = 5;
+	this.lineP['stroke-width'] = 8;
   let circleP = this.set('circleP',circlePP.instantiate()).hide();
 
 }  

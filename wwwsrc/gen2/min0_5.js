@@ -1,10 +1,8 @@
 //active
-core.require('/mlib/basics.js','/shape/circle.js','/line/line.js','/mlib/pgen0.js','/mlib/web0.js',function (addBasis,circlePP,linePP,addPointGenMethods,addWebMethods) {
+core.require('/shape/circle.js','/line/line.js','/gen0/PgenWeb.js',function (circlePP,linePP,PgenWeb) {
 
-let rs = svg.Element.mk('<g/>');
-addBasis(rs);
-addPointGenMethods(rs);
-addWebMethods(rs);
+let rs = PgenWeb;
+
 //addWebTreeMethods(rs);
 //addWebMethods(rs);
 rs.setName('min0_5');
@@ -19,7 +17,7 @@ let minc = 20;
 //mcl = 50;
 //mcl = 3.6*(ht/nrc);
 //nrc = 2;
-let  topParams = {backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,numPairs:2,fringeColor:'blue',sign:1,sigColor:'white',sigScale:5};
+let  topParams = {backStripeColor:'rgb(52,52,52)',backStripePadding:0.1*ht,backStripeVisible:0	,width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc};
 
 Object.assign(rs,topParams);
 
@@ -124,7 +122,7 @@ rs.initialize = function () {
   core.root.backgroundColor = 'black';
   core.root.backgroundColor = 'rgb(50,50,50)';
 	this.initProtos();
-	this.addBackground();
+	this.addBackStripe();
 	debugger;
 	let pnts = this.genGrid(this);
 	let p = pnts[0];
@@ -134,7 +132,7 @@ rs.initialize = function () {
 	this.addWeb();
 	this.addSegs();
 	this.set('cc',this.circleP2.instantiate()).show();
-	this.addSignature();
+	//this.addSignature();
 }
 
 

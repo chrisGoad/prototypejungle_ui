@@ -1,8 +1,8 @@
 
 
 core.require('/shape/rectangle.js','/gen0/GridRandom.js',
-function (rectPP,GridP)	{ 
-let rs = GridP;
+function (rectPP,GridRandom)	{ 
+let rs = GridRandom;
 
 	let wd = 400;
 	let topParams = {width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backStripePadding:0.2*wd,backStripeVisible:0};
@@ -51,11 +51,17 @@ rs.shapeGenerator = function (rvs,cell) {
 		shapes.push(shape);
 		let jogx = rvs.jogx;
 		let jogy = rvs.jogy;
-		let r = Math.max(0,rvs.red);
+		//let r = Math.max(0,rvs.red);
+		//r = Math.max(0,rvs.r);
+		let {r,g,b} = rvs;
+		console.log('r',r);
 		inner.moveto(Point.mk(jogx,jogy));
 		inner.show();
 		//shape.fill = `rgb(0,${Math.floor(r)},${Math.floor(g)})`;//${Math.floor(r)})`;
 	//	inner.fill = `rgb(0,${Math.floor(r)},${Math.floor(r)})`;
+		inner.fill = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
+		inner.fill = `rgb(${Math.floor(r)},${Math.floor(g)},${Math.floor(g)})`;
+		//r = Math.max(r,g);
 		inner.fill = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
 		//shape.fill = `rgb(${Math.floor(g)},${Math.floor(g)},${Math.floor(g)})`;
 		
@@ -100,7 +106,9 @@ rs.initialize = function () {
   this.setupShapeRandomizer('jogx', {walkParams:walkParams});
   this.setupShapeRandomizer('jogy', {walkParams:walkParams});
 	//this.setupShapeRandomizer('red', {numRows,numCols,step:30,min:150,max:250});//walkParams:walkParamsRed});
-	this.setupShapeRandomizer('red', {step:30,min:100,max:250});//walkParams:walkParamsRed});
+	//this.setupShapeRandomizer('red', {step:30,min:100,max:250});//walkParams:walkParamsRed});
+	this.setupColorRandomizer({step:30,min:50,max:240});
+
 	this.initializeGrid();
 
 }
