@@ -1,7 +1,10 @@
 
-core.require('/shape/circle.js','/gen1/grid0_8.js',
+//core.require('/shape/circle.js','/gen1/grid0_8.js',
+core.require('/shape/circle.js','/gen0/GridLinesRandom.js','/mlib/ParamsByCell.js',
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (circlePP,rs)	{ 
+function (circlePP,rs,addParamsByCellMethods)	{ 
+  debugger;
+  addParamsByCellMethods(rs);
   let numRows = 64;
 	let ht = 1000;
 	
@@ -33,6 +36,7 @@ rs.initProtos = function () {
   this.circleP.stroke = 'rgba(0,0,0,.8)';
 	this.circleP['stroke-width'] = 2;  
 }
+
 		
 		
 	
@@ -83,6 +87,11 @@ rs.step = function ()   {
 rs.animate = function (resume)  {
 	this.animateIt(this.numTimeSteps,10,resume);
 	
+}
+rs.initialize = function () {
+	debugger;
+	this.initProtos();
+	this.initializeGrid();
 }
 debugger;
 return rs;
