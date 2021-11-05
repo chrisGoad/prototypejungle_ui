@@ -1,13 +1,14 @@
-// bulls eye
+// active
 
 //core.require('/shape/blurredCircle.js',function (elementPP) {
 //core.require('/line/line.js','/shape/circle.js','/grid/addGrid3.js', 
-core.require('/line/line.js','/shape/circle.js','/gen0/grid0.js', 
- function (linePP,circlePP,addMethods) {
+core.require('/line/line.js','/shape/circle.js','/gen0/Basics.js','/mlib/grid0.js', '/mlib/topRandomMethods.js',
+ function (linePP,circlePP,item,addGridMethods,addRandomMethods) {
   debugger;
-let item = svg.Element.mk('<g/>');
+//let item = svg.Element.mk('<g/>');
 
-addMethods(item);
+addGridMethods(item);
+addRandomMethods(item);
 item.setName('grid0_44');
 
 item.initializeProtos = function () {
@@ -45,6 +46,9 @@ item.shapeGenerator = function (rvs,cell,cnt) {
     shape.show();
     return shape;
   }*/
+	let wd = 100;
+let params = {backStripeColor:'rgb(152,45,45)',backStripePadding:0.1*wd,backStripeVisible:0};
+Object.assign(item,params);
 
 item.initialize = function () {
   debugger;

@@ -1,6 +1,6 @@
 //active
-//core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/shape/polygon.js','/gen0/Pgen.js','/gen0/Web.js',function (linePP,rectPP,circlePP,polygonPP,PgenP,WebP) {
-core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/shape/polygon.js','/gen0/Basics.js','/mlib/pgen.js','/mlib/web.js',function (linePP,rectPP,circlePP,polygonPP,Basics,addPointGenMethods,addWebMethods) {
+core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/shape/polygon.js','/gen0/Basics.js','/mlib/pgen.js','/mlib/web.js',
+function (linePP,rectPP,circlePP,polygonPP,Basics,addPointGenMethods,addWebMethods) {
 
 let rs = Basics.instantiate();
 addPointGenMethods(rs);
@@ -42,7 +42,7 @@ let grayblue = 'rgb(50,50,100)';
 //let triangleColors = ['red','green','red','green','green','red'];
 let iclr = 'black';
 let oclr = 'red';
-let triangleColors = [oclr,iclr,'red',iclr,iclr,'red'];
+let triangleColors = [oclr,iclr,oclr,iclr,iclr,oclr];
 
 rs.initProtos = function () {	
   let lineP = this.set('lineP',linePP.instantiate()).hide();

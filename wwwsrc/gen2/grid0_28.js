@@ -1,13 +1,15 @@
-core.require('/line/line.js','/shape/polygon.js','/gen0/grid0.js',
-function (linePP,polygonPP,addGridMethods) {
+//active
+core.require('/line/line.js','/shape/polygon.js','/gen0/Basics.js','/mlib/grid0.js','/mlib/topRandomMethods.js',
+function (linePP,polygonPP,rs,addGridMethods,addRandomMethods) {
 
-let rs = svg.Element.mk('<g/>');
+//let rs = svg.Element.mk('<g/>');
 addGridMethods(rs);
+addRandomMethods(rs);
 rs.setName('grid0_28');
 let nr = 40;
 let dim = 400;
-let params = {numRows:nr,numCols:nr,width:dim,height:dim,lowJiggle:0,highJiggle:20,lowJiggleStep:0,highJiggleStep:5,backgroundColor:'black',backgroundPadding:100,
- backgroundPos:Point.mk(-17,-20)};
+let params = {numRows:nr,numCols:nr,width:dim,height:dim,lowJiggle:0,highJiggle:20,lowJiggleStep:0,highJiggleStep:5,backStripeColor:'rgb(2,2,2)',backStripePadding:100,backStripeVisible:0,
+ backStripePos:Point.mk(-17,-20)};
 
 Object.assign(rs,params);
 
@@ -50,9 +52,10 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 }
 
 rs.initialize = function () {
-	core.root.backgroundColor = 'gray';
+	core.root.backgroundColor = 'black';
  this.initProtos();
  let {numRows,numCols,lowJiggle,highJiggle,lowJiggleStep,highJiggleStep} = this;
+ this.addBackStripe();
  let hnr = numRows/2;
  const walkParams =  (i,j) => {
 //	debugger;

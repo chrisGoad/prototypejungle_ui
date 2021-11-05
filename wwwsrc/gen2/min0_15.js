@@ -1,7 +1,12 @@
 //active
-core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/gen0/Pgen.js','/gen0/Web.js',function (linePP,rectPP,circlePP,PgenP,WebP) {
+core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/gen0/Basics.js','/mlib/pointGen.js','/mlib/web.js',
+function (linePP,rectPP,circlePP,Basics,addPointGenMethods,addWebMethods) {
 
-let rs = PgenP;
+let rs = Basics;
+addPointGenMethods(rs);
+let WebP = Basics.instantiate();
+addWebMethods(WebP);
+
 let stripes = rs.set('stripes',svg.Element.mk('<g/>'));
 
 rs.setName('min0_15');
@@ -11,23 +16,17 @@ let ht = 0.04*wd; // height  of stripes
 let sep = 0.4*wd; // separation between stripes
 
 let  webParams = {minConnectorLength:0.5*ht,maxConnectorLength:2.2*ht,maxRingConnectorLength:3.2*sep,maxLoops:100000};
-//let  webParams = {minConnectorLength:5*ht,maxConnectorLength:10.2*ht,maxLoops:100000};
 let  topParams = {width:wd,height:ht,backStripeColor:'rgb(2,2,2)',backStripeWidth:1.5*wd,backStripeHeight:1.5*wd,backStripeVisible:0};
-//let  gridParams = {width:1*wd,height:ht,numRows:1,numCols:150};
-//	let {initialPos,initialDirection,width,step,delta,numSegs}  = params;
-
-//let  gridParams = {initialPos:Point.mk(-0.5*wd,0),initialDirection:0,width:ht,step:0.01*wd,delta:0.05*Math.PI,numSteps:100};
 let  gridParams = {initialPos:Point.mk(-0.0*wd,0),initialDirection:0,width:ht,step:0.01*wd,delta:0.02*Math.PI,numSteps:70};
-let toRadians = Math.PI/180;
 
 
 Object.assign(WebP,webParams);
 Object.assign(rs,topParams);
 Object.assign(rs,gridParams);
 	
-let numWalks = 18;
+let numSpokes = 18;
 let webs = rs.set('webs',core.ArrayNode.mk());
-for (let i=0;i<numWalks;i++) {
+for (let i=0;i<numSpokes;i++) {
 	webs.push(WebP.instantiate());
 	
 }
@@ -59,33 +58,11 @@ rs.initialize = function () {
 	this.addBackStripe();
 	let {circleP,rectP} = this;
 	let rws = [];
-	for (let i=0;i<numWalks;i++) {
-		gridParams.initialDirection = 2*i*(Math.PI/numWalks);
+	for (let i=0;i<numSpokes;i++) {
+		gridParams.initialDirection = 2*i*(Math.PI/numSpokes);
 		rws.push(this.genRandomWalk(gridParams));
-		//rws = rws.concat(this.genRandomWalk(gridParams));
 	}
- // this.placeShapesAtPoints(topPnts,circleP);
-
-	//let stripe1 = mkStripe('stripe1',topPos,'rgb(50,50,100)');
-	
-//	topWeb.moveto(topPos);
-//	bottomWeb.moveto(botPos);
-//	let pnts = this.genGrid(gridParams);
-	//let topPnts = this.genRings(topRingParams);
-	debugger;
-	/*let stripe0  = this.rings2polygon(rws[0]);
-	stripes.set('topStripe',stripe0);
-  stripe0.fill = 'blue';*/
-/*	let topStripe = this.rings2polygon(topPnts);
-	stripes.set('topStripe',topStripe);
-	topStripe.fill = grayblue;
-	//topStripe.fill = 'blue';
-	topStripe.moveto(topPos);*/
-  //webs[0].addWeb(rws,this.lineP);
-	//return;
-	//topWeb.addWeb(topPnts,this.lineP2);
-	
-	for (let i=0;i<numWalks;i++) {
+	for (let i=0;i<numSpokes;i++) {
 		let w = webs[i];
 		w.addWeb(rws[i],this.lineP);
 	}

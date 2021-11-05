@@ -763,9 +763,9 @@ rs.initProtos = function () {
 
 rs.initializeDrop = function (doDrop=1) {
   let {rectangles,initialSegments,genSeeds} = this;
-  this.initProtos();
+ /* this.initProtos();
   this.addBackStripe();
-  this.addBackground();
+  this.addBackground();*/
   this.segments = [];
 	this.numDropped = 0;
   this.ends = [];

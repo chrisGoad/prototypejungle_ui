@@ -43,7 +43,7 @@ item.addSignature = function() {
 item.addBackStripe = function () {
 	debugger;
 	let {backStripeColor:bkc,backStripePadding:bkp,backStripePaddingX:bkpx,backStripePaddingy:bkpy, 
-	backStripeWidth,backStripeHeight,width,height,backStripeVisible} =  this;
+	backStripeWidth,backStripeHeight,width,height,backStripeVisible,backStripePos:pos} =  this;
 	if (!bkc) {
 		return;
 	}
@@ -65,6 +65,9 @@ item.addBackStripe = function () {
 		let bkPy = bkpy?bkpy:(bkp?bkp:0.1*height);
 		bkr.width = width + bkPx;
 		bkr.height = height + bkPy;
+	}
+	if (pos) {
+		bkr.moveto(pos);
 	}
   //bkr.width = backStripeWidth?backStripeWidth:width + backStripePadding;
 //	bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;

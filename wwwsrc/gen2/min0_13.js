@@ -1,7 +1,13 @@
 //active
-core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/gen0/Pgen.js','/gen0/Web.js',function (linePP,rectPP,circlePP,PgenP,WebP) {
+core.require('/line/line.js','/shape/rectangle.js','/shape/circle.js','/gen0/Basics.js','/mlib/pointGen.js','/mlib/web.js',
 
-let rs = PgenP;
+function (linePP,rectPP,circlePP,Basics,addPointGenMethods,addWebMethods) {
+
+let rs = Basics.instantiate();
+addPointGenMethods(rs);
+let WebP = Basics.instantiate();
+addWebMethods(WebP);
+
 let stripes = rs.set('stripes',svg.Element.mk('<g/>'));
 
 rs.setName('min0_13');
@@ -46,7 +52,6 @@ rs.initProtos = function () {
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
-	debugger;
 	this.addBackStripe();
 	let {circleP,rectP} = this;
 	const mkStripe = (nm,pos,clr) => {
