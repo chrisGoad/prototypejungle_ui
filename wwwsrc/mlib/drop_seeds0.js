@@ -80,7 +80,8 @@ rs.genSegmentsFan = function (p,clr,params) {
 
 //rs.ringSeeds = function (clr,icenter,outward=1,divergence=0) {
 rs.ringSeeds = function (clr,icenter,divergence=0,data) {
-  let {width,height,sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
+  //let {width,height,sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
+  let {sepNext,numSeeds,ringRadius:radius,lineLength:len,lineExt=0} = this;
 	let center = icenter?icenter:Point.mk(0,0);
   let segs = [];
 //  let numStarts = 16;

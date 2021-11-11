@@ -1,20 +1,19 @@
+//active
+core.require('/line/line.js','/gen0/Basics.js','/mlib/drop0.js',function (linePP,rs,addDropMethods) {
 
-core.require('/gen0/drop0.js',function (addDropMethods) {
-
-let rs = svg.Element.mk('<g/>');
 addDropMethods(rs);
 rs.setName('drop0_0');
 let wd = 200;
-let topParams = {width:wd,height:wd,maxDrops:10000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:20,minSeparation:10}
+let topParams = {width:wd,height:wd,maxDrops:10000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:20,backStripeVisible:0,minSeparation:10}
+topParams = {width:wd,height:wd,maxLoops:10000000,maxDrops:1000000000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:20,backStripeVisible:0,minSeparation:10}
 
 Object.assign(rs,topParams);
 
 
-rs.finishProtos = function () {
-	this.lineP.stroke = 'white';
-	this.lineP.stroke = 'yellow';
-	this.lineP['stroke-width'] = .1;
-	this.lineP['stroke-width'] = .3;
+rs.initProtos = function () {
+	let lineP = this.set('lineP',linePP.instantiate()).hide();
+	lineP.stroke = 'yellow';
+	lineP['stroke-width'] = .3;
 }  
 
 rs.initialSegments = function () {
@@ -63,6 +62,8 @@ rs.genSegments = function (p) {
 
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
+	this.initProtos();
+	this.addBackStripe();
   let r0 = geom.Rectangle.mk(Point.mk(-100,-100),Point.mk(100,100));
   let r1 = geom.Rectangle.mk(Point.mk(0,-100),Point.mk(100,100));
   let r2 = geom.Rectangle.mk(Point.mk(-100,0),Point.mk(100,100));

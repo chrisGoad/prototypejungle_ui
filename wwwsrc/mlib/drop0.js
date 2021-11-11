@@ -4,15 +4,22 @@ core.require(
 //function (addAnimationMethods,addBasicMethods,addRandomMethods,rectanglePP,linePP) {
 function () {
 
+/* theory of operation. 
+The DROP algoritm drops line segments or circlea at random positions on the canvas. If a given segment or circle lands on top of another, it is thrown away. The parameter maxTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.  This is the simple drop mode. 
+In fromEnds mode, segments are dropped in such a way as to continue an already existing path. In this mode, illustrated by the dandelion, the current state consists of a tree of segments. Each segment in the tree is either interior, meaning that its end1 has been continued by one or more segments, or terminal, meaning that there is no continuing segment emerging from its end1. The end1 of such a segment is held in the array this.ends. 
+*/
 //core.require(function () {
  return function (rs) {
 //addBasicMethods(rs);
 //addRandomMethods(rs);
+let defaults = {maxDrops:Infinity,maxTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
+//defaults = {maxDrops:1000,maxTries:5,maxLoops:1000};
 
+Object.assign(rs,defaults);
 /*adjustable parameters  */
-let topParams = {width:100,height:100,maxDrops:10,maxTries:5,maxLoops:100000,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000}
+//let topParams = 	{width:100,height:100,maxDrops:10,maxTries:5,maxLoops:100000,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000,fromEnds:1,	onlyFromSeeds:0}
 
-Object.assign(rs,topParams);
+//Object.assign(rs,topParams);
 
 /* end */
 
@@ -83,6 +90,7 @@ rs.extendSegment = function (seg,ln) {
 
 
 rs.genRandomPoint = function (rect) {
+	debugger;
   if (rect) {
     let {corner,extent} = rect;
     let lx = corner.x;
@@ -126,6 +134,9 @@ rs.genSegment = function (p,ln,angle,sepNext=0) {
 
 rs.insideCanvas = function (p) {
   let {width,height} = this;
+	if ((!width)  || (!height)) {
+		return true;
+	}
   let hw = 0.5*width;  
   let hh = 0.5*height;  
   let {x,y} = p;
@@ -203,11 +214,12 @@ rs.activeEnds = function () {
 }
 
 rs.addSegmentAtThisEnd = function (end) {
-  let {maxDrops,maxTries,segments,lineLength,ends,shapes,fromEnds,numRows,randomGridsForShapes} = this;
+ // let {maxDrops,maxTries,segments,lineLength,ends,shapes,fromEnds,numRows,randomGridsForShapes} = this;
+ // let {maxDrops,segments,lineLength,ends,shapes,numRows,randomGridsForShapes,maxTriesPerEnd} = this;
+  let {maxDrops,segments,lineLength,ends,shapes,numRows,randomGridsForShapes,maxTries} = this;
   if (!this.genSegments) {
     return;
   }
-  let maxTriesPerEnd = 20;
   let tries = 0;
  // let numDropped = 0;
 	let cell,rvs;
@@ -234,7 +246,8 @@ rs.addSegmentAtThisEnd = function (end) {
 		}
 		if (ifnd) {
 			tries++;
-			if (tries === maxTriesPerEnd) {
+			//if (tries === maxTriesPerEnd) {
+			if (tries === maxTries) {
         console.log('inactivated - could not find continuation');
        //debugger;
         end.inactive = 1;
@@ -302,11 +315,12 @@ rs.addSegmentsAtEnds = function () {
     if (ars === 'noEndsLeft') {
       return ars;
     }
+		// new 11/8
     if (!ars) {
-      tries++;
-      if (tries >= maxEndTries) {
-        return 'triesExhausted';
-      }
+     // tries++;
+     // if (tries >= maxEndTries) {
+     return 'triesExhausted';
+     // }
     }
   }
   //debugger;
@@ -323,6 +337,7 @@ rs.addRandomSegments = function () {
   let tries = 0;
   let endsVsNew = 1;
   let loops = 0;
+	debugger;
   while (loops < maxLoops) {
     loops++;
     if (fromEnds) {
@@ -332,10 +347,11 @@ rs.addRandomSegments = function () {
            return;
         }
       }
+			return; //added return 11/21
     }
-    if (onlyFromSeeds) {   
+    /*if (onlyFromSeeds) {  removed 11/21 
       return;
-    }
+    }*/
 		p = this.genRandomPoint(); 
 		let segsAndLines = this.genSegments(p);
 		let ifnd = 0;
