@@ -277,6 +277,7 @@ const removeFromNears = function (i,ni) {
 		});
 	}
 	if (pnts) {
+		debugger;	
 	  this.addSegs(lineP);
 	}
 }	

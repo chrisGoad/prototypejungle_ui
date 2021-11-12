@@ -45,6 +45,17 @@ rs.addSegs = function (lineP) {
 	let {connectSegs,shortenBy=10} = this;
   let ln = connectSegs.length;
 	for (let i=0;i<ln;i++) {
+		for (let j=i+1;j<ln;j++) {
+			let sgi = connectSegs[i];
+			let sgj = connectSegs[j];
+			if (((sgi.index0 === sgj.index0) && (sgi.index1 === sgj.index1)) ||
+			    ((sgi.index0 === sgj.index1) && (sgi.index1 === sgj.index0))) {
+						debugger;
+					}
+		}
+	}
+			
+	for (let i=0;i<ln;i++) {
 		let sg = connectSegs[i];
 		let ssg = sg.lengthen(shortenBy);
 		ssg.index0 = sg.index0;
@@ -103,7 +114,7 @@ rs.addWeb = function (pnts,lineP) {
 	if (pnts) {
 		this.initWeb(pnts);
 	}
-	let {cPoints,nearbyPoints,connectSegs,shortenBy=10,maxLoops = 10000} = this;
+	let {cPoints,nearbyPoints,connectSegs,shortenBy=10,maxLoops = 10000,webTries} = this;
 	let nbp = this.nearbyPoints = [];
 	const computeNears = () => {
 		let {cPoints,nearbyPoints:nbp} = this;
@@ -233,13 +244,20 @@ const removeFromNears = function (i,ni) {
 	
 	let candidates = []; // for debugging
 	this.numDropped++;
+	let tries = 0;
 	for (let ii=0;ii<maxLoops;ii++)  {
+		// debugger;
 	   let [randI,numCandidates] = randomI();
+		 console.log('numCandidates',numCandidates,'tries',tries);
 		if (numCandidates === 0) {
 			debugger;
 			break;
 		}
 		let rc = randomPairs(randI);
+		tries++;
+		if (tries>=webTries) {
+			break;
+		}
 		if (rc.length === 0) {
 			continue;
 		}
@@ -264,11 +282,13 @@ const removeFromNears = function (i,ni) {
 				let csg = connectSegs[i];
 				if (rseg.intersects(csg)) {
 					fnd = 1;
+					console.log('intersects','lnc',lnc);
 					break;
 				}
 			}
 			if ( !fnd) {
 				this.beforeAddSeg(ri,rj);
+				tries = 0;
 				rseg.index0 = ri;
 		    rseg.index1 = rj;
 				connectSegs.push(rseg);
@@ -276,6 +296,7 @@ const removeFromNears = function (i,ni) {
 			}
 		});
 	}
+	debugger;
 	if (pnts) {
 	  this.addSegs(lineP);
 	}

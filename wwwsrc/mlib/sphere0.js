@@ -27,12 +27,15 @@ rs.mkSphereParams = function () {
 }  
 */
 rs.genSegments = function (p) {
-	debugger;
+	//debugger;
 	//console.log('px',p.x);
-	rd = 30;
+	rd = 20;
+	//rd = 200;
 	let gcrc = geom.Circle.mk(p,rd);
 	let scrc = this.circleP.instantiate();
 	scrc.dimension = 2*rd;
+	//scrc.show();
+	//scrc.fill = 'red';
 	//scrc.moveto(p);
 	return [gcrc,scrc];
 }

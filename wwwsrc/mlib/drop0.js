@@ -5,8 +5,8 @@ core.require(
 function () {
 
 /* theory of operation. 
-The DROP algoritm drops line segments or circlea at random positions on the canvas. If a given segment or circle lands on top of another, it is thrown away. The parameter maxTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.  This is the simple drop mode. 
-In fromEnds mode, segments are dropped in such a way as to continue an already existing path. In this mode, illustrated by the dandelion, the current state consists of a tree of segments. Each segment in the tree is either interior, meaning that its end1 has been continued by one or more segments, or terminal, meaning that there is no continuing segment emerging from its end1. The end1 of such a segment is held in the array this.ends. 
+The DROP algoritm drops line segments or circles at random positions on the canvas. If a given segment or circle lands on top of another, it is thrown away. The parameter maxTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.  This is the simple drop mode. 
+In fromEnds mode, segments are dropped in such a way as to continue an already existing tree. In this mode, illustrated by the dandelion, the current state consists of a tree of segments. Each segment in the tree is either interior, meaning that its end1 has been continued by one or more segments, or terminal, meaning that there is no continuing segment emerging from its end1. The end1 of such a segment is held in the array this.ends. 
 */
 //core.require(function () {
  return function (rs) {
@@ -90,7 +90,7 @@ rs.extendSegment = function (seg,ln) {
 
 
 rs.genRandomPoint = function (rect) {
-	debugger;
+	//debugger;
   if (rect) {
     let {corner,extent} = rect;
     let lx = corner.x;
@@ -353,6 +353,7 @@ rs.addRandomSegments = function () {
       return;
     }*/
 		p = this.genRandomPoint(); 
+		//debugger;
 		let segsAndLines = this.genSegments(p);
 		let ifnd = 0;
 		let sln=0;
@@ -380,7 +381,9 @@ rs.addRandomSegments = function () {
 		}
 		if (ifnd) {
 			tries++;
-			if (tries === maxTries) {
+			if (tries >= maxTries) {
+							debugger;
+
 				return this.numDropped;
 			}
 		} else {
@@ -796,6 +799,7 @@ rs.initializeDrop = function (doDrop=1) {
   }
   if (doDrop) {
 		this.addRandomSegments();
+		debugger;
 	}
 }
 rs.inAzone = function (zones,p) {
