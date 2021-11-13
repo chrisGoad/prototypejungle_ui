@@ -1,4 +1,4 @@
-core.require('/line/line.js','/shape/circle.js','/gen0/Basics.js','/mlib/drop0.js','/mlib/web.js','/mlib/sphere0.js',
+core.require('/line/line.js','/shape/circle.js','/gen0/Basics.js','/mlib/dropCircles.js','/mlib/web.js','/mlib/sphere0.js',
 function (linePP,circlePP,rs,addDropMethods,addWebMethods,addSphereMethods)  {
 //core.require(function () {
 
@@ -14,7 +14,7 @@ let ht= 2000;
 ht = 6000;
 
 //let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:10,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0,backStripeVisible:0,minSeparation:20,minConnectorLength:0,maxConnectorLength:300,shortenBy:20,maxLoops:100}
-let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:10,webTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0,backStripeVisible:0,minSeparation:20,minConnectorLength:0,maxConnectorLength:600,shortenBy:20,maxLoopss:10000}
+let topParams = {width:ht,height:ht,maxDrops:60000,maxDropTries:50,webTries:1000,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0,backStripeVisible:0,minSeparation:0,minConnectorLength:0,maxConnectorLength:500,shortenBy:20,maxLoopss:10000}
 Object.assign(rs,topParams);
 Object.assign(rs,rs.mkSphereParams());
 rs.sphereCenter = Point3d.mk(0,0,-0.4*ht)
@@ -48,23 +48,23 @@ rs.initialize = function () {
 	cc.dimension = ht;
 	cc.show();
   this.zone = geom.Circle.mk(Point.mk(0,0),0.5*this.width);
-	this.initializeDrop();
+//	this.initializeDrop();
 	debugger;
-	let pnts = this.pointsFromCircleDrops();
+	let pnts = this.doDrops(50);
 	let ln = pnts.length;
 	debugger;
 	this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
   let pnts3d = this.pointsTo3dAndBack(pnts);
 	let ln3 = pnts3d.length;
   let marks = this.set('marks',core.ArrayNode.mk()); 
-/*
+
 	for (let i=0;i<ln3;i++) {
 		let pnt = pnts3d[i];
 		let crc = this.circleP2.instantiate().show();
 		marks.push(crc);
 	  crc.moveto(pnt);
 	}
-	*/
+	
 	
 	this.addWeb(pnts3d);
 }
