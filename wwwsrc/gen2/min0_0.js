@@ -1,10 +1,11 @@
 //active
 //core.require('/line/line.js','/gen0/min0.js','/mlib/pgen0.js','/mlib/web0.js',function (linePP,addBasis,addPointGenMethods,addWebMethods) {
 //core.require('/line/line.js','/mlib/basics.js','/mlib/pgen0.js','/mlib/web0.js',function (linePP,addBasis,addPointGenMethods,addWebMethods) {
-core.require('/line/line.js','/gen0/PgenWeb.js',function (linePP,PgenWeb) {
+//core.require('/line/line.js','/gen0/PgenWeb.js',function (linePP,PgenWeb) {
+core.require('/line/line.js','/gen0/Basics.js','/mlib/pointGen.js','/mlib/web.js',function (linePP,rs,addPointMethods,addWebMethods) {
 
-let rs = PgenWeb;
-
+addPointMethods(rs);
+addWebMethods(rs);
 rs.setName('min0_0');
 let ht= 2000;
 ht = 3000;
