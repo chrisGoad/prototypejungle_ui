@@ -9,20 +9,27 @@ Object.assign(rs,topParams);
 
 
 const toPathPart = function (seg) {
+  debugger;
   let {end0,end1,radius} = seg;
    const p2str = function (point) {
     return `${core.nDigits(point.x,5)} ${core.nDigits(point.y,5)}`;
   }
   if (radius) {
-		let {end0,end1,radius,sweep} = this;
-		let vec = end1.difference(end0);
+    let sweep = 1;
+		/*let vec = end1.difference(end0);
 		let mid = end0.plus(vec.times(0.5));
 		let nvec = vec.normalize();
-		let center = mid.plus(nvec.times(radius));  
-		let rs = (end0?`M ${p2str(end0)} `:'')+` ${radius} ${radius} 0 0 ${sweep} ${p2str(end1)}`;
+		let center = mid.plus(nvec.times(radius));  */
+		//let rs = (end0?`M ${p2str(end0)} `:'')+` ${radius} ${radius} 0 0 ${sweep} ${p2str(end1)} `;
+		//let rs = `A ${radius} ${radius} 0 1 0 ${p2str(end1)} `;
+
+		//let rs = `A ${radius} ${radius} 0 0 0 ${p2str(end1)} `;
+		let rs = `A ${radius} ${radius} 0 0 1 ${p2str(end1)} `;
+		//let rs = `A ${radius} ${radius} 0 1 0 ${p2str(end1)} `;
+		//let rs = `A ${radius} ${radius} 0 1 1 ${p2str(end1)} `;
 		return rs;
   } else {
-    let rs = (end0?`M ${p2str(end0)} `:'')+`L A ${radius} ${p2str(end1)}`;
+    let rs = end0?`M ${p2str(end0)} `:`L ${p2str(end1)} `;
     return rs;
   }
 }
@@ -34,25 +41,44 @@ const mkPath = function (segs) {
   });
   return pth;
 }
-let movedShape = svg.Element.mk('<path/>');
-movedShape.stroke = 'white';
-movedShape['stroke-width'] = 1;
+let innerShape = svg.Element.mk('<path/>');
+innerShape.stroke = 'white';
+innerShape['stroke-width'] = 10;
 
 //let pbp = [[36.060223,-107.961584],[36.060255,-107.961585],[36.060275,-107.961344],[36.060256,-107.961337],[36.060275,-107.961344],[36.060295,-107.960715],[36.060637,-107.960851],[36.060858,-107.961129],[36.061039,-107.962005],[36.060220,-107.962447]];
-let pbpr = [[223,-1584],[255,-1585],[275,-1344],[256,-1337],[275,-1344],[295,-715],[637,-851],[858,-1129],[1039,-2005],[220,-2447]];
+//let pbpr = [[223,-1584,'first'],[255,-1585],[275,-1344],[256,-1337],[275,-1344],[295,-715,1],[637,-851],[858,-1129],[1039,-2005],[220,-2447],[223,-1584]];
+//let pbpr = [[223,-1584,'first'],[255,-1585],[275,-1344],[256,-1337],[275,-1344],[295,-715,1000],[637,-851],[858,-1129],[1039,-2005],[220,-2447],[223,-1584]];
+let pbpr = [[223,-1584,'first'],[220,-2447],[1039,-2005,1000],[858,-1129,1000],[637,-851],[295,-715,1000],[275,-1344],[256,-1337,1000],[275,-1585],[255,-1585],[223,-1584]];
+//pbpr = [[223,-1584,'first'],[255,-1585],[275,-1344],[256,-1337],[275,-1344],[295,-715	],[637,-851],[858,-1129],[1039,-2005],[220,-2447],[223,-1584]];
 
 const mkSeg = function (pr) {
-   return {'end1':Point.mk(pr[0],pr[1])};
+      let first = pr[2] === 'first';
+      let radius = pr[2];
+      let pnt = Point.mk(pr[0],pr[1]).difference(Point.mk(223,-1584));
+      let pnt0;
+      if (radius && !first) {
+        pnt0 = Point.mk(pr[3],pr[4]);
+      }
+
+      let rs = first?{'end0':pnt}:(radius?{'end0':pnt0,'end1':pnt,'radius':radius}:{'end1':pnt});
+      return rs;
 }
 
+
 let pbsegs = pbpr.map(mkSeg);
-
-let pbpath = mkPath(pbsegs)
-
+//debugger;
+let pbpath = mkPath(pbsegs);
 //let arcseg1 = {'end0':Point.mk(-100,0),'end1':Point.mk(0,0);radius:200);
 
     
-  
+  innerShape.d = pbpath;
+ // movedShape.transform = geom.Transform.mk(Point.mk(-14,0),0.1,*(180/Math.PI));
+  innerShape.transform = geom.Transform.mk(Point.mk(-43,0),0.05,0);
+  innerShape.transform = geom.Transform.mk(Point.mk(-60,0),0.07,0);
+  innerShape.transform = geom.Transform.mk(Point.mk(-60,0),0.07,0);
+  let movedShape =  svg.Element.mk('<g/>');
+  movedShape.set('innner',innerShape);
+
 
 
 rs.offset = Point.mk(-1.4*scale,-0.72*scale);
@@ -286,19 +312,20 @@ rs.initialize = function () {
 	this.set('Arcs',core.ArrayNode.mk()); 
 	this.set('corners',core.ArrayNode.mk()); 
 	this.pushRects(rects); 
-  debugger;
+ // debugger;
   let corners = mkCorners(this.Rects,numRects);
   this.corners = corners;
   //this.showCorners(corners);
   this.addArcs(corners);
-  let moved =  svg.Element.mk('<g/>');
-  this.set('moved',moved);
-  let mRect = this.rectP.instantiate().show();
+  //this.set('moved',moved);
+  let moved = this.set('moved',movedShape);
+  
+  /*let mRect = this.rectP.instantiate().show();
   mRect.width = 0.1 * scale
   mRect.height= 0.4 * scale
   mRect.fill = 'red';
   moved.set('rect',mRect);
-  mRect.moveto(Point.mk(-0.1*scale,0));
+  mRect.moveto(Point.mk(-0.1*scale,0));*/
   debugger;
   let xf = this.posAlongSpiral(0,0);
   let sc = xf.scale; 
@@ -321,6 +348,7 @@ rs.step = function ()   {
 	//this.stepShapeRandomizer('shade');
 	let mvd = this.moved;
   let xf = this.posAlongSpiral(cArc,posInArc);
+  debugger;
   let sc = xf.scale;
   
   let iscale = this.initialScale;
