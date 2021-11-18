@@ -10,26 +10,7 @@ addGridMethods(rs);
 addParamsByCellMethods(rs);
 
 rs.setName('grid0_8_12');
-
-rs.globalParams  = {
-	widthFactor:0.7,
-	heightFactor:0.7,
-	maxSizeFactor:3,
-	szPower:2,
-	genPolygons:0,
-  randomizingFactor:0,sizePower:2,genCircles:0,genPolygons:0,
-	sizeMap:  {0:1,1:1,2:1,3:1},
-	//sizeMap:  {0:0,1:0,2:0,3:1},
-	opacityMap:  {0:0.2,1:0.4,2:0.5,3:0.5},
-  colorMap: 
-		{
-			0:  (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
-			1:  (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
-			2:  (r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
-			3:  (r,g,b,opacity) => `rgba(255,255,0,${opacity})`,
-		}
-};
-/*rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
+rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
 	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
 	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
 	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
@@ -40,13 +21,12 @@ rs.globalParams  = {
 	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
 		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
 		};
-*/
 let wd = 300;
 let topParams = {
   ordinalMap : {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7},
 	orderByOrdinal : 0,
 	randomizeOrder : 1,
-  pointJiggle:1,	
+  pointJiggle:4,	
   numRows : 64,
   numCols : 64,
 //	width:1000,

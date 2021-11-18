@@ -360,7 +360,7 @@ rs.addRandomSegments = function () {
 		if (segsAndLines) {
 			let [segs,lines] = segsAndLines;
 			let rect;
-			if    (!Array.isArray(segs)) {
+			if    (0 && !Array.isArray(segs)) {// took out 11/21
 				rect = segs; //might be a circle
 				rectShape = lines;
 				if (this.intersectsSomething(rect)) {

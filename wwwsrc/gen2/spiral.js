@@ -1,12 +1,14 @@
-core.require('/shape/rectangle.js','/line/line.js','/line/arc.js','/gen0/Basics.js','/mlib/animation.js',function (rectPP,linePP,arcPP,rs,addAnimationMethods) {
-addAnimationMethods(rs);
+core.require('/shape/rectangle.js','/line/line.js','/line/arc.js','/gen0/Basics.js','/mlib/animation.js',function (rectPP,linePP,arcPP,top,addAnimationMethods) {
 let scale = 100;
 let topParams = {width:scale,height:scale,backStripeColor:'rgb(2,2,2)',backStripePadding:0.9* scale,backStripeVisible:0};
 
+
+top.setName('spiral');
+let rs = svg.Element.mk('<g/>').show();
+top.set('rs',rs);
 Object.assign(rs,topParams);
-
-
-
+addAnimationMethods(top);
+//inner.moveto(Point.mk(60,20));
 
 const toPathPart = function (seg) {
   debugger;
@@ -41,20 +43,42 @@ const mkPath = function (segs) {
   });
   return pth;
 }
-let innerShape = svg.Element.mk('<path/>');
-innerShape.stroke = 'white';
-innerShape['stroke-width'] = 10;
+let innerShape1 = svg.Element.mk('<path/>');
+innerShape1.stroke = 'white';
+innerShape1.fill = 'yellow';
+innerShape1['stroke-width'] = 5;
+let innerShape2 = svg.Element.mk('<path/>');
+innerShape2.stroke = 'red';
+innerShape2.fill = 'transparent';
+//innerShape2.fill = 'yellow';
+innerShape2['stroke-width'] = 5;
+let innerShape3 = svg.Element.mk('<g/>');
+
+let backRect = rectPP.instantiate().show();
+backRect.fill = 'transparent';
+backRect['stroke-width'] = 2;
+backRect.stroke = 'red';
+backRect.width =10;
+backRect.width =200;
+backRect.height =200;
+top.set('backRect',backRect);
+backRect.moveto(Point.mk(-60,-22));
+
 
 //let pbp = [[36.060223,-107.961584],[36.060255,-107.961585],[36.060275,-107.961344],[36.060256,-107.961337],[36.060275,-107.961344],[36.060295,-107.960715],[36.060637,-107.960851],[36.060858,-107.961129],[36.061039,-107.962005],[36.060220,-107.962447]];
 //let pbpr = [[223,-1584,'first'],[255,-1585],[275,-1344],[256,-1337],[275,-1344],[295,-715,1],[637,-851],[858,-1129],[1039,-2005],[220,-2447],[223,-1584]];
 //let pbpr = [[223,-1584,'first'],[255,-1585],[275,-1344],[256,-1337],[275,-1344],[295,-715,1000],[637,-851],[858,-1129],[1039,-2005],[220,-2447],[223,-1584]];
-let pbpr = [[223,-1584,'first'],[220,-2447],[1039,-2005,1000],[858,-1129,1000],[637,-851],[295,-715,1000],[275,-1344],[256,-1337,1000],[275,-1585],[255,-1585],[223,-1584]];
-//pbpr = [[223,-1584,'first'],[255,-1585],[275,-1344],[256,-1337],[275,-1344],[295,-715	],[637,-851],[858,-1129],[1039,-2005],[220,-2447],[223,-1584]];
+//let pb = [[223,-1584,'first'],[220,-2447],[1039,-2005,1000],[858,-1129,1000],[637,-851],[295,-715,1000],[275,-1344],[256,-1337,1000],[275,-1585],[255,-1585],[223,-1584]];
+let pbpr = 
+[[223,-1584,'first'],[220,-2447],[1039,-2005,1000],[858,-1129,1000],[637,-851],[295,-715,1000],[261,-1335],[275,-1338],[275,-1343],[255,-1585],[223,-1584]];
+//let semiCircle = [[223,-1584,'first'],[220,-2447],[256,-1337,1000],[223,-1584]];
+let semipr = [[223,-1584,'first'],[223,-1584],[223,-258,600],[223,-1584]];
 
-const mkSeg = function (pr) {
+const mkSeg = function (pr,offset) {
       let first = pr[2] === 'first';
       let radius = pr[2];
-      let pnt = Point.mk(pr[0],pr[1]).difference(Point.mk(223,-1584));
+      let pnt = Point.mk(pr[0],pr[1]).plus(offset);
+     // let pnt = Point.mk(pr[0],pr[1]).difference(Point.mk(223,-1584));
       let pnt0;
       if (radius && !first) {
         pnt0 = Point.mk(pr[3],pr[4]);
@@ -65,19 +89,33 @@ const mkSeg = function (pr) {
 }
 
 
-let pbsegs = pbpr.map(mkSeg);
+//let pbsegs = pbpr.map(mkSeg);
+let pbsegs = pbpr.map((pr) => {return mkSeg(pr,Point.mk(-233,1584))});
+let semisegs = semipr.map((pr) => {return mkSeg(pr,Point.mk(-233,1584))});
 //debugger;
 let pbpath = mkPath(pbsegs);
+let semipath = mkPath(semisegs);
 //let arcseg1 = {'end0':Point.mk(-100,0),'end1':Point.mk(0,0);radius:200);
 
     
-  innerShape.d = pbpath;
+  innerShape1.d = pbpath;
  // movedShape.transform = geom.Transform.mk(Point.mk(-14,0),0.1,*(180/Math.PI));
-  innerShape.transform = geom.Transform.mk(Point.mk(-43,0),0.05,0);
-  innerShape.transform = geom.Transform.mk(Point.mk(-60,0),0.07,0);
-  innerShape.transform = geom.Transform.mk(Point.mk(-60,0),0.07,0);
+  innerShape1.transform = geom.Transform.mk(Point.mk(-43,0),0.05,0);
+  innerShape1.transform = geom.Transform.mk(Point.mk(-60,0),0.07,0);
+  innerShape1.transform = geom.Transform.mk(Point.mk(-60,0),0.07,0);
+  innerShape1.transform = geom.Transform.mk(Point.mk(-100,0),0.11,0);
+  //innerShape1.transform = geom.Transform.mk(Point.mk(-60,0),0.08,0);
   let movedShape =  svg.Element.mk('<g/>');
-  movedShape.set('innner',innerShape);
+ movedShape.set('innner1',innerShape1);
+
+  innerShape2.d = semipath;
+  innerShape2.transform = geom.Transform.mk(Point.mk(-95,-90),0.14,0);
+ //movedShape.set('innner2',backRect);
+  movedShape.set('innner2',innerShape2);
+ // movedShape.set('inner3',innerShape3);
+  innerShape3.transform = geom.Transform.mk(Point.mk(-60,0),0.07,0);
+  //marker.moveto(Point.mk(-233,1584));
+
 
 
 
@@ -88,9 +126,9 @@ let gRatio = 1.61803398875;
 let iRatio = 1/gRatio;
 let rect0 = 	geom.Rectangle.mk(Point.mk(0,0),Point.mk(1 + iRatio,1));
 
-let numRects = 10;
+let numRects = 4;
 let rfactor = 1;
-numRects = 20;
+numRects = 7;
 
 		
 rs.initProtos = function () {	
@@ -302,10 +340,13 @@ rs.posAlongSpiral = function (n,v) {
   return geom.Transform.mk(rs,sc,nrmv*(180/Math.PI));
   //return {position:rs,direction:nrmv*(180/Math.PI)}
 }
-	
+
+let cArc = 0;
+let posInArc =0.75;
+
 rs.initialize = function () {
 	this.initProtos();
-	this.addBackStripe();
+//	this.addBackStripe();
 	let rects = mkRects(numRects);
 	this.set('Rects',core.ArrayNode.mk()); 
 	this.set('Lines',core.ArrayNode.mk()); 
@@ -327,7 +368,7 @@ rs.initialize = function () {
   moved.set('rect',mRect);
   mRect.moveto(Point.mk(-0.1*scale,0));*/
   debugger;
-  let xf = this.posAlongSpiral(0,0);
+  let xf = this.posAlongSpiral(cArc,posInArc);
   let sc = xf.scale; 
   moved.transform = xf;
   this.numTimeSteps = 40 * (numRects -1);
@@ -338,15 +379,27 @@ rs.initialize = function () {
 
 }
 
-let cArc = 0;
-let posInArc =0;
-
-
-
+top.initialize = function () {
+  this.rs.initialize();
+}
 rs.step = function ()   {
-	//debugger;
+	debugger;
 	//this.stepShapeRandomizer('shade');
-	let mvd = this.moved;
+  let {timeStep,numTimeSteps} = this.__parent;
+ /* if (timeStep >= (numTimeSteps-20)) {
+     console.log('RESTART');
+     cArc  = 0;
+     posInArc = 0;
+     this.timeStep = 0;
+     this.frameNumber = 0;
+  }*/
+  let mvd = this.moved;
+
+  if (timeStep <15) {
+    return;
+  } 
+
+	//let mvd = this.moved;
   let xf = this.posAlongSpiral(cArc,posInArc);
   debugger;
   let sc = xf.scale;
@@ -363,12 +416,24 @@ rs.step = function ()   {
   if (posInArc >= 0.999) {
     posInArc = 0;
     cArc++;
+    if (cArc === 5) {
+      this.__parent.paused = true;
+    }
   }	
 }
-rs.animate = function (resume)  {
-	this.animateIt(this.numTimeSteps,40,resume);
+top.animate = function (resume)  {
+	this.animateIt(this.numTimeSteps,100,resume);
 }
-return rs;
+
+top.step = function () {
+  this.rs.step();
+}
+
+top.animateItt = function (nts,intv,resume) {
+  debugger;
+  this.rs.animateIt(nts,intv,resume);
+}
+return top;
 
 });
 	
