@@ -5,7 +5,7 @@ addDropMethods(rs);
 rs.setName('drop0_5');
 let wd = 400;
 //let topParams = {width:wd,height:wd,maxDrops:100000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0,minSeparation:0}
-let topParams = {width:wd,height:wd,maxDrops:100000,maxTries:40,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0,minSeparation:0}
+let topParams = {width:wd,height:wd,maxDrops:100000,dropTries:40,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0,minSeparation:0}
 //let topParams = {width:200,height:200,maxDrops:10000,maxTries:20,lineLength:2,backgroundColor:undefined,minSeparation:0}
 
 Object.assign(rs,topParams);

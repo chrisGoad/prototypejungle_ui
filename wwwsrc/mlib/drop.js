@@ -5,19 +5,19 @@ core.require(
 function () {
 
 /* theory of operation. 
-The DROP algoritm drops line segments or circles at random positions on the canvas. If a given segment or circle lands on top of another, it is thrown away. The parameter maxTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.  This is the simple drop mode. 
+The DROP algoritm drops line segments or circles at random positions on the canvas. If a given segment or circle lands on top of another, it is thrown away. The parameter dropTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.  This is the simple drop mode. 
 In fromEnds mode, segments are dropped in such a way as to continue an already existing tree. In this mode, illustrated by the dandelion, the current state consists of a tree of segments. Each segment in the tree is either interior, meaning that its end1 has been continued by one or more segments, or terminal, meaning that there is no continuing segment emerging from its end1. The end1 of such a segment is held in the array this.ends. 
 */
 //core.require(function () {
  return function (rs) {
 //addBasicMethods(rs);
 //addRandomMethods(rs);
-let defaults = {maxDrops:Infinity,maxTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
-//defaults = {maxDrops:1000,maxTries:5,maxLoops:1000};
+let defaults = {maxDrops:Infinity,dropTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
+//defaults = {maxDrops:1000,dropTries:5,maxLoops:1000};
 
 Object.assign(rs,defaults);
 /*adjustable parameters  */
-//let topParams = 	{width:100,height:100,maxDrops:10,maxTries:5,maxLoops:100000,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000,fromEnds:1,	onlyFromSeeds:0}
+//let topParams = 	{width:100,height:100,maxDrops:10,dropTries:5,maxLoops:100000,lineLength:10,backgroundColor:undefined,minSeparation:5,endLoops:20000,fromEnds:1,	onlyFromSeeds:0}
 
 //Object.assign(rs,topParams);
 
@@ -214,9 +214,9 @@ rs.activeEnds = function () {
 }
 
 rs.addSegmentAtThisEnd = function (end) {
- // let {maxDrops,maxTries,segments,lineLength,ends,shapes,fromEnds,numRows,randomGridsForShapes} = this;
+ // let {maxDrops,dropTries,segments,lineLength,ends,shapes,fromEnds,numRows,randomGridsForShapes} = this;
  // let {maxDrops,segments,lineLength,ends,shapes,numRows,randomGridsForShapes,maxTriesPerEnd} = this;
-  let {maxDrops,segments,lineLength,ends,shapes,numRows,randomGridsForShapes,maxTries} = this;
+  let {maxDrops,segments,lineLength,ends,shapes,numRows,randomGridsForShapes,dropTries} = this;
   if (!this.genSegments) {
     return;
   }
@@ -247,7 +247,7 @@ rs.addSegmentAtThisEnd = function (end) {
 		if (ifnd) {
 			tries++;
 			//if (tries === maxTriesPerEnd) {
-			if (tries === maxTries) {
+			if (tries === dropTries) {
         console.log('inactivated - could not find continuation');
        //debugger;
         end.inactive = 1;
@@ -329,7 +329,7 @@ rs.addSegmentsAtEnds = function () {
        
     
 rs.addRandomSegments = function () {
-  let {maxDrops,maxTries,maxLoops,segments,lineLength,ends,shapes,fromEnds,onlyFromSeeds} = this;
+  let {maxDrops,dropTries,maxLoops,segments,lineLength,ends,shapes,fromEnds,onlyFromSeeds} = this;
   if (!this.genSegments) {
     return;
   }
@@ -381,7 +381,7 @@ rs.addRandomSegments = function () {
 		}
 		if (ifnd) {
 			tries++;
-			if (tries >= maxTries) {
+			if (tries >= dropTries) {
 							debugger;
 
 				return this.numDropped;

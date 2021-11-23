@@ -12,7 +12,7 @@ In fromEnds mode, segments are dropped in such a way as to continue an already e
  return function (rs) {
 //addBasicMethods(rs);
 //addRandomMethods(rs);
-let defaults = {maxDropTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
+let defaults = {dropTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
 //defaults = {maxDrops:1000,maxTries:5,maxLoops:1000};
 
 Object.assign(rs,defaults);
@@ -92,7 +92,7 @@ rs.via3d = function (p) {
 
 
 rs.doDrops = function (radius) {
-	let {maxLoops,maxDropTries} = this;
+	let {maxLoops,dropTries} = this;
   debugger;
 	let points = this.set('points',core.ArrayNode.mk()); 
 	let radii = this.set('radii',core.ArrayNode.mk());
@@ -103,7 +103,7 @@ rs.doDrops = function (radius) {
 		let cl = this.collides(pnt,radius);
 		if (cl) {
 			tries++;
-			if (tries >= maxDropTries) {
+			if (tries >= dropTries) {
 				break;
 			}
 

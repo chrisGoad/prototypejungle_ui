@@ -8,8 +8,12 @@ function () {
 
 /* theory of operation.
 addWeb(pnts,lineP) drops lines between points pnts[i], pnts[j],  where (1) pairFilter(i,j) returns true, and (2) there is no intersection with a segment that has already been dropped. lineP is the prototype for the lines drepped. */
+let defaults = {webTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
+//defaults = {maxDrops:1000,dropTries:5,maxLoops:1000};
+
 //core.require(function () {
  return function (rs) {
+Object.assign(rs,defaults);
 
 rs.pairFilter = function (i,j) {
 	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,cPoints} = this;
@@ -243,19 +247,21 @@ const removeFromNears = function (i,ni) {
 	}
 	
 	let candidates = []; // for debugging
-	this.numDropped++;
+	this.numDropped = 0;
 	let tries = 0;
 	for (let ii=0;ii<maxLoops;ii++)  {
 		// debugger;
 	   let [randI,numCandidates] = randomI();
 		 console.log('numCandidates',numCandidates,'tries',tries);
 		if (numCandidates === 0) {
+			console.log ('no candidates');
 			debugger;
 			break;
 		}
 		let rc = randomPairs(randI);
 		tries++;
 		if (tries>=webTries) {
+			console.log('tries exceeded ',webTries);
 			break;
 		}
 		if (rc.length === 0) {
@@ -287,6 +293,7 @@ const removeFromNears = function (i,ni) {
 				}
 			}
 			if ( !fnd) {
+				console.log('added segment',this.numDropped);
 				this.beforeAddSeg(ri,rj);
 				tries = 0;
 				rseg.index0 = ri;

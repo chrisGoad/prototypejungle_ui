@@ -14,7 +14,7 @@ let ht= 2000;
 ht = 6000;
 
 //let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:10,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0,backStripeVisible:0,minSeparation:20,minConnectorLength:0,maxConnectorLength:300,shortenBy:20,maxLoops:100}
-let topParams = {width:ht,height:ht,maxDrops:60000,maxDropTries:50,webTries:1000,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0,backStripeVisible:0,minSeparation:0,minConnectorLength:0,maxConnectorLength:500,shortenBy:20,maxLoopss:10000}
+let topParams = {width:ht,height:ht,maxDrops:60000,dropTries:50,webTries:1000,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0,backStripeVisible:0,minSeparation:0,minConnectorLength:0,maxConnectorLength:500,shortenBy:20,maxLoopss:10000}
 Object.assign(rs,topParams);
 Object.assign(rs,rs.mkSphereParams());
 rs.sphereCenter = Point3d.mk(0,0,-0.4*ht)

@@ -17,7 +17,7 @@ let minc = 20;
 //mcl = 50;
 //mcl = 3.6*(ht/nrc);
 //nrc = 2;
-let  topParams = {backStripeColor:'rgb(52,52,52)',backStripePadding:0.1*ht,backStripeVisible:0	,width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc};
+let  topParams = {backStripeColor:'rgb(52,52,52)',backStripePadding:0.1*ht,backStripeVisible:0	,width:ht,height:ht,maxFringeTries:100,numRings:nrc,numRows:nrc,numCols:nrc,minConnectorLength:mcl,maxConnectorLength:mcl+minc,webTries:100};
 
 Object.assign(rs,topParams);
 

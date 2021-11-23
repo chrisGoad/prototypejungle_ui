@@ -6,24 +6,24 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
- ['a_web0_2','gen2',1],
- ['min0_16','gen2',1],
- ['min0_15','gen2',1],
-  ['min0_13','gen2',1,'Stripes 2'],
-  ['min0_10','gen2',1,'Stripes 1'],
+ ['a_web0_2','ngen1',1],
+ ['min0_16','ngen1',1],
+ ['min0_15','ngen1',1],
+  ['min0_13','ngen1',1,'Stripes 2'],
+  ['min0_10','ngen1',1,'Stripes 1'],
  // ['min0_9_5','gen2',1,'Stripes'],
-  ['min0_5','gen2',1,'Diamond'],
+  ['min0_5','ngen1',1,'Diamond'],
 
-   ['drop0_1_27','gen2',1,'Iris'],
+   ['drop0_1_27','ngen1',1,'Iris'],
 
-  ['drop0_web0_2','gen2',1,'Aphelion'],
+  ['drop0_web0_2','ngen1',1,'Aphelion'],
 
-  ['min0_0','gen2',1,'Wheel'],
+  ['min0_0','ngen1',1,'Wheel'],
 
 
-  ['drop0_1_21','gen2',1,'Leaves'],
-  ['drop0_1_24','gen2',1,'Dandelion'],
-  ['drop0_5','gen2',1,'Metal 2'],
+  ['drop0_1_21','ngen1',1,'Leaves'],
+  ['drop0_1_24','ngen1',1,'Dandelion'],
+  ['drop0_5','ngen1',1,'Metal 2'],
 
  /* ['drop0__12','gen2',1, 'Ice 2'],
 
@@ -36,9 +36,9 @@ sections: [
     ['grid0_43','gen2',1,'Mat'],*/
    // ['drop0_1_13','gen2',1,'Flower'],
     //['drop0_0_3','gen2',1,'Ice'],
-		 ['grid0_8_3','gen2','square','Bubbles'],
-	['grid0_14_0','gen2','square','Variants'],
-	    ['drop0_0','gen2',1,'Ice'],
+		 ['grid0_8_3','ngen1','square','Bubbles'],
+	['grid0_14_0','ngen1','square','Variants'],
+	    ['drop0_0','ngen1',1,'Ice'],
 
     ['grid0_10_0','gen2',1,'Bump'],
     ['grid0_19_1','gen2',1,'Dark Eye'],
