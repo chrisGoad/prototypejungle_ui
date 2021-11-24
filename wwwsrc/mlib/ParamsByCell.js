@@ -18,7 +18,7 @@ rs.getParam = function (cell,prop) {
 	let {paramsByCell,paramsByRow,paramsByCol,globalParams,numRows} = this;
 	let {x,y} = cell;
 	let params,propv;
-	debugger;
+	//debugger;
 	if (paramsByCell) {
 		params = this.paramsByCell(cell);
 	} else if (paramsByRow) {

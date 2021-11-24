@@ -40,18 +40,18 @@ sections: [
 	['grid0_14_0','ngen1','square','Variants'],
 	    ['drop0_0','ngen1',1,'Ice'],
 
-    ['grid0_10_0','gen2',1,'Bump'],
-    ['grid0_19_1','gen2',1,'Dark Eye'],
-    ['drop0_0_1','gen2',1,'Clouds'],
+    ['grid0_10_0','ngen1',1,'Bump'],
+    //['grid0_19_1','ngen1',1,'Dark Eye'],
+    ['drop0_0_1','ngen1',1,'Clouds'],
 
     // ['drop0__12','gen2',1,'Sleet'],
-    ['drop0_3','gen2',1,'Horizon'],
+    ['drop0_3','ngen1',1,'Horizon'],
 
   //  ['grid0_8_24','gen2',1,'Sphere'],
     /*['drop0_1','gen2',1,'Starry Night'],*/
-    ['drop0__13','gen2',1,'Starry Night'],
+    ['drop0__13','ngen1',1,'Starry Night'],
 
-    ['grid0_8_26','gen2',1,'Sphere'],
+    ['grid0_8_26','ngen1',1,'Sphere'],
     ['grid0_28','gen2',1,'Distortion Field'],
     ['grid0_16_1','gen2',1,'Waves'],
     ['grid0_17_0','gen2',1,'Code'],
@@ -116,7 +116,7 @@ sections: [
 				 	['grid24d','gen2',0,'Tracks'],
 		   ['grid_0_5','gen2','square','Grid 4'],
 	['grid0_41','gen2','square','Spatter'],
-		 	['grid0_8_18','gen2','wide1','Void'],
+		 	['grid0_8_18','ngen1','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 
 

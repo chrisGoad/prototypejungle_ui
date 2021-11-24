@@ -43,24 +43,70 @@ rs.genSegments = function (p) {
  
 rs.toPoint3d = function (p) {
 	let {sphereCenter,sphereDiameter} = this;
+	if (!p.to3d) {
+	  debugger;
+	}
+	let p3d = p.to3d();
+	let d = p3d.distance(sphereCenter);
+  if (d < sphereDiameter) {
+		//debugger;
+		let v = p3d.difference(sphereCenter).normalize();
+	  let sp = v.times(sphereDiameter).plus(sphereCenter);
+		sp.category = 'onSphere';
+		return sp;
+	}  else {
+		return p3d;
+	}
+	//return undefined;
+	
+}
+
+/*
+rs.genPoint3d = function (i,j) {
+	
+	let {numRows,numCols,sphereCenter,sphereDiameter,deltaX,deltaY} = this;
+	let sp;
+//	let p = Point.mk(i-numRows/2,j-numCols/2);
+	let p = Point.mk(deltaX*(i-numCols/2),deltaY*(j-numRows/2));
+
 	let p3d = p.to3d();
 	let d = p3d.distance(sphereCenter);
   if (d < sphereDiameter) {
 		let v = p3d.difference(sphereCenter).normalize();
-	  let sp = v.times(sphereDiameter).plus(sphereCenter);
+	  sp = v.times(sphereDiameter).plus(sphereCenter);
+		sp.category = 'onSphere';
 		return sp;
-	} 
-	return undefined;
-	
+	} else {
+		return p.to3d();
+	}
+}
+*/
+rs.genPoint3d = function (i,j) {
+	let {numRows,numCols,sphereCenter,sphereDiameter,deltaX,deltaY} = this;
+	let p = Point.mk(deltaX*(i-numCols/2),deltaY*(j-numRows/2));
+	let p3d = this.toPoint3d(p);
+	return p3d;
 }
 
 
+
+
+rs.to3dAndBack = function (cell,p) {
+	let {camera} = this;
+	//let p3d = this.toPoint3d(cell,p);
+	let p3d = this.toPoint3d(p);
+	if (p3d) {
+		let rs = camera.project(p3d);
+		return rs;
+	}
+	return null;
+}
 
 rs.pointsTo3dAndBack = function (pnts) {
 	let rs = [];
 	pnts.forEach((p) => {
 		let p3d = this.toPoint3d(p);
-		if (p3d) {
+		if (p3d && (p3d.category === 'onSphere')) {
 			let ppnt = this.camera.project(p3d);
 			rs.push(ppnt);
 		} 
