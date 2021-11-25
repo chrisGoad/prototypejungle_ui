@@ -1,10 +1,11 @@
 
-core.require('/shape/polyline.js','/gen0/Basics.js','/mlib/grid.js',
-function (polylinePP,rs,addGridMethods) {
+core.require('/shape/polyline.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
+function (polylinePP,rs,addGridMethods,addRandomMethods) {
   
 
 addGridMethods(rs);
-rs.setName('grid0_46');
+addRandomMethods(rs);
+rs.setName('grid0_45');
 let topParams = {width:800,height:400,numRows:100,numCols:100,pointJiggle:0,factorX:0.25,factorY:0.05,crossColor:'yellow'};
 
 Object.assign(rs,topParams);

@@ -52,14 +52,14 @@ sections: [
     ['drop0__13','ngen1',1,'Starry Night'],
 
     ['grid0_8_26','ngen1',1,'Sphere'],
-    ['grid0_28','gen2',1,'Distortion Field'],
-    ['grid0_16_1','gen2',1,'Waves'],
-    ['grid0_17_0','gen2',1,'Code'],
+    ['grid0_28','ngen1',1,'Distortion Field'],
+    ['grid0_16_1','ngen1',1,'Waves'],
+    ['grid0_45','ngen1',1,'Code'],
 
     ['sphere_image0_1.jpg','gen2',1,'Sky Eye'],
 
 
-		 ['grid0_8_15.jpg','gen2','square','Quilt 1'],
+		 ['grid0_8_15.jpg','ngen1','square','Quilt 1'],
 	 	 ['grid0_19.jpg','gen2','square','World'],
 		 	 ['lines0_19','gen2','square','Lines 1'],
     ['sphere2_1','gen2',1,'Rays'],
