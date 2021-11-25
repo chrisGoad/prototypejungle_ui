@@ -1,8 +1,8 @@
 
 //core.require('/gen1/grid0_8.js','/gen1/sphere_setup0.js','/gen1/layeredGrid1.js','/mlib/ParamsByCell.js',
 
-core.require('/shape/rectangle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/sphere.js','/mlib/ParamsByCell.js',
-function (rectPP,rs,addGridMethods,addSphereMethods,addParamsByCellMethods) {
+core.require('/shape/rectangle.js','/shape/circle.js','/shape/polygon.js','/gen0/Basics.js','/mlib/grid.js','/mlib/sphere.js','/mlib/ParamsByCell.js',
+function (rectPP,circlePP,polygonPP,rs,addGridMethods,addSphereMethods,addParamsByCellMethods) {
 
 addGridMethods(rs);
 addSphereMethods(rs);
@@ -11,17 +11,19 @@ addParamsByCellMethods(rs);
 	
 rs.setName('grid0_8_26');
 
-
+let opa = 0.3;
 
 rs.globalParams  = {
 	widthFactor:1,
 	heightFactor:1,
 	maxSizeFactor:6,
-	szPower:2,
-	//*genCircles:1,
-	sizeMap:{0:1.5,1:1,2:2,3:3,4:4,5:0,6:0},
+	sizePower:2,
+	genPolygons:1,
+	//sizeMap:{0:1.5,1:1,2:2,3:3,4:4,5:0,6:0},
+	sizeMap:{0:.5,1:1,2:2,3:3,4:4,5:0,6:0},
 	//opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.8,5:1,6:1},
-	opacityMap:{0:.4,1:0.4,2:0.4,3:0.4,4:0.8,5:1,6:1},
+	opacityMap:{0:1,1:0.4,2:0.4,3:0.4,4:0.8,5:1,6:1},
+	//opacityMap:{0:0,1:opa,2:0,3:opa,4:1,5:opa,6:opa},
   colorMap:{
 		0:(r,g,b,opacity) => `rgba(0,${r},0,${opacity})`,
 		1:(r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
@@ -56,6 +58,18 @@ let newGlobalParams  = {
 		
 let gp = rs.globalParams;
 Object.assign(gp,newGlobalParams);
+
+let newTopParams = {
+  pointJiggle:0,	
+  numRows : 96,
+ numCols : 96,
+	width:50,
+	height:50,
+		backgroundWidth:bkdim,
+	backgroundHeight:bkdim,
+	backgroundColor : 'black', 
+	genCircles:0
+}
 */
 let bkdim = 1200;
 
@@ -64,7 +78,9 @@ let bkdim = 1200;
 let newTopParams = {
   pointJiggle:0,	
   numRows : 96,
+ // numRows : 20,
  numCols : 96,
+// numCols : 20,
 	width:50,
 	height:50,
 		backgroundWidth:bkdim,
@@ -82,6 +98,9 @@ rs.initProtos = function () {
 	let rectP = this.set('rectP',rectPP.instantiate()).hide();
 	this.rectP.stroke = 'rgba(0,0,0,.8)';
 	this.rectP['stroke-width'] = 0.2;
+	let polygonP = this.set('polygonP',polygonPP.instantiate()).hide();
+	this.polygonP.stroke = 'rgba(0,0,0,.8)';
+	this.polygonP['stroke-width'] = 0;
 }
 
 

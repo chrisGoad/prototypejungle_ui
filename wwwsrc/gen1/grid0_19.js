@@ -5,7 +5,6 @@ function (polylinePP,polygonPP,circlePP,linePP,addGridMethods,addImageMethods) {
 let rs = svg.Element.mk('<g/>');
 
 addGridMethods(rs);
-addImageMethods(rs);
 rs.setName('grid0_46');
 let topParams = {width:800,height:400,numRows:100,numCols:100,pointJiggle:0,factorX:0.25,factorY:0.05,crossColor:'yellow',threeD:0,
 sphereCenter:Point3d.mk(0,0,-20),sphereDiameter:35,focalPoint:Point3d.mk(0,0,50),focalLength:10,cameraScaling:100,randomSpeed:0.2};
@@ -248,10 +247,6 @@ rs.shapeGenerator = function (rvs,cell) {
 		shape.set('line0',line0);
 		shape.set('line1',line1);
 	}
-		
-
-		
-
 	shapes.push(shape);
 	if (shape.update) {
 		shape.update();

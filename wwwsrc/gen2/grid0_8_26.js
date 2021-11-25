@@ -24,7 +24,8 @@ let newTopParams = {
 	height:50,
 		backgroundWidth:bkdim,
 	backgroundHeight:bkdim,
-	backgroundColor : 'black',
+	backgroundColor : 'black', 
+	genCircles:0
 }
 Object.assign(rs,newTopParams);
 

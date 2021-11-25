@@ -171,6 +171,7 @@ const interpolate = function (low,high,fr) {
 //let ranRows = undefined;//[8,16];
 rs.computeSize = function (cell) {
 	let {numCols,numRows,deltaX,deltaY} = this;
+	debugger;
 	let {x,y} = cell;
 	if ((x===40) && (y===2000)) {
 //		debugger;
@@ -238,16 +239,23 @@ rs.computeValuesToSave = function () {
 }
 
 rs.setDims = function (shape,width,height) {
+	if (width < 0) {
+		debugger;
+		shape.hide();
+		return;
+	}
 	if (shape.setDims) {
 		shape.setDims(width,height);
 	} else {
 		shape.width = width;
 		shape.height = height;
 	}
+	shape.show();
 }
 
 rs.shapeUpdater = function (shape,rvs,cell,center) {
 	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,sizeValues,width,height} = this;
+	debugger
 	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles','genPolygons']);
 	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles,genPolygons} = propVs;
 	let sz;
@@ -305,7 +313,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
   if (cellRightX > gridRightX) {
 		let chopX = cellRightX - gridRightX;
 		fszx = deltaX*(sz.x) - 2*chopX;
-	}	
+	}
 	if (genCircles) {
 		shape.dimension = deltaX * (sz.x);
 	} else {
