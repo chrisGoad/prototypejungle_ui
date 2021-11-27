@@ -1,9 +1,10 @@
 
-core.require('/line/line.js','/shape/rectangle.js','/gen0/lines0.js','/gen0/grid0.js','/gen0/basics.js',
-function (linePP,rectanglePP,addLinesMethods,addGridMethods,addBasicMethods) {
+core.require('/line/line.js','/shape/rectangle.js','/gen0/Basics.js','/mlib/lines.js','/mlib/grid.js',
+function (linePP,rectanglePP,item,addLinesMethods,addGridMethods,addBasicMethods) {
 debugger;
-let item = svg.Element.mk('<g/>');
-addBasicMethods(item);
+//let item = svg.Element.mk('<g/>');
+addGridMethods(item);
+addLinesMethods(item);
 item.setName('hybrid00_0');
 /*adjustable parameters  */
 

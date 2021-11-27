@@ -1,22 +1,29 @@
 
-core.require('/line/line.js','/gen0/lines0.js','/gen0/basics.js',
-function (linePP,addMethods,addBasicMethods) {
+core.require('/line/line.js','/mlib/lines.js','/gen0/Basics.js',
+function (linePP,addMethods,linesP) {
+
+let rs = linesP.instantiate().show();
 	
 
 debugger;	//this.initProtos();
 //core.vars.whereToSave = 'images/grid_1_1.jpg';
-let rs = svg.Element.mk('<g/>');
-addBasicMethods(rs);
 rs.setName('lines0_19');
 let wd = 400;
 let topParams = {width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd};
 Object.assign(rs,topParams);
 rs.addBackground();
-
+/*
 let quad1 = rs.set('quad1',svg.Element.mk('<g/>'));
 let quad2 = rs.set('quad2',svg.Element.mk('<g/>'));
 let quad3 = rs.set('quad3',svg.Element.mk('<g/>'));
 let quad4 = rs.set('quad4',svg.Element.mk('<g/>'));
+*/
+let quad1 = rs.set('quad1',linesP.instantiate().show());
+let quad2 = rs.set('quad2',linesP.instantiate().show());
+let quad3 = rs.set('quad3',linesP.instantiate().show());
+let quad4 = rs.set('quad4',linesP.instantiate().show());
+
+
 
 
 let qParams = {width:200,height:200,numLines:5000,angleMin:-90,angleMax:90};
@@ -45,6 +52,8 @@ quads.forEach( (quad) =>
 		//quad.setName('spatter0_10','spatter_3');
 		//initProtos(quad,'red');
 		quad.initialize = function () {
+      debugger;
+      this.addBackground();
 			this.initializeLines();
 		}
 
@@ -89,8 +98,13 @@ rs.initialize = function () {
 	//core.root.backgroundColor ='gray';
 	let width = qParams.width;
 	quads.forEach( (quad) =>  {quad.initialize()});
+	//quad1.initialize();
+	//quad3.initialize();
 	//let mv = 0.55*width;
 	let mv = 0.5*width;
+	mv = 0.5*width;
+  //quad1.hide();
+  //quad2.hide();
 	quad1.moveto(Point.mk(-mv,-mv));
 	quad4.moveto(Point.mk(mv,-mv));
 	quad2.moveto(Point.mk(-mv,mv));

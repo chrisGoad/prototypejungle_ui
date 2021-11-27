@@ -1,9 +1,9 @@
 
 //core.require('/line/line.js','/shape/circle.js','/random/addLinesShapes0.js',//'/random/addIntersectingLines4.js',
-core.require('/line/line.js','/shape/circle.js','/gen0/lines0.js',//'/random/addIntersectingLines4.js',
-function (linePP,circlePP,addMethods) {
+core.require('/line/line.js','/shape/circle.js','/gen0/Basics.js','/mlib/lines.js',//'/random/addIntersectingLines4.js',
+function (linePP,circlePP,item,addMethods) {
 debugger;
-let item = svg.Element.mk('<g/>');
+//let item = svg.Element.mk('<g/>');
 
 addMethods(item);
 item.setName('lines0_21');

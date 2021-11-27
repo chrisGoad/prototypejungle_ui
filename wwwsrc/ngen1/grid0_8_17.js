@@ -1,18 +1,22 @@
-
+core.require('/shape/rectangle.js','/shape/circle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js','/mlib/ParamsByCell.js',
+function (rectPP,circlePP,rs,addGridMethods,addRandomMethods,addParamsByCellMethods) {
+/*
 core.require('/gen1/grid0_8.js',
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
 function (rs)	{ 
-
-	
+*/
+addGridMethods(rs);
+addRandomMethods(rs);
+addParamsByCellMethods(rs);
 rs.setName('grid0_8_17');
 let opacity = 0.7;
-let newGlobalParams  = {
+rs.globalParams  = {	
 	widthFactor:1,
 	heightFactor:1,
 	maxSizeFactor:6,
-	szPower:3,
+	sizePower:3,
 	genCircles:1,
-	sizeMap:{0:1.5,1:1,2:2,3:3,4:4,5:0,6:0},
+	sizeMap:{0:1.5,1:1,	2:2,3:3,4:4,5:0,6:0},
 	//opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
 	opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
   colorMap:{
@@ -26,12 +30,12 @@ let newGlobalParams  = {
 	}
 };
 		
-let gp = rs.globalParams;
-Object.assign(gp,newGlobalParams);
+//let gp = rs.globalParams;
+//Object.assign(gp,newGlobalParams);
 	
 let wd = 400;
 
-let newTopParams = {
+let topParams = {
   width:wd,
 	height:wd,
 	backgroundColor:'rgb(2,2,2)',
@@ -44,11 +48,13 @@ let newTopParams = {
   numCols : 96,
 	//backgroundColor : 'black'
 }
-Object.assign(rs,newTopParams);
+Object.assign(rs,topParams);
 
 	
 	
-rs.finishProtos = function () {
+rs.initProtos = function () {
+	 core.assignPrototypes(this,'circleP',circlePP);
+
 	//this.rectP.stroke = 'rgba(0,0,0,.8)';
 	this.circleP['stroke-width'] = 0.4;
 	//this.rectP['stroke-width'] = 0..2;
@@ -63,7 +69,8 @@ rs.positionFunction = rs.radialPositionFunction;
 rs.initialize = function () {
 	debugger;
 	core.root.backgroundColor = 'black';
-	this.innerInitialize();
+  this.initProtos();
+	this.initializeGrid();
 }
 return rs;
 

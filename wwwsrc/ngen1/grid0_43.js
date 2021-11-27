@@ -1,8 +1,10 @@
 //active
-core.require('/line/line.js','/gen0/GridRandom.js',
-function (linePP,GridP) {
-  
-let rs = GridP;
+core.require('/line/line.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
+function (linePP,rs,addGridMethods,addRandomMethods) {
+//core.require('/line/line.js','/gen0/GridRandom.js',
+//function (linePP,GridP) {
+ addGridMethods(rs);
+ addRandomMethods(rs);
 
 let wd = 400;
 

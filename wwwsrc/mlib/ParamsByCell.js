@@ -135,6 +135,7 @@ rs.colorSetter = function (shape,fc) {
 */
 
 rs.colorSetter = function (shape,fc,cell) {
+  debugger;
 	let colorMap = this.getParam(cell,'colorMap');
 	if (!colorMap) {
 		debugger;

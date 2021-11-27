@@ -3,26 +3,44 @@
 core.require('/shape/rectangle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js','/mlib/ParamsByCell.js',
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
 //function (constructor,addSetName)	{ 
-function (rectPP,basicP,addGridMethods,addRandomMethods)	{ 
+function (rectPP,rs,addGridMethods,addRandomMethods,addParamsByCellMethods)	{ 
 
-let rs = basicP.instantiate().show();
+//let rs = basicP.instantiate().show();
 addGridMethods(rs);
+addRandomMethods(rs);
+addParamsByCellMethods(rs);
  // let rs = svg.Element.mk('<g/>');
 	let bsz = 250;
   let ht = 450;
-	let topParams = {width:1.5*ht,height:ht,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht};
+  let sqd = 32;
+  let ar = 2;
+	let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,randomizeOrder:1,backgroundColor:'yellow'};
+	//let topParams = {width:1.5*ht,height:ht,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht};
 	Object.assign(rs,topParams);
 	
-	
-	rs.setName('grid0_3_combo3');
-	rs.addBackground();
-
+	rs.globalParams  = {
+	widthFactor:0.7,
+	heightFactor:0.7,
+	maxSizeFactor:3,
+	sizePower:2,
+	genPolygons:0,
+  randomizingFactor:0,sizePower:2,genCircles:0,genPolygons:0,
+	sizeMap:  {0:1,1:1,2:1,3:1},
+	//sizeMap:  {0:0,1:0,2:0,3:1},
+	opacityMap:  {0:0.2,1:0.4,2:0.5,3:0.5},
+  colorMap: 
+		{
+			0:  (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+			1:  (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+			2:  (r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+			3:  (r,g,b,opacity) => `rgba(255,255,0,${opacity})`,
+		}
+};
+	rs.setName('grid0_3');
+//	rs.addBackground();
+/*
   let wsq = rs.set('wsq',svg.Element.mk('<g/>'));
-/*rs.initProtos = function () {
-	core.assignPrototypes(this,'rectP',rectPP);	
-	this.rectP.fill = 'black';
-	this.rectP['stroke-width'] = 0;
-}  */
+
 rs.initWsq  = function () {
   let wsq = this.wsq;
 	let mkR  = (nm,p) => {
@@ -50,13 +68,15 @@ rs.initWsq  = function () {
 	br.show();
 	
 }
+*/
+rs.initProtos = function () {
+  core.assignPrototypes(this,'rectP',rectPP);
 
-const finishProtos = function (grid) {
-	grid.rectP.stroke = 'rgba(0,0,0,.8)';
+	this.rectP.stroke = 'rgba(0,0,0,.8)';
 	//grid.rectP.stroke = 'rgba(255,255,0,.9)';
-	grid.rectP['stroke-width'] = 0.2;
+  this.rectP['stroke-width'] = 0.2;
 }
-let grid0 = rs.set('grid0',basicP.instantiate().show());
+/*let grid0 = rs.set('grid0',basicP.instantiate().show());
 let grid1 = rs.set('grid1',basicP.instantiate().show());
 addGridMethods(grid0);
 addGridMethods(grid1);
@@ -65,12 +85,7 @@ addRandomMethods(grid1);
 
 //	let grid0= rs.set('grid0',constructor());
 //	let grid1 = rs.set('grid1',constructor());
-	/*let rdim = 32;
-	let topVars = {numRows:rdim,numCols:rdim}
-	Object.assign(grid0,topVars)
-	Object.assign(grid1,topVars)
-	rs.numRows = rdim;
-	rs.numCols = rdim;*/
+
 	let sqd = 32;
   let ar = 2;
 	let gParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,randomizeOrder:1,backgroundColor:'yellow'};
@@ -78,22 +93,25 @@ addRandomMethods(grid1);
 	Object.assign(grid1,gParams);
 	grid0.finishProtos  = function () {finishProtos(this);}
 	grid1.finishProtos  = function () {finishProtos(this);}
-/*let sqd = 100;
-let ar = 1;
-grid0.numCols = ar*sqd;
-grid1.numCols = ar*sqd;
-grid0.numRows = sqd;
-grid1.numRows = sqd;*/
+*/
+
+rs.sizeFactor = function ( cell) {
+	let {x,y} = cell;
+	let px = this.numPowers(x,2);
+	let py = this.numPowers(y,2);
+	return Math.min(px,py);
+	return px+py;
+}
 let wdf = 6/ar;
 let htf = .7;
-grid1.colorSetter = function (shape,fc) {
+rs.colorSetter = function (shape,fc) {
 	debugger;
 	let r = 100 + Math.random() * 155;
 	let g = 100 +Math.random() * 155;
 	let b = 100 + Math.random() * 155;
 	
   if (fc === 0) {
-		shape.fill = `rgba(${r},0,0,0.4)`;
+		shape.fill =`rgba(${r},${r},0,0.4)`;
 	} else if (fc === 1) {
 		shape.fill = `rgba(0,${g},0,0.4)`;
   } else if (fc === 2) {
@@ -106,7 +124,7 @@ grid1.colorSetter = function (shape,fc) {
 		shape.fill = 'white';
 	}
 }
-const colorSetter = function (grid,shape,fc) {
+const colorSetter = function (shape,fc) {
 	debugger;
 	let r = 200 + Math.random() * 55;
 	let g = 100 +Math.random() * 155;
@@ -132,31 +150,24 @@ const colorSetter = function (grid,shape,fc) {
 }
 
 
-const shapeGenerator = function (grid,rvs,cell) {
+rs.shapeGenerator = function (rvs,cell) {
 	debugger;
-	let {shapes,rectP,deltaX,deltaY} = grid;
+	let {shapes,rectP,deltaX,deltaY} = this;
 	//let shape = rectP.instantiate();
 	let shape = rectP.instantiate();
 	//shape.width = 50;
 	//shape.height = 35;
-	shape.width = wdf * deltaX;
+	let fc = this.sizeFactor(rvs,cell);
+
+	shape.width = wdf * deltaX*fc;
 	shape.height= htf * deltaY;
 	shapes.push(shape);
-	let fc = grid.sizeFactor(rvs,cell);
-	colorSetter(grid,shape,fc);
-	/*if (fc === 0) {
-		shape.fill = 'rgba(255,0,0,0.4)';
-	} else if (fc === 1) {
-		shape.fill = 'rgba(0,255,0,0.4)';
-  } else if (fc === 2) {
-		shape.fill = 'rgba(0,0,255,0.4)';
-	} else if (fc === 3) {
-		shape.fill = 'rgba(255,255,255,0.4)';S
-	}*/
+	this.colorSetter(shape,fc);
+	
 	shape.show();
 	return shape;
 }
-
+/*
 grid0.shapeGenerator = function (rvs,cell) {
 	return shapeGenerator(this,rvs,cell);
 }
@@ -164,10 +175,12 @@ grid0.shapeGenerator = function (rvs,cell) {
 grid1.shapeGenerator = function (rvs,cell) {
 	return shapeGenerator(this,rvs,cell);
 }
-
+*/
 rs.initialize = function () {
 	debugger;
-	let grid0 = this.grid0;
+  this.initProtos();
+  this.initializeGrid();
+/*	let grid0 = this.grid0;
 	let grid1 = this.grid1;
 	grid1.initializeGrid();
 	grid0.initializeGrid();
@@ -178,7 +191,7 @@ rs.initialize = function () {
 	this.grid1.moveto(Point.mk(mby,0));
 		core.root.backgroundColor = 'black';
 	//core.root.backgroundColor = 'white';
-
+*/
 }
 
 return rs;

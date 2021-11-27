@@ -1,15 +1,17 @@
 
-core.require('/shape/rectangle.js','/gen0/grid0.js',
+core.require('/shape/rectangle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
 
 //core.require(,'/grid/grid24cons.js','/grid/dim2dWalker2.js',
-function (rectPP,addGridMethods) {
+function (rectPP,rs,addGridMethods,addRandomMethods) {
   debugger;
+
 let wd = 300;
 let nmc  = 200;
 let topParams = {width:wd,height:wd,numRows:nmc,numCols:nmc,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd}
 
-let rs = svg.Element.mk('<g/>');	
+//let rs = svg.Element.mk('<g/>');	
 addGridMethods(rs);
+addRandomMethods(rs);
 Object.assign(rs,topParams);
 
 //rs.initProtos();

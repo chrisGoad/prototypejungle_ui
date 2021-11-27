@@ -1,9 +1,8 @@
 
-core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{ 
-
-  let rs = svg.Element.mk('<g/>');
+core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/lines.js','/mlib/topRandomMethods.js',
+function (rectPP,linePP,circlePP,rs,addGridMethods,addLineMethods,addRandomMethods)	{ 
   addGridMethods(rs);
+  addRandomMethods(rs);
 	rs.setName('grid0_19');
 	rs.numTimeSteps = 100;
   rs.randomizeOrder = 1;

@@ -1,9 +1,9 @@
 
 //core.require('/shape/circleWithGrid.js','/shape/rectangle.js','/line/line.js','/random/addLinesShapes0.js',//'/random/addSpacedPoints3.js',
-core.require('/shape/circleWithGrid.js','/shape/rectangle.js','/line/line.js','/gen0/lines0.js',//'/random/addSpacedPoints3.js',
-  function (elementPP1,elementPP2,elementPP3,addMethods) {
+core.require('/shape/circleWithGrid.js','/shape/rectangle.js','/line/line.js','/gen0/Basics.js','/mlib/lines.js',//'/random/addSpacedPoints3.js',
+  function (elementPP1,elementPP2,elementPP3,item,addMethods) {
 debugger;
-let item = svg.Element.mk('<g/>');
+//let item = svg.Element.mk('<g/>');
 
 addMethods(item);
 item.setName('lines0_20');
@@ -60,6 +60,7 @@ item.initialize = function () {
   //this.width = 600;
  // this.width = 1200;
   //this.height = 400;
+  this.addBackground();
   this.numPoints = 300;//0;
   this.numPoints = 100;
   this.minRadius = 2;
