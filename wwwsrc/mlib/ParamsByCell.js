@@ -81,8 +81,29 @@ rs.finishProtos = function () {
 	this.circleP['stroke-width'] = 0;
 }
 */
+/*
+const numPowers = function(n,p) {
+	if (n === 0) {
+		return 0;
+	}
+	if (n === p) { 
+	  return 1;
+	}
+	if (n%p === 0) {
+		return 1 + numPowers(n/p,p);
+	}
+	return 0;
+}
 
-
+rs.sizeFactor = function (rvs, cell) {
+	let {x,y} = cell;
+	let px = numPowers(x,2);
+	let py = numPowers(y,2);
+	return Math.min(px,py);
+	return px+py;
+}
+*/
+/*
 const numPowers = function(n,p) {
 	if (n === 0) {
 		return 0;
@@ -98,6 +119,7 @@ const numPowers = function(n,p) {
 rs.numPowers = function (n,p) {
 	return numPowers(n,p);
 }
+*/
 
 rs.sizeFactor = function ( cell) {
 	let numRows = this.numRows;
@@ -108,13 +130,13 @@ rs.sizeFactor = function ( cell) {
 	let szPower = this.getParam(cell,'sizePower');
 	let maxSizeFactor = this.getParam(cell,'maxSizeFactor');
 	//let px = numPowers(x+1,szPower);
-	let px = numPowers(x,szPower);
+	let px = this.numPowers(x,szPower);
 	let sf;
 	if (numRows === 1) {
 		sf = Math.min(px,maxSizeFactor);
 	} else {
   	//let py = numPowers(y+1,szPower);
-  	let py = numPowers(y,szPower);
+  	let py = this.numPowers(y,szPower);
 	  sf =  Math.min(px,py,maxSizeFactor);
 	}
 	//console.log('x',x,'sf',sf);
@@ -159,6 +181,58 @@ rs.colorSetter = function (shape,fc,cell) {
 	//console.log(fill);
 }
 
+rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
+	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
+	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+		          2:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            3:(r,g,b,opacity) => `rgba(0,${b},${b},${opacity})`,
+		          4:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+		          5:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
+		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
+		};
+/*
+rs.colorSetter = function (shape,fc,cell) {
+  debugger;
+	let colorMap = this.getParam(cell,'colorMap');
+	if (!colorMap) {
+		debugger;
+	}
+	let opacityMap = this.getParam(cell,'opacityMap');
+	let r = 200 + Math.random() * 55;
+	let g = 100 +Math.random() * 155;
+	let b = 100 + Math.random() * 155;
+	//console.log('fc' , fc);
+	r = 225;
+	g = 170;
+	b = 170;
+	let colorF = colorMap[fc];
+	let opacity = opacityMap[fc];
+	let fill = colorF(r,g,b,opacity,cell);
+	if (shape.setFill) {
+		shape.setFill(fill);
+	} else {
+	  shape.fill = fill;
+	}
+}
+
+*/
+rs.colorSetter = function (shape,fc,cell) {
+  debugger;
+	let colorMap = this.getParam(cell,'colorMap');
+	if (!colorMap) {
+		debugger;
+	}
+	let colorF = colorMap[fc];
+  let fill = ((typeof colorF) === 'string')?colorF:colorF(cell);
+	if (shape.setFill) {
+		shape.setFill(fill);
+	} else {
+	  shape.fill = fill;
+	}
+}
+
 
 rs.ordinalGenerator = function (cell) {
 	let fc = this.sizeFactor(cell);
@@ -183,7 +257,7 @@ rs.computeSize = function (cell) {
   let fc = this.sizeFactor(cell);
 	//console.log('cell',cell.x,cell.y,'fc',fc);
 	let szf = sizeMap[fc]
-  let numPy = numPowers(cell.y,sizePower);
+  let numPy = this.numPowers(cell.y,sizePower);
 	let szfy = sizeMap[numPy];
 	//if ((!ranRows) || (ranRows.indexOf(cell.y)>-1)) {
 	if (randomizingFactor) {
@@ -269,6 +343,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	if (sizeValues) {
 		sz = this.lookupSize(cell);
 	} else {
+    debugger;
 		sz = this.computeSize(cell);
 	}
 	if (sz.x === 0) {

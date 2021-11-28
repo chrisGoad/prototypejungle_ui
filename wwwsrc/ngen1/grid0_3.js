@@ -8,17 +8,17 @@ function (rectPP,rs,addGridMethods,addRandomMethods,addParamsByCellMethods)	{
 //let rs = basicP.instantiate().show();
 addGridMethods(rs);
 addRandomMethods(rs);
-addParamsByCellMethods(rs);
+//addParamsByCellMethods(rs);
  // let rs = svg.Element.mk('<g/>');
 	let bsz = 250;
   let ht = 450;
   let sqd = 32;
   let ar = 2;
-	let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,randomizeOrder:1,backgroundColor:'yellow'};
+	let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:300,height:300,pointJiggle:3,randomizeOrder:1,backgroundColor:'rgb(255,100,0)'};
 	//let topParams = {width:1.5*ht,height:ht,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht};
 	Object.assign(rs,topParams);
 	
-	rs.globalParams  = {
+	rs.globalParamss  = {
 	widthFactor:0.7,
 	heightFactor:0.7,
 	maxSizeFactor:3,
@@ -94,7 +94,19 @@ addRandomMethods(grid1);
 	grid0.finishProtos  = function () {finishProtos(this);}
 	grid1.finishProtos  = function () {finishProtos(this);}
 */
-
+/*
+rs.numPowers = function(n,p) {
+	if (n === 0) {
+		return 0;
+	}
+	if (n === p) { 
+	  return 1;
+	}
+	if (n%p === 0) {
+		return 1 + this.numPowers(n/p,p);
+	}
+	return 0;
+}*/
 rs.sizeFactor = function ( cell) {
 	let {x,y} = cell;
 	let px = this.numPowers(x,2);
@@ -104,34 +116,19 @@ rs.sizeFactor = function ( cell) {
 }
 let wdf = 6/ar;
 let htf = .7;
-rs.colorSetter = function (shape,fc) {
-	debugger;
-	let r = 100 + Math.random() * 155;
-	let g = 100 +Math.random() * 155;
-	let b = 100 + Math.random() * 155;
-	
-  if (fc === 0) {
-		shape.fill =`rgba(${r},${r},0,0.4)`;
-	} else if (fc === 1) {
-		shape.fill = `rgba(0,${g},0,0.4)`;
-  } else if (fc === 2) {
-		shape.fill = `rgba(0,0,${b},0.4)`;
-			//	shape.fill = 'rgba(255,255,255,0.4)';
 
-	} else if (fc === 3) {
-		shape.fill = 'rgba(255,255,255,0.4)';
-	} else if (fc === 4) {
-		shape.fill = 'white';
-	}
-}
 const colorSetter = function (shape,fc) {
 	debugger;
 	let r = 200 + Math.random() * 55;
-	let g = 100 +Math.random() * 155;
+	let rr = 200 + Math.random() * 55;
+//	let g = 100 +Math.random() * 155;
+	let g = 150 +Math.random() * 55;
+	let gg = 100 +Math.random() * 55;
 	let b = 100 + Math.random() * 155;
 	//shape.fill  = 'black';
   if (fc <= 1) {
-				shape.fill = `rgba(${r},0,0,0.4)`;
+				shape.fill = 'rgba(255,100,0,0.4)';//`rgba(${r},${g},0,0.4)`;
+				shape.fill = `rgba(${rr},${gg},0,0.4)`;
 
 	} else if (fc === 2) {
 			shape.fill = 'rgba(255,255,255,0.4)';
@@ -157,28 +154,30 @@ rs.shapeGenerator = function (rvs,cell) {
 	let shape = rectP.instantiate();
 	//shape.width = 50;
 	//shape.height = 35;
-	let fc = this.sizeFactor(rvs,cell);
-
-	shape.width = wdf * deltaX*fc;
+	shape.width = wdf * deltaX;
 	shape.height= htf * deltaY;
 	shapes.push(shape);
-	this.colorSetter(shape,fc);
-	
+	let fc = this.sizeFactor(cell);
+	colorSetter(shape,fc);
+	/*if (fc === 0) {
+		shape.fill = 'rgba(255,0,0,0.4)';
+	} else if (fc === 1) {
+		shape.fill = 'rgba(0,255,0,0.4)';
+  } else if (fc === 2) {
+		shape.fill = 'rgba(0,0,255,0.4)';
+	} else if (fc === 3) {
+		shape.fill = 'rgba(255,255,255,0.4)';S
+	}*/
 	shape.show();
 	return shape;
 }
-/*
-grid0.shapeGenerator = function (rvs,cell) {
-	return shapeGenerator(this,rvs,cell);
-}
 
-grid1.shapeGenerator = function (rvs,cell) {
-	return shapeGenerator(this,rvs,cell);
-}
-*/
+
+
 rs.initialize = function () {
 	debugger;
   this.initProtos();
+  this.addBackground();
   this.initializeGrid();
 /*	let grid0 = this.grid0;
 	let grid1 = this.grid1;
@@ -193,6 +192,7 @@ rs.initialize = function () {
 	//core.root.backgroundColor = 'white';
 */
 }
+
 
 return rs;
 

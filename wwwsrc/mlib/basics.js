@@ -142,6 +142,22 @@ item.initBasis = function () {
 
 }
 
+// a utility
+const numPowers = function(n,p) {
+	if (n === 0) {
+		return 0;
+	}
+	if (n === p) { 
+	  return 1;
+	}
+	if (n%p === 0) {
+		return 1 + numPowers(n/p,p);
+	}
+	return 0;
+}
+item.numPowers = function (n,p) {
+	return numPowers(n,p);
+}
 
 }}); 
  

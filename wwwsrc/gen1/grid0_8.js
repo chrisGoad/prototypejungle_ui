@@ -1,8 +1,14 @@
 //active
-core.require('/gen0/GridLinesRandom.js',
+//core.require('/gen0/GridLinesRandom.js',
 //core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/GridLinesRandom.js',
-function (rs)	{ 
+//function (rs)	{ 
 //function (rectPP,linePP,circlePP,polygonPP,GridLinesRandomP)	{ 
+core.require('/line/line.js','/shape/circle.js','/shape/rectangle.js','/gen0/basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
+
+function (linePP,circlePP,rectPP,rs,addGridMethods,addRandomMethods) {
+  debugger;	//this.initProtos();
+  addGridMethods(rs);
+  addRandomMethods(rs);
 
 //let sqd = 128;
 let sqd = 48;
@@ -190,19 +196,6 @@ rs.computeSize = function (cell) {
 	}
 	let wf = widthFactor;
 	let hf = heightFactor;
-	/*if (widthFactorLeft) {
-		let fr = cell.x/(numCols-1);
-		wf = interpolate(widthFactorLeft,widthFactorRight,fr);
-	} else {
-		wf = widthFactor;
-	} 
-	if (heightFactorTop) {
-		let fr = cell.y/(numRows-1);
-		hf = interpolate(heightFactorTop,heightFactorBottom,fr);
-	} else {
-		hf = heightFactor;
-	} */
-	//return {x:szf * wf * deltaX,y:szf*hf*deltaY,fc:fc};
 	return {x:szf * wf,y:szf*hf,fc:fc};
 }
 

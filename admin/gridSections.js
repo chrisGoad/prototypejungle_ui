@@ -6,24 +6,24 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
- ['a_web0_2','ngen1',1],
- ['min0_16','ngen1',1],
- ['min0_15','ngen1',1],
-  ['min0_13','ngen1',1,'Stripes 2'],
-  ['min0_10','ngen1',1,'Stripes 1'],
+ ['a_web0_2','final',1],
+ ['min0_16','final',1],
+ ['min0_15','final',1],
+  ['min0_13','final',1,'Stripes 2'],
+  ['min0_10','final',1,'Stripes 1'],
  // ['min0_9_5','gen2',1,'Stripes'],
-  ['min0_5','ngen1',1,'Diamond'],
+  ['min0_5','final',1,'Diamond'],
 
-   ['drop0_1_27','ngen1',1,'Iris'],
+   ['drop0_1_27','final',1,'Iris'],
 
-  ['drop0_web0_2','ngen1',1,'Aphelion'],
+  ['drop0_web0_2','final',1,'Aphelion'],
 
-  ['min0_0','ngen1',1,'Wheel'],
+  ['min0_0','final',1,'Wheel'],
 
 
-  ['drop0_1_21','ngen1',1,'Leaves'],
-  ['drop0_1_24','ngen1',1,'Dandelion'],
-  ['drop0_5','ngen1',1,'Metal 2'],
+  ['drop0_1_21','final',1,'Leaves'],
+  ['drop0_1_24','final',1,'Dandelion'],
+  ['drop0_5','final',1,'Metal 2'],
 
  /* ['drop0__12','gen2',1, 'Ice 2'],
 
@@ -36,60 +36,60 @@ sections: [
     ['grid0_43','gen2',1,'Mat'],*/
    // ['drop0_1_13','gen2',1,'Flower'],
     //['drop0_0_3','gen2',1,'Ice'],
-		 ['grid0_8_3','ngen1','square','Bubbles'],
-	['grid0_14_0','ngen1','square','Variants'],
-	    ['drop0_0','ngen1',1,'Ice'],
+		 ['grid0_8_3','final','square','Bubbles'],
+	['grid0_14_0','final','square','Variants'],
+	    ['drop0_0','final',1,'Ice'],
 
-    ['grid0_10_0','ngen1',1,'Bump'],
-    //['grid0_19_1','ngen1',1,'Dark Eye'],
-    ['drop0_0_1','ngen1',1,'Clouds'],
+    ['grid0_10_0','final',1,'Bump'],
+    //['grid0_19_1','final',1,'Dark Eye'],
+    ['drop0_0_1','final',1,'Clouds'],
 
     // ['drop0__12','gen2',1,'Sleet'],
-    ['drop0_3','ngen1',1,'Horizon'],
+    ['drop0_3','final',1,'Horizon'],
 
   //  ['grid0_8_24','gen2',1,'Sphere'],
     /*['drop0_1','gen2',1,'Starry Night'],*/
-    ['drop0__13','ngen1',1,'Starry Night'],
+    ['drop0__13','final',1,'Starry Night'],
 
-    ['grid0_8_26','ngen1',1,'Sphere'],
-    ['grid0_28','ngen1',1,'Distortion Field'],
-    ['grid0_16_1','ngen1',1,'Waves'],
-    ['grid0_45','ngen1',1,'Code'],
+    ['grid0_8_26','final',1,'Sphere'],
+    ['grid0_28','final',1,'Distortion Field'],
+    ['grid0_16_1','final',1,'Waves'],
+    ['grid0_45','final',1,'Code'],
 
     ['sphere_image0_1.jpg','gen2',1,'Sky Eye'],
 
 
-		 ['grid0_8_15.jpg','ngen1','square','Quilt 1'],
-	 	 ['grid0_19.jpg','ngen1','square','World'],
-		 	 ['lines0_19','ngen1','square','Lines 1'],
+		 ['grid0_8_15.jpg','final','square','Quilt 1'],
+	 	 ['grid0_19.jpg','final','square','World'],
+		 	 ['lines0_19','final','square','Lines 1'],
     ['sphere2_1','gen2',1,'Rays'],
 
-	 ['grid0_8_17','ngen1','square','Shield'],
- 		 ['lines0_20','ngen1','wide2','Order Within Chaos'],
-			 ['lines0_21','ngen1','wide2','Chaos Within Order'],
+	 ['grid0_8_17','final','square','Shield'],
+ 		 ['lines0_20','final','wide2','Order Within Chaos'],
+			 ['lines0_21','final','wide2','Chaos Within Order'],
 
-   ['hybrid00_0','ngen1','square','Message'],
-	['grid0_43','ngen1','square','Mat'],
-		['grid0_5','ngen1','square','Smoke 1'],
-	['grid0_4','ngen1','square','Cloth'],
+   ['hybrid00_0','final','square','Message'],
+	['grid0_43','final','square','Mat'],
+		['grid0_5','final','square','Smoke 1'],
+	['grid0_4','final','square','Cloth'],
 	
 
-	 ['grid0_8_12','ngen1','square','Quilt 2'],
-	 ['grid0_3_combo3','ngen1','square','Two Quilts'],
-	 ['grid0_8_14','gen2','square','Quilt 3'],
+	 ['grid0_8_12','final','square','Quilt 2'],
+	 ['grid0_3_combo3','final','square','Two Quilts'],
+	 ['grid0_8_14','final','square','Quilt 3'],
 
 	/* 	 ['grid0_8_11','gen2','square','Quilt 3'],
 		 		['grid0_8_13','gen2','square','Quilt 4'],*/
 	 
-	 	['grid0_3','gen2','square','Metal'],
-		['grid0_2','gen2','square','Tube'],
-	['grid0_6','gen2','square','Grid 1'],
-	['grid0_7','gen2','square','Grid 2'],
+	 	['grid0_3','final','square','Metal'],
+		['grid0_2','final','square','Tube'],
+	['grid0_6','final','square','Grid 1'],
+	['grid0_7','final','square','Grid 2'],
 	
-	['lines0_0','gen2','wide2','Lines 2'],
-   ['grid0_8','gen2','square','Maze'],
-   ['lines0_22','gen2','square','Bug Eyes'],
- 	['grid0_3_2','gen2','square','Quilt 6'],
+	['lines0_0','final','wide2','Lines 2'],
+   ['grid0_8','final','square','Maze'],
+   ['lines0_22','final','square','Bug Eyes'],
+ 	['grid0_3_2','final','square','Quilt 6'],
 	
    ['lines0_23','gen2','square','Lights'],
 	 ['lines0_24','gen2','square','Spots'],
@@ -116,7 +116,7 @@ sections: [
 				 	['grid24d','gen2',0,'Tracks'],
 		   ['grid_0_5','gen2','square','Grid 4'],
 	['grid0_41','gen2','square','Spatter'],
-		 	['grid0_8_18','ngen1','wide1','Void'],
+		 	['grid0_8_18','final','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 
 

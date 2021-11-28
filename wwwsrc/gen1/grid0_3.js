@@ -59,6 +59,8 @@ rs.colorSetter = function (shape,fc) {
 		shape.fill = `rgba(${r},${g},${b},0.5)`;
 	}
 }
+
+
 rs.shapeGenerator = function (rvs,cell) {
 	  debugger;
 		let {shapes,rectP,circleP,numRows,numCols,genCircles} = this;
