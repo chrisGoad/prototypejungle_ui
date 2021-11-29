@@ -1,8 +1,7 @@
 
-core.require('/shape/rectangle.js','/shape/circle.js','/gen0/grid0.js',
-function (rectPP,circlePP,addGridMethods)	{ 
+core.require('/shape/rectangle.js','/shape/circle.js','/gen0/Basics.js','/mlib/grid.js',
+function (rectPP,circlePP,rs,addGridMethods)	{ 
 
-  let rs = svg.Element.mk('<g/>');
   addGridMethods(rs);
 	let innerProto = svg.Element.mk('<g/>');
 	addGridMethods(rs);
@@ -105,7 +104,7 @@ rs.backgroundColor = 'black';
 rs.backgroundPadding = 40;
 
 rs.initialize = function () {
-	core.root.backgroundColor = 'gray';
+	core.root.backgroundColor = 'black';
 	this.initProtos();
 	this.initializeGrid();
 

@@ -13,7 +13,7 @@ function (template,basicP)	{
 	rs.setName('grid0_8_9');
 
 // var 3
-let topParams = {randomizeOrder:0,orderByOrdinal:1,width:300,height:300,pointJiggle:0,backgroundColor:'black',numRows:64,numCols:64,ordinalMap:[0,1,2,3,4,5,6]};
+let topParams = {randomizeOrder:1,orderByOrdinal:1,width:300,height:300,pointJiggle:0,backgroundColor:'black',numRows:64,numCols:64};
 //topParams = {randomizeOrder:1,orderByOrdinal:0,width:300,height:300,poinJiggle:3,backgroundColor:'yellow',numRows:96,numCols:96}
 
 Object.assign(grid0,topParams);
@@ -23,7 +23,7 @@ Object.assign(grid2,topParams);
 grid2.numCols = 64+8; 
 //grid1.numRows = 27;
 
-let oo = 0.7;
+let oo = 0.1;
 let b = 255;
 let r = 255;
 let globalParamsT = {
@@ -36,21 +36,16 @@ let globalParamsT = {
 	randomizingFactor:0,
 	colorMap:{
 //0:(r,g,b,opacity) => `rgba(100,100,100,${opacity})`,
-0:`rgba(0,20,0,${oo})`,
-1:`rgba(20,100,20,${oo})`,
-//2:`rgba(200,200,200,${oo})`,
-2:() => {let rnd = Math.random()*200; return `rgba(${rnd},200,${rnd},${oo})`},
+0:`rgba(0,150,0,${oo})`,
+1:(r,g,b,oo) => `rgba(150,150,150,${oo})`,
+2:`rgba(200,200,200,${oo})`,
 //2:`rgba(255,255,255,${oo})`,
-//3:`rgba(0,${b},${b},${oo})`,
-//3:`rgba(0,${b},0,${oo})`,
-3:`rgba(${b},${b},${b},${oo})`,
+3:`rgba(0,${b},${b},${oo})`,
 //3:`rgba(0,255,255,${oo})`,
-//4:`rgba(0,0,${r},${oo})`,
-4:`rgba(0,${r},0,${oo})`,
+4:`rgba(0,0,${r},${oo})`,
 5:`rgba(0,0,0,${oo})`,
 6:`rgba(${r},${r},0,${oo})`},
-//sizeMap:{0:2,1:2,2:2,3:3,4:4,5:0,6:0}};
-sizeMap:{0:2,1:2,2:2,3:0,4:0,5:0,6:0}};
+sizeMap:{0:2,1:2,2:2,3:3,4:4,5:0,6:0}};
 //opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.8,5:1,6:1}};
 
 let globalParams0 = {}; Object.assign(globalParams0,globalParamsT);

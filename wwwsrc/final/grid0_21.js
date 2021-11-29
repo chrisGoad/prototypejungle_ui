@@ -1,9 +1,9 @@
 
-core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{ 
+core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
+function (rectPP,linePP,circlePP,rs,addGridMethods,addRandomMethods)	{ 
 
-  let rs = svg.Element.mk('<g/>');
   addGridMethods(rs);
+  addRandomMethods(rs);
 	rs.setName('grid0_21');
   rs.randomizeOrder = 1;
 	rs.phaseFactor = 40; 

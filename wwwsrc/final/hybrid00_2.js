@@ -1,14 +1,14 @@
 
-core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/grid0.js','/gen0/lines0.js',
-function (rectPP,linePP,circlePP,addGridMethods,addLineMethods)	{ 
+core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/lines.js',
+function (rectPP,linePP,circlePP,basicsP,addGridMethods,addLineMethods)	{ 
 
-  let rs = svg.Element.mk('<g/>');
-  addGridMethods(rs);
+  let rs = basicsP.instantiate().show();
+   addGridMethods(rs);
 	rs.setName('hybrid00_2');
+  let innerGproto = basicsP.instantiate().show();
+  let innerLproto = basicsP.instantiate().show();
 
-	let innerGproto = svg.Element.mk('<g/>');
-	let innerLproto = svg.Element.mk('<g/>');
-	addGridMethods(rs);
+
 	rs.randomizeOrder = 1;
 
 	addGridMethods(innerGproto);
@@ -138,7 +138,7 @@ rs.shapeGenerator = function (rvs,cell) {
 				shape.backgroundColor = `rgba(0,0,255,${opacity})`;//'blue';
 			}
 
-				
+			shape.addBackground();	
 			shape.initializeLines();
 		}
 		shapes.push(shape);

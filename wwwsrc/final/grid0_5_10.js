@@ -1,11 +1,11 @@
-core.require('/gen2/grid0_5_9.js','/gen0/basics.js',
-function (sub,addMethods) {
-	
+core.require('/ngen1/grid0_5c.js','/gen0/Basics.js',
+function (sub,basicP) {
+	let rs = basicP.instantiate();
   
   debugger;	//this.initProtos();
   //core.vars.whereToSave = 'images/grid_1_1.jpg';
-	let rs = svg.Element.mk('<g/>');
-	addMethods(rs);
+	//let rs = svg.Element.mk('<g/>');
+	//addMethods(rs);
 	rs.setName('grid0_5_10');
 	//let grid1 = rs.set('grid1',sub);
 	let grid1 = sub.instantiate();
@@ -19,15 +19,15 @@ function (sub,addMethods) {
 	let wd = 2.0*grid1.width;
 	let topParams = {width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd};
 	Object.assign(rs,topParams);
-
-	grid1.randomizingFactor = 1.5;
-	grid2.randomizingFactor = 1.5;
-	grid3.randomizingFactor = 0;
-	grid3.randomizingFactor = 1.5;
-	grid3.randomizingFactor = 0;
-	grid3.loadFromPath = 0;
-	grid4.randomizingFactor = 0.8;
-	grid4.randomizingFactor = 2;
+  grid1.globalParams = Object.assign({},grid1.globalParams);
+  grid2.globalParams = Object.assign({},grid1.globalParams);
+  grid3.globalParams = Object.assign({},grid1.globalParams);
+  grid4.globalParams = Object.assign({},grid1.globalParams);
+	grid1.globalParams.randomizingFactor = 1.5;
+	grid2.globalParams.randomizingFactor = 1.5;
+	grid3.globalParams.randomizingFactor = 0;
+	//grid3.loadFromPath = 0;
+	grid4.globalParams.randomizingFactor = 2;
 	
 	rs.initialize = function () {
 		debugger;
