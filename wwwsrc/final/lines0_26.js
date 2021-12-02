@@ -1,8 +1,8 @@
 
-core.require('/shape/circle.js','/shape/rectangle.js','/gen0/lines0.js',//'/random/addSpacedPoints3.js',
-  function (elementPP1,elementPP2,addMethods) {
+core.require('/shape/circle.js','/shape/rectangle.js','/gen0/Basics.js','/mlib/lines.js',//'/random/addSpacedPoints3.js',
+  function (elementPP1,elementPP2,item,addMethods) {
 debugger;
-let item = svg.Element.mk('<g/>');
+//let item = svg.Element.mk('<g/>');
 
 addMethods(item);
 item.setName('lines0_26');

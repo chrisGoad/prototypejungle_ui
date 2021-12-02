@@ -965,9 +965,7 @@ item.randomizePoints = function () {
 // a region is an ArrayNode of points + an ArrayNode of growth points
 //gindx = index in the array of growth points
 item.addToRegion = function (region,gidx,np) {
-  let {points,randomGridsForBoundaries,occupied} = this
-  let rvs = (this.randomValuesAtCell&&randomGridsForBoundaries)?this.randomValuesAtCell(randomGridsForBoundaries,np.x,np.y):{};
-  //let occupied = this.occupied;
+  let occupied = this.occupied;
   let {gpoints} = region;
   let npidx = this.pcoordToIndex(np);
   if (npidx < 0) {
@@ -975,16 +973,13 @@ item.addToRegion = function (region,gidx,np) {
   }
   occupied[npidx] = 1;
   this.occupiedCount++;
-  let opnt = points[gpoints[gidx]];
+  let opnt = this.points[gpoints[gidx]];
   gpoints[gidx] = npidx;
-  let npnt = points[npidx];
-  let rs = this.regionLineGenerator(opnt,npnt,rvs,np);
-  this.rlines.push(rs);
-  return;
- /* let rs = this.addLine(this.rlines,opnt,npnt);
+  let npnt = this.points[npidx];
+  let rs = this.addLine(this.rlines,opnt,npnt);
   rs.cellIndex = npidx;
   rs.cellX = np.x;
-  rs.cellY = np.y;*/
+  rs.cellY = np.y;
 }
 
 item.pcoordOccupied = function (p) {
@@ -1286,8 +1281,7 @@ item.initializeGrid = function () {
   //if (this.boundaryLineGenerator) {
  //   this.addCellBoundaries();
 //  }
- // if (this.generative) {
-  if (this.regionLineGenerator) {
+  if (this.generative) {
     this.set('rlines',core.ArrayNode.mk());
     while (this.addRegions()) {
     }

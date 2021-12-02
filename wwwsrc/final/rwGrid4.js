@@ -1,18 +1,19 @@
 
-core.require('/line/line.js','/gen0/grid0.js',function (shapePP,addMethods) {
+core.require('/line/line.js','/gen0/Basics.js','/mlib/grid.js',function (linePP,item,addMethods) {
 debugger;
-let item = svg.Element.mk('<g/>');
+//let item = svg.Element.mk('<g/>');
 
 addMethods(item);
 /*adjustable parameters  */
 
 item.initializeProto= function () {
   debugger;
-  core.assignPrototypes(this,'shapeP',shapePP);
-  let shapeP = this.shapeP;
-  shapeP['stroke-width'] = 0.1
-  shapeP.stroke = 'white';
-  shapeP.setEnds(Point.mk(-1,0),Point.mk(1,0));
+  core.assignPrototypes(this,'lineP',linePP);
+  this.rlineP = this.lineP;
+  let lineP = this.lineP;
+  lineP['stroke-width'] = 0.1
+  lineP.stroke = 'white';
+  lineP.setEnds(Point.mk(-1,0),Point.mk(1,0));
   
 }
 item.initialize = function () {

@@ -6,6 +6,7 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
+ ['grid0_46','final',1,'Cloudy Sky'],
  ['a_web0_2','final',1],
  ['min0_16','final',1],
  ['min0_15','final',1],
@@ -108,14 +109,14 @@ sections: [
 	 ['grid0_6_0','final','square','Beacons'],
 		 ['grid0_8_9','final','square','Deco'],
 /**/
-				['grid0_9_0','gen2','wide2','Star Maps'],
-		 	['lines0_26','gen2',0,'Asteroids'],
-		 	['rwGrid5','gen2',0,'Kachina'],
-		 	['grid0_15_0','gen2',0,'Ocean'],
+				['grid0_9_0','final','wide2','Star Maps'],
+		 	['lines0_26','final',0,'Asteroids'],
+		 //	['rwGrid4','final',0,'Kachina'],
+		 	//['grid0_15_0','final',0,'Ocean'],
 		
-				 	['grid24d','gen2',0,'Tracks'],
-		   ['grid_0_5','gen2','square','Grid 4'],
-	['grid0_41','gen2','square','Spatter'],
+				 	['grid24z','final',0,'Tracks'],
+		   ['grid_0_5','final','square','Grid 4'],
+	['grid0_41','final','square','Spatter'],
 		 	['grid0_8_18','final','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 

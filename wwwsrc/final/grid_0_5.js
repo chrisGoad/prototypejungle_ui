@@ -1,8 +1,8 @@
 
-core.require('/gen1/grid_0.js',
-function (constructor) {
+core.require('/ngen1/grid_0.js',
+function (rs) {
 
-  let rs = constructor();
+ // let rs = constructor();
 //core.require('/line/line.js','/grid/addGrid8.js',function (linePP,addGridMethods) {
   debugger;
 	rs.saveImage = true;

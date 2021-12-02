@@ -1,10 +1,11 @@
 
-core.require('/shape/circle.js','/shape/rectangle.js','/gen0/grid0.js',
-function (circlePP,rectPP,addGridMethods) {
+core.require('/shape/circle.js','/shape/rectangle.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
+function (circlePP,rectPP,rs,addGridMethods,addRandomMethods) {
   
-let rs = svg.Element.mk('<g/>');
+//let rs = svg.Element.mk('<g/>');
 
 addGridMethods(rs);
+addRandomMethods(rs);
 rs.saveImage = true;
 rs.setName('grid0_41');
 let ht = 400;

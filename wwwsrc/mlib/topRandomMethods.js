@@ -51,7 +51,7 @@ item.copyRandomState = function (rnds) {
   return rs;
 }
 item.saveRandomState = function (tp,interp) {
- debugger;
+ //debugger;
 	let rnds = this[tp];
   let rs = this.copyRandomState(rnds);
   rnds['interpolate'+interp] = rs;
@@ -60,7 +60,7 @@ item.saveRandomState = function (tp,interp) {
 
 item.interpolateRandomValues = function(s0,s1,fr) {
   if (fr > 0.9) {
-     debugger;
+  //   debugger;
   }
 	let vls0 = s0.values;  
 	let vls1 = s1.values;
@@ -134,7 +134,7 @@ item.stepRandomizer = function (tp,nm) {
 }
 	
 item.stepShapeRandomizer = function (nm) {
-  debugger;
+ // debugger;
   return this.stepRandomizer('randomGridsForShapes',nm);
 }
 	
