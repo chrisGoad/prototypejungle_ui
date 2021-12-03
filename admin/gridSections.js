@@ -6,7 +6,7 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
- ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_cloudy_sky','generators',1,'Cloudy Sky'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['a_web0_2','final',1],
  ['min0_16','final',1],
  ['min0_15','final',1],
@@ -23,8 +23,9 @@ sections: [
 
 
   ['drop0_1_21','final',1,'Leaves'],
-  ['drop0_1_24','final',1,'Dandelion'],
-  ['drop0_5','final',1,'Metal 2'],
+  ['drop_dandelion','generators',1,'Dandelion'],// was ['drop0_1_24','final',1,'Dandelion'],
+  ['drop_metal_2','generators',1,'Metal 2'], // was ['drop0_5','final',1,'Metal 2'],
+
 
  /* ['drop0__12','gen2',1, 'Ice 2'],
 

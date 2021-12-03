@@ -1,9 +1,10 @@
-// A simple drop of individual segments. Metal_2
-core.require('/line/line.js','/gen0/Basics.js','/mlib/drop.js',function (linePP,rs,addDropMethods) {
+// A simple drop of wiggly sets of segments. Metal_2
+core.require('/line/line.js','/generators/basics.js','/mlib/drop.js','/mlib/segsets.js',function (linePP,rs,addDropMethods,addSegsetMethods) {
 addDropMethods(rs);
-rs.setName('drop0_5');
+addSegsetMethods(rs);
+rs.setName('drop_metal_2');
 let wd = 400;
-let topParams = {width:wd,height:wd,dropTries:40,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0,minSeparation:0}
+let topParams = {width:wd,height:wd,dropTries:40,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0}
 
 Object.assign(rs,topParams);
 
