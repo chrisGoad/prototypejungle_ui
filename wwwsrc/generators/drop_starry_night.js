@@ -1,17 +1,20 @@
-// A simple drop of wiggly sets of segments. Metal_2
-core.require('/line/line.js','/generators/basics.js','/mlib/drop.js','/mlib/segsets.js',function (linePP,rs,addDropMethods,addSegsetMethods) {
+
+core.require('/generators/basics.js','/mlib/drop.js','/mlib/segsets.js','/line/line.js',
+function (rs,addDropMethods,addSegsetMethods,linePP) {
+
 addDropMethods(rs);
 addSegsetMethods(rs);
-rs.setName('drop_metal_2');
-let wd = 400;
-let topParams = {width:wd,height:wd,dropTries:40,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0}
+rs.setName('drop_starry_night');
+let ht = 200;
+let topParams = {width:1.5*ht,height:ht,dropTries:50,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,minSeparation:0,}
 
 Object.assign(rs,topParams);
 
 
 rs.initProtos = function () {
 	let lineP = this.set('lineP',linePP.instantiate()).hide();
-	this.lineP['stroke-width'] = .3;
+	this.lineP.stroke = 'white';
+	this.lineP['stroke-width'] = .5;
 }  
 
 rs.segParams = function () {
@@ -22,19 +25,17 @@ rs.segParams = function () {
   return {angle,length};
 }
 
-
 rs.genSegments = function (p) {
-  let {width,height} = this;
-  let hh = height/2;
-  let fr = (p.y+hh)/height;
- // this.wigglySegments({zigzag:1,randomness:1,vertical:1,widths:[10,20,50],heightRatio:0.05,numSegs:15,pos:p});
-  let params = {direction:Math.PI/4,zigzag:1,randomness:0,vertical:1,widths:[10],heightRatio:0.05,numSegs:4,pos:p};
-  let params2 = Object.assign({},params);
-  params2.direction = 0;
-  let segs = (Math.random() < 0.5)?this.wigglySegments(params):this.wigglySegments(params2);
+  let sizes = [2,5,10,20,40];
+  let which = Math.floor(Math.random()*5);
+  let sz = sizes[which];
+  let wd = sz;
+  let ht = sz;
+  let segs = this.rectangleSegments(wd,ht,p);
   let lines = segs.map((sg) => this.genLine(sg));
+
   const genRGBval = function () {
-    return 155 + Math.floor(Math.random()*100);
+    return 50 + Math.floor(Math.random()*202);
   }
   let r = genRGBval();
   let g = genRGBval();
@@ -44,6 +45,7 @@ rs.genSegments = function (p) {
   return [segs,lines];
 }
 
+
 rs.initialSegments = function () {
   let {width,height} = this; 
   let segs = this.rectangleSegments(width,height);
@@ -51,11 +53,9 @@ rs.initialSegments = function () {
   return [segs,lines];
 }
 
-  
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
-	this.addBackStripe();
 	this.initializeDrop();
 }
 

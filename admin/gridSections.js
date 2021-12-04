@@ -15,14 +15,14 @@ sections: [
  // ['min0_9_5','gen2',1,'Stripes'],
   ['min0_5','final',1,'Diamond'],
 
-   ['drop0_1_27','final',1,'Iris'],
+   ['drop_iris','generators',1,'Iris'], //was ['drop0_1_27','final',1,'Iris'],
 
   ['drop0_web0_2','final',1,'Aphelion'],
 
   ['min0_0','final',1,'Wheel'],
 
 
-  ['drop0_1_21','final',1,'Leaves'],
+  ['drop_leaves','generators',1,'Leaves'],  //was ['drop0_1_21','final',1,'Leaves']
   ['drop_dandelion','generators',1,'Dandelion'],// was ['drop0_1_24','final',1,'Dandelion'],
   ['drop_metal_2','generators',1,'Metal 2'], // was ['drop0_5','final',1,'Metal 2'],
 
@@ -40,18 +40,18 @@ sections: [
     //['drop0_0_3','gen2',1,'Ice'],
 		 ['grid0_8_3','final','square','Bubbles'],
 	['grid0_14_0','final','square','Variants'],
-	    ['drop0_0','final',1,'Ice'],
+	    ['drop_ice','generators',1,'Ice'], // was   ['drop0_0','final',1,'Ice'],
 
     ['grid0_10_0','final',1,'Bump'],
     //['grid0_19_1','final',1,'Dark Eye'],
     ['drop0_0_1','final',1,'Clouds'],
 
     // ['drop0__12','gen2',1,'Sleet'],
-    ['drop0_3','final',1,'Horizon'],
+    ['drop_horizon','generators',1,'Horizon'], //was  ['drop0_3','final',1,'Horizon']
 
   //  ['grid0_8_24','gen2',1,'Sphere'],
     /*['drop0_1','gen2',1,'Starry Night'],*/
-    ['drop0__13','final',1,'Starry Night'],
+    ['drop_starry_night','generators',1,'Starry Night'], // was ['drop0__13','final',1,'Starry Night']
 
     ['grid0_8_26','final',1,'Sphere'],
     ['grid0_28','final',1,'Distortion Field'],
