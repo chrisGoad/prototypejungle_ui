@@ -44,7 +44,7 @@ sections: [
 
     ['grid0_10_0','final',1,'Bump'],
     //['grid0_19_1','final',1,'Dark Eye'],
-    ['drop0_0_1','final',1,'Clouds'],
+    ['drop_clouds','generators',1,'Clouds'], // was ['drop0_0_1','final',1,'Clouds'],
 
     // ['drop0__12','gen2',1,'Sleet'],
     ['drop_horizon','generators',1,'Horizon'], //was  ['drop0_3','final',1,'Horizon']
@@ -116,7 +116,7 @@ sections: [
 		 	//['grid0_15_0','final',0,'Ocean'],
 		
 				 	['grid24z','final',0,'Tracks'],
-		   ['grid_0_5','final','square','Grid 4'],
+		   ['grid_4','generators','square','Grid 4'],// was ['grid_0_5','final','square','Grid 4']
 	['grid0_41','final','square','Spatter'],
 		 	['grid0_8_18','final','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],

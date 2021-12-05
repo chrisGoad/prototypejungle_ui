@@ -5,19 +5,21 @@ function (rs,linePP,addGridMethods,addRandomMethods) {
 
 addGridMethods(rs);
 addRandomMethods(rs);
+rs.setName('grid_4');
  // let rs = constructor();
 //core.require('/line/line.js','/grid/addGrid8.js',function (linePP,addGridMethods) {
   debugger;
-  
-	rs.saveImage = true;
-	rs.setName('grid_0_5');
+  let nr = 40;
+  let topParams = {numRows:nr,numCols:nr,width:200,height:200,pointJiggle:9};
+  Object.assign(rs,topParams);
+/*	rs.saveImage = true;
+	rs.setName('grid_4');
   rs.loadFromPath = 0;
-  core.root.backgroundColor = 'black';
 //  rs.initProtos();
- /* rs.shapeP.stroke = 'white';
+ rs.shapeP.stroke = 'white';
   rs.shapeP['stroke-width'] = 1;
 	rs.blineP.stroke = 'rgb(255,255,0)';
-	rs.blineP['stroke-width'] = 0.3;*/
+	rs.blineP['stroke-width'] = 0.3;
   rs.numRows= 40;
   rs.numCols = 40;
   rs.width = 200;
@@ -32,7 +34,7 @@ addRandomMethods(rs);
   //rs.boundaryStrokeWidth =0.3;
  //rs.shapeStroke = 'white';
   //rs.shapeStrokeWidth = 1;
-
+*/
 rs.initProtos = function () {
   core.assignPrototypes(this,'blineP',linePP);
   this.blineP.stroke = 'yellow';
@@ -158,6 +160,7 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
 }*/
 rs.initialize = function () {
   let {numRows,numCols} = this;
+  core.root.backgroundColor = 'black';
   this.initProtos();
 	this.setupBoundaryRandomizer('color', {step:35,min:150,max:250,biasFun,numRows,numCols});
   this.initializeGrid();
