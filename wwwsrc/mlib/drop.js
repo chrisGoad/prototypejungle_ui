@@ -5,7 +5,9 @@ core.require(
 function () {
 
 /* theory of operation. 
-The DROP algoritm drops groups of line segments at random positions on the canvas. If a given segment lands on top of another, it is thrown away. The parameter dropTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.  This is the simple drop mode. 
+The DROP algoritm drops sets of line segments at random positions on the canvas. If a given segment set lands on top of another, it is thrown away.   This is the simple drop mode.  The segsets method library is used to build sets of segments. Dandelion is a typical exampls. 
+Parameters: dropTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.
+
 In fromEnds mode, segments are dropped in such a way as to extend an already existing tree. In this mode, illustrated by the dandelion, the current state consists of a tree of segments. Each segment in the tree is either interior, meaning that its end1 has been continued by one or more segments, or terminal, meaning that there is no continuing segment emerging from its end1. The end1 of such a segment is held in the array this.ends. 
 */
 //core.require(function () {
