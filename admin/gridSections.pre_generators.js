@@ -117,7 +117,7 @@ sections: [
 		
 				 	['grid24z','final',0,'Tracks'],
 		   ['grid_4','generators','square','Grid 4'],// was ['grid_0_5','final','square','Grid 4']
-	['spatter_spatter','generators','square','Spatter'],
+	['grid0_41','final','square','Spatter'],
 		 	['grid_void','generators','wide1','Void'], // was ['grid0_8_18','final','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 

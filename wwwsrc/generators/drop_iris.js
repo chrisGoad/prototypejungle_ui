@@ -4,7 +4,8 @@ function (linePP,rs,addDropMethods,addSegsetMethods,addRandomMethods,addSeedMeth
 
 addDropMethods(rs);
 addRandomMethods(rs);
-addSeedMethods(rs);
+addSegsetMethods(rs);
+//addSeedMethods(rs);
 
 rs.setName('drop_iris');
 let ht = 160;
