@@ -517,7 +517,7 @@ item.genRandomPoint = function (rect) {
     let cellY = Math.floor(ry*numRows);
     return [Point.mk(cellX,cellY),Point.mk(x,y)];
 }
-
+/* 12/8
 item.addAtPoint = function (cell,pnt,idx) {
   let {shapes,randomizer,sizes,spatterGenerator,randomGridsForShapes} = this;
   //let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
@@ -540,6 +540,7 @@ item.addAtPoint = function (cell,pnt,idx) {
 		return shape;
 	}
 }
+*/
 
 item.genRect = function () {
 	let {width,height} = this;
@@ -548,7 +549,7 @@ item.genRect = function () {
   let rect = geom.Rectangle.mk(corner,extent);
 	return rect;
 }
-	
+/* 12/8	
 item.genSpatterPoints = function () {
 	let {numDrops} = this;
   let rect = this.genRect();
@@ -559,8 +560,8 @@ item.genSpatterPoints = function () {
 	for (let i=0;i<numDrops;i++) {
 		pnts.push(this.genRandomPoint(rect));
 	}
-}
-	
+}*/
+/* 12/8	
 item.addAtRandomPoint = function (rect) {
   let {shapes,randomizer,sizes,spatterGenerator,randomGridsForShapes} = this;
   let rnd = this.genRandomPoint(rect);
@@ -568,7 +569,7 @@ item.addAtRandomPoint = function (rect) {
   let pnt = rnd[1];
 	let shape = this.addAtPoint(cell,pnt);
 	return shape;
-}
+} */
 /*	
   let rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
   //let shape = this.spatterGenerator(rvs,cell,pnt);
@@ -897,7 +898,7 @@ item.updateAtRandomPoint = function (shape) {
   let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(this.randomGridsForShapes,x,y):{};
 	this.shapeUpdater(shape,rvs,cell);
 }
-
+/* 12/8
 item.addSpatter = function () { 
 		let {numDrops,width,height,shapes} = this;
     if (!shapes) {
@@ -924,7 +925,7 @@ item.addSpatter = function () {
 				 }
 			}
 		}
-}
+}*/
 
 item.updateSpatter = function () { 
   let {shapes} = this;
@@ -1265,11 +1266,11 @@ item.initializeGrid = function () {
 		bkr.fill = this.backgroundColor;
 		bkr['stroke-width'] = 0;
 	} */
-  if (this.spatter) {
+ /* if (this.spatter) { 12/8
 		this.addSpatter();
 	  draw.fitTheContents();
 	  return;
-  }
+  }*/
 	this.setupPointJiggle();
   this.deltaX = this.width/numCols;
   this.deltaY = this.height/numRows;
@@ -1348,14 +1349,14 @@ item.updateGrid = function () {
   }
 	this.show();
 }	 
-
+/* 12/8
 item.updateContent = function () {
-	if (this.spatter) {
+	if (this.spatter) { 1
 		this.updateSpatter();
-	} else {
+	} else { 
 		this.updateGrid();
 	}
-}
+}*/
 item.setLineEnds = function (line,ilength,dir) {
   if (!line) {
     debugger;//keep

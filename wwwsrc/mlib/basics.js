@@ -158,6 +158,16 @@ const numPowers = function(n,p) {
 item.numPowers = function (n,p) {
 	return numPowers(n,p);
 }
+//cells and coordinates, based on width,height,numRows, numCols
 
+item.point2cell = function (p) {
+    let {width,height,numRows,numCols} = this;
+    let {x,y} = p;
+    let hw = 0.5*width;
+    let hh = 0.5*height;
+    let cx = Math.floor((x -hw)/numCols);
+    let cy = Math.floor((y -hh)/numRows);
+    return {x:cx,y:cy};
+}
 }}); 
  

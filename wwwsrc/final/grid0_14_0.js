@@ -254,11 +254,11 @@ rs.initialize = function () {
 					debugger;
 		      this.grid4.initialize( () => { 
 					debugger;
-						let mv = 0.6*width;
-						grid1.moveto(Point.mk(-mv,-mv));
-						grid2.moveto(Point.mk(mv,-mv));
-						grid3.moveto(Point.mk(-mv,mv));
-						grid4.moveto(Point.mk(mv,mv));
+  let mv = 0.6*width;
+  grid1.moveto(Point.mk(-mv,-mv));
+  grid2.moveto(Point.mk(mv,-mv));
+  grid3.moveto(Point.mk(-mv,mv));
+  grid4.moveto(Point.mk(mv,mv));
 						this.draw();
 		});
 		});

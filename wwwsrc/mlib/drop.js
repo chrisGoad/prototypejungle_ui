@@ -7,14 +7,14 @@ function () {
 /* theory of operation. 
 The DROP algoritm drops sets of line segments at random positions on the canvas. If a given segment set lands on top of another, it is thrown away.     The segsets method library is used to build sets of segments. Metal is a typical example.
 
-Let rs be the generator objects. Sets of line segments are created by the method rs.genSegments. This method has the form: 
+Let rs be the generator object. Sets of line segments (and lines) are created by the method rs.genSegments. This method has the form: 
+
 rs.genSegments = function (p) {
 ...
 return [segs,lines];
 }
 
-where p is a Point (the "anchor point",  a segs is an array of lineSegments, and lines an array of lines.
-Elements of segs are added to the set of all segs dropped so far. As mentioned above, each time there is a new attempted drop, it is checked whether any of the new segs intersect any of those already dropped. If not, the drop succeeds, and the segs are added the already dropped array, and the lines are added to the set of lines to be displayed.  The relationship between segs and lines is up to the generator, but a typical case is where the ends of the lines are taken from the ends of the segs (so that they coincide, geometrically).
+where p is a Point (the "anchor point"),   segs is an array of lineSegments, and lines an array of lines.  Elements of segs are added to the set of all segs dropped so far. As mentioned above, each time there is a new attempted drop, it is checked whether any of the new segs intersect any of those already dropped. If not, the drop succeeds, and the segs are added the already dropped array, and the lines are added to the set of lines to be displayed.  The relationship between segs and lines is up to the generator, but a typical case is where the ends of the lines are taken from the ends of the segs (so that they coincide, geometrically). A value of the form [segs:array(LineSegment),lines:array(Line)] is called a "segset" (even though lines are included as well as segs).
 
 Parameters: dropTries sets how many unsuccessful drops are tolerated before the algorithm is terminated.
 

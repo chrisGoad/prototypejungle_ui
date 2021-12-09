@@ -5,8 +5,6 @@ sections: [
 
 [  
 /* Puzzle: Which three of the quadrants are the same, and which is different? Before you saw the differences in what sense did you "see" the quadrants?"*/
-	['grid_sized','generators',1,'sized'],
-
  ['min0_16','gen2',1],
  ['min0_15','gen2',1],
  ['min0_8','gen2',1],
@@ -148,7 +146,7 @@ sections: [
 		 	 ['multgrid5','gen2',1],
 		 	 ['multgrid1','gen2',1],
 		 	 ['rwGrid2','gen2',1],
-		 	 ['grid_zigzag','generators',1],
+		 	 ['zigzag0_0','gen2',1],
 ]]
 };
 	
