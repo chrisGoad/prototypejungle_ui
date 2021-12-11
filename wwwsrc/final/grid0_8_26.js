@@ -12,18 +12,36 @@ addParamsByCellMethods(rs);
 rs.setName('grid0_8_26');
 
 let opa = 0.3;
-
+let r = 255;
+let b = 255;
 rs.globalParams  = {
 	widthFactor:1,
 	heightFactor:1,
 	maxSizeFactor:6,
 	sizePower:2,
 	genPolygons:1,
-	//sizeMap:{0:1.5,1:1,2:2,3:3,4:4,5:0,6:0},
 	sizeMap:{0:.5,1:1,2:2,3:3,4:4,5:0,6:0},
-	//opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.8,5:1,6:1},
 	opacityMap:{0:1,1:0.4,2:0.4,3:0.4,4:0.8,5:1,6:1},
-	//opacityMap:{0:0,1:opa,2:0,3:opa,4:1,5:opa,6:opa},
+  colorMap:{
+		0:`rgba(0,${r},0,1)`,
+		1:`rgba(${r},0,0,0.4)`,
+		2:`rgba(255,255,255,0.4)`,
+		3:`rgba(0,${b},${b},0.4)`,
+		4:`rgba(0,0,${r},0.8)`,
+		5:`rgba(0,0,0,1)`,
+		6:`rgba(${r},${r},0,1)`
+	}
+};
+		
+ /*   
+rs.globalParams  = {
+	widthFactor:1,
+	heightFactor:1,
+	maxSizeFactor:6,
+	sizePower:2,
+	genPolygons:1,
+	sizeMap:{0:.5,1:1,2:2,3:3,4:4,5:0,6:0},
+	opacityMap:{0:1,1:0.4,2:0.4,3:0.4,4:0.8,5:1,6:1},
   colorMap:{
 		0:(r,g,b,opacity) => `rgba(0,${r},0,${opacity})`,
 		1:(r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
@@ -34,7 +52,7 @@ rs.globalParams  = {
 		6:(r,g,b,opacity) => `rgba(${r},${r},0,${opacity})`
 	}
 };
-		
+*/
 //let gp = rs.globalParams;
 //Object.assign(gp,newGlobalParams);
 	/*

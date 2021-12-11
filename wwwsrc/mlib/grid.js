@@ -63,10 +63,10 @@ item.initBackgroundProtos = function () {
 let points = [];
 
 
-const defaultPositionFunction = function (grid,i,j) {
-  let {deltaX,deltaY,numRows,numCols,width,height,points3d,camera} = grid;
+item.defaultPositionFunction = function (i,j) {
+  let {deltaX,deltaY,numRows,numCols,width,height,points3d,camera} = this;
 	if (points3d) {
-		let idx = grid.pcoordsToIndex(i,j);
+		let idx = this.pcoordsToIndex(i,j);
 		let p3d = points3d[idx];
 		//debugger;
 		let rs = camera.project(p3d);
@@ -124,9 +124,10 @@ item.sidesPositionFunction = function (grid,i,j) {
   }
   
 
-const genPointsFunction0 = function (grid) {
-  let {numRows,numCols,positionFunction,points,rpoints} = grid;
-  let pf = positionFunction?positionFunction:defaultPositionFunction;
+item.genPointsFunction0 = function () {
+  debugger;
+  let {numRows,numCols,positionFunction,points,rpoints} = this;
+  //let pf = positionFunction?positionFunction:defaultPositionFunction;
 	let lx = Infinity;
 	let ly = Infinity;
 	let hx = -Infinity;
@@ -134,7 +135,7 @@ const genPointsFunction0 = function (grid) {
   for (let i = 0;i <= numCols; i++) {
     for (let j = 0;j <= numRows; j++) {
 			//console.log('genPoints i j',i,j);
-      let p = pf(grid,i,j);
+      let p = this.positionFunction?this.positionFunction(i,j):this.defaultPositionFunction(i,j);
 			let {x,y} = p;
 			if (x<lx) {
 				lx = x;
@@ -152,10 +153,10 @@ const genPointsFunction0 = function (grid) {
       rpoints.push(Point.mk(0,0));
     }
   }
-	grid.lowX = lx;
-	grid.lowY = ly;
-	grid.highX = hx;
-	grid.highY = hy;
+	this.lowX = lx;
+	this.lowY = ly;
+	this.highX = hx;
+	this.highY = hy;
 }
       
       
@@ -186,11 +187,12 @@ item.genPoints = function () {
   this.set('regions',core.ArrayNode.mk()); // assigns to each point its region
 
   let {numRows,numCols,deltaX,deltaY,genPointsFunction} = this;
-  let gp = genPointsFunction?genPointsFunction:genPointsFunction0;
-	debugger;
-  gp(this);
+  if (this.genPointsFunction)  {
+    this.genPointsFunction();
+  } else {
+    this.genPointsFunction0();
+  }
 	console.log('lowX highX lowY highY',this.lowX,this.highX,this.lowY,this.highY);
-
 }
 
 // i = column (corresponds to x)  j = row (corresponds to y) //column major // point coords

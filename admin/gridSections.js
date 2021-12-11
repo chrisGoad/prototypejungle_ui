@@ -6,7 +6,7 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
- ['grid_cloudy_sky','generators',1,'Cloudy Sky'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_cloudy_sky','generators',1,'Cloudy SkyGG'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['a_web0_2','final',1],
  ['min0_16','final',1],
  ['min0_15','final',1],
@@ -15,16 +15,16 @@ sections: [
  // ['min0_9_5','gen2',1,'Stripes'],
   ['min0_5','final',1,'Diamond'],
 
-   ['drop_iris','generators',1,'Iris'], //was ['drop0_1_27','final',1,'Iris'],
+   ['drop_iris','generators',1,'IrisGG'], //was ['drop0_1_27','final',1,'Iris'],
 
   ['drop0_web0_2','final',1,'Aphelion'],
 
   ['min0_0','final',1,'Wheel'],
 
 
-  ['drop_leaves','generators',1,'Leaves'],  //was ['drop0_1_21','final',1,'Leaves']
-  ['drop_dandelion','generators',1,'Dandelion'],// was ['drop0_1_24','final',1,'Dandelion'],
-  ['drop_metal_2','generators',1,'Metal 2'], // was ['drop0_5','final',1,'Metal 2'],
+  ['drop_leaves','generators',1,'LeavesGG'],  //was ['drop0_1_21','final',1,'Leaves']
+  ['drop_dandelion','generators',1,'DandelionGG'],// was ['drop0_1_24','final',1,'Dandelion'],
+  ['drop_metal_2','generators',1,'Metal 2GG'], // was ['drop0_5','final',1,'Metal 2'],
 
 
  /* ['drop0__12','gen2',1, 'Ice 2'],
@@ -38,31 +38,31 @@ sections: [
     ['grid0_43','gen2',1,'Mat'],*/
    // ['drop0_1_13','gen2',1,'Flower'],
     //['drop0_0_3','gen2',1,'Ice'],
-		 ['grid0_8_3','final','square','Bubbles'],
-	['spatter_variants','generators','square','Variants'], // was ['grid0_14_0','final','square','Variants'],
-	['spatter_superposition','generators','square','Superposition'], // was ['grid0_14_0','final','square','Variants'],
-	    ['drop_ice','generators',1,'Ice'], // was   ['drop0_0','final',1,'Ice'],
+		 ['grid_bubbles','generators','square','BubblesGG'],
+	['spatter_variants','generators','square','VariantsGG'], // was ['grid0_14_0','final','square','Variants'],
+	['spatter_superposition','generators','square','SuperpositionGG'], // was ['grid0_14_0','final','square','Variants'],
+	    ['drop_ice','generators',1,'IceGG'], // was   ['drop0_0','final',1,'Ice'],
 
     ['grid0_10_0','final',1,'Bump'],
     //['grid0_19_1','final',1,'Dark Eye'],
-    ['drop_clouds','generators',1,'Clouds'], // was ['drop0_0_1','final',1,'Clouds'],
+    ['drop_clouds','generators',1,'CloudsGG'], // was ['drop0_0_1','final',1,'Clouds'],
 
     // ['drop0__12','gen2',1,'Sleet'],
-    ['drop_horizon','generators',1,'Horizon'], //was  ['drop0_3','final',1,'Horizon']
+    ['drop_horizon','generators',1,'HorizonGG'], //was  ['drop0_3','final',1,'Horizon']
 
   //  ['grid0_8_o24','gen2',1,'Sphere'],
     /*['drop0_1','gen2',1,'Starry Night'],*/
-    ['drop_starry_night','generators',1,'Starry Night'], // was ['drop0__13','final',1,'Starry Night']
+    ['drop_starry_night','generators',1,'Starry NightGG'], // was ['drop0__13','final',1,'Starry Night']
 
-    ['grid0_8_26','final',1,'Sphere'],
-    ['grid_distortion_field','generators',1,'Distortion Field'],  // was ['grid0_28','final',1,'Distortion Field'],
-    ['grid_waves','generators',1,'Waves'], //was ['grid0_16_1','final',1,'Waves'],
-    ['grid_code','generators',1,'Code'],  // was ['grid0_45','final',1,'Code'],
+    ['grid_sphere','generators',1,'SphereGG'],
+    ['grid_distortion_field','generators',1,'Distortion FieldGG'],  // was ['grid0_28','final',1,'Distortion Field'],
+    ['grid_waves','generators',1,'WavesGG'], //was ['grid0_16_1','final',1,'Waves'],
+    ['grid_code','generators',1,'CodeGG'],  // was ['grid0_45','final',1,'Code'],
     ['sphere_image0_1.jpg','gen2',1,'Sky Eye'],
 
 
-		 ['grid_quilt_1','generators','square','Quilt 1'],// was ['grid0_8_15.jpg','final','square','Quilt 1'],
-	 	 ['grid_world.jpg','generators','square','World'],  // was ['grid0_19.jpg','final','square','World'],
+		 ['grid_quilt_1','generators','square','Quilt 1GG'],// was ['grid0_8_15.jpg','final','square','Quilt 1'],
+	 	 ['grid_world.jpg','generators','square','WorldGG'],  // was ['grid0_19.jpg','final','square','World'],
 		 	 ['lines0_19','final','square','Lines 1'],
     ['sphere2_1','gen2',1,'Rays'],
 
@@ -89,11 +89,11 @@ sections: [
 	['grid0_7','final','square','Grid 2'],
 	
 	['lines0_0','final','wide2','Lines 2'],
-   ['grid_maze','generators','square','Maze'],  // was ['grid0_8','final','square','Maze'],
+   ['grid_maze','generators','square','MazeGG'],  // was ['grid0_8','final','square','Maze'],
    ['lines0_22','final','square','Bug Eyes'],
  //	['grid0_3_2','final','square','Quilt 6'],
 	
-   ['lines_lights','generators','square','Lights'],  // was ['lines0_23','final','square','Lights'],
+   ['lines_lights','generators','square','LightsGG'],  // was ['lines0_23','final','square','Lights'],
 	 ['lines0_24','final','square','Spots'],
 	 ['lines0_25','final','square','Particles'],
 	 ['grid0_44.jpg','final',1,'Eye'],
@@ -116,9 +116,9 @@ sections: [
 		 	//['grid0_15_0','final',0,'Ocean'],
 		
 				 	['grid24z','final',0,'Tracks'],
-		   ['grid_4','generators','square','Grid 4'],// was ['grid_0_5','final','square','Grid 4']
-	['spatter_spatter','generators','square','Spatter'],
-		 	['grid_void','generators','wide1','Void'], // was ['grid0_8_18','final','wide1','Void'],
+		   ['grid_4','generators','square','Grid 4GG'],// was ['grid_0_5','final','square','Grid 4']
+	['spatter_spatter','generators','square','SpatterGG'],
+		 	['grid_void','generators','wide1','VoidGG'], // was ['grid0_8_18','final','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 
 
