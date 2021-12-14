@@ -1,9 +1,10 @@
-//active
+//activeMe
 
 import {rs as addRandomMethods} from '/mlib/dim2dWalker.mjs';
 const rs = function (item) {	
 
 
+addRandomMethods(item);
 
 item.initRandomizer = function () {
 	let rm = this.randomizer;

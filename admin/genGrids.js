@@ -6,7 +6,7 @@ let sectionsPath = alternate?'./altGridSections':'./gridSections';
 let outPath = alternate?'www/altGrids.html':'www/grids.html';
 var fs = require('fs');
 
-
+let fileExt = 'mjs';
 let thePages = [];
 let theTitles = [];
 /*const  gotoPage = function (id,fmat) {
@@ -141,7 +141,7 @@ rs = `<div><p class="centered">${titleLink}
 	//`; 
 	} else {
 		
-rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js${theImageArg}">${title}</a><br/><a href="${dir}/${path}.js">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
+rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.${fileExt}${theImageArg}">${title}</a><br/><a href="${dir}/${path}.${fileExt}">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
 `;
 	}
 //let rs = `  <div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${title}"><img width="200" src="${imsrc}"></a></p></div>

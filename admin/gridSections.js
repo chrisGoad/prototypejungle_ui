@@ -89,7 +89,7 @@ sections: [
 	['grid0_7','final','square','Grid 2'],
 	
 	['lines0_0','final','wide2','Lines 2'],
-   ['grid_maze','generators','square','MazeGG'],  // was ['grid0_8','final','square','Maze'],
+   ['grid_maze','generators','square','MazeGGM'],  // was ['grid0_8','final','square','Maze'],
    ['lines0_22','final','square','Bug Eyes'],
  //	['grid0_3_2','final','square','Quilt 6'],
 	

@@ -3,7 +3,7 @@
 import {rs as rectPP} from '/shape/rectangle.mjs';
 //import {rs as rectPP} from '/shape/rectangle.js','/shape/textOneLine.js',function (rectPP,textPP) {
 //core.require('/gen0/test.js',function (addRandomMethods) {
-	//debugger;
+	//debugger;a
 const rs = function (item) {
 
 item.setName = function (name,jsonName) {
@@ -48,7 +48,8 @@ item.addBackStripe = function () {
 	if (!bkc) {
 		return;
 	}
-	core.assignPrototypes(this,'backStripeRectP',rectPP);
+	//core.assignPrototypes(this,'backStripeRectP',rectPP);
+	this.backStripeRectP = rectPP.instantiate();
 	this.backStripeRectP['stroke-width'] = 1;
 	this.backStripeRectP.fill = 'transparent';
   let bkr = this.set('brect',this.backStripeRectP.instantiate());
@@ -81,7 +82,9 @@ item.addBackground = function () {
 	if (!bkc) {
 		return;
 	}
-	core.assignPrototypes(this,'backgroundRectP',rectPP);
+	//core.assignPrototypes(this,'backgroundRectP',rectPP);
+  this.backgroundRectP = rectPP.instantiate();
+
 	this.backgroundRectP['stroke-width'] = 0;
 	this.backgroundRectP.fill = bkc;
 	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;

@@ -1,9 +1,14 @@
 
 //core.require('/gen1/grid0_6.js',
-core.require('/line/line.js','/shape/circle.js','/generators/basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
-function (linePP,circlePP,rs,addGridMethods,addRandomMethods)	{ 
+//core.require('/line/line.js','/shape/circle.js','/generators/basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
+import {rs as linePP} from '/line/line.mjs';
+import {rs as circlePP} from '/shape/circle.mjs';
+import {rs as basicsP} from '/generators/basics.mjs';
+import {rs as addGridMethods}  from '/mlib/grid.mjs';
+import {rs as addRandomMethods}  from '/mlib/topRandomMethods.mjs';
+//function (linePP,circlePP,rs,addGridMethods,addRandomMethods)	{ 
 
-
+let rs = basicsP.instantiate();
 	rs.setName('grid_fan');
   addGridMethods(rs);
   addRandomMethods(rs);
@@ -23,7 +28,7 @@ const pointAlongL = function (startPnt,endPnt,x) {
 }
 
 
-rs.fanPositionFunction = function (i,j) {
+rs.positionFunction = function (i,j) {
   let {width,numRows,delta,fromLeft,up} = this;
   if ((i===1) &&(j===1)) {
     debugger;
@@ -82,8 +87,5 @@ rs.initialize = function () {
   this.initializeGrid(); 
 }
 
-return rs;
-
-
-});
+export {rs};
 
