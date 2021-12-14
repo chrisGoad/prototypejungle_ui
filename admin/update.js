@@ -361,7 +361,7 @@ const afterLastChar = function (string,chr,strict) {
        let ext = afterLastChar(fln,'.');
        console.log('fln',fln,'ext',ext);
     //  if ((ext === fln) || (!['js','css','html','png','svg','jpg','ico','md'].includes(ext))) {
-      if ((ext === fln) || (!['js','css','html','svg','jpg','ico','md'].includes(ext))) {
+      if ((ext === fln) || (!['mjs','js','css','html','svg','jpg','ico','md'].includes(ext))) {
          console.log('wrong kind of file/dir',fln);
          return;
       }
@@ -425,7 +425,7 @@ xferFiles(0,'www',['page.html','altPage.html','draw.html','drawImage.html','essa
 
 //xferDirs(0,'none',['arrow','axes','border','box','connector','container','coreExamples','data',
 //'example','grid','image','images','kit','line','random','sandbox','shape','text','timeline']); 
-xferDirs(0,'none',['gen0','ngen1','final','mlib','line','shape','generators']); 
+xferDirs(0,'none',['gen0','ngen1','final','mlib','line','shape','shape_modules','generators']); 
 
   //xferFiles(1,'www',['ops.html','unsupported.html','familytrees.html','coreExamples.html']);
 

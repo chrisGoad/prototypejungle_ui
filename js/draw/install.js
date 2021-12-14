@@ -1,6 +1,7 @@
 
 let loadingItem = undefined;
 let mainUrl;
+let oldway = false;
 const installMainItem = function (source,settings)  {
   mainUrl = source;
   if (settings) {
@@ -12,7 +13,12 @@ const installMainItem = function (source,settings)  {
     if (ext === 'history') {
       core.installHistory(source,afterMainInstall);
     } else {
-      core.install(source,afterMainInstall); 
+      if (oldway) {
+         core.install(source,afterMainInstall); 
+      } else {
+        debugger;
+        import(source).then((module) => afterMainInstallM(module));
+      }
     }
   } else  {
     finishMainInstall();
@@ -27,6 +33,12 @@ const afterMainInstall = function (e,rs) {
     delete rs.__sourceUrl;
     main = rs;
   } 
+  finishMainInstall();
+}
+const afterMainInstallM = function (module) {
+  debugger;
+  main = module.rs;
+  debugger;
   finishMainInstall();
 }
 

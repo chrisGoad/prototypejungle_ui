@@ -1,10 +1,14 @@
 
 //core.require('/gen1/grid0_6.js',
-core.require('/line/line.js','/shape/circle.js','/generators/basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
-function (linePP,circlePP,rs,addGridMethods,addRandomMethods)	{ 
+import {rs as linePP} from '/line/line.mjs';
+import {rs as circlePP} from '/shape/circle.mjs';
+import {rs} from '/generators/basics.mjs';
+import {rs as addGridMethods} from '/mlib/grid.mjs';
+import {rs as addRandomMethods} from '/mlib/topRandomMethods.mjs';
+//function (linePP,circlePP,rs,addGridMethods,addRandomMethods)	{ 
 
 
-	rs.setName('grid_cross');
+	rs.setName('grid_bend');
   addGridMethods(rs);
   addRandomMethods(rs);
  
@@ -43,7 +47,9 @@ const pointAlongL = function (startPnt,turningPnt,x,up,ts,lineP,llines) {
 
 rs.positionFunction = function (i,j) {
   let {width,numRows,delta,fromLeft,turnUp} = this;
-  debugger;
+  if (turnUp) {
+    debugger;
+  }
   let ci = numRows - i - 1;
   let hw = 0.5*width;
   let spx= (fromLeft)? -hw:hw;
@@ -99,8 +105,5 @@ rs.initialize = function () {
   this.initializeGrid(); 
 }
 
-return rs;
-
-
-});
+export {rs}
 

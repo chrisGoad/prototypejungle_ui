@@ -4,56 +4,39 @@ core.require('/line/line.js','/shape/circle.js','/generators/basics.js','/mlib/g
 function (linePP,circlePP,rs,addGridMethods,addRandomMethods)	{ 
 
 
-	rs.setName('grid_cross');
+	rs.setName('grid_fan');
   addGridMethods(rs);
   addRandomMethods(rs);
  
     
 let nr = 140;
-nr = 100;
+//nr = 20;
 let wd = 1000;
-let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,delta:(wd*0.8)/nr,backgroundColor:'black',randomizeOrder:1,fromLeft:1,turnUp:1};//'rgb(0,150,255)'};
+let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,delta:(wd*0.8)/nr,backgroundColor:'black',randomizeOrder:1,fromLeft:1,up:0};//'rgb(0,150,255)'};
 Object.assign(rs,topParams);
 
-const pointAlongL = function (startPnt,turningPnt,x,up,ts,lineP,llines) {
-  let {x:tx,y:ty} = turningPnt;
-  let sx = startPnt.x;
-  let sy = startPnt.y;
-  let dx = tx-sx;
-  let left = dx>0;
-  let dy = up?(left?dx:-dx):(left?-dx:dx);
-  //dy = -dx;
-  let p;
-  if (x <= 0.5) {
-    p = Point.mk(sx + 2*dx*x,ty);
-  } else {
-    p = Point.mk(tx,ty - 2*dy*(x-0.5));
-  }
-//  let line = lineP.instantiate().show();
- // line.setEnds(startPnt,turningPnt);
- // llines.push(line);
-  /*if (ts) {
-    return turningPnt;
-  } else {
-    return startPnt;
-  }*/
+const pointAlongL = function (startPnt,endPnt,x) {
+  let vec = endPnt.difference(startPnt);
+  let p = startPnt.plus(vec.times(x));
+  console.log('p ',p.x,p.y);
   return p;
 }
 
 
 rs.positionFunction = function (i,j) {
-  let {width,numRows,delta,fromLeft,turnUp} = this;
-  debugger;
+  let {width,numRows,delta,fromLeft,up} = this;
+  if ((i===1) &&(j===1)) {
+    debugger;
+  }
   let ci = numRows - i - 1;
   let hw = 0.5*width;
-  let spx= (fromLeft)? -hw:hw;
-  let spy = turnUp?hw-i*delta:i*delta - hw;
-  let sp = Point.mk(spx,spy);
-  let tpx = fromLeft? hw-i*delta:i*delta - hw;
-  let tpy = turnUp?hw-i*delta:i*delta - hw;
-  let tp = Point.mk(tpx,tpy);
-  let x = j/(numRows-1)
-  let p = pointAlongL (sp,tp,x,turnUp,(i+j)%2,this.lineP,this.llines);
+  let sp = (fromLeft)?(up?Point.mk(-hw,hw):Point.mk(-hw,-hw)):(up?Point.mk(hw,hw):Point.mk(hw,-hw));
+  let np = (fromLeft)?(up?Point.mk(hw,hw):Point.mk(hw,-hw)):(up?Point.mk(-hw,hw):Point.mk(-hw,-hw));
+  let lep = (fromLeft)?(up?Point.mk(hw,-hw):Point.mk(hw,hw)):(up?Point.mk(-hw,-hw):Point.mk(-hw,hw));
+  let vec = lep.difference(np);
+  let ep = np.plus(vec.times(i/(numRows-1)));
+  console.log('i j',i,j);
+  let p = pointAlongL(sp,ep,j/(numRows-1));
   return p;
 }
     
@@ -68,7 +51,7 @@ rs.initProtos = function () {
 	lineP['stroke-width'] = 1;
   lineP.stroke = 'blue';
 }
-let scale = 15;
+let scale = 10;
 
 rs.shapeGenerator = function (rvs,cell) {
   debugger;

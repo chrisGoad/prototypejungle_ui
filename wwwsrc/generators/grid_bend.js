@@ -4,7 +4,7 @@ core.require('/line/line.js','/shape/circle.js','/generators/basics.js','/mlib/g
 function (linePP,circlePP,rs,addGridMethods,addRandomMethods)	{ 
 
 
-	rs.setName('grid_cross');
+	rs.setName('grid_bend');
   addGridMethods(rs);
   addRandomMethods(rs);
  
@@ -43,7 +43,9 @@ const pointAlongL = function (startPnt,turningPnt,x,up,ts,lineP,llines) {
 
 rs.positionFunction = function (i,j) {
   let {width,numRows,delta,fromLeft,turnUp} = this;
-  debugger;
+  if (turnUp) {
+    debugger;
+  }
   let ci = numRows - i - 1;
   let hw = 0.5*width;
   let spx= (fromLeft)? -hw:hw;
