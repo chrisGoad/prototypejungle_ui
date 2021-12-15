@@ -59,7 +59,7 @@ rs.initProtos = function () {
 let scale = 10;
 
 rs.shapeGenerator = function (rvs,cell) {
-  debugger;
+ //debugger;
   let {numRows,numCols} = this;
   let hr = numRows/2;
   let hc = numCols/2;
@@ -80,6 +80,7 @@ rs.shapeGenerator = function (rvs,cell) {
 }
 
 rs.initialize = function () {
+debugger;
   this.initProtos();
   this.addBackground();
   this.setupShapeRandomizer('level', {step:30,min:0,max:255});

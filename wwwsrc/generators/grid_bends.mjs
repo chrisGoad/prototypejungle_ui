@@ -1,5 +1,4 @@
 
-//core.require('/shape/circle.js','/shape/rectangle.js','/generators/basics.js','/mlib/grid.js','/generators/grid_bend.js',
 import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
@@ -17,11 +16,13 @@ rs.setName('grid_bends');
 let nr = 140;
 //nr = 20;
 let wd = 1000;
-let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,delta:(wd*0.8)/nr,backgroundColor:'blue',randomizeOrder:1,fromLeft:1,up:0};//'rgb(0,150,255)'};
+let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,delta:(wd*0.8)/nr,backgroundColor:'blue',randomizeOrder:1,fromLeft:1,up:0};
 
 rs.addGrid = function (nm,fromLeft,turnUp) {
   debugger;
   let g = bendP.instantiate();
+    Object.assign(g,topParams);
+  g.backgroundColor = 'black';
   g.fromLeft = fromLeft;
   g.turnUp = turnUp;
   this.set(nm,g);
@@ -29,7 +30,7 @@ rs.addGrid = function (nm,fromLeft,turnUp) {
   return g;
 }
 
-
+/*
 const pointAlongL = function (startPnt,endPnt,x) {
   let vec = endPnt.difference(startPnt);
   let p = startPnt.plus(vec.times(x));
@@ -55,27 +56,27 @@ const fanPositionFunction = function (grid,i,j) {
   let p = pointAlongL(sp,ep,j/(numRows-1));
   return p;
 }
-
+*/
 
      
 rs.initProtos = function () {	
-	let rectP = this.set('rectP',rectPP.instantiate()).hide();
-	rectP['stroke-width'] = 0;
-  rectP.stroke = 'blue';
-  rectP.stroke = 'black';
+  let rectP = this.set('rectP',rectPP.instantiate()).hide();
+  rectP['stroke-width'] = 0;
+//  rectP.stroke = 'blue';
+//  rectP.stroke = 'black';
   let wd = 200;
   rectP.width = wd;
   rectP.height = wd;
-  rectP.fill = 'rgba(255,255,0,1)';
+ // rectP.fill = 'rgba(255,255,0,1)';
   rectP.fill = 'blue';
  // rectP.fill = 'black';
  
 }   
 
-     
+/*     
 const bothInitProtos = function (grid) {	
-	let circleP = grid.set('circleP',circlePP.instantiate()).hide();
-	circleP['stroke-width'] = 0;
+  let circleP = grid.set('circleP',circlePP.instantiate()).hide();
+  circleP['stroke-width'] = 0;
   circlePP.stroke = 'blue';
   circleP.dimension = 30;
   circleP.fill = 'rgba(255,255,0,0.4)';
@@ -111,15 +112,18 @@ const bothInitialize = function (grid) {
   grid.set('llines',core.ArrayNode.mk());
   grid.initializeGrid(); 
 }
- 
+ */
  
 rs.addFan = function (nm,fromLeft,up) {
   debugger;
   let f = fanP.instantiate();
+    Object.assign(f,topParams);
+
   f.fromLeft = fromLeft;
   f.up = up;
    f.height = 0.78*f.width;
   f.width = 0.78*f.width;
+  f . backgroundColor = 'blue';
   this.set(nm,f);
   f.initialize();
   return f;
@@ -130,6 +134,7 @@ rs.addFan = function (nm,fromLeft,up) {
   let f = basicP.instantiate();
   addGridMethods(f);;
   Object.assign(f,topParams);
+  f . backgroundColor = 'blue';
   f.fromLeft = fromLeft;
   f.up = up;
   f.height = 0.78*f.width;
@@ -147,8 +152,9 @@ rs.initialize = function () {
   debugger;
   core.root.backgroundColor = 'blue';
   this.initProtos();
-  let mv = 0.4*topParams.width;
-
+  let fwd  = topParams.width;
+  let mv = 0.4*fwd;
+  Object.assign(this,{'width':1.85*fwd,'height':1.85*fwd,backStripeColor:'rgb(2,2,255)',backStripeVisible:0});
   let g00 = this.addGrid('g00',0,0);
   g00.moveto(Point.mk(-mv,-mv));
   let g01 = this.addGrid('g01',1,1);
@@ -158,6 +164,12 @@ rs.initialize = function () {
   let f10 = this.addFan('f10',1,0);
   f10.moveto(Point.mk(-1.24*mv,1.24*mv));
     let rect = this.set('rect',this.rectP.instantiate().show());
+   /* let rect2 = this.set('rect2',this.rectP.instantiate().show());
+    rect2.fill = 'black';
+    let r2wd = 100;
+    rect2.width = r2wd;
+    rect2.height= r2wd;*/
+  this.addBackStripe();
 
 
 

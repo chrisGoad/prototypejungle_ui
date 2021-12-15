@@ -5,7 +5,7 @@ const http = require('http');
 const fs = require('fs');
 //const Buffer = require('Buffer');
 //const mtypes = {html:'text/html',js:'text/javascript',
-const mtypes = {html:'text/html',js:'application/javascript',json:'application/json','jpg':'image/jpeg',
+const mtypes = {html:'text/html',js:'application/javascript',mjs:'application/javascript',json:'application/json','jpg':'image/jpeg',
                   css:'text/css',svg:'image/svg+xml',ico:'image/x-icon',gif:'image/gif'};
 const requestListener = function (req, res) {
 	let iurl = req.url;

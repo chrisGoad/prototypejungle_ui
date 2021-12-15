@@ -48,7 +48,7 @@ const pointAlongL = function (startPnt,turningPnt,x,up,ts,lineP,llines) {
 
 rs.positionFunction = function (i,j) {
   let {width,numRows,delta,fromLeft,turnUp} = this;
-  if (turnUp) {
+  if (0 && turnUp) {
     debugger;
   }
   let ci = numRows - i - 1;
@@ -78,7 +78,7 @@ rs.initProtos = function () {
 let scale = 15;
 
 rs.shapeGenerator = function (rvs,cell) {
-  debugger;
+  //debugger;
   let {numRows,numCols} = this;
   let hr = numRows/2;
   let hc = numCols/2;
