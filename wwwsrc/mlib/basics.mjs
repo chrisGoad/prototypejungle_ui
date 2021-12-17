@@ -78,7 +78,7 @@ item.addBackStripe = function () {
 
 
 item.addBackground = function () {
-	let {backgroundColor:bkc,width,height} =  this;
+	let {backgroundColor:bkc,width,height,backgroundPadding:bkp=0} =  this;
 	if (!bkc) {
 		return;
 	}
@@ -89,8 +89,8 @@ item.addBackground = function () {
 	this.backgroundRectP.fill = bkc;
 	//let {backgroundRectP,backgroundWidth,backgroundHeight,backgroundPadding,backgroundColor,width,height} = this;
   let bkr = this.set('backRect',this.backgroundRectP.instantiate());
-  bkr.width = width;
-	bkr.height = height;
+  bkr.width = width+bkp;
+	bkr.height = height+bkp;
   //bkr.width = backgroundWidth?backgroundWidth:width + backgroundPadding;
 //	bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;
 	bkr.show();

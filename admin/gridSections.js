@@ -14,17 +14,17 @@ sections: [
   ['min0_13','final',1,'Stripes 2'],
   ['min0_10','final',1,'Stripes 1'],
  // ['min0_9_5','gen2',1,'Stripes'],
-  ['min0_5','final',1,'Diamond'],
+  ['web_diamond','generators',1,'DiamondGGM'],
 
-   ['drop_iris','generators',1,'IrisGG'], //was ['drop0_1_27','final',1,'Iris'],
+   ['drop_iris','generators',1,'IrisGGM'], //was ['drop0_1_27','final',1,'Iris'],
 
-  ['drop0_web0_2','final',1,'Aphelion'],
+  ['drop_aphelion','generators',1,'AphelionGGM'],
 
-  ['min0_0','final',1,'Wheel'],
+  ['web_wheel','generators',1,'WheelGGM'],
 
 
-  ['drop_leaves','generators',1,'LeavesGG'],  //was ['drop0_1_21','final',1,'Leaves']
-  ['drop_dandelion','generators',1,'DandelionGG'],// was ['drop0_1_24','final',1,'Dandelion'],
+  ['drop_leaves','generators',1,'LeavesGGM'],  //was ['drop0_1_21','final',1,'Leaves']
+  ['drop_dandelion','generators',1,'DandelionGGM'],// was ['drop0_1_24','final',1,'Dandelion'],
   ['drop_metal_2','generators',1,'Metal 2GG'], // was ['drop0_5','final',1,'Metal 2'],
 
 
@@ -39,7 +39,7 @@ sections: [
     ['grid0_43','gen2',1,'Mat'],*/
    // ['drop0_1_13','gen2',1,'Flower'],
     //['drop0_0_3','gen2',1,'Ice'],
-		 ['grid_bubbles','generators','square','BubblesGG'],
+		 ['grid_bubbles','generators','square','BubblesGGM'],
 	['spatter_variants','generators','square','VariantsGG'], // was ['grid0_14_0','final','square','Variants'],
 	['spatter_superposition','generators','square','SuperpositionGG'], // was ['grid0_14_0','final','square','Variants'],
 	    ['drop_ice','generators',1,'IceGG'], // was   ['drop0_0','final',1,'Ice'],
@@ -64,7 +64,7 @@ sections: [
 
 		 ['grid_quilt_1','generators','square','Quilt 1GG'],// was ['grid0_8_15.jpg','final','square','Quilt 1'],
 	 	 ['grid_world.jpg','generators','square','WorldGG'],  // was ['grid0_19.jpg','final','square','World'],
-		 	 ['lines0_19','final','square','Lines 1'],
+		 	 ['lines_1','generators','square','Lines 1GGM'],
     ['sphere2_1','gen2',1,'Rays'],
 
 	 ['grid0_8_17','final','square','Shield'],

@@ -1,6 +1,6 @@
 
-core.require('/shape/rectangle.js','/line/line.js','/generators/basics.js','/mlib/drop.js','/mlib/segsets.js','/mlib/topRandomMethods.js','/mlib/drop_seeds.js',
-function (rectPP,linePP,rs,addDropMethods,addRandomMethods,addSegsetMethods,addSeedMethods) {
+//core.require('/shape/rectangle.js','/line/line.js','/generators/basics.js','/mlib/drop.js','/mlib/segsets.js','/mlib/topRandomMethods.js','/mlib/drop_seeds.js',
+//function (rectPP,linePP,rs,addDropMethods,addRandomMethods,addSegsetMethods,addSeedMethods) {
 
 import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as linePP} from '/line/line.mjs';

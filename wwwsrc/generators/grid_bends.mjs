@@ -150,11 +150,44 @@ rs.addFan = function (nm,fromLeft,up) {
 rs.initialize = function () {
   //this.addBackground();
   debugger;
-  core.root.backgroundColor = 'blue';
+  core.root.backgroundColor = 'white';
   this.initProtos();
+    this.addBackground();
+
+
   let fwd  = topParams.width;
+  let rwd = fwd*1.1;
+  let rwd2 = 0.8*rwd;
+  let rmv = 0.5*0.88*fwd;
+  let rmv2 = 1.22*rmv;
+
+  let rect01 = this.set('rect01',this.rectP.instantiate().show());
+  rect01.fill = 'rgba(0,0,255,1)';
+  rect01.width = rect01.height = rwd2;
+  rect01.moveto(Point.mk(-1.03*rmv2,0.95*rmv2));
+  
+  
+  let rect10 = this.set('rect10',this.rectP.instantiate().show());
+  rect10.fill = 'rgba(0,0,255,1)';
+  rect10.width = rect10.height = rwd2;
+  rect10.moveto(Point.mk(1.03*rmv2,-1.0*rmv2));
+  
+  let rect00 = this.set('rect00',this.rectP.instantiate().show());
+  rect00.fill = 'black';
+  rect00.width = rect00.height = rwd;
+  rect00.moveto(Point.mk(-rmv,-rmv));
+  
+  
+
+  let rect11 = this.set('rect11',this.rectP.instantiate().show());
+  rect11.fill = 'black';
+  rect11.width = rect11.height = rwd;
+  rect11.moveto(Point.mk(rmv,0.9*rmv));
+  
+ //return;
   let mv = 0.4*fwd;
-  Object.assign(this,{'width':1.85*fwd,'height':1.85*fwd,backStripeColor:'rgb(2,2,255)',backStripeVisible:0});
+//  Object.assign(this,{'width':1.80*fwd,'height':1.80*fwd,backStripeColor:'rgb(2,2,255)',backStripeVisible:0});
+  Object.assign(this,{'width':2.0*fwd,'height':2.0*fwd,backgroundColor:'rgb(255,255,255)'});
   let g00 = this.addGrid('g00',0,0);
   g00.moveto(Point.mk(-mv,-mv));
   let g01 = this.addGrid('g01',1,1);
@@ -164,6 +197,7 @@ rs.initialize = function () {
   let f10 = this.addFan('f10',1,0);
   f10.moveto(Point.mk(-1.24*mv,1.24*mv));
     let rect = this.set('rect',this.rectP.instantiate().show());
+    rect.fill = 'black'
    /* let rect2 = this.set('rect2',this.rectP.instantiate().show());
     rect2.fill = 'black';
     let r2wd = 100;
