@@ -104,9 +104,11 @@ item.sidesPositionFunction = function (grid,i,j) {
 	
 	
 
- item.radialPositionFunction = function (grid,i,j) {
+ item.radialPositionFunction = function (i,j) {
+ //item.radialPositionFunction = function (grid,i,j) {
     let {numRows,numCols,angleMin,angleMax,
-	       innerRadius,outerRadius,center} = grid;
+	       innerRadius,outerRadius,center} = this;
+	    //   innerRadius,outerRadius,center} = grid;
 	let aMinR = (angleMin * Math.PI)/180;
 	let aMaxR = (angleMax * Math.PI)/180;
 	/* i = how far around, j how far out */

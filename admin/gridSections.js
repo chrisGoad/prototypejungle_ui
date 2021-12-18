@@ -40,7 +40,7 @@ sections: [
    // ['drop0_1_13','gen2',1,'Flower'],
     //['drop0_0_3','gen2',1,'Ice'],
 		 ['grid_bubbles','generators','square','BubblesGGM'],
-	['spatter_variants','generators','square','VariantsGG'], // was ['grid0_14_0','final','square','Variants'],
+	['spatter_variants','generators','square','VariantsGGM'], // was ['grid0_14_0','final','square','Variants'],
 	['spatter_superposition','generators','square','SuperpositionGG'], // was ['grid0_14_0','final','square','Variants'],
 	    ['drop_ice','generators',1,'IceGG'], // was   ['drop0_0','final',1,'Ice'],
 
@@ -67,7 +67,7 @@ sections: [
 		 	 ['lines_1','generators','square','Lines 1GGM'],
     ['sphere2_1','gen2',1,'Rays'],
 
-	 ['grid0_8_17','final','square','Shield'],
+	 ['grid_shield','generators','square','ShieldGGM'],
  		 ['lines0_20','final','wide2','Order Within Chaos'],
 			 ['lines0_21','final','wide2','Chaos Within Order'],
 
