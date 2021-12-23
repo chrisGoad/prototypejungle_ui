@@ -49,9 +49,6 @@ rs.getParams = function (cell,props) {
 rs.sizeFactor = function ( cell) {
 	let numRows = this.numRows;
 	let {x,y} = cell;
-	if ((x===63) && (y===63)) {
-		debugger;
-	}
 	let szPower = this.getParam(cell,'sizePower');
 	let maxSizeFactor = this.getParam(cell,'maxSizeFactor');
 	//let px = numPowers(x+1,szPower);
@@ -70,7 +67,7 @@ rs.sizeFactor = function ( cell) {
 
 
 rs.colorSetter = function (shape,fc,cell) {
-  debugger;
+  //debugger;
 	let colorMap = this.getParam(cell,'colorMap');
 	if (!colorMap) {
 		debugger;
@@ -107,7 +104,7 @@ rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,
 		};
 
 rs.colorSetter = function (shape,fc,cell) {
-  debugger;
+  //debugger;
 	let colorMap = this.getParam(cell,'colorMap');
 	if (!colorMap) {
 		debugger;
@@ -134,7 +131,7 @@ const interpolate = function (low,high,fr) {
 //let ranRows = undefined;//[8,16];
 rs.computeSize = function (cell) {
 	let {numCols,numRows,deltaX,deltaY} = this;
-	debugger;
+//	debugger;
 	let {x,y} = cell;
 	if ((x===40) && (y===2000)) {
 //		debugger;
@@ -219,7 +216,7 @@ rs.setDims = function (shape,width,height) {
 
 rs.shapeUpdater = function (shape,rvs,cell,center) {
 	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,sizeValues,width,height} = this;
-	debugger
+//	debugger
 	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles','genPolygons']);
 	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles,genPolygons} = propVs;
 	let sz;
@@ -232,7 +229,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	if (sizeValues) {
 		sz = this.lookupSize(cell);
 	} else {
-    debugger;
+    //debugger;
 		sz = this.computeSize(cell);
 	}
 	if (sz.x === 0) {
@@ -255,10 +252,23 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	  let c1 = corners[1];
 	  let c2 = corners[2];
 	  let c3= corners[3];
-	  let deltaX = Math.abs(c0.x - c1.x);
-	  let deltaY = Math.abs(c0.y - c3.y);
+    let d0 = c0.distance(c1);
+    let d1 = c0.distance(c1);
+   /* let minX = Math.min(c0.x,c1.x,c2.x,c3.x);
+    let maxX = Math.max(c0.x,c1.x,c2.x,c3.x);
+    let minY = Math.min(c0.y,c1.y,c2.y,c3.y);
+    let maxY = Math.max(c0.y,c1.y,c2.y,c3.y);
+	  let deltaX = maxX - minX;
+	  let deltaY = maxY - minY;
+	 // let deltaX = Math.abs(c0.x - c1.x);
+	 // let deltaY = Math.abs(c0.y - c3.y);
+    console.log('x',cell.x,'y',cell.y,'deltaX',deltaX,'deltaY',deltaY);
+    if (deltaX < 0.50) {
+      debugger;
+    }*/
 		this.colorSetter(shape,sz.fc,cell);
-   	shape.dimension = Math.min(deltaX,deltaY)* (sz.x);
+   //	shape.dimension = Math.min(deltaX,deltaY)* (sz.x);
+   	shape.dimension = Math.min(d0,d1)* (sz.x);
 		return shape;
 	}
 
@@ -297,7 +307,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 }
 
 rs.shapeGenerator = function (rvs,cell,center) {
-  debugger;
+// debugger;
 	let {shapes,rectP,circleP,polygonP} = this;
 	if (this.hideThisCell(cell)) {
 	  let {x,y} = cell;

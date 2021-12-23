@@ -107,19 +107,25 @@ item.sidesPositionFunction = function (grid,i,j) {
  item.radialPositionFunction = function (i,j) {
  //item.radialPositionFunction = function (grid,i,j) {
     let {numRows,numCols,angleMin,angleMax,
-	       innerRadius,outerRadius,center} = this;
+	       innerRadius,outerRadius,center,rotation=0} = this;
 	    //   innerRadius,outerRadius,center} = grid;
+  if (i>10) {
+  //  debugger;
+  }
+  let rotPerRow = (rotation * Math.PI)/(numCols*180);
+  let rot = rotPerRow * j;
 	let aMinR = (angleMin * Math.PI)/180;
 	let aMaxR = (angleMax * Math.PI)/180;
 	/* i = how far around, j how far out */
 	let aDiff = aMaxR - aMinR;
-	let aR = aMinR +  aDiff * (i/(numRows-0));
+	let aR = aMinR +  aDiff * (i/(numRows-0)) +rot;
 	let rDiff = outerRadius - innerRadius;
 	let midR = innerRadius + rDiff * (j/(numCols -1));
 	let bias  = 1*(1 + (j - 0.5*numCols)/numCols);
 	let biasSq = bias*bias*bias;
 	let maxBiasSq = 1.5*1.5*1.5;
 	let r = innerRadius + (biasSq/maxBiasSq)*rDiff * (j/(numCols -1));
+	r = innerRadius + rDiff * (j/(numCols -1));
 	let vec = Point.mk(Math.cos(aR), Math.sin(aR));
 	let rs = center.plus(vec.times(r));
 	return rs;
@@ -748,7 +754,7 @@ item.addShapes = function () {
   const addAshape =  (idx) => {
        //console.log('idx ',idx);
 		if (!(typeof idx === 'number')) {
-			debugger;
+			debugger; //keep
 		}
 
     let nr = this.numRows;
@@ -760,7 +766,8 @@ item.addShapes = function () {
 	  let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(randomGridsForShapes,x,y):{};
 		//let rvs = this.randomValuesAtCell(randomGridsForShapes,x,y);
     let  shp;
-		if (this.shapeGenerator) {86
+   // debugger;
+		if (this.shapeGenerator) {
 			shp = this.shapeGenerator(rvs,cell,cnt,idx);
 			if (shp && this.shapeUpdater) {
 				this.shapeUpdater(shp, rvs,cell,cnt);

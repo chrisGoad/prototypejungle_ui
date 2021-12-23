@@ -2,11 +2,6 @@
 //core.require('/shape/rectangle.js',function (addAnimationMethods,rectangleP) {
 const rs = function (item) {
 
-//core.require(function () {
-	// debugger;
-//let item = svg.Element.mk('<g/>');
-
-/*adjustable parameters  */
 
 item.width = 200;
 item.height = 200;
@@ -16,8 +11,6 @@ item.shapeExpansionFactor = 1;
 item.numLines = 2;
 item.angleMax = 90;
 item.angleMin =  -90;
-//item.minDist = 1;
-//item.lineLengthRatio = .9;
 item.excludeLineFuncton = undefined;
 item.segmentToLineFunction = undefined;
 
@@ -31,56 +24,6 @@ item.maxTries = 100;
 item.margin = 10;
 item.shortenBy = 10;
 /* end */
-
-/*for shapes */
-
-
-      
-item.collides0 = function (point1,radius1,point2,radius2) {
-  let p1x = point1.x;
-  let p1y = point1.y;
-  let p2x = point2.x;
-  let p2y = point2.y;
-  let minDist =  radius1 + radius2 + this.minSeparation;
-  if (Math.abs(p2x - p1x) >=  minDist) {return false;}
-  if (Math.abs(p2y - p1y) >= minDist) {return false;}
-  let d = point1.distance(point2);
-  return minDist >= d;
-}
-
-
-
-item.collides = function (point,radius) {
- // initializer(this);
-  let {points,radii} = this;
-  let n = points.length;
-  for (let i=0;i<n;i++) {
-    if (this.collides0(point,radius,points[i],radii[i])) {
-      return true;
-    }
-  }
-  return false
-}
-
-item.collidesWithSegments = function (point,radius) {
-  let segments = this.segments;
-  if (!segments) {
-    return false;
-  }
-  let circle = geom.Circle.mk(point,radius*1.5);
-  let ln = segments.length;
-  for (let i=0;i<ln;i++) {
-    let seg = segments[i];
-    if (!seg) {
-      continue;
-    }
-    let {end0,end1} = seg;
-    let vec = end1.difference(end0);
-    if (circle.intersectLine(end0,vec)) {
-      return true;
-    }
-  }
-}
 
 
 
@@ -120,29 +63,6 @@ item.generatePointAndRadius = function () {
   return [p,r];
 }
       
-item.generatePoints = function () {
- // initializer(this);
-  let {width,height,minRadius,maxRadius,numPoints,maxTries} = this;
-  let points = this.set("points",core.ArrayNode.mk());
-  let radii = this.set("radii",core.ArrayNode.mk());
-  for (let i = 0;i<maxTries;i++) {
-    let pr = this.generatePointAndRadius();
-    let p = pr[0];
-    let r = pr[1];
-    if (!this.collidesWithSegments(p,r)) {
-      if (!this.collides(p,r)) {
-        points.push(p);
-        radii.push(r);
-        if (points.length >= numPoints) {
-          console.log('generated points at try number',i);
-          return;
-        }
-      }
-    }
-  }
-  console.log('failed to generate all points');
-}
-
 
 
 item.addSides = function (rect) {
@@ -922,6 +842,8 @@ item.addLine = function (i,lsg,update) {
 	}
   if (!update) {
 		this.lines.push(line);
+    debugger;
+    line.update();
 	}
   if (0 && lsg.oneInHundred) {
     line.stroke = 'red';
@@ -1395,117 +1317,7 @@ item.saveOrRestore = function (cb,context) {
 		}
   }
 }
-/*
-item.initializeGrid = function (irect) {
-  debugger;
-	let {width,height,numRows,numCols,rectP,dimension,numLines} = this;
-	const addGridToCircle = (circle) => {
-		circle.onCircle = true;
-		let r = circle.radius;
-		let deltaX = 2*r/numCols;
-		let deltaY = 2*r/numRows;
-		let vvec = Point.mk(0,1);
-		let hvec = Point.mk(1,0);
-		for (let ii = 0;ii <numCols+1;ii++) {
-			let xp = -r + ii*deltaX;
-			let p = Point.mk(xp,0);
-			this.addSegment(this.segments,p,vvec,circle);
-		}
-		for (let ii = 0;ii <numRows+1;ii++) {
-			let yp = -r + ii*deltaY;
-			let p = Point.mk(0,yp);
-			this.addSegment(this.segments,p,hvec,circle);
-		}
-	}
-		
-	let rect,circle;
-	this.set('segments',core.ArrayNode.mk());
-	if (!this.lines) {
-    this.set('lines',core.ArrayNode.mk());
-    this.set('points',core.ArrayNode.mk());  
-    this.set('circles',core.ArrayNode.mk());
-	} 
-	if (dimension) {
-		circle = geom.Circle.mk(Point.mk(0,0),0.5*dimension);
-		addGridToCircle(circle);
-    this.addLines();
-		return;
-	}
-	if (irect) {
-		rect = irect;
-	} else {
-		let hw = 0.5 * this.width;
-		let hh = 0.5 * this.height;
-		let corner = Point.mk(-hw,-hh);
-		let extent = Point.mk(this.width,this.height);
-	  rect = geom.Rectangle.mk(corner,extent);
-	}
-	this.set('segments',core.ArrayNode.mk());
-	if (!this.lines) {
-    this.set('lines',core.ArrayNode.mk());
-    this.set('points',core.ArrayNode.mk());  
-    this.set('circles',core.ArrayNode.mk());
-	} 
-  let shapePairs = this.shapePairs;
-  if (shapePairs) {
-   // debugger;
-    let ln = shapePairs.length;
-    let nlnp = Math.floor((this.numLines)/ln);
-    for (let i = 0;i < ln;i++) {
-      let cp = shapePairs[i];
-			let circle = cp[0];
-			let r = circle.radius;
-			let deltaX = 2*r/numCols;
-			let vvec = Point.mk(0,1);
-			for (let ii = 0;ii <numCols+1;ii++) {
-				let xp = -r + ii*deltaX;
-				let p = Point.mk(xp,0);
-				this.addSegment(this.segments,p,vvec,circle);
-			}
-    }
-    this.addLines();
-    return;
-  }
-  let ocs = this.originatingShapes;
-  let noc = ocs?ocs.length:0;  
-  if (this.dimension) {
-    this.set('circle',geom.Circle.mk(Point.mk(0,0),0.5 * this.dimension));
-  } else {
-		debugger;
-    this.addSides(rect);
-  }
-  let n=this.numLines;
-  let i=0;
-  let segments = this.segments;
- // debugger;
-  while (true) {
-    if (boardRows) {
-      segments = odd?whiteSegs:blackSegs;
-    }
-    let which = Math.min(Math.floor(Math.random() * noc),noc-1)+1;
-    let rsg = this.addRandomSegment(segments,noc?ocs[which-1]:null,null,rect)
-    if (rsg) {
-      if (ocs) {
-        rsg.whichCircle = which;
-      }
-      i++;
-      if (i>=n) {
-        break;
-      }
-    }
-  }
-  if (includeRect) {
-    let rect = rectP.instantiate();
-    this.set('rect',rect);
-    rect.width = width;
-    rect.height = height;
-    rect.fill = 'rgb(0,0,0)'
-    rect.update();
-    rect.show();
-  }
-  this.addLines();
-}
-*/
+
 };
 
 export {rs};

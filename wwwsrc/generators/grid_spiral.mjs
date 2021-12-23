@@ -12,7 +12,7 @@ addGridMethods(rs);
 addRandomMethods(rs);
 addParamsByCellMethods(rs);
 rs.setName('grid_shield');
-let opacity = 0.7;
+let opacity = 0.3;
 let r = 255;
 let b = 255;
 rs.globalParams  = {	
@@ -21,13 +21,14 @@ rs.globalParams  = {
 	maxSizeFactor:6,
 	sizePower:3,
 	genCircles:1,
-	sizeMap:{0:1.5,1:1,	2:0,3:3,4:4,5:1,6:0},
+	sizeMap:{0:1.5,1:1,	2:2,3:3,4:0,5:1,6:0},
 	//opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
 	opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
   colorMap:{
-		0: `rgba(0,${r},0,${opacity})`,
-		1: `rgba(${r},0,0,${opacity})`,
-		2: `rgba(255,255,255,${opacity})`,
+		0: `rgba(255,${r},255,${opacity})`,
+		1: `rgba(0,0,0,${opacity})`,
+		//1: `rgba(${r},0,0,${opacity})`,
+		2: `rgba(0,255,255,${opacity})`,
 		3: `rgba(0,${b},${b},${opacity})`,
 		4: `rgba(0,0,${r},0.8)`,
 		5: `rgba(250,0,0,1)`,
@@ -49,10 +50,10 @@ let topParams = {
 	orderByOrdinal : 0,
 	randomizeOrder : 0,
   pointJiggle:0,	
-  numRows : 26,
-  numCols : 26,
+  numRows : 96,
+  numCols : 96,
   center:Point.mk(0,0),
-  rotation : 90
+  rotation : 45
 	//backgroundColor : 'black'
 }
 Object.assign(rs,topParams);
@@ -68,11 +69,12 @@ rs.initProtos = function () {
 	this.circleP.fill = "red";
 	this.circleP.dimension = 1;
   this.lineP = linePP.instantiate().show();
-  this.lineP.stroke = 'yellow';
+  this.lineP.stroke = 'black';
 	this.lineP['stroke-width'] = 0.5;
 }
  rs.outerRadius = 200;
-  rs.innerRadius = 0.1 * rs.outerRadius;
+  rs.innerRadius = 0.05 * rs.outerRadius;
+ // rs.innerRadius = 0.1 * rs.outerRadius;
   rs.angleMin = -180;
   rs.angleMax = 180;
   rs.center = Point.mk(0,0);
@@ -102,7 +104,7 @@ rs.boundaryLineGenerator = function (p11,p21,rvs) {
 
 rs.initialize = function () {
 	debugger;
-	core.root.backgroundColor = 'gray';
+	core.root.backgroundColor = 'blue';
   this.initProtos();
 	this.initializeGrid();
 }

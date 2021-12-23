@@ -89,12 +89,12 @@ sections: [
 	['grid0_6','final','square','Grid 1'],
 	['grid0_7','final','square','Grid 2'],
 	
-	['lines0_0','final','wide2','Lines 2'],
+	['lines_2','generators','wide2','Lines 2GGM'],
    ['grid_maze','generators','square','MazeGGM'],  // was ['grid0_8','final','square','Maze'],
-   ['lines0_22','final','square','Bug Eyes'],
+   ['lines_bugeyes','generators','square','Bug EyesGGM'],
  //	['grid0_3_2','final','square','Quilt 6'],
 	
-   ['lines_lights','generators','square','LightsGG'],  // was ['lines0_23','final','square','Lights'],
+   ['lines_lights','generators','square','LightsGGM'],  // was ['lines0_23','final','square','Lights'],
 	 ['lines0_24','final','square','Spots'],
 	 ['lines0_25','final','square','Particles'],
 	 ['grid0_44.jpg','final',1,'Eye'],
@@ -111,15 +111,15 @@ sections: [
 	 ['grid0_6_0','final','square','Beacons'],
 		 ['grid0_8_9','final','square','Deco'],
 /**/
-				['grid0_9_0','final','wide2','Star Maps'],
+				['grid_star_maps','generators','wide2','Star MapsGGM'],
 		 	['lines0_26','final',0,'Asteroids'],
 		 //	['rwGrid4','final',0,'Kachina'],
 		 	//['grid0_15_0','final',0,'Ocean'],
 		
-				 	['grid24z','final',0,'Tracks'],
-		   ['grid_4','generators','square','Grid 4GG'],// was ['grid_0_5','final','square','Grid 4']
-	['spatter_spatter','generators','square','SpatterGG'],
-		 	['grid_void','generators','wide1','VoidGG'], // was ['grid0_8_18','final','wide1','Void'],
+				 	['grid_tracks','generators',0,'TracksGGM'],
+		   ['grid_4','generators','square','Grid 4GGM'],// was ['grid_0_5','final','square','Grid 4']
+	['spatter_spatter','generators','square','SpatterGGM'],
+		 	['grid_void','generators','wide1','VoidGGM'], // was ['grid0_8_18','final','wide1','Void'],
 		 //	['gridWRL3','gen2','wide1','Void'],
 		 
 
