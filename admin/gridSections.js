@@ -6,6 +6,7 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
+ ['grid_vortex','generators',1,'VortexGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_bends','generators',1,'EnigmaGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_cloudy_sky','generators',1,'Cloudy SkyGG'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['a_web0_2','final',1],
@@ -74,7 +75,7 @@ sections: [
    ['hybrid00_0','final','square','Message'],
 	['grid0_43','final','square','Mat'],
 		['grid0_5','final','square','Smoke 1'],
-	['grid0_4','final','square','Cloth'],
+	['grid_cloth','generators','square','ClothGGM'],
 	
 
 	 ['grid0_8_12','final','square','Quilt 2'],
@@ -104,12 +105,12 @@ sections: [
 	 ['grid0_12.jpg','final','square','Grid 3'],
 	['hybrid00_2.jpg','final','square','Lines 3'],
 	 ['grid0_16.jpg','final','wide2','Atlas'],
-	 ['grid0_17.jpg','final','wide2','Book'],
+	 ['grid_book','generators','wide2','BookGGM'],
 
-	 ['grid0_21.jpg','final','square','Smoke 2'],
-	 ['grid0_5_10','final','square','Signals'],
-	 ['grid0_6_0','final','square','Beacons'],
-		 ['grid0_8_9','final','square','Deco'],
+	 ['grid_smoke_2','generators','square','Smoke 2GGM'],
+	 ['grid_signals','generators','square','SignalsGGM'],
+	 ['grid_beacons','generators','square','BeaconsGGM'],
+		 ['grid_decos','generators','square','DecoGGM'],
 /**/
 				['grid_star_maps','generators','wide2','Star MapsGGM'],
 		 	['lines0_26','final',0,'Asteroids'],

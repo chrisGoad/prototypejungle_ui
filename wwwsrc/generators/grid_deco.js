@@ -1,6 +1,15 @@
-
-const rs = function (rs)	{ 
+//active
+//core.require('/gen0/GridLinesRandom.js',
+//core.require('/shape/rectangle.js','/line/line.js','/shape/circle.js','/shape/polygon.js','/gen0/GridLinesRandom.js',
+//function (rs)	{ 
 //function (rectPP,linePP,circlePP,polygonPP,GridLinesRandomP)	{ 
+core.require('/line/line.js','/shape/circle.js','/shape/rectangle.js','/gen0/basics.js','/mlib/grid.js','/mlib/topRandomMethods.js','/mlib/ParamsByCell.js',
+
+function (linePP,circlePP,rectPP,rs,addGridMethods,addRandomMethods,addParamsByCellMethods) {
+  debugger;	//this.initProtos();
+  addGridMethods(rs);
+  addRandomMethods(rs);
+  addParamsByCellMethods(rs);
 
 //let sqd = 128;
 let sqd = 48;
@@ -11,6 +20,46 @@ rs.paramsByCell = null;
 rs.paramsByRow = null;
 rs.paramsByCol = null;
 
+
+let oo = 0.1;
+let b = 255;
+let r = 255;
+rs.globalParams = {
+	opacityMap:{0:oo,1:oo,2:1,3:oo,4:oo,5:oo,6:oo},
+	widthFactor:2,
+	heightFactor:2,
+	sizePower:2,
+	maxSizeFactor:4,
+	genCircles: 0,
+	randomizingFactor:0,
+	colorMap:{
+//0:(r,g,b,opacity) => `rgba(100,100,100,${opacity})`,
+0:`rgba(0,150,0,${oo})`,
+1:(r,g,b,oo) => `rgba(150,150,150,${oo})`,
+2:`rgba(200,200,200,${oo})`,
+//2:`rgba(255,255,255,${oo})`,
+3:`rgba(0,${b},${b},${oo})`,
+//3:`rgba(0,255,255,${oo})`,
+4:`rgba(0,0,${r},${oo})`,
+5:`rgba(0,0,0,${oo})`,
+6:`rgba(${r},${r},0,${oo})`},
+sizeMap:{0:2,1:2,2:2,3:3,4:4,5:0,6:0}};
+
+rs.initProtos = function () {
+	
+	core.assignPrototypes(this,'rectP',rectPP);
+	this.rectP.fill = 'blue';
+  this.rectP['stroke-width'] = 0;
+	
+}  
+
+rs.initialize = function () {
+	debugger;
+	this.initProtos();
+  this.initializeGrid();
+}
+
+return rs;
 rs.getParam = function (cell,prop) {
 	let {paramsByCell,paramsByRow,paramsByCol,globalParams,numRows} = this;
 	let {x,y} = cell;
@@ -32,7 +81,7 @@ rs.getParam = function (cell,prop) {
 	}
 	return globalParams[prop]
 }
-
+return rs;
 rs.getParams = function (cell,props) {
 	let ps  = {};
 	props.forEach((prop) => {
@@ -43,31 +92,94 @@ rs.getParams = function (cell,props) {
 }
 		
 			 
-	
+		
 
+rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
+	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
+	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+		          2:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            3:(r,g,b,opacity) => `rgba(0,${b},${b},${opacity})`,
+		          4:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+		          5:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
+		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
+		};
+let wd = 300;
+let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:wd,height:wd,backgroundColor:'rgb(200,2,2)',backgroundPadding:0.1*wd,pointJiggle:3,
+ordinalMap: {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7}}
+
+Object.assign(rs,topParams);
+/*	
+rs.initProtos = function () {
+	core.assignPrototypes(this,'rectP',rectPP);
+	
+		core.assignPrototypes(this,'circleP',circlePP);
+		core.assignPrototypes(this,'polygonP',polygonPP);
+}  
+
+
+rs.finishProtos = function () {
+	this.rectP.stroke = 'rgba(0,0,0,.8)';
+	this.rectP['stroke-width'] = 0;
+	this.circleP.stroke = 'rgba(0,0,0,.8)';
+	this.circleP['stroke-width'] = 0;
+}
+*/
+
+
+const numPowers = function(n,p) {
+	if (n === 0) {
+		return 0;
+	}
+	if (n === p) { 
+	  return 1;
+	}
+	if (n%p === 0) {
+		return 1 + numPowers(n/p,p);
+	}
+	return 0;
+}
+rs.numPowers = function (n,p) {
+	return numPowers(n,p);
+}
 
 rs.sizeFactor = function ( cell) {
 	let numRows = this.numRows;
 	let {x,y} = cell;
+	if ((x===63) && (y===63)) {
+		debugger;
+	}
 	let szPower = this.getParam(cell,'sizePower');
 	let maxSizeFactor = this.getParam(cell,'maxSizeFactor');
 	//let px = numPowers(x+1,szPower);
-	let px = this.numPowers(x,szPower);
+	let px = numPowers(x,szPower);
 	let sf;
 	if (numRows === 1) {
 		sf = Math.min(px,maxSizeFactor);
 	} else {
   	//let py = numPowers(y+1,szPower);
-  	let py = this.numPowers(y,szPower);
+  	let py = numPowers(y,szPower);
 	  sf =  Math.min(px,py,maxSizeFactor);
 	}
 	//console.log('x',x,'sf',sf);
 	return sf;
 }
 
+/*
+rs.colorSetter = function (shape,fc) {
+	let r = 100 + Math.random() * 155;
+	let g = 100 +Math.random() * 155;
+	let b = 100 + Math.random() * 155;
+	if (fc >= 2) {
+		shape.fill = 'rgba(255,255,255,0.5)';
+	} else {
+		shape.fill = `rgba(${r},${g},${b},0.5)`;
+	}
+}
+*/
 
 rs.colorSetter = function (shape,fc,cell) {
-  //debugger;
 	let colorMap = this.getParam(cell,'colorMap');
 	if (!colorMap) {
 		debugger;
@@ -91,33 +203,6 @@ rs.colorSetter = function (shape,fc,cell) {
 	//console.log(fill);
 }
 
-rs.globalParams = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
-	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
-	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
-	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
-		          2:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
-	            3:(r,g,b,opacity) => `rgba(0,${b},${b},${opacity})`,
-		          4:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
-		          5:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
-	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
-		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
-		};
-
-rs.colorSetter = function (shape,fc,cell) {
-  debugger;
-	let colorMap = this.getParam(cell,'colorMap');
-	if (!colorMap) {
-		debugger;
-	}
-	let colorF = colorMap[fc];
-  let fill = ((typeof colorF) === 'string')?colorF:colorF(cell);
-	if (shape.setFill) {
-		shape.setFill(fill);
-	} else {
-	  shape.fill = fill;
-	}
-}
-
 
 rs.ordinalGenerator = function (cell) {
 	let fc = this.sizeFactor(cell);
@@ -131,7 +216,6 @@ const interpolate = function (low,high,fr) {
 //let ranRows = undefined;//[8,16];
 rs.computeSize = function (cell) {
 	let {numCols,numRows,deltaX,deltaY} = this;
-	debugger;
 	let {x,y} = cell;
 	if ((x===40) && (y===2000)) {
 //		debugger;
@@ -142,10 +226,9 @@ rs.computeSize = function (cell) {
   let fc = this.sizeFactor(cell);
 	//console.log('cell',cell.x,cell.y,'fc',fc);
 	let szf = sizeMap[fc]
-  let numPy = this.numPowers(cell.y,sizePower);
+  let numPy = numPowers(cell.y,sizePower);
 	let szfy = sizeMap[numPy];
 	//if ((!ranRows) || (ranRows.indexOf(cell.y)>-1)) {
- // debugger;
 	if (randomizingFactor) {
 	//	console.log('szf',szf,'szfy',szfy,'numPy',numPy);
 		//debugger;
@@ -154,19 +237,6 @@ rs.computeSize = function (cell) {
 	}
 	let wf = widthFactor;
 	let hf = heightFactor;
-	/*if (widthFactorLeft) {
-		let fr = cell.x/(numCols-1);
-		wf = interpolate(widthFactorLeft,widthFactorRight,fr);
-	} else {
-		wf = widthFactor;
-	} 
-	if (heightFactorTop) {
-		let fr = cell.y/(numRows-1);
-		hf = interpolate(heightFactorTop,heightFactorBottom,fr);
-	} else {
-		hf = heightFactor;
-	} */
-	//return {x:szf * wf * deltaX,y:szf*hf*deltaY,fc:fc};
 	return {x:szf * wf,y:szf*hf,fc:fc};
 }
 
@@ -200,23 +270,16 @@ rs.computeValuesToSave = function () {
 }
 
 rs.setDims = function (shape,width,height) {
-	if (width < 0) {
-		debugger;
-		shape.hide();
-		return;
-	}
 	if (shape.setDims) {
 		shape.setDims(width,height);
 	} else {
 		shape.width = width;
 		shape.height = height;
 	}
-	shape.show();
 }
 
 rs.shapeUpdater = function (shape,rvs,cell,center) {
 	let {shapes,rectP,circleP,deltaX,deltaY,numRows,numCols,sizeValues,width,height} = this;
-//	debugger
 	let propVs = this.getParams(cell,['randomizingFactor','genCircles','sizeMap','widthFactor','heightFactor','genCircles','genPolygons']);
 	let {randomizingFactor,sizeMap,widthFactor,heightFactor,genCircles,genPolygons} = propVs;
 	let sz;
@@ -229,7 +292,6 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	if (sizeValues) {
 		sz = this.lookupSize(cell);
 	} else {
-    //debugger;
 		sz = this.computeSize(cell);
 	}
 	if (sz.x === 0) {
@@ -252,23 +314,10 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	  let c1 = corners[1];
 	  let c2 = corners[2];
 	  let c3= corners[3];
-    let d0 = c0.distance(c1);
-    let d1 = c0.distance(c1);
-   /* let minX = Math.min(c0.x,c1.x,c2.x,c3.x);
-    let maxX = Math.max(c0.x,c1.x,c2.x,c3.x);
-    let minY = Math.min(c0.y,c1.y,c2.y,c3.y);
-    let maxY = Math.max(c0.y,c1.y,c2.y,c3.y);
-	  let deltaX = maxX - minX;
-	  let deltaY = maxY - minY;
-	 // let deltaX = Math.abs(c0.x - c1.x);
-	 // let deltaY = Math.abs(c0.y - c3.y);
-    console.log('x',cell.x,'y',cell.y,'deltaX',deltaX,'deltaY',deltaY);
-    if (deltaX < 0.50) {
-      debugger;
-    }*/
+	  let deltaX = Math.abs(c0.x - c1.x);
+	  let deltaY = Math.abs(c0.y - c3.y);
 		this.colorSetter(shape,sz.fc,cell);
-   //	shape.dimension = Math.min(deltaX,deltaY)* (sz.x);
-   	shape.dimension = Math.min(d0,d1)* (sz.x);
+   	shape.dimension = Math.min(deltaX,deltaY)* (sz.x);
 		return shape;
 	}
 
@@ -288,7 +337,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
   if (cellRightX > gridRightX) {
 		let chopX = cellRightX - gridRightX;
 		fszx = deltaX*(sz.x) - 2*chopX;
-	}
+	}	
 	if (genCircles) {
 		shape.dimension = deltaX * (sz.x);
 	} else {
@@ -307,7 +356,6 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 }
 
 rs.shapeGenerator = function (rvs,cell,center) {
-// debugger;
 	let {shapes,rectP,circleP,polygonP} = this;
 	if (this.hideThisCell(cell)) {
 	  let {x,y} = cell;
@@ -325,12 +373,51 @@ rs.shapeGenerator = function (rvs,cell,center) {
 }
 
 
+
+
+rs.initProtos = function () {
+	
+	core.assignPrototypes(this,'rectP',rectPP);
+	this.rectP.fill = 'blue';
+	
+}  
+
+rs.innerInitialize = function () {
+	debugger;
+	this.initProtos();
+//	this.finishProtos();
+	/*if (this.backgroundColor) {
+		let bkr;
+		if (this.outerRadius) {
+			
+			bkr = this.set('backGround',this.circleP.instantiate());
+			bkr.show();
+			bkr.dimension = 2*this.outerRadius;
+    } else {
+			
+			bkr = this.set('rect',this.rectP.instantiate());
+			bkr.width = this.width;
+			bkr.height = this.height;
+		}
+		bkr.show();
+		bkr.fill = this.backgroundColor;
+		bkr['stroke-width'] = 0;
+	}*/
+	if (this.saveJson  || this.loadFromPath) {
+		this.outerInitialize();
+	} else {
+	  this.initializeGrid();
+	}
+}
+
+
+
+rs.initialize = rs.innerInitialize;
+
 rs.toFun = function (v) {
 	return () => v;
 }
-}
+return rs;
 
-export {rs};
-
-
+});
 

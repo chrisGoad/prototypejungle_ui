@@ -150,7 +150,7 @@ rs.addFan = function (nm,fromLeft,up) {
 rs.initialize = function () {
   //this.addBackground();
   debugger;
-  core.root.backgroundColor = 'white';
+  core.root.backgroundColor = 'black';
   this.initProtos();
     this.addBackground();
 
@@ -160,7 +160,7 @@ rs.initialize = function () {
   let rwd2 = 0.8*rwd;
   let rmv = 0.5*0.88*fwd;
   let rmv2 = 1.22*rmv;
-
+/*
   let rect01 = this.set('rect01',this.rectP.instantiate().show());
   rect01.fill = 'rgba(0,0,255,1)';
   rect01.width = rect01.height = rwd2;
@@ -169,9 +169,10 @@ rs.initialize = function () {
   
   let rect10 = this.set('rect10',this.rectP.instantiate().show());
   rect10.fill = 'rgba(0,0,255,1)';
-  rect10.width = rect10.height = rwd2;
-  rect10.moveto(Point.mk(1.03*rmv2,-1.0*rmv2));
-  
+  rect10.width = rect10.height = 0.9*rwd2;
+  rect10.moveto(Point.mk(1.0*rmv2,-1.0*rmv2));
+  */
+  /*
   let rect00 = this.set('rect00',this.rectP.instantiate().show());
   rect00.fill = 'black';
   rect00.width = rect00.height = rwd;
@@ -181,9 +182,10 @@ rs.initialize = function () {
 
   let rect11 = this.set('rect11',this.rectP.instantiate().show());
   rect11.fill = 'black';
-  rect11.width = rect11.height = rwd;
+  rect11.width = rwd;
+  rect11.height = 0.9*rwd;
   rect11.moveto(Point.mk(rmv,0.9*rmv));
-  
+  */
  //return;
   let mv = 0.4*fwd;
 //  Object.assign(this,{'width':1.80*fwd,'height':1.80*fwd,backStripeColor:'rgb(2,2,255)',backStripeVisible:0});
