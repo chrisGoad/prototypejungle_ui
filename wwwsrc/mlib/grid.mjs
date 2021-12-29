@@ -91,9 +91,12 @@ item.linearInterpolator = function (a,b,fr) {
 	return rs;
 }
 	
-item.sidesPositionFunction = function (grid,i,j) {
-	let {numRows,numCols,sideA,sideB,Interpolator} = grid;
-	let I = Interpolator?Interpolator:grid.linearInterpolator;
+//item.sidesPositionFunction = function (grid,i,j) {
+item.sidesPositionFunction = function (i,j) {
+	//let {numRows,numCols,sideA,sideB,Interpolator} = grid;
+	let {numRows,numCols,sideA,sideB,Interpolator} = this;
+	//let I = Interpolator?Interpolator:grid.linearInterpolator;
+	let I = Interpolator?Interpolator:this.linearInterpolator;
 	let a = sideA(i/(numCols - 1));
 	let b = sideB(i/(numCols - 1));
 	let rs = I(a,b,j/(numRows - 1));

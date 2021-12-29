@@ -85,10 +85,10 @@ sections: [
 	/* 	 ['grid0_8_11','gen2','square','Quilt 3'],
 		 		['grid0_8_13','gen2','square','Quilt 4'],*/
 	 
-	 	['grid0_3','final','square','Metal'],
-		['grid0_2','final','square','Tube'],
-	['grid0_6','final','square','Grid 1'],
-	['grid0_7','final','square','Grid 2'],
+	 	['grid_metal','generators','square','MetalGGM'],
+		['grid_tube','generators','square','TubeGGM'],
+	['grid_1','generators','square','Grid 1GGM'],
+	['grid_2','generators','square','Grid 2GGM'],
 	
 	['lines_2','generators','wide2','Lines 2GGM'],
    ['grid_maze','generators','square','MazeGGM'],  // was ['grid0_8','final','square','Maze'],
@@ -96,18 +96,18 @@ sections: [
  //	['grid0_3_2','final','square','Quilt 6'],
 	
    ['lines_lights','generators','square','LightsGGM'],  // was ['lines0_23','final','square','Lights'],
-	 ['lines0_24','final','square','Spots'],
-	 ['lines0_25','final','square','Particles'],
-	 ['grid0_44.jpg','final',1,'Eye'],
+	// ['lines0_24','final','square','Spots'],
+	// ['lines_particles','generators','square','ParticlesGGM'],
+	 ['grid_eye.jpg','generators',1,'EyeGGM'],
 	// ['mmgrid0_0.jpg','gen2','square','Grating'],
 	 
 /**/
-	 ['grid0_12.jpg','final','square','Grid 3'],
+	 ['grid_3','generators','square','Grid 3GGM'],
 	['hybrid00_2.jpg','final','square','Lines 3'],
-	 ['grid0_16.jpg','final','wide2','Atlas'],
+	 ['grid_atlas','generators','wide2','AtlasGGM'],
 	 ['grid_book','generators','wide2','BookGGM'],
 
-	 ['grid_smoke_2','generators','square','Smoke 2GGM'],
+	 ['grid_smoke_2','generatogrs','square','Smoke 2GGM'],
 	 ['grid_signals','generators','square','SignalsGGM'],
 	 ['grid_beacons','generators','square','BeaconsGGM'],
 		 ['grid_decos','generators','square','DecoGGM'],
