@@ -64,23 +64,23 @@ sections: [
 
 
 		 ['grid_quilt_1','generators','square','Quilt 1GG'],// was ['grid0_8_15.jpg','final','square','Quilt 1'],
-	 	 ['grid_world.jpg','generators','square','WorldGG'],  // was ['grid0_19.jpg','final','square','World'],
+	 	 ['grid_world.jpg','generators','square','WorldGGM'],  // was ['grid0_19.jpg','final','square','World'],
 		 	 ['lines_1','generators','square','Lines 1GGM'],
     ['sphere2_1','gen2',1,'Rays'],
 
 	 ['grid_shield','generators','square','ShieldGGM'],
  		 ['lines0_20','final','wide2','Order Within Chaos'],
-			 ['lines0_21','final','wide2','Chaos Within Order'],
+			 ['lines_chaos_within_order','generators','wide2','Chaos Within OrderGGM'],
 
-   ['hybrid00_0','final','square','Message'],
-	['grid0_43','final','square','Mat'],
-		['grid0_5','final','square','Smoke 1'],
+   ['grid_message','generators','square','MessageGGM'],
+	['grid_mat','generators','square','MatGGM'],
+		['grid_smoke_1','generators','square','Smoke 1GGM'],
 	['grid_cloth','generators','square','ClothGGM'],
 	
 
-	 ['grid0_8_12','final','square','Quilt 2'],
-	 ['grid0_3_combo3','final','square','Two Quilts'],
-	 ['grid0_8_14','final','square','Quilt 3'],
+	 ['grid_quilt_2','generators','square','Quilt 2GGM'],
+	 ['grid_two_quilts','generators','square','Two QuiltsGGM'],
+	 ['grid_quilt_3','generators','square','Quilt 3GGM'],
 
 	/* 	 ['grid0_8_11','gen2','square','Quilt 3'],
 		 		['grid0_8_13','gen2','square','Quilt 4'],*/
