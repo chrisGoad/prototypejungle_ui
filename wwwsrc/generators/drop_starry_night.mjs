@@ -1,6 +1,3 @@
-
-//core.require('/line/line.js','/generators/basics.js','/mlib/drop.js','/mlib/segsets.js',
-//function (linePP,rs,addDropMethods,addSegsetMethods) {
 import {rs as linePP} from '/line/line.mjs';
 import {rs as basicsP} from '/generators/basics.mjs';
 import {rs as addDropMethods} from '/mlib/drop.mjs';
@@ -9,16 +6,17 @@ let rs = basicsP.instantiate();
 
 addDropMethods(rs);
 addSegsetMethods(rs);
-rs.setName('drop_horizon');
-let topParams = {width:200,height:200,maxDrops:100000,dropTries:50,lineLength:2,backgroundColor:undefined,minSeparation:0}
+rs.setName('drop_starry_night');
+let ht = 200;
+let topParams = {width:1.5*ht,height:ht,dropTries:50,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,minSeparation:0,}
 
 Object.assign(rs,topParams);
 
 
 rs.initProtos = function () {
- this.lineP = linePP.instantiate();
-	this.lineP.stroke = 'yellow';
-	this.lineP['stroke-width'] = .3;
+	this.lineP = linePP.instantiate();
+	this.lineP.stroke = 'white';
+	this.lineP['stroke-width'] = .5;
 }  
 
 rs.segParams = function () {
@@ -29,6 +27,27 @@ rs.segParams = function () {
   return {angle,length};
 }
 
+rs.genSegments = function (p) {
+  let sizes = [2,5,10,20,40];
+  let which = Math.floor(Math.random()*5);
+  let sz = sizes[which];
+  let wd = sz;
+  let ht = sz;
+  let segs = this.rectangleSegments(wd,ht,p);
+  let lines = segs.map((sg) => this.genLine(sg));
+
+  const genRGBval = function () {
+    return 50 + Math.floor(Math.random()*202);
+  }
+  let r = genRGBval();
+  let g = genRGBval();
+  let b = genRGBval();
+  let clr = `rgb(${r},${r},${r})`;
+  lines.forEach( (line) => line.stroke = clr);
+  return [segs,lines];
+}
+
+
 rs.initialSegments = function () {
   let {width,height} = this; 
   let segs = this.rectangleSegments(width,height);
@@ -36,32 +55,6 @@ rs.initialSegments = function () {
   return [segs,lines];
 }
 
-rs.genRectSegments = function (p) {
-  let sizes = [2,5,10,20,40];
-  let which = Math.floor(Math.random()*5);
-  let sz = sizes[which];
-  let wd = sz;
-  let ht = sz;
-  let segs = this.rectangleSegments(wd,ht,p);
-  return segs;
-}
-
-
-rs.genSegments = function (p) {
-  let wparams = {direction:0,zigzag:1,randomness:0,vertical:0,widths:[10,20,50],heightRatio:0.05,numSegs:15,pos:p};
-  let segs = (p.y < 0)?this.genRectSegments(p):this.wigglySegments(wparams);
-  let lines = segs.map((sg) => this.genLine(sg));
-  const genRGBval = function () {
-    return 155 + Math.floor(Math.random()*100);
-  }
-  let r = genRGBval();
-  let g = genRGBval();
-  let b = genRGBval();
-  let clr = `rgb(${r},${r},${b})`;
-  lines.forEach( (line) => line.stroke = clr);
-  return [segs,lines];
-}
-  
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();

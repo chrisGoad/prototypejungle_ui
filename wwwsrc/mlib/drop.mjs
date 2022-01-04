@@ -368,7 +368,7 @@ item.addRandomSegments = function () {
     /*if (onlyFromSeeds) {  removed 11/21 
       return;
     }*/
-		p = this.genRandomPoint(); 
+		let p = this.genRandomPoint(); 
 		//debugger;
 		let segsAndLines = this.genSegments(p);
 		let ifnd = 0;
