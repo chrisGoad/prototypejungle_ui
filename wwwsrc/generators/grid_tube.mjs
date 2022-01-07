@@ -19,7 +19,7 @@ let rs = basicsP.instantiate();
   
 let OR = 100;
 let nr = 64;
-let topParams = {numRows:nr,numCols:nr,outerRadius:OR,innerRadius:0.5*OR,angleMin:-180,angleMax:180,center:Point.mk(0,0),rotation:30,pointJiggle:1,pathLength:10,fadeIn:false,fractionToOccupy: 0.9};
+let topParams = {numRows:nr,numCols:nr,outerRadius:OR,innerRadius:0.5*OR,angleMin:-180,angleMax:180,center:Point.mk(0,0),rotation:30,pointJiggle:1,pathLength:10,fadeIn:false,fractionToOccupy: 0.9,backStripeColor:'rgb(2,2,2)',backStripePadding:1.3*OR,backStripeVisible:0};
 Object.assign(rs,topParams);
   
 rs.positionFunction = rs.radialPositionFunction;
@@ -60,6 +60,7 @@ rs.regionLineGenerator =   function (end0,end1,rvs,cell) {
 
 rs.initialize = function () {
   this.initProtos();
+  this.addBackStripe();
   this.setupBoundaryRandomizer('red', {step:35,min:20,max:200});
   this.initializeGrid();
 }

@@ -6,14 +6,15 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
+ ['grid_chaos','generators',1,'ChaosGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_vortex','generators',1,'VortexGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_bends','generators',1,'EnigmaGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_cloudy_sky','generators',1,'Cloudy SkyGG'], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['a_web0_2','final',1],
- ['min0_16','final',1],
- ['min0_15','final',1],
+ //['a_web0_2','final',1],
+ ['web_triangles','generators',1,'TrianglesGGM'],
+ ['web_spokes','generators',1,'SpokesGGM'],
   ['min0_13','final',1,'Stripes 2'],
-  ['min0_10','final',1,'Stripes 1'],
+  ['web_stripes_1','generators',1,'Stripes 1'],
  // ['min0_9_5','gen2',1,'Stripes'],
   ['web_diamond','generators',1,'DiamondGGM'],
 
@@ -26,7 +27,7 @@ sections: [
 
   ['drop_leaves','generators',1,'LeavesGGM'],  //was ['drop0_1_21','final',1,'Leaves']
   ['drop_dandelion','generators',1,'DandelionGGM'],// was ['drop0_1_24','final',1,'Dandelion'],
-  ['drop_metal_2','generators',1,'Metal 2GG'], // was ['drop0_5','final',1,'Metal 2'],
+  ['drop_metal_2','generators',1,'Metal 2GGM'], // was ['drop0_5','final',1,'Metal 2'],
 
 
  /* ['drop0__12','gen2',1, 'Ice 2'],
