@@ -120,8 +120,8 @@ rs.initialize = function () {
 	let endB0 = Point.mk(-100,100);
 	let endB1 = Point.mk(100,100);
 	let arcB = geom.Arc.mk(endB0,endB1,-200); 
-	this.sideA = (fr) => arcA.pointOn(fr);
-	this.sideB = (fr) => arcB.pointOn(fr);
+	this.sideA = (fr) => arcA.pointAlong(fr);
+	this.sideB = (fr) => arcB.pointAlong(fr);
 	this.positionFunction = this.sidesPositionFunction;
 	this.setupBoundaryRandomizer('red', {step:30,min:50,max:250});
 	this.setupShapeRandomizer('red', {step:30,min:50,max:250}); 

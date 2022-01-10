@@ -6,7 +6,9 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
- ['grid_chaos','generators',1,'ChaosGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_superposition_2','generators',1,'Superposition 2GGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_ramp','generators',1,'RampGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_superposition_1','generators',1,'Superposition 1GGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_vortex','generators',1,'VortexGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_bends','generators',1,'EnigmaGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_cloudy_sky','generators',1,'Cloudy SkyGGM'], // was ['grid0_46','final',1,'Cloudy Sky'],

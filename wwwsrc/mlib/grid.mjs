@@ -97,8 +97,8 @@ item.sidesPositionFunction = function (i,j) {
 	let {numRows,numCols,sideA,sideB,Interpolator} = this;
 	//let I = Interpolator?Interpolator:grid.linearInterpolator;
 	let I = Interpolator?Interpolator:this.linearInterpolator;
-	let a = sideA(i/(numCols - 1));
-	let b = sideB(i/(numCols - 1));
+	let a = this.sideA(i/(numCols - 1));
+	let b = this.sideB(i/(numCols - 1));
 	let rs = I(a,b,j/(numRows - 1));
 	return rs;
 }

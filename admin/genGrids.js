@@ -1,26 +1,29 @@
 
-let forKOP = process.argv[2];
+let forKOPstr = process.argv[2];
+let byKindstr = process.argv[3];
 
+const toBoolean = (v) => {
+  if (typeof v === 'string') {
+    return (v==='0')?false:true;
+  } else {
+    return false;
+  }
+}
+
+let forKOP = toBoolean(forKOPstr);
+let byKind = toBoolean(byKindstr);
+
+console.log('forKOP',forKOP,'byKind',byKind);
+//return;
 let alternate = 0;
-let sectionsPath = alternate?'./altGridSections':'./gridSections';
-let outPath = alternate?'www/altGrids.html':'www/grids.html';
+let sectionsPath = alternate?'./altGridSections.js':(byKind?'./sectionsByKind.js':'./gridSections.js');
+console.log('sectionsPath', sectionsPath);
+let outPath = alternate?'www/altGrids.html':(byKind?'www/byKind.html':'www/grids.html');
 var fs = require('fs');
 
 let fileExt = 'mjs';
 let thePages = [];
 let theTitles = [];
-/*const  gotoPage = function (id,fmat) {
-  location.href = id+'.html';
-  location.href = `page.html?what=${id}&fmat=${fmat}`;
- 
-}*/
-/*
-const gotoPage = function (id) {
-  debugger;
-  let page = pages[id]?pages[id]:id;
-  window.parent.location.href = page;
-}
-*/
 let pageTop = `
 <!DOCTYPE html>
 <html lang="en">
@@ -76,25 +79,15 @@ let pageTop = `
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 	debugger;
-	//let titles =  document.querySelectorAll('#title');
 	let cWidth =document.documentElement.clientWidth;
-	//alert('cWidth = '+cWidth);
-	//let imWid = Math.floor(0.13*cWidth);
 	let imWid = Math.floor(0.09*cWidth);
 	let images = document.querySelectorAll('img');
 	images.forEach((im) => {
 		im.width = ''+imWid;
 	});
-/*	titles.forEach((title) => {
-		title.style.visibility = "";
-	});*/
 });
 </script>	
 `;
-/*
-<script src="pages.js"></script>
-<script src="gridPages.js"></script>
-*/
 let pageNumber = 0;
 let numPages = 0;
 const thingString = function (ix,dir,useThumb,ititle,imageArg) {
@@ -107,58 +100,31 @@ const thingString = function (ix,dir,useThumb,ititle,imageArg) {
 	thePages.push(x);
   let title=ititle?ititle:pageNumber+'';
   theTitles.push(ititle?ititle:pageNumber+'');
-	//let imsrc = `http://localhost:8081/images/${path}.jpg`;
 	let imsrc = `images/${path}.jpg`;
-//	let thumbsrc = alternate?imsrc:`thumbs/${path}.jpg`;
 	let thumbsrc = alternate?imsrc:(useThumb?`thumbs/${path}.jpg`:imsrc);
 	console.log('thumbsrc',thumbsrc);
-	//let title,titleArg;
-/*	if (ititle) {
-		titleArg = '&title='+ititle;
-	//	title = ititle;
-	} else {
-		titleArg = '';
-	//	title = x
-	}*/
 	let pageArg = 'page='+pageNumber;
 	let theImageArg = imageArg?'&image='+imageArg:'';
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
-	//let astart = `<a style="color:white" href="page.html?image=${x}&fmat=${fmat}${titleArg}${pageArg}${lastPageArg}">`;
-	let astart = `<a style="color:white" href="${alternate?'altPage':'page'}.html?image=${x}&${pageArg}">`;
+	let astart = `<a style="color:white" href="${alternate?'altPage':(byKind?'byKindPage':'page')}.html?image=${x}&${pageArg}">`;
 	if (forKOP) {
-		//let titleLink = ititle?`${astart}${ititle}</a></p><br/><br/>`:'';
-		//let titleLink = ititle?`${astart}${title}</a></p>`:'';
 		let titleLink = `${astart}${title}</a></p>`;
 		console.log('titleLink',titleLink);
-		//let titleA = ititle?`<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${title}</a><br/>`:'';
 rs = `<div><p class="centered">${titleLink}
 <p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>
 	`; 
-	//rs = `<div><p class="centered" style="visibility:hidden" id="title">${titleLink}
-//<p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>
-	//`; 
 	} else {
 		
 rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.${fileExt}${theImageArg}">${title}</a><br/><a href="${dir}/${path}.${fileExt}">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
 `;
 	}
-//let rs = `  <div><p style="text-align:center">${title}<a href="http://localhost:8081/draw.html?source=/${dir}/${path}.js">${x}</a><br/><a href="${dir}/${path}.js">source</a><br/><a href="page.html?image=${x}&fmat=${fmat}${title}"><img width="200" src="${imsrc}"></a></p></div>
-//`;
 	return rs;
 }
-/*
-let pageOrder = [];
-let formatOrder = [];
-const writeThing = function (x,dir,fmat,title) {
-	document.writeln(thingString(x,dir,fmat,title));
-	pageOrder.push(x);
-	formatOrder.push(fmat);
-}*/
+
 let numThingsPerLine = 4;
 let sectionString = function (things) {
-	//things.reverse();
 	let numThingsThisLine = 0;
 	let startLine =  `
 <div class="theGrid">
@@ -171,14 +137,18 @@ let sectionString = function (things) {
 	let ln = things.length;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
-    let [file,directory,useThumb,title,image] = thing;
-		rs += thingString(file,directory,useThumb,title,image);
-		/*if (thing.length === 3) {
-			rs += thingString(thing[0],thing[1],thing[2]);
-		} else if (thing.length === 4) {
-				rs += thingString(thing[0],thing[1],thing[2],thing[3]);
-		}*/
-		numThingsThisLine++;
+    let tln = thing.length;
+    if (tln === 1) {
+      console.log("Section");
+      let txt = thing[0];
+      numThingsThisLine = numThingsPerLine;
+   //  rs += `</div>${startLine}<div>${txt}</div></div>`;
+      rs += `</div><br/><div style="text-align:center">${txt}</div><br/><div>`;
+    } else {
+      let [file,directory,useThumb,title,image] = thing;
+      rs += thingString(file,directory,useThumb,title,image);
+      numThingsThisLine++;
+    }
 		console.log('numThingsThisLine',numThingsThisLine,'i',i,'ln',ln);
 		if ((numThingsThisLine === numThingsPerLine) && (i<(ln-1))) {
 			console.log('EOL');
@@ -198,17 +168,16 @@ let sectionString = function (things) {
 const sectionsString = function (sections) {
 	let rs = '';
 	sections.forEach((section) => rs += sectionString(section));
-	//console.log('foo',rs);
 	return rs;
 
 }
 const writeThePages = function () {
 	let js = 'let thePages = '+JSON.stringify(thePages)+';';
-	fs.writeFileSync(alternate?'www/altPages.js':'www/thePages.js',js);
+	fs.writeFileSync(alternate?'www/altPages.js':(byKind?'www/byKindPages.js':'www/thePages.js'),js);
 }
 const writeTheTitles = function () {
 	let js = 'let theTitles = '+JSON.stringify(theTitles)+';';
-	fs.writeFileSync(alternate?'www/altTitles.js':'www/theTitles.js',js);
+	fs.writeFileSync(alternate?'www/altTitles.js':(byKind?'www/byKindTitles.js':'www/theTitles.js'),js);
 }
 		
 const writePage = function (sections) {
@@ -219,27 +188,9 @@ const writePage = function (sections) {
 	fs.writeFileSync(outPath,frs);
 }
 
-let sectionsC = require(alternate?'./altSections.js':'./gridSections.js');
-/*let sections = [
-[
-		 ['grid0_8_10','gen2','square'],
-		 ['multi0','gen2','square'],
-		 ['grid0_9_0','gen2','wide2'],
+//let sectionsC = require(alternate?'./altSections.js':'./gridSections.js');
+let sectionsC = require(sectionsPath);
 
-],
-[
-  ['zigzag3_3.mp4','gen2','wide2'],
-	['grid0_9.mp4','gen2','square','Animation'],
-	['eye0','grid','square'],
-	['eye1','grid','square'],
-],	
-[	 
-	 ['wander0_1.mp4','gen2','square'],
-	 ['wander0_1_2.mp4','gen2','wide2'],
-	 ['mlines0_4.mp4','gen2','wide2','Rotation'],
-	 ['mlines0_7.mp4','gen2','Square']
-]
-];*/
 const countPages = function (sections) {
 	let rs = 0;
 	sections.forEach((section) => {

@@ -1064,7 +1064,7 @@ Arc.mk = function (center,angle0,angle1,radius) {
 	return rs;
 }
 
-Arc.pointOn = function (fr) {
+Arc.pointAlong = function (fr) {
 	let {center,angle0,angle1,radius} = this;
 	let angle = angle0 + fr*(angle1-angle0);
 	let vec = Point.mk(Math.cos(angle),Math.sin(angle));
