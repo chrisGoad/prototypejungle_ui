@@ -5,15 +5,6 @@ sections: [
 
 [  
 /* Puzzle: Which three of the quadrants are the same, and which is different? Before you saw the differences in what sense did you "see" the quadrants?"*/
-    ['sphere2_1','gen2',1,'Rays'],
-	['hybrid00_2.jpg','final','square','Lines 3'],
-    ['sphere_image0_1.jpg','gen2',1,'Sky Eye'],
- ['lines0_20','final','wide2','Order Within Chaos'],
- 		 	['lines0_26','final',0,'Asteroids'],
-
- 
-	['grid_simple_example','generators',1,'Simple ExampleM'],
-	['grid_zigzag','generators',1,'ZigzagM'],
 	['grid_sized','generators',1,'sized'],
 
  ['min0_16','gen2',1],

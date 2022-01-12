@@ -14,6 +14,7 @@ let rs = basicsP.instantiate();
 addGridMethods(rs);
 addRandomMethods(rs);
 
+rs.setName('grid_zigzag');
 
 
 
@@ -153,7 +154,6 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 
  // let rs = constructor();
   rs.saveImage = true;
-	rs.setName('grid_zigag');
 	rs.initProtos();
   let numRows,numCols;
 	numRows = rs.numRows = 32;

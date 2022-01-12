@@ -1237,13 +1237,19 @@ item.setupBoundaryRandomizer = function (nm,params) {
   return this.setupRandomizer('randomGridsForBoundaries',nm,params);
 }        
   */      
+ item.computeJiggleParams = function (jiggle) {
+  let hj = 0.5*jiggle;
+  let jiggleStep = 0.3 * hj;
+  return {stept:jiggleStep,step:jiggleStep,min:-hj,max:hj};
+}
+
 item.setupPointJiggle = function () {     
   let {numRows,numCols,pointJiggle,pointJiggleParams} = this;
   if (pointJiggle || pointJiggleParams) {
-		let hj = 0.5*this.pointJiggle;
-		let jiggleStep = 0.3 * hj;
-		let jParams = pointJiggleParams?pointJiggleParams:
-     		{step:jiggleStep,min:-hj,max:hj};
+		//let hj = 0.5*this.pointJiggle;
+		//let jiggleStep = 0.3 * hj;
+		let jParams = pointJiggleParams?pointJiggleParams:this.computeJiggleParams(pointJiggle);
+     //		{step:jiggleStep,min:-hj,max:hj};
     this.setupBoundaryRandomizer('jiggleX',jParams);
     this.setupBoundaryRandomizer('jiggleY',jParams);
 	}
