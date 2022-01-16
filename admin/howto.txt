@@ -1,0 +1,16 @@
+cd c:\kop
+firebase deploy --only hosting
+cd c:\prototypejungle
+node admin/update
+node admin/genGrids forKop alternate byKind
+node admin/updateKOP
+
+
+
+cd c:\prototypejungle_ui
+
+git add admin js server wwwsrc draw.html zoom.html
+
+git commit -m "misc"
+
+git push origin master

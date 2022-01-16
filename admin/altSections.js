@@ -16,13 +16,11 @@ sections: [
 	['grid_zigzag','generators',1,'ZigzagM'],
 	['grid_sized','generators',1,'sized'],
 
- ['min0_16','gen2',1],
- ['min0_15','gen2',1],
  ['min0_8','gen2',1],
- ['min0_6','gen2',1],
+ ['min0_6','gen2',1,'Wall'],
  //['min0_5','gen2',1],
  ['drop0_web0_10','gen2',1],
- ['drop0_web0_7','gen2',1],
+ ['drop0_web0_7','gen2',1,'Drift Web'], //11
  ['drop0_web0_8','gen2',1],
 
  ['min0_3','gen2',1],
@@ -31,12 +29,12 @@ sections: [
  //['a_web0_3','gen2',1],
  //['a_web0_2','gen2',1],
  //['a_web0_1','gen2',1],
- ['drop0_1_27','gen2',1],
+ ['drop0_1_27','gen2',1],//15
  ['drop0_web0_4','gen2',1],
  ['drop0_web0_3','gen2',1],
  ['drop0_web0_2','gen2',1],
  ['drop0_web0_1','gen2',1],
- ['drop0_web0_0','gen2',1],
+ ['drop0_web0_0','gen2',1],//20
  //['drop0__29','gen2',1],
  //['drop0__28','gen2',1],
  //['drop0__27','gen2',1],
@@ -48,30 +46,30 @@ sections: [
  ['drop0_1_28','gen2',1],
 
  ['grid0_8_24','gen2',1],
- ['grid0_24_1','gen2',1],
+ ['grid0_24_1','gen2',1,25],//25
  ['drop0_1_26','gen2',1],
  ['drop0_1_23','gen2',1],
  ['drop0__21','gen2',1],
  ['drop0__19','gen2',1],
- ['drop0__16','gen2',1],
+ ['drop0__16','gen2',1], //30
  ['drop0_1_25','gen2',1],
  ['drop0_1_13','gen2',1],
 
  // ['drop0_1_24','gen2',1],
   ['drop0_1_23','gen2',1],
   ['drop0_0_11','gen2',1],
-  ['drop0_0_9','gen2',1],
+  ['drop0_0_9','gen2',1,'Arrows'], //35
   ['drop0_1_21','gen2',1],
   ['drop0_1_19','gen2',1],
   ['drop0_1_18','gen2',1],
   ['drop0_1_17','gen2',1],
  // ['drop0_1_16','gen2',1],
-  ['drop0_1_15','gen2',1],
+  ['drop0_1_15','gen2',1],//40
   ['drop0_1_14','gen2',1],
-  ['drop0_1_12','gen2',1],
+  ['drop0_1_12','gen2',1,'Forest'],
   ['drop0_1_11','gen2',1],
   ['drop0_1_10','gen2',1],
-  ['drop0_1_9','gen2',1],
+  ['drop0_1_9','gen2',1,'shelter'],//45
   ['drop0__6','gen2',1],
   ['drop0__5','gen2',1],
   ['drop0_0_2','gen2',1],

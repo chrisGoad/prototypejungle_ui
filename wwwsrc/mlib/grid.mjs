@@ -409,7 +409,7 @@ item.addCellBoundaries = function (frame,fraction) {
       if (p12) {
 				rs = this.boundaryLineGenerator(p11,p12,rvs,cell,'vertical');
 				if (rs) {
-					lines.push(rs);
+				//	lines.push(rs);  //1/22
 					if (this.boundaryLineUpdater) {
 					  this.boundaryLineUpdater(rs,p11,p12,rvs,cell,'vertical');
 					}
@@ -837,7 +837,7 @@ item.addShapes = function () {
 			let cell = {x:i,y:j,index:idx};
 			let  shp;
 			if (this.shapeGenerator) {
-				shp = this.shapeGenerator(rvs,cell,cnt,idx);
+				shp = thiGeneshapeGenerator(rvs,cell,cnt,idx);
 				if (this.shapeUpdater) {
 				  this.shapeUpdater(shp, rvs,cell,cnt);
 				}

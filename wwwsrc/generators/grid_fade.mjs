@@ -13,7 +13,7 @@ let rs = basicsP.instantiate();
 addGridMethods(rs);
 addRandomMethods(rs);	
 addAnimateMethods(rs);	
-rs.setName('grid_simple_example');
+rs.setName('grid_fade');
 	
 rs.initProtos = function () {
 	rs.rectP  = rectPP.instantiate();

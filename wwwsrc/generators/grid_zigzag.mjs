@@ -137,7 +137,9 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 	if (rvs) {
 		let r = rvs.red;
     line.stroke = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
-	}
+	} else {
+    line.stroke = 'white';
+  }
   if (missing) {
 		line.stroke = 'cyan';
 		line['stroke-width'] = 5;
@@ -155,9 +157,10 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
  // let rs = constructor();
   rs.saveImage = true;
 	rs.initProtos();
+  let nr =16;
   let numRows,numCols;
-	numRows = rs.numRows = 32;
-	numCols = rs.numCols = 64;
+	numRows = rs.numRows = nr;
+	numCols = rs.numCols = 2*nr;
 	rs.width = 180;
 	rs.height = 100;
   rs.pointJiggle =  1;
@@ -169,7 +172,7 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell,orientation) {
 rs.initialize = function () {
   this.initProtos();
   this.lineLength = 0.4;
-  this.setupBoundaryRandomizer('red', {step:35,min:150,max:250,numRows,numCols});
+ // this.setupBoundaryRandomizer('red', {step:35,min:150,max:250,numRows,numCols});
   core.root.backgroundColor = 'black';
   this.initializeGrid();
 

@@ -23,7 +23,7 @@ console.log('sectionsPath', sectionsPath);
 let outPath = alternate?'www/altGrids.html':(byKind?'www/byKind.html':'www/grids.html');
 var fs = require('fs');
 
-let fileExt = 'mjs';
+let fileExt = alternate?'js':'mjs';
 let thePages = [];
 let theTitles = [];
 let pageTop = `
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 `;
 let pageNumber = 0;
 let numPages = 0;
-const thingString = function (ix,dir,useThumb,ititle,imageArg) {
+const thingString = function (ix,dir,useThumb,ititle,likes) {
 	console.log('thingString ix',ix,'useThumb',useThumb,'title',ititle);
 	debugger;
 	let spix = ix.split('.');
@@ -106,20 +106,25 @@ const thingString = function (ix,dir,useThumb,ititle,imageArg) {
 	let thumbsrc = alternate?imsrc:(useThumb?`thumbs/${path}.jpg`:imsrc);
 	console.log('thumbsrc',thumbsrc);
 	let pageArg = 'page='+pageNumber;
-	let theImageArg = imageArg?'&image='+imageArg:'';
+	let theImageArg = '';
+  //imageArg?'&image='+imageArg:'';
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
 	let astart = `<a style="color:white" href="${alternate?'altPage':(byKind?'byKindPage':'page')}.html?image=${x}&${pageArg}">`;
+  let likesStr = likes?`<span style="font-size:10pt">Likes ${likes}</span><br/>`:'';
 	if (forKOP) {
-		let titleLink = `${astart}${title}</a></p>`;
+		let titleLink = title?`${astart}${title}</a></p>`:'';
 		console.log('titleLink',titleLink);
 rs = `<div><p class="centered">${titleLink}
 <p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>
 	`; 
 	} else {
 		
-rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.${fileExt}${theImageArg}">${title}</a><br/><a href="${dir}/${path}.${fileExt}">source</a><br/>${astart}<img width="200" src="${thumbsrc}"></a></p></div>
+rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.${fileExt}${theImageArg}">${title}</a><br/>
+<a href="${dir}/${path}.${fileExt}">source</a><br/>
+${likesStr}
+${astart}<img width="200" src="${thumbsrc}"></a></p></div>
 `;
 	}
 	return rs;
@@ -147,8 +152,9 @@ let sectionString = function (things) {
    //  rs += `</div>${startLine}<div>${txt}</div></div>`;
       rs += `</div><br/><div style="text-align:center">${txt}</div><br/><div>`;
     } else {
-      let [file,directory,useThumb,title,image] = thing;
-      rs += thingString(file,directory,useThumb,title,image);
+      let [file,directory,useThumb,title,likes] = thing;
+      rs += thingString(file,directory,useThumb,title,likes);
+      //rs += thingString(file,directory,useThumb,title,image);
       numThingsThisLine++;
     }
 		console.log('numThingsThisLine',numThingsThisLine,'i',i,'ln',ln);
