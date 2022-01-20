@@ -283,7 +283,7 @@ item.randomArrayElement = function (a) {
 }
 
 item.lastArrayElement = function (a) {
-	ln = a.length;
+  let	ln = a.length;
 	return a[ln-1]
 }
 

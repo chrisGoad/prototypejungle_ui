@@ -421,7 +421,7 @@ item.gridSeeds = function (clr) {
 	let yv = (-hht) + 0.5*deltaY;
 //	debugger;
   for (let j=0;j<numRows;j++) {
-    xv = ix;
+    let xv = ix;
 		for (let i=0;i<numCols;i++) {
 			let ip = Point.mk(xv,yv);
 			if (this.genGridSegments) {

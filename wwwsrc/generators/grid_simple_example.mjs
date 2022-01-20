@@ -14,7 +14,7 @@ addGridMethods(rs);
 addRandomMethods(rs);	
 addAnimateMethods(rs);	
 rs.setName('grid_simple_example');
-	
+let rdim = 1;
 rs.initProtos = function () {
 	rs.rectP  = rectPP.instantiate();
 	rs.rectP.fill = 'red';
@@ -22,8 +22,8 @@ rs.initProtos = function () {
 	//rs.rectP.fill = 'rgba(55,55,55,0.6)';
 	//rs.rectP.fill = 'red';
 	rs.rectP['stroke-width'] = 0;
-	rs.rectP.width = .5;
-	rs.rectP.height = .5;
+	rs.rectP.width = rdim;
+	rs.rectP.height = rdim;
   rs.blineP  = linePP.instantiate();
   rs.blineP['stroke-width'] = 0.4;
   rs.blineP.stroke = 'cyan';
@@ -32,16 +32,22 @@ rs.initProtos = function () {
 }  
 
 let nr = 64;
-//nr = 48;
+nr = 16;
 let wd = 200;
 let topParams;
 if (radial) {
-  topParams = {numRows:0.5*nr,numCols:nr,width:wd,height:wd,outerRadius:wd,innerRadius:0.2*wd,angleMin:-180,angleMax:180,center: Point.mk(0,0),rotation:30,backStripeColor:'rgb(2,2,2)',pointJiggle:4,backStripePadding:0.15*wd};
+  topParams = {numRows:0.5*nr,numCols:nr,width:wd,height:wd,outerRadius:wd,innerRadius:0.2*wd,angleMin:-180,angleMax:180,center: Point.mk(0,0),rotation:30,backStripeColor:'rgb(2,2,2)',pointJiggle:10,backStripePadding:0.15*wd};
 } else {
-  topParams = {numRows:nr,numCols:nr,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',pointJiggle:4,backStripePadding:0.15*wd,numTimeSteps:10};
+  topParams = {numRows:nr,numCols:nr,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',pointJiggle:40,backStripePadding:0.15*wd,numTimeSteps:100};
 }
 
 Object.assign(rs,topParams);
+
+rs.computeJiggleParams = function (jiggle) {
+  let hj = 0.5*jiggle;
+  let jiggleStep = 0.05 * hj;
+  return {stept:jiggleStep,step:jiggleStep,min:-hj,max:hj};
+}
 
 	
 rs.shapeGenerator = function (rvs,cell) {
@@ -58,7 +64,7 @@ rs.shapeGenerator = function (rvs,cell) {
   let k = ((rr)<th);//0.2;
  // let k = ((rr*rr)>th);//0.2;
   if (k) {
-   return;
+//   return;
   }
 	//	let v = rvs.v;
 		let shape = rectP.instantiate().show();
@@ -74,7 +80,14 @@ rs.shapeGenerator = function (rvs,cell) {
 
 
 rs.boundaryLineGenerator= function (end0,end1,rvs,cell) {
+  debugger;
 	let {blineP,numRows,showMissing,lines,updating,lineIndex} =this;
+  let vec = end1.difference(end0);
+  let ln = vec.length();
+  let cnt = end0.plus(end1).times(0.5);
+  let fc = 0.1;
+  let nend0 = cnt.difference(vec.times(fc*0.5));
+  let nend1 = cnt.plus(vec.times(fc*0.5));
 	//let line = this.nextLine(blineP);
   let {x,y} = cell;
  // if ((!((x+y)%5 === 0))&&(!((x-y)%5 === 0))) {
@@ -87,24 +100,41 @@ rs.boundaryLineGenerator= function (end0,end1,rvs,cell) {
   
   //let k = ((rr*rr*rr)<th);//0.2;
   let k = ((rr*rr*rr)<th);//0.2;
-  if (k) {
-   return;
-  }
+ // if (k) {
+ //  return;
+ // }
 	let line = blineP.instantiate().show();
 	lines.push(line);
-  line.setEnds(end0,end1);
+  line.setEnds(nend0,nend1);
   let {r,g,b} = rvs;
 	let rgb = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
 	line.stroke = rgb;
+	line.stroke = 'white';
 	return line;
 }
 
-rs.boundaryLineUpdaterr = function (line,end0,end1,rvs,cell) {
+rs.shapeUpdater = function(shape, rvs,cell,cnt,idx) {
+  debugger;
+  shape.moveto(cnt);
+}
+   
+
+rs.boundaryLineUpdater = function (line,end0,end1,rvs,cell,ornt) {
 //debugger;
-  line.setEnds(end0,end1);
+ let vec = end1.difference(end0);
+  let ln = vec.length();
+  let cnt = end0.plus(end1).times(0.5);
+  let fc = 2;
+  let nend0 = cnt.difference(vec.times(fc*0.5));
+  let nend1 = cnt.plus(vec.times(fc*0.5));
+  line.setEnds(nend0,nend1);
  // let {r,g,b} = rvs;
 //	let rgb = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
 //	line.stroke = rgb;
+  if (ornt === 'vertical') {
+    line.stroke ='black';
+    line['stroke-width'] = 2;
+  }
   line.update();
 	return line;
 }
@@ -126,6 +156,8 @@ rs.initialize = function () {
 rs.step = function ()   {
 	debugger;
 	this.stepBoundaryRandomizer('jiggleX');
+	this.stepBoundaryRandomizer('jiggleY');
+  this.randomizePoints();
   this.updateGrid();
  }
  

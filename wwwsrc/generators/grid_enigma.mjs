@@ -11,7 +11,7 @@ import {rs as fanP} from '/generators/grid_fan.mjs';
 debugger;
 let rs = basicP.instantiate();
 //let rs = svg.Element.mk('<g/>');
-rs.setName('grid_bends');
+rs.setName('grid_enigma');
 
 let nr = 140;
 //nr = 20;

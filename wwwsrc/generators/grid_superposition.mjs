@@ -16,7 +16,7 @@ addRandomMethods(grid1);
 addGridMethods(grid2);
 addRandomMethods(grid2);
 rs.setName('grid_superposition');
-	
+let rdim = 0.6;
 const initProtos = function (grid) {
 	grid.rectP  = rectPP.instantiate();
 	grid.rectP.fill = 'red';
@@ -24,10 +24,10 @@ const initProtos = function (grid) {
 	//grid.rectP.fill = 'rgba(55,55,55,0.6)';
 	//grid.rectP.fill = 'red';
 	grid.rectP['stroke-width'] = 0;
-	grid.rectP.width = .5;
-	grid.rectP.height = .5;
+	grid.rectP.width = rdim;
+	grid.rectP.height = rdim;
   grid.blineP  = linePP.instantiate();
-  grid.blineP['stroke-width'] = 0.2;
+  grid.blineP['stroke-width'] = 0.3;
   grid.blineP.stroke = 'cyan';
   grid.blineP.stroke = 'white';
 
@@ -42,31 +42,39 @@ grid2.initProtos = function () {
 }
 
 let nr = 64;
+nr= 48;
 let wd = 200;
 let topParams;
 if (radial) {
   topParams = {numRows:0.5*nr,numCols:nr,width:wd,height:wd,outerRadius:wd,innerRadius:0.2*wd,angleMin:-180,angleMax:180,center: Point.mk(0,0),rotation:30,backStripeColor:'rgb(2,2,2)',pointJiggle:4,backStripePadding:0.15*wd};
 } else {
-  topParams = {numRows:nr,numCols:nr,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',pointJiggle:4,backStripePadding:0.15*wd};
+  topParams = {numRows:nr,numCols:nr,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',pointJiggle:8,backStripePadding:0.25*wd,backStripeVisible:0};
+}
+rs.computeJiggleParams = function (jiggle) {
+  let hj = 0.5*jiggle;
+  let jiggleStep = .02 * hj;
+  return {stept:jiggleStep,step:jiggleStep,min:-hj,max:hj};
 }
 
 Object.assign(grid1,topParams);
 Object.assign(grid2,topParams);
+Object.assign(rs,topParams);
 Object.assign(grid2,{width:1.1*wd,height:0.9*wd});
 //Object.assign(grid2,{width:1.05*wd,height:0.95*wd});
 //Object.assign(grid2,{width:1.02*wd,height:0.98*wd});
 
 	
 const shapeGenerator = function (grid,rvs,cell) {
-	 debugger;
+	// debugger;
+  //return;
 		let {rectP,shapes} = grid;
 	//	let v = rvs.v;
 		let shape = rectP.instantiate().show();
 		shapes.push(shape);
-     let {r,g,b} = rvs;
-	let rgb = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
+ //    let {r,g,b} = rvs;
+	//let rgb = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
 //	shape.fill = rgb;
-    debugger;
+ //   debugger;
 		return shape;
 }
 
@@ -83,6 +91,10 @@ grid2.shapeGenerator = function (rvs,cell) {
 
 const boundaryLineGenerator= function (grid,end0,end1,rvs,cell) {
 	let {blineP,showMissing,lines,updating,lineIndex} =grid;
+ // return;
+  if (Math.random() > 0.2) {
+//    return;
+  }
 	//let line = this.nextLine(blineP);
 	let line = blineP.instantiate().show();
 	lines.push(line);
@@ -109,7 +121,7 @@ if (radial) {
 
 rs.initialize = function () {
   debugger;
-   let rparams = {step:30,min:0,max:250}
+/*   let rparams = {step:30,min:0,max:250}
  	this.grid1.setupShapeRandomizer('r', rparams);
  	this.grid1.setupShapeRandomizer('g', rparams);
  	this.grid1.setupShapeRandomizer('b', rparams);
@@ -120,7 +132,7 @@ rs.initialize = function () {
  	this.grid2.setupShapeRandomizer('b', rparams);
  	this.grid2.setupBoundaryRandomizer('r', rparams);
  	this.grid2.setupBoundaryRandomizer('g', rparams);
- 	this.grid2.setupBoundaryRandomizer('b', rparams);
+ 	this.grid2.setupBoundaryRandomizer('b', rparams);*/
  // core.root.backgroundColor = 'blue';
   this.grid1.initProtos();
   this.grid1.initializeGrid();

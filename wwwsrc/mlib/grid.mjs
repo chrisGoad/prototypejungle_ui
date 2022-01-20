@@ -409,7 +409,7 @@ item.addCellBoundaries = function (frame,fraction) {
       if (p12) {
 				rs = this.boundaryLineGenerator(p11,p12,rvs,cell,'vertical');
 				if (rs) {
-				//	lines.push(rs);  //1/22
+					//lines.push(rs);  //1/22
 					if (this.boundaryLineUpdater) {
 					  this.boundaryLineUpdater(rs,p11,p12,rvs,cell,'vertical');
 					}
@@ -421,7 +421,7 @@ item.addCellBoundaries = function (frame,fraction) {
       if (p21) {
  				rs = this.boundaryLineGenerator(p11,p21,rvs,cell,'horizontal');
 		   if (rs) {
-				 lines.push(rs);
+				// lines.push(rs);
 				 if (this.boundaryLineUpdater) {
             this.boundaryLineUpdater(rs,p11,p21,rvs,cell,'horizontal');
 				 }
@@ -471,6 +471,9 @@ item.scaleArray = function (a,scaleX,scaleY) {
 	return rs;
 }
 
+
+
+
 item.updateCellBoundaries = function (frame,fraction) { 
   let points = this.rpoints;
  // let lines = this.lines = [];
@@ -492,7 +495,7 @@ item.updateCellBoundaries = function (frame,fraction) {
       let cell = {x:i,y:j};
       let p11 = this.pointAt(points,i,j);
       let p12 =  this.pointAt(points,i,j+1);
-      let p21 =  this.pointAt(points,i+1,j);
+     let p21 =  this.pointAt(points,i+1,j);
       let p22 =  this.pointAt(points,i+1,j+1);
       let rs;
       if (p12) {

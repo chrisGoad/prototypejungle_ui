@@ -2,6 +2,7 @@
 let forKOPstr = process.argv[2];
 let alternateStr = process.argv[3];
 let byKindstr = process.argv[4];
+let byLikesstr = process.argv[5];
 
 const toBoolean = (v) => {
   if (typeof v === 'string') {
@@ -14,16 +15,17 @@ const toBoolean = (v) => {
 let forKOP = toBoolean(forKOPstr);
 let byKind = toBoolean(byKindstr);
 let alternate = toBoolean(alternateStr);
+let byLikes = toBoolean(byLikesstr);
 
 console.log('forKOP',forKOP,'byKind',byKind);
 //return;
 //let alternate = 0;
-let sectionsPath = alternate?'./altSections.js':(byKind?'./sectionsByKind.js':'./gridSections.js');
+let sectionsPath = byLikes?'./byLikesSections.js':(alternate?'./altSections.js':(byKind?'./sectionsByKind.js':'./gridSections.js'));
 console.log('sectionsPath', sectionsPath);
 let outPath = alternate?'www/altGrids.html':(byKind?'www/byKind.html':'www/grids.html');
 var fs = require('fs');
 
-let fileExt = alternate?'js':'mjs';
+let fileExt = alternate?'mjs':'mjs';
 let thePages = [];
 let theTitles = [];
 let pageTop = `
