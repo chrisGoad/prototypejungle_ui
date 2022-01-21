@@ -131,6 +131,19 @@ const stepAnimation = function () {
 	}
 }
 
+let audioCtx;
+
+const turnOnAudio = function () {
+  debugger;
+  audioCtx = new AudioContext();
+  audioCtx.resume();
+   let rmain = core.root.main;
+  if (rmain) {
+    if (rmain.initializeSound) {
+      rmain.initializeSound();
+    }
+  }
+}
 const stepNoSaveAnimation = function () {
 	let main = core.root.main;
 	if (main.oneStep) {
@@ -283,7 +296,11 @@ const saveFrame = function (n) {
 const fitTheContents = function () {
 	dom.svgMain.fitContents();
 }
+
 const finishMainInstall = function () {
+   const AudioContext = window.AudioContext || window.webkitAudioContext;
+ // const audioCtx =  AudioContext();
+  
   let e = installError;
   let emsg;
   
@@ -366,4 +383,4 @@ const handleError = function (e) {
   }
 }
 
-export {saveTheImage,saveFrame,fitTheContents};
+export {saveTheImage,saveFrame,fitTheContents,audioCtx};

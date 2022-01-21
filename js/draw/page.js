@@ -58,7 +58,8 @@ resumeBut.addEventListener("click", resumeAnimation);
 saveAnimationBut.addEventListener("click", saveAnimation);
 pauseBut.addEventListener("click", pauseAnimation);
 stepBut.addEventListener("click", stepAnimation);
-stepNoSaveBut.addEventListener("click", stepNoSaveAnimation);
+stepNoSaveBut.addEventListener("click", turnOnAudio);
+//stepNoSaveBut.addEventListener("click", stepNoSaveAnimation);
 repeatFrameBut.addEventListener("click", repeatFrame);
 
 mpg =  html.wrap("main",'div',{style:{position:"absolute","margin":"0px",padding:"0px",display:"none"}}).

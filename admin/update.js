@@ -425,7 +425,7 @@ xferFiles(0,'www',['page.html','altPage.html','byKindPage.html','draw.html','dra
 
 //xferDirs(0,'none',['arrow','axes','border','box','connector','container','coreExamples','data',
 //'example','grid','image','images','kit','line','random','sandbox','shape','text','timeline']); 
-xferDirs(0,'none',['gen0','ngen1','final','mlib','line','shape','shape_modules','generators']); 
+xferDirs(0,'none',['gen0','ngen1','final','mlib','line','shape','shape_modules','generators','sound']); 
 
   //xferFiles(1,'www',['ops.html','unsupported.html','familytrees.html','coreExamples.html']);
 
