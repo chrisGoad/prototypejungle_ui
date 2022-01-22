@@ -135,8 +135,8 @@ let audioCtx;
 
 const turnOnAudio = function () {
   debugger;
-  audioCtx = new AudioContext();
-  audioCtx.resume();
+ // audioCtx = new AudioContext();
+ // audioCtx.resume();
    let rmain = core.root.main;
   if (rmain) {
     if (rmain.initializeSound) {
@@ -298,9 +298,12 @@ const fitTheContents = function () {
 }
 
 const finishMainInstall = function () {
-   const AudioContext = window.AudioContext || window.webkitAudioContext;
- // const audioCtx =  AudioContext();
-  
+  debugger;
+  if (main) {
+    if (main.loadAudioAssets) {
+      main.loadAudioAssets();
+    }
+  }
   let e = installError;
   let emsg;
   
