@@ -4,72 +4,31 @@ import {rs as addSoundMethods} from '/mlib/sound.mjs';
 let rs = core.ObjectNode.mk();
 
 addSoundMethods(rs);
-
-rs.initializeSound0 = function () {
-  debugger;
- // const AudioContext = window.AudioContext || window.webkitAudioContext;
- // const audioCtx =  AudioContext();
- // const audioCtx = new AudioContext();
-  let audioCtx = draw.audioCtx;
- //audioCtx.resume();
-  let node = audioCtx.createOscillator();
-  node.connect(audioCtx.destination);
-  node.start(0);
-  node.stop(5);
-   let node2 = audioCtx.createOscillator();
-  node2.connect(audioCtx.destination);
-  node2.frequency.value = 880;
-  node2.start(2);
-  node2.stop(3);
- }
- 
- 
-rs.initializeSound1 = function () {
-  debugger;
-  let audioCtx = draw.audioCtx;
-  fetch('./samples/drum-fx-01.mp3')
-    .then(data => data.arrayBuffer())
-    .then(arrayBuffer => audioCtx.decodeAudioData(arrayBuffer))
-    .then(audio => {
-       let sound = audioCtx.createBufferSource();
-       sound.buffer = audio;
-       sound.connect(audioCtx.destination);
-       sound.start(1);
-       let sound2 = audioCtx.createBufferSource();
-      sound2.buffer = audio;
-       sound2.connect(audioCtx.destination);
-       sound2.start(3);
-    });
- }
- 
- rs.loadAudioAssets = function () {
-   return;
-   debugger;
-   this.assets = [0];
-   this.fetchSounds(['./samples/drum-fx-01.mp3'],this.assets);
- }
- 
  
 rs.initializeSound = function () {
   debugger;
-  this.assets = [0,0];
-  this.fetchSounds(['./samples/fx-01.mp3','./samples/perc-02.mp3'],this.assets);
-  setTimeout(() => {
-    let assets = this.assets;
-    debugger;
-   let audioCtx = this.audioCtx;
-  
- 
-    let sound = audioCtx.createBufferSource();
-    sound.buffer = this.assets[0];
-    sound.connect(audioCtx.destination);
-    sound.start(2);
-    let sound2 = audioCtx.createBufferSource();
-    sound2.buffer = this.assets[1];
-    sound2.connect(audioCtx.destination);
-    sound2.start(2.5);
-    },1000);
+  let samples,assets,instruments,firstTime;
+  const mkAndPlayNotes = () => {
+     let notes = [this.mkNote(instruments['fx-01'],0),this.mkNote(instruments['fx-02'],1),this.mkNote(instruments['hh-01'],2),
+     this.mkNote(instruments['hh-02'],3),this.mkNote(instruments['kd-01'],4),this.mkNote(instruments['perc-02'],5)];
+     debugger;
+     this.playNotes(notes);
+  }
+  if (!this.samples) {
+    firstTime = 1;
+    samples = this.samples = ['fx-01','fx-02','hh-01','hh-02','kd-01','perc-02'];
+    assets = this.assets = {};
+    instruments = this.instruments = {};
+    this.fetchSamples(samples,assets);
+    setTimeout(() => {
+      //debugger;
+      this.mkSimpleBufferInstruments();
+      mkAndPlayNotes();
+      },1000);
+  } else {
+    instruments = this.instruments;
+    mkAndPlayNotes();
+  }
  }
- 
  
  export {rs};

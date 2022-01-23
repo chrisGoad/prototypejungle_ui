@@ -299,11 +299,11 @@ const fitTheContents = function () {
 
 const finishMainInstall = function () {
   debugger;
-  if (main) {
+ /* if (main) {
     if (main.loadAudioAssets) {
       main.loadAudioAssets();
     }
-  }
+  } */
   let e = installError;
   let emsg;
   

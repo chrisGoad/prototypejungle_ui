@@ -361,7 +361,7 @@ const afterLastChar = function (string,chr,strict) {
        let ext = afterLastChar(fln,'.');
        console.log('fln',fln,'ext',ext);
     //  if ((ext === fln) || (!['js','css','html','png','svg','jpg','ico','md'].includes(ext))) {
-      if ((ext === fln) || (!['mjs','js','css','html','svg','jpg','ico','md'].includes(ext))) {
+      if ((ext === fln) || (!['mjs','js','css','html','svg','jpg','ico','md','mp3'].includes(ext))) {
          console.log('wrong kind of file/dir',fln);
          return;
       }
