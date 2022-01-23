@@ -6,11 +6,11 @@ let rs = core.ObjectNode.mk();
 addSoundMethods(rs);
  
 rs.initializeSound = function () {
-  debugger;
+//debugger;
   let samples,assets,instruments,firstTime;
   const mkAndPlayNotes = () => {
-     let notes = [this.mkNote(instruments['fx-01'],0),this.mkNote(instruments['fx-02'],1),this.mkNote(instruments['hh-01'],2),
-     this.mkNote(instruments['hh-02'],3),this.mkNote(instruments['kd-01'],4),this.mkNote(instruments['perc-02'],5)];
+     //let notes = [this.mkNote('fx-01',0),this.mkNote('fx-02',1),this.mkNote('hh-01',2),this.mkNote('hh-02',3),this.mkNote('kd-01',4),this.mkNote('perc-02',5)];
+     let notes = this.mkNotes([['fx-01',0],['fx-02',1,{gain:1,detune:200}],['fx-02',2],['hh-01',3,{rate:0.05}],['hh-02',4],['hh-02',5],['kd-01',6],['perc-02',7,{gain:10}],['perc-02',8,{gain:2}]]);
      debugger;
      this.playNotes(notes);
   }
