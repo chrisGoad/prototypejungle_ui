@@ -1,6 +1,6 @@
 const rs = function (item) {
 
-item.tempo = 1;
+item.tempo = 4;
 let theItem = item;
   
 item.fetchSamples= function (srcs,rs) {
@@ -78,12 +78,13 @@ item.mkBlankTune = function (n,duration,instrument) {
 
 */
 
-item.mkBlankTune = function (n,duration,instrument) {
+item.mkBlankTune = function (numNotes,start,duration,instrument) {
   let tuneI = tune.instantiate();
   let notes = [];
-  for (let i=0;i<n;i++) {
+  for (let i=0;i<numNotes;i++) {
     notes.push(this.mkNote(instrument,undefined));
   }
+  tuneI.start = start; 
   tuneI.duration = duration;
   tuneI.notes = notes;
  // tuneI.context = this;
@@ -101,11 +102,12 @@ item.assignRhythm = function (noteDs,rhythm) {
 */
 
 tune.assignPropValues= function (prop,values) {
-  debugger;
+ // debugger;
+  let isNum = typeof values === 'number';
   let notes = this.notes;
   let ln = notes.length;
   for (let i=0;i<ln;i++) {
-    notes[i][prop] = values[i];
+    notes[i][prop] = isNum?values:values[i];
   }
 }
 
@@ -124,8 +126,13 @@ item.assignGains = function (noteDs,gains) {
 }
 */
 tune.assignGains = function (values) {
-  debugger;
+  // debugger;
   this.assignPropValues('gain',values);
+}
+
+tune.assignDetunes = function (values) {
+  // debugger;
+  this.assignPropValues('detune',values);
 }
  
 
@@ -169,7 +176,7 @@ sbInstrument.play = function (note) {
     sound.detune.value = detune;
   }
   if (gain) {
-    debugger;
+   // debugger;
     let gainNode = audioCtx.createGain();
     gainNode.connect(audioCtx.destination);
     gainNode.gain.value = gain;
@@ -195,7 +202,6 @@ note.play = function () {
 tune.play = function () {
   debugger;
   let notes = this.notes;
-  //this.notesStart = this.context.audioCtx.currentTime;
   theItem.notesStart = theItem.audioCtx.currentTime;
   console.log('notesStart',theItem.notesStart);
   theItem.playingNotes = 1;
@@ -203,6 +209,97 @@ tune.play = function () {
   theItem.playingNotes = 0;
 }
 
+tune.clone = function () {
+  let {notes,duration,start} = this;
+  let inotes = notes.map(note => note.instantiate());
+//    let inote =
+//    return inote;
+//  });
+  let rs = tune.instantiate();
+  rs.start = start;
+  rs.duration = duration;
+  rs.notes = inotes;
+  return rs;
+}  
+// by side effect
+tune.sortNotes = function () {
+  let notes = this.notes;
+  notes.sort((note0,note1) => {
+    let st0=note0.start;
+    let st1=note1.start;
+    if (st0 < st1) {
+      return -1;
+    }
+    if (st0 < st1) {
+      return 1;
+    }
+    return 0;
+  });
+}
+// by side effect
+tune.delay = function (d) {
+  let {duration,start,notes} = this;
+  this.start = start + d;
+  notes.forEach(note=>note.start=note.start+d);
+  return this;
+}
+
+tune.combine = function (tune2) {
+  let nnotes = this.notes.concat(tune2.notes);
+  let rs = tune.instantiate();
+  let {duration:dur1,start:start1} = this;
+  let {duration:dur2,start:start2} = this;
+  let start = Math.min(start1,start2);
+  let end1 =  start1 + dur1;
+  let end2 =  start2 + dur2;
+  let theEnd = Math.max(end1,end2);
+  rs.duration = theEnd - start;
+  rs.start = start;
+  rs.notes = nnotes;
+  rs.sortNotes();
+  return rs;
+}
+
+
+tune.combine = function (...theArgs) {
+  let notesArray = [];
+  theArgs.forEach((tn) => notesArray.push(tn.notes));
+  let notes = this.notes;
+  let nnotes = notes.concat.apply(notes,notesArray);
+  let rs = tune.instantiate();
+  let {duration:dur1,start:start1} = this;
+  let {duration:dur2,start:start2} = this;
+  let start = Math.min(start1,start2);
+  let end1 =  start1 + dur1;
+  let end2 =  start2 + dur2;
+  let theEnd = Math.max(end1,end2);
+  rs.duration = theEnd - start;
+  rs.start = start;
+  rs.notes = nnotes;
+  rs.sortNotes();
+  return rs;
+}
+
+tune.repeat = function (n,op) {
+  let {start,duration} = this;
+  let repetitions = [];
+  let cstart = start;
+  for (let i=0;i<n;i++) {
+    let itune = this.clone();
+    if (op) {
+      op(itune,i);
+    }
+    itune.delay(i*duration);
+   // itune.start = cstart;
+    repetitions.push(itune);
+    cstart = cstart + duration;
+  }
+  let rs = this.combine.apply(this,repetitions);
+  return rs;
+ }
+    
+    
+    
 item.initializeSound = function  () {
   if (!this.assets) {
     let samples = this.samples;// = ['fx-01','fx-02','hh-01','hh-02','kd-01','perc-02'];
