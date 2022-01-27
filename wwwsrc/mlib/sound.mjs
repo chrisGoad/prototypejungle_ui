@@ -1,6 +1,6 @@
 const rs = function (item) {
 
-item.tempo = 4;
+item.tempo = 1;
 let theItem = item;
   
 item.fetchSamples= function (srcs,rs) {
@@ -25,6 +25,13 @@ item.fetchSamples= function (srcs,rs) {
  }
 }
 
+item.mkEvenRhythm = function(numNotes,dur) {
+  let rs = [];
+  for (let i=0; i<numNotes;i++) {
+    rs.push(i*dur);
+  }
+  return rs;
+}
 
 const instrument = core.ObjectNode.mk();
 
@@ -103,11 +110,11 @@ item.assignRhythm = function (noteDs,rhythm) {
 
 tune.assignPropValues= function (prop,values) {
  // debugger;
-  let isNum = typeof values === 'number';
+  let isOb = typeof values === 'object';
   let notes = this.notes;
   let ln = notes.length;
   for (let i=0;i<ln;i++) {
-    notes[i][prop] = isNum?values:values[i];
+    notes[i][prop] = isOb?values[i]:values;
   }
 }
 
@@ -135,6 +142,18 @@ tune.assignDetunes = function (values) {
   this.assignPropValues('detune',values);
 }
  
+ 
+tune.assignInstruments= function (values) {
+  // debugger;
+  this.assignPropValues('instrument',values);
+}
+
+tune.assignRates = function (values) {
+  // debugger;
+  this.assignPropValues('rate',values);
+}
+ 
+
 
 item.mkNotes = function (noteDs,duration) {
   let notes = noteDs.map((noteD) => this.mkNoteFromD(noteD));
@@ -175,7 +194,7 @@ sbInstrument.play = function (note) {
    if (detune) {
     sound.detune.value = detune;
   }
-  if (gain) {
+  if (typeof gain === 'number') {
    // debugger;
     let gainNode = audioCtx.createGain();
     gainNode.connect(audioCtx.destination);
@@ -243,7 +262,7 @@ tune.delay = function (d) {
   notes.forEach(note=>note.start=note.start+d);
   return this;
 }
-
+/*
 tune.combine = function (tune2) {
   let nnotes = this.notes.concat(tune2.notes);
   let rs = tune.instantiate();
@@ -259,32 +278,55 @@ tune.combine = function (tune2) {
   rs.sortNotes();
   return rs;
 }
+*/
 
-
+//tune.combine = function (instantiateNotes,...theArgs) {
 tune.combine = function (...theArgs) {
+debugger;
   let notesArray = [];
   theArgs.forEach((tn) => notesArray.push(tn.notes));
   let notes = this.notes;
   let nnotes = notes.concat.apply(notes,notesArray);
+  let inotes;
+ /* if (instantiateNotes) {
+     inotes = nnotes.map((note) => note.instantiate());
+  } else {
+    inotes = nnotes;
+  }*/
   let rs = tune.instantiate();
-  let {duration:dur1,start:start1} = this;
-  let {duration:dur2,start:start2} = this;
-  let start = Math.min(start1,start2);
-  let end1 =  start1 + dur1;
-  let end2 =  start2 + dur2;
-  let theEnd = Math.max(end1,end2);
-  rs.duration = theEnd - start;
-  rs.start = start;
+  let starts = [this.start];
+  let ends = [this.start + this.duration];
+  theArgs.forEach((tn) => {
+    starts.push(tn.start);
+    ends.push(tn.start + tn.duration);
+  });
+  let minStart = Math.min.apply(null,starts);
+  let maxEnd  = Math.max.apply(null,ends);
+  rs.duration = maxEnd - minStart;
+  rs.start = minStart;
   rs.notes = nnotes;
   rs.sortNotes();
   return rs;
 }
 
+
+tune.append = function (...theArgs) {
+  let delay = this.duration;
+  let delayedTunes  = []
+  theArgs.forEach((tn) => {
+    let dtn = tn.delay(delay);
+    delayedTunes.push(dtn);
+    delay += tn.duration;
+  });
+  let tn = this.combine(...delayedTunes);
+  return tn;
+}
+    
 tune.repeat = function (n,op) {
   let {start,duration} = this;
   let repetitions = [];
   let cstart = start;
-  for (let i=0;i<n;i++) {
+  for (let i=1;i<n;i++) {
     let itune = this.clone();
     if (op) {
       op(itune,i);
@@ -295,10 +337,29 @@ tune.repeat = function (n,op) {
     cstart = cstart + duration;
   }
   let rs = this.combine.apply(this,repetitions);
+  
   return rs;
  }
     
-    
+
+
+item.mkAtune = function (params) {
+  let {insts,rhythm,gains,detunes,rates,duration} = params;
+  //debugger;
+  let tune = this.mkBlankTune(rhythm.length,0,duration);
+  tune.assignInstruments(insts);
+  tune.assignRhythm(rhythm);
+  if (gains) {
+    tune.assignGains(gains);
+  } 
+  if (detunes) {
+    tune.assignDetunes(detunes);
+  }
+  if (rates) {
+    tune.assignRates(rates);
+  }
+  return tune;
+}
     
 item.initializeSound = function  () {
   if (!this.assets) {
