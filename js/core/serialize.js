@@ -319,12 +319,12 @@ const serialize = function (node) {
   return rs;
 }
 
-let prettyJSON  = false;
+//let prettyJSON  = false;
 
 
-const stringify = function (node) {
+const stringify = function (node,pretty) {
   let x = serialize(node);
-  return  prettyJSON?JSON.stringify(x,null,4):JSON.stringify(x);
+  return  pretty?JSON.stringify(x,null,4):JSON.stringify(x);
 }
 
 export {encode,serialize,stringify,referencePath,beforeSerialize,afterSerialize};

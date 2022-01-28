@@ -13,13 +13,12 @@ item.fetchSamples= function (srcs,rs) {
   for (let i=0;i<ln;i++) {
    let src = srcs[i];
    if (!rs[src]) {
-     fetch('./samples/'+srcs[i])
+     fetch('./samples/'+srcs[i]+'.mp3')
       .then(data => data.arrayBuffer())
       .then(arrayBuffer => {
         return audioCtx.decodeAudioData(arrayBuffer);
       })
       .then(audio => {
-      debugger;
       console.log('fetched ',src);
       rs[src] = audio;});
     }
@@ -55,7 +54,6 @@ item.mkNotee = function(instrument,start,gain,rate,detune) {
   return nt;
 }
 
- // if instrument is a number, it is the frequency, and an oscilator node is used to play it
 item.mkNote = function(instrument,start,params) {
   let nt = note.instantiate();
   /*if (typeof instrument === 'string') {
@@ -112,16 +110,11 @@ item.assignRhythm = function (noteDs,rhythm) {
 
 tune.assignPropValues= function (prop,values) {
  // debugger;
-  if (!values) {
-    return;
-  }
   let isOb = typeof values === 'object';
   let notes = this.notes;
   let ln = notes.length;
-  let smallNum = 0.001;
   for (let i=0;i<ln;i++) {
-    let vl = isOb?values[i]:values;
-    notes[i][prop] = (vl ===0)?smallNum:vl;
+    notes[i][prop] = isOb?values[i]:values;
   }
 }
 
@@ -155,25 +148,9 @@ tune.assignInstruments= function (values) {
   this.assignPropValues('instrument',values);
 }
 
-tune.assignFrequencies =  function (values) {
-  // debugger;
-  this.assignPropValues('instrument',values);
-}
-
 tune.assignRates = function (values) {
   // debugger;
   this.assignPropValues('rate',values);
-}
-
-tune.assignNoteDurations = function (values) {
-  // debugger;
-  this.assignPropValues('duration',values);
-}
- 
- 
-tune.assignTypes = function (values) {
-  // debugger;
-  this.assignPropValues('type',values);
 }
  
 
@@ -196,7 +173,7 @@ item.mkSimpleBufferInstruments = function (){
     this.mkSimpleBufferInstrument(nm);
     });
 }
-/*
+
 sbInstrument.play = function (note) {
   debugger;
   let ctx = theItem;
@@ -229,65 +206,17 @@ sbInstrument.play = function (note) {
   console.log('playing note ',note,' at ',start);
   sound.start(start);
  }
-*/
-
-
-
+ 
 note.play = function () {
-  debugger;
-  let isOscillator =0;
   let ins = this.instrument;
   if (typeof ins === 'string') {
 //    let ctx = this.context;
  //   let ctx = this.context;
    // ins = ctx.instruments[ins];
     ins = theItem.instruments[ins];
-  } else {
-    isOscillator = 1;
   }
-  let ctx = theItem;
-  let tempo = ctx.tempo;
-  let audioCtx = ctx.audioCtx;
-  let {gain,rate,detune,type} = this;
-  let start;
-  if (ctx.playingNotes) {
-    start = this.start/tempo + ctx.notesStart;
-  } else {
-    start = this.start/tempo;
-  }
-  let sound;
-  if (isOscillator) {
-    sound = audioCtx.createOscillator();
-    sound.frequency.value = ins;
-  } else {
-    sound = audioCtx.createBufferSource();
-    sound.buffer = ins.buffer;
-  }
-  if (rate) {
-    sound.playbackRate.value = rate;
-  }
-   if (detune) {
-    sound.detune.value = detune;
-  }
-  if (type) {
-    sound.type= type;
-  }
-  if (typeof gain === 'number') {
-   // debugger;
-    let gainNode = audioCtx.createGain();
-    gainNode.connect(audioCtx.destination);
-    gainNode.gain.value = gain;
-    sound.connect(gainNode);
-  } else {
-    sound.connect(audioCtx.destination);
-  }
-  console.log('playing note ',this,' at ',start);
-  sound.start(start);
-  if (isOscillator) {
-    sound.stop((this.start + this.duration)/tempo + ctx.notesStart);
-   }
- }
-
+  ins.play(this);
+}
 
 tune.play = function () {
   debugger;
@@ -415,14 +344,11 @@ tune.repeat = function (n,op) {
 
 
 item.mkAtune = function (params) {
-  let {insts,rhythm,gains,types,detunes,rates,duration,noteDurations} = params;
+  let {insts,rhythm,gains,detunes,rates,duration} = params;
   //debugger;
   let tune = this.mkBlankTune(rhythm.length,0,duration);
   tune.assignInstruments(insts);
   tune.assignRhythm(rhythm);
-  if (noteDurations) {
-    tune.assignNoteDurations(noteDurations);
-  }
   if (gains) {
     tune.assignGains(gains);
   } 
@@ -431,9 +357,6 @@ item.mkAtune = function (params) {
   }
   if (rates) {
     tune.assignRates(rates);
-  }
-  if (types) {
-    tune.assignTypes(types);
   }
   return tune;
 }
@@ -454,101 +377,5 @@ item.initializeSound = function  () {
   }
 }
 
-item.mkRandomIntSequence = function (numVals,minVal,maxVal) {
-  let sq = [];
-  let delta = maxVal-minVal;
-  for (let i = 0;i<numVals;i++) {
-    let rv = minVal + Math.floor(Math.random()*delta);
-    sq.push(rv);
-  }
-  return sq;
-}
-
-item.mkRandomRealSequence = function (numVals,minVal,maxVal) {
-  let sq = [];
-  let delta = maxVal-minVal;
-  for (let i = 0;i<numVals;i++) {
-    let rv = minVal+Math.random()*delta;
-    sq.push(rv);
-  }
-  return sq;
-}
-
-let noteProps = ['start','instrument','duration','detune','gain','rate'];
-
-note.flatten = function () {
- // debugger;
-  let fnote = {};
-  noteProps.forEach((prop) => {
-    let vl = this[prop];
-    if (vl !== undefined) {
-      fnote[prop] = vl;
-    }
-  });
-  return fnote;
-}
-
-item.unflattenNote = function (fnote) {
-  let nt = note.instantiate();
-  Object.assign(nt,fnote);
-  return nt;
-}
- 
-
-let tuneProps = ['notes','duration','start'];
- 
-tune.flatten = function () {
- let notes = this.notes;
- let fnotes = notes.map((note) => note.flatten());
- let ftune ={};
- tuneProps.forEach((prop) => {
-    let vl = this[prop];
-    if (vl !== undefined) {
-      ftune[prop] = vl;
-    }
-  });
-  ftune.notes = fnotes;
-  return ftune;
-}
-
-item.unflattenTune = function (ftune) {
-  let tn = tune.instantiate();
-  Object.assign(tn,ftune);
-  let fnotes = ftune.notes;
-  let notes = fnotes.map((fnote) => this.unflattenNote(fnote));
-  tn.notes = notes;
-  return tn;
-}
- 
-
-let prettyJSON = 1;
-tune.save = function (pretty) {
-  debugger;
-  let nm = this.name;
-  if (!nm) {
-    alert('unnamed tune');
-    nm ='unnamed';
-  }
-  let svv =  this.flatten();
-  let json = pretty?JSON.stringify(svv,null,4):JSON.stringify(svv);
-  let fdst = 'jtunes/'+nm+'.json';
-  core.saveJson(fdst,json, () => {
-    debugger;
-  });
-}
-item.fetchTune = function (nm) {
-   let ffl = './jtunes/'+nm+'.json';
-   fetch(ffl)
-   .then(response => response.json())
-   .then (ftn => {
-     debugger;
-     //let ftn = JSON.parse(jftn);
-     let tn = this.unflattenTune(ftn);
-     this.tune = tn;
-    });
- }
-
-   
-}
- 
+} 
 export {rs}
