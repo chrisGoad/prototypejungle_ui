@@ -19,17 +19,21 @@ item.fetchSamples= function (srcs,rs) {
         return audioCtx.decodeAudioData(arrayBuffer);
       })
       .then(audio => {
-      debugger;
       console.log('fetched ',src);
       rs[src] = audio;});
     }
  }
 }
 
-item.mkEvenRhythm = function(numNotes,dur) {
+item.mkEvenRhythm = function(numNotes,dur,randomDelay=0) {
   let rs = [];
   for (let i=0; i<numNotes;i++) {
-    rs.push(i*dur);
+    let stdStart = i*dur;
+    let delay = 0;
+    if (randomDelay) {
+      delay = Math.random()*randomDelay;
+    }
+    rs.push(stdStart+delay);
   }
   return rs;
 }
@@ -46,14 +50,6 @@ const tune = core.ObjectNode.mk();
 
 //note.context = item;
 
-item.mkNotee = function(instrument,start,gain,rate,detune) {
-  let nt = note.instantiate();
-  nt.instrument = instrument;
-  nt.start = start;
-  nt.gain = gain;
-  nt.playbackRate = rate;
-  return nt;
-}
 
  // if instrument is a number, it is the frequency, and an oscilator node is used to play it
 item.mkNote = function(instrument,start,params) {
@@ -75,17 +71,6 @@ item.mkNoteFromD = function (noteD) {
   return this.mkNote(instrument,start,params);
 }
 
-/*
-item.mkBlankTune = function (n,duration,instrument) {
-  let tuneI = tune.instantiate();
-  let notes = [];
-  for (let i=0;i<n;i++) {
-    rs.push([instrument,undefined]);
-  }
-  return rs;
-}
-
-*/
 
 item.mkBlankTune = function (numNotes,start,duration,instrument) {
   let tuneI = tune.instantiate();
@@ -100,15 +85,7 @@ item.mkBlankTune = function (numNotes,start,duration,instrument) {
   return tuneI;
 }
 
-/*
-item.assignRhythm = function (noteDs,rhythm) {
-  let ln = noteDs.length;
-  for (let i=0;i<ln;i++) {
-    noteDs[i][1] = rhythm[i];
-  }
-}
 
-*/
 
 tune.assignPropValues= function (prop,values) {
  // debugger;
@@ -125,23 +102,30 @@ tune.assignPropValues= function (prop,values) {
   }
 }
 
+tune.scalePropValues= function (prop,scale) {
+ // debugger;
+  let notes = this.notes;
+  let ln = notes.length;
+  notes.forEach((nt) => {
+    let ovl = nt[prop]
+    if (ovl) {
+      nt[prop] = ovl*scale
+    }
+  });
+}
+
 tune.assignRhythm = function (values) {
   this.assignPropValues('start',values);
 }
-/*
-item.assignGains = function (noteDs,gains) {
-  debugger;
-  let ln = noteDs.length;
-  for (let i=0;i<ln;i++) {
-    let note = noteDs[i];
-    let params = note[2];
-    params.gain = gains[i];
-  }
-}
-*/
+
 tune.assignGains = function (values) {
   // debugger;
   this.assignPropValues('gain',values);
+}
+
+tune.scaleGains = function (scale) {
+  // debugger;
+  this.scalePropValues('gain',scale);
 }
 
 tune.assignDetunes = function (values) {
@@ -196,40 +180,6 @@ item.mkSimpleBufferInstruments = function (){
     this.mkSimpleBufferInstrument(nm);
     });
 }
-/*
-sbInstrument.play = function (note) {
-  debugger;
-  let ctx = theItem;
-  let tempo = ctx.tempo;
-  let audioCtx = ctx.audioCtx;
-  let {gain,rate,detune} = note;
-  let start;
-  if (ctx.playingNotes) {
-    start = note.start/tempo + ctx.notesStart;
-  } else {
-    start = note.start/tempo;
-  }
-  let sound = audioCtx.createBufferSource();
-  sound.buffer = this.buffer;
-  if (rate) {
-    sound.playbackRate.value = rate;
-  }
-   if (detune) {
-    sound.detune.value = detune;
-  }
-  if (typeof gain === 'number') {
-   // debugger;
-    let gainNode = audioCtx.createGain();
-    gainNode.connect(audioCtx.destination);
-    gainNode.gain.value = gain;
-    sound.connect(gainNode);
-  } else {
-    sound.connect(audioCtx.destination);
-  }
-  console.log('playing note ',note,' at ',start);
-  sound.start(start);
- }
-*/
 
 
 
@@ -238,9 +188,6 @@ note.play = function () {
   let isOscillator =0;
   let ins = this.instrument;
   if (typeof ins === 'string') {
-//    let ctx = this.context;
- //   let ctx = this.context;
-   // ins = ctx.instruments[ins];
     ins = theItem.instruments[ins];
   } else {
     isOscillator = 1;
@@ -302,9 +249,6 @@ tune.play = function () {
 tune.clone = function () {
   let {notes,duration,start} = this;
   let inotes = notes.map(note => note.instantiate());
-//    let inote =
-//    return inote;
-//  });
   let rs = tune.instantiate();
   rs.start = start;
   rs.duration = duration;
@@ -333,37 +277,14 @@ tune.delay = function (d) {
   notes.forEach(note=>note.start=note.start+d);
   return this;
 }
-/*
-tune.combine = function (tune2) {
-  let nnotes = this.notes.concat(tune2.notes);
-  let rs = tune.instantiate();
-  let {duration:dur1,start:start1} = this;
-  let {duration:dur2,start:start2} = this;
-  let start = Math.min(start1,start2);
-  let end1 =  start1 + dur1;
-  let end2 =  start2 + dur2;
-  let theEnd = Math.max(end1,end2);
-  rs.duration = theEnd - start;
-  rs.start = start;
-  rs.notes = nnotes;
-  rs.sortNotes();
-  return rs;
-}
-*/
 
 //tune.combine = function (instantiateNotes,...theArgs) {
 tune.combine = function (...theArgs) {
-debugger;
   let notesArray = [];
   theArgs.forEach((tn) => notesArray.push(tn.notes));
   let notes = this.notes;
   let nnotes = notes.concat.apply(notes,notesArray);
   let inotes;
- /* if (instantiateNotes) {
-     inotes = nnotes.map((note) => note.instantiate());
-  } else {
-    inotes = nnotes;
-  }*/
   let rs = tune.instantiate();
   let starts = [this.start];
   let ends = [this.start + this.duration];
@@ -454,22 +375,44 @@ item.initializeSound = function  () {
   }
 }
 
-item.mkRandomIntSequence = function (numVals,minVal,maxVal) {
+
+item.repeatSequence = function (numRepeats,seq) {
+  let seqln = seq.length;
   let sq = [];
-  let delta = maxVal-minVal;
-  for (let i = 0;i<numVals;i++) {
-    let rv = minVal + Math.floor(Math.random()*delta);
-    sq.push(rv);
+  for (let i = 0;i<numRepeats;i++) {
+    for (let j = 0;j<seqln;j++) {
+      sq.push(seq[j])
+    }
   }
   return sq;
 }
 
-item.mkRandomRealSequence = function (numVals,minVal,maxVal) {
+item.mkRandomIntSequence = function (numVals,minVal,maxVal,zeroProbability=0) {
   let sq = [];
   let delta = maxVal-minVal;
   for (let i = 0;i<numVals;i++) {
-    let rv = minVal+Math.random()*delta;
-    sq.push(rv);
+    let rv0 = Math.random();
+    if (rv0 < zeroProbability) {
+      sq.push(0    );
+    } else {
+      let rv = minVal + Math.floor(Math.random()*delta);
+      sq.push(rv);
+    }
+  }
+  return sq;
+}
+
+item.mkRandomRealSequence = function (numVals,minVal,maxVal,zeroProbability=0) {
+  let sq = [];
+  let delta = maxVal-minVal;
+  for (let i = 0;i<numVals;i++) {
+    let rv0 = Math.random();
+    if (rv0 < zeroProbability) {
+      sq.push(0);
+    } else {
+      let rv = minVal+Math.random()*delta;
+      sq.push(rv);
+    }
   }
   return sq;
 }
@@ -536,7 +479,10 @@ tune.save = function (pretty) {
     debugger;
   });
 }
-item.fetchTune = function (nm) {
+
+ 
+ item.fetchTune = function (nm) {
+ return new Promise ((resolve,reject) => {
    let ffl = './jtunes/'+nm+'.json';
    fetch(ffl)
    .then(response => response.json())
@@ -544,9 +490,10 @@ item.fetchTune = function (nm) {
      debugger;
      //let ftn = JSON.parse(jftn);
      let tn = this.unflattenTune(ftn);
-     this.tune = tn;
+     resolve(tn);
     });
- }
+ })
+}
 
    
 }

@@ -6,35 +6,17 @@ let rs = core.ObjectNode.mk();
 addSoundMethods(rs);
 rs.tempo = 8;
 let banjo = 'one-string-banjo_D_major.wav';
-
-rs.samples = ['fx-01.mp3','fx-02.mp3',banjo];/*,'hh-01','hh-02','ir-hall','kd-01',
-'kd-02','oh-01','oh-02','perc-01',
-'perc-02','sd-01','sd-02'];*/
+let tom = 'one-shot-drum-tom-7.wav';
+let crash = 'one-shot-drum-crash-7.wav';
+let kick = 'one-shot-drum-kick_A_major.wav';
+rs.samples = [tom,'fx-01.mp3','fx-02.mp3',banjo,kick,crash,'hh-01.mp3','hh-02.mp3','ir-hall.mp3','kd-01.mp3',
+'kd-02.mp3','oh-01.mp3','oh-02.mp3','perc-01.mp3',
+'perc-02.mp3','sd-01.mp3','sd-02.mp3'];
 /*rs.tune = rs.mkNotes(
   [['fx-01',0],['fx-02',1,{gain:1,detune:200}],['fx-02',2],['hh-01',3,{rate:0.05}],['hh-02',4],
    ['hh-02',5],['kd-01',6],['perc-02',7,{gain:10}],['perc-02',8,{gain:2}]]);*/
 debugger;
-/* const mkAtune = function () {
-  debugger;
-  let noteDur = 1;
-  let numNotes = 13;
-  let tune = rs.mkBlankTune(numNotes,0,noteDur*numNotes);
-  tune.assignInstruments(rs.samples);
-  let evr = rs.mkEvenRhythm(numNotes,noteDur);
-  tune.assignRhythm(evr);
-  return tune;
-}
 
-const mkAtune = function (instruments,rhythm,gains,duration) {
-  debugger;
-  let tune = rs.mkBlankTune(rhythm.length,0,duration);
-  tune.assignInstruments(instruments);
-  tune.assignRhythm(rhythm);
-  if (gains) {
-    tune.assignGains(gains);
-  }
-  return tune;
-}*/
 
 const mkTune0 = function () {
   let samples = rs.samples;
@@ -56,31 +38,29 @@ const mkOTune0 = function () {
 
 
 
-const mkRTune0 = function (n) {
+const mkRTune0 = function (ins,n) {
   debugger;
  // let tune = rs.mkBlankTune(numNotes,0,noteDur*numNotes,'fx-02');
   let evr = rs.mkEvenRhythm(n,1);
  // let gains = [2,0.05,0.5,0.0,0.05];
-  let detunes0 = rs.mkRandomIntSequence(n,0,24);
+  let detunes0 = rs.mkRandomIntSequence(n,0,0);
   let detunes = detunes0.map((vl) => 100*vl);
-  let gains = rs.mkRandomRealSequence(n,0,2);
-  let tn =rs.mkAtune({insts:banjo,rhythm:evr,gains:gains,duration:n,detunes:detunes});
-  let tnc = tn.clone();
-  let rtn = tnc.repeat(5)
+  //let gains = rs.mkRandomRealSequence(n,1,2);
+  let gains = rs.mkRandomRealSequence(n,0,4,0.3);
+  let tn =rs.mkAtune({insts:ins,rhythm:evr,gains:gains,duration:n,detunes:detunes});
+ 
 
-  return rtn;
+  return tn;
 }
 
 const mkTune1 = function (gains,detunes) {
  // debugger;
   let numNotes = 5;
  // let tune = rs.mkBlankTune(numNotes,0,noteDur*numNotes,'fx-02');
-  let evr = rs.mkEvenRhythm(numNotes,1);
+  let evr = rs.mkEvenRhythm(numNotes,0.5);
  // let gains = [2,0.05,0.5,0.0,0.05];
   let tn = rs.mkAtune({insts:banjo,rhythm:evr,gains:gains,duration:numNotes,detunes:detunes});
-  let tnc = tn.clone();
-
-  return tnc;
+  return tn;
 }
 const mkTune2 = function () {
   debugger;
@@ -103,17 +83,44 @@ const mkTune2 = function () {
   return rtune;
 }
 */
-/*
-let tn = mkRTune0(8);
-tn.name = 'random2';
-debugger;
-let ftn = tn.flatten();
-let tnuf = rs.unflattenTune(ftn);
-rs.tune = tnuf;
-tn.save(1);
-*/
-let tn = rs.fetchTune('random');
 
+//let tn = mkTune0(8);
+if (0) {
+//  let tn = mkRTune0('kd-01.mp3',16);
+  let tn = mkRTune0(tom,16);
+  tn.name = 'random10';
+  tn.save(0.5);
+  rs.tune = tn.repeat(4);
+} else {
+  rs.fetchTune('random9').then((tn) => {
+  debugger;
+  tn.assignInstruments(banjo)
+  tn.assignRates(0.5);
+  tn.scaleGains(0.5);
+  let rtn = tn.repeat(8);
+  let detunes = rs.mkRandomIntSequence(16*8,0,12);
+  let ndetunes =  detunes.map((nt) => 107*nt);
+  rtn.assignDetunes(ndetunes);
+  let evr = rs.mkEvenRhythm(4*8,4,1/8);
+  //let gai = rs.mkRandomRealSequence(16*8,0.2,4);
+  let gains = rs.repeatSequence(8*4,[0.5,1,0.7,0.21]);
+  let rates = rs.repeatSequence(8*4,[1,1,1,0.3]);
+  //let insts = rs.repeatSequence(8*4,[tom,kick,tom,crash]);
+  //let insts = rs.repeatSequence(8*4,[tom,kick,tom,kick,tom,kick,tom,crash]);
+  let insts = rs.repeatSequence(8*2,[tom,kick,tom,kick,tom,kick,tom,kick,tom,kick,tom,kick,tom,kick,tom,crash]);
+  let dt = rs.mkAtune({insts:insts,rates:rates,gains:gains,rhythm:evr,duration:4*4*5});
+ // dt.assignGains(dt,15);
+ // dt.assignRates(dt,1);
+ dt.scaleGains(2.5);
+  rs.tune = rtn;
+  rs.tune = dt;
+  rs.tune = rtn.combine(dt);
+})
+}
+
+/*let ftn = tn.flatten();
+let tnuf = rs.unflattenTune(ftn);
+rs.tune = tnuf;*/
 //rs.tune = mkTune0();
 //rs.tune = mkRTune0(16);
 //rs.tune = mkTune2();
