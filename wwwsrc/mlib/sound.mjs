@@ -1,6 +1,6 @@
 const rs = function (item) {
 
-item.tempo = 1;
+item.tempo = 0.5;
 let theItem = item;
   
 item.fetchSamples= function (srcs,rs) {
@@ -25,15 +25,17 @@ item.fetchSamples= function (srcs,rs) {
  }
 }
 
-item.mkEvenRhythm = function(numNotes,dur,randomDelay=0) {
+item.mkEvenRhythm = function(numBeats,dur,notesPerBeat=1,randomDelay=0) {
   let rs = [];
-  for (let i=0; i<numNotes;i++) {
+  for (let i=0; i<numBeats;i++) {
     let stdStart = i*dur;
-    let delay = 0;
-    if (randomDelay) {
-      delay = Math.random()*randomDelay;
+    for (let j=0;j<notesPerBeat;j++) {
+      let delay = 0;
+      if (randomDelay) {
+        delay = Math.random()*randomDelay;
+      }
+      rs.push(stdStart+delay);
     }
-    rs.push(stdStart+delay);
   }
   return rs;
 }
@@ -101,6 +103,14 @@ tune.assignPropValues= function (prop,values) {
     notes[i][prop] = (vl ===0)?smallNum:vl;
   }
 }
+
+tune.getPropValues= function (prop) {
+  let notes = this.notes;
+  let ln = notes.length;
+  let seq = notes.map((note) => note[prop]);
+  return seq;
+}
+
 
 tune.scalePropValues= function (prop,scale) {
  // debugger;
@@ -480,6 +490,20 @@ tune.save = function (pretty) {
   });
 }
 
+item.saveSeq = function (seq,nm,pretty) {
+  debugger;
+  if (!nm) {
+    alert('unnamed sequence');
+    nm ='unnamed';
+  }
+  let json = pretty?JSON.stringify(seq,null,4):JSON.stringify(seq);
+  let fdst = 'jseqs/'+nm+'.json';
+  core.saveJson(fdst,json, () => {
+    debugger;
+  });
+}
+
+
  
  item.fetchTune = function (nm) {
  return new Promise ((resolve,reject) => {
@@ -494,6 +518,22 @@ tune.save = function (pretty) {
     });
  })
 }
+
+ 
+ item.fetchSeq = function (nm) {
+ return new Promise ((resolve,reject) => {
+   let ffl = './jseqs/'+nm+'.json';
+   fetch(ffl)
+   .then(response => response.json())
+ })
+}
+const toDetune = function (seq) {
+  return seq.map((x) => 100*x);
+}
+
+item.c_major = toDetune([0,4,7,12]);
+item.g_major = toDetune([5,9,12,17]);
+item.chromatic_scale = toDetune([0,1,2,3,4,5,6,7,8,9,10,11,12]);
 
    
 }

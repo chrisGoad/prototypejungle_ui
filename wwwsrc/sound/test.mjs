@@ -85,8 +85,15 @@ const mkTune2 = function () {
 */
 
 //let tn = mkTune0(8);
-if (0) {
+let wh = 2;
+if (wh === 0) {
+  debugger;
 //  let tn = mkRTune0('kd-01.mp3',16);
+  let evr = rs.mkEvenRhythm(4,4,1,0);
+  let detunes = rs.c_major;
+  let tn0 = rs.mkAtune({insts:banjo,rhythm:evr,detunes:detunes,duration:4});
+  rs.tune = tn0;
+} else if (wh === 1) {
   let tn = mkRTune0(tom,16);
   tn.name = 'random10';
   tn.save(0.5);
@@ -94,13 +101,20 @@ if (0) {
 } else {
   rs.fetchTune('random9').then((tn) => {
   debugger;
+  let gseq = tn.getPropValues('gain');
+  let sseq = tn.getPropValues('start');
+
   tn.assignInstruments(banjo)
-  tn.assignRates(0.5);
+  //tn.assignRates(0.5);
   tn.scaleGains(0.5);
+ // let detunes0 = rs.repeatSequence(4,rs.g_major);
+  let detunes0 = rs.c_major.concat(rs.g_major,rs.c_major,rs.g_major);
+  tn.assignDetunes(detunes0);
+
   let rtn = tn.repeat(8);
   let detunes = rs.mkRandomIntSequence(16*8,0,12);
   let ndetunes =  detunes.map((nt) => 107*nt);
-  rtn.assignDetunes(ndetunes);
+ // rtn.assignDetunes(ndetunes);
   let evr = rs.mkEvenRhythm(4*8,4,1/8);
   //let gai = rs.mkRandomRealSequence(16*8,0.2,4);
   let gains = rs.repeatSequence(8*4,[0.5,1,0.7,0.21]);
@@ -112,6 +126,7 @@ if (0) {
  // dt.assignGains(dt,15);
  // dt.assignRates(dt,1);
  dt.scaleGains(2.5);
+  debugger;
   rs.tune = rtn;
   rs.tune = dt;
   rs.tune = rtn.combine(dt);
