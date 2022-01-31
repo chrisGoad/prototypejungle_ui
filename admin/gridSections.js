@@ -6,6 +6,8 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
+ ['drop_whorls','generators',1,'Whorls',45], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['random_stripes','generators',1,'Rectangle Grid',55], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_fade','generators',1,'Fade',55], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_incoming','generators',1,'Incoming'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_ramp','generators',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],

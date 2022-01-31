@@ -397,6 +397,7 @@ item.repeatSequence = function (numRepeats,seq) {
   return sq;
 }
 
+
 item.mkRandomIntSequence = function (numVals,minVal,maxVal,zeroProbability=0) {
   let sq = [];
   let delta = maxVal-minVal;
@@ -412,6 +413,30 @@ item.mkRandomIntSequence = function (numVals,minVal,maxVal,zeroProbability=0) {
   return sq;
 }
 
+
+
+item.mkRandomIntSequence = function (params) {
+  debugger;
+  
+  let {numVals,minVal,maxVal,fromSeq,zeroProbability=0} = params;
+  if (fromSeq) {
+    minVal = 0;
+    maxVal = fromSeq.length-1;
+  }
+  let sq = [];
+  let delta = maxVal-minVal;
+  for (let i = 0;i<numVals;i++) {
+    let rv0 = Math.random();
+    if (rv0 < zeroProbability) {
+      sq.push(0);
+    } else {
+      let rv1 = Math.floor(Math.random()*maxVal);
+      let rv = fromSeq?fromSeq[rv1]:minVal + Math.floor(Math.random()*delta);
+      sq.push(rv);
+    }
+  }
+  return sq;
+}
 item.mkRandomRealSequence = function (numVals,minVal,maxVal,zeroProbability=0) {
   let sq = [];
   let delta = maxVal-minVal;
@@ -532,7 +557,9 @@ const toDetune = function (seq) {
 }
 
 item.c_major = toDetune([0,4,7,12]);
-item.g_major = toDetune([5,9,12,17]);
+item.c_major_7th = toDetune([0,4,7,10,12]);
+item.f_major = toDetune([5,9,12,17]);
+item.a_minor = toDetune([-3,0,4,9]);
 item.chromatic_scale = toDetune([0,1,2,3,4,5,6,7,8,9,10,11,12]);
 
    

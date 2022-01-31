@@ -9,7 +9,8 @@ let banjo = 'one-string-banjo_D_major.wav';
 let tom = 'one-shot-drum-tom-7.wav';
 let crash = 'one-shot-drum-crash-7.wav';
 let kick = 'one-shot-drum-kick_A_major.wav';
-rs.samples = [tom,'fx-01.mp3','fx-02.mp3',banjo,kick,crash,'hh-01.mp3','hh-02.mp3','ir-hall.mp3','kd-01.mp3',
+let piano = 'keyscape-piano_C.wav';
+rs.samples = [tom,'fx-01.mp3','fx-02.mp3',banjo,kick,crash,piano,'hh-01.mp3','hh-02.mp3','ir-hall.mp3','kd-01.mp3',
 'kd-02.mp3','oh-01.mp3','oh-02.mp3','perc-01.mp3',
 'perc-02.mp3','sd-01.mp3','sd-02.mp3'];
 /*rs.tune = rs.mkNotes(
@@ -105,16 +106,22 @@ if (wh === 0) {
   let sseq = tn.getPropValues('start');
 
   tn.assignInstruments(banjo)
-  //tn.assignRates(0.5);
+  tn.assignInstruments(piano)
+  tn.assignRates(0.5);
   tn.scaleGains(0.5);
  // let detunes0 = rs.repeatSequence(4,rs.g_major);
   let detunes0 = rs.c_major.concat(rs.g_major,rs.c_major,rs.g_major);
   tn.assignDetunes(detunes0);
 
   let rtn = tn.repeat(8);
-  let detunes = rs.mkRandomIntSequence(16*8,0,12);
-  let ndetunes =  detunes.map((nt) => 107*nt);
- // rtn.assignDetunes(ndetunes);
+  //let detunes = rs.mkRandomIntSequence({numVals:7,minVal:-12,maxVal:12});
+  let detunesC = rs.mkRandomIntSequence({numVals:14,fromSeq:rs.c_major});
+  let detunesF= rs.mkRandomIntSequence({numVals:14,fromSeq:rs.f_major});
+  let detunesA= rs.mkRandomIntSequence({numVals:14,fromSeq:rs.a_minor});
+  let detunes = detunesC.concat(detunesF,detunesA);
+  let ndetunes =  detunes.map((nt) => 100*nt);
+  let rdetunes = rs.repeatSequence(30,detunes	);
+ rtn.assignDetunes(rdetunes);
   let evr = rs.mkEvenRhythm(4*8,4,1/8);
   //let gai = rs.mkRandomRealSequence(16*8,0.2,4);
   let gains = rs.repeatSequence(8*4,[0.5,1,0.7,0.21]);
