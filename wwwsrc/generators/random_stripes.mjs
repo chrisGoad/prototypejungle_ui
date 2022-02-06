@@ -34,7 +34,7 @@ rs.initProtos = function () {
 rs.mkStripes = function (n,ornt,minWd,maxWd) {
 debugger;
    let {width:wd,height:ht} = this;
-  let delta = maxWd - minWd;
+  let delta = maxWd;
   let v = ornt === 'vertical';
   let rw = v?0:1;
       let no2 = n/2;
@@ -42,28 +42,29 @@ debugger;
   for (let i=0;i<n;i++) {
     //let rvs = this.randomValuesAtCell(this.randomGridsForShapes,i,rw);
     let rvs = this.randomValuesAtCell(this.randomGridsForShapes,i,0);
-    let rv = rvs.v*0.001;
+    let rv = rvs.v;//*0.001;
 
     let dim0 = Math.abs(i-no2)/no2;
    // let dim = dim0*dim0*delta;
     let dim = rv*delta;
     let stripe = this.rectP.instantiate();
-    stripe.width = v?(minWd + (i/n)  *delta):wd;
+   /* stripe.width = v?(minWd + (i/n)  *delta):wd;
     stripe.width = v?(minWd + dim):wd;
    // stripe.width = v?(minWd + Math.random()  *delta):wd;
     stripe.height = v?ht:(minWd + (i/n)  *delta);
     stripe.height = v?ht:(minWd + dim);
    // stripe.height = v?ht:(minWd + Math.random()  *delta);
-   // stripe.height = ht;
+   // stripe.height = ht;*/
     let pos = v? Point.mk((i/n) * wd-0.5*wd,0):Point.mk(0,(i/n) * ht-0.5*ht)
     this.set((v?'v':'h')+'stripe'+i,stripe);
     stripe.moveto(pos);
-    const rfv = () => 255*Math.random();
+    /*const rfv = () => 255*Math.random();
     let rfill = `rgba(${rfv()},${rfv()},${rfv()},0.6)`;
-    stripe.fill = rfill;
+    stripe.fill = rfill;*/
     stripe.fill = 'white';
    // stripe.fill = 1?'rgba(255,0,0,0.4)':'rgba(0,0,255,0.4)';
   }
+  this.updateStripes(n,ornt,minWd,maxWd);
  }
     
   
@@ -71,7 +72,8 @@ debugger;
 rs.updateStripes = function (n,ornt,minWd,maxWd) {
 debugger;
    let {width:wd,height:ht} = this;
-  let delta = maxWd - minWd;
+   console.log('maxWd',maxWd);
+  let delta = maxWd;// - minWd;
   let v = ornt === 'vertical';
   let rw = v?0:1;
   let no2 = n/2;
@@ -80,10 +82,10 @@ debugger;
     let stripe = this[(v?'v':'h')+'stripe'+i];
    // let rvs = this.randomValuesAtCell(this.randomGridsForShapes,i,rw);
     let rvs = this.randomValuesAtCell(this.randomGridsForShapes,i,0);
-    let rv = rvs.v*0.002;
+    let rv = rvs.v;//*0.002;
     let dim = rv*delta;
-    stripe.width = v?(minWd + dim):wd;
-    stripe.height = v?ht:(minWd + dim);
+    stripe.width = v?Math.max(dim,0):wd;
+    stripe.height =v?ht:Math.max(dim,0);
     let pos = v? Point.mk((i/n) * wd-0.5*wd,0):Point.mk(0,(i/n) * ht-0.5*ht)
     stripe.moveto(pos);
   }
@@ -106,7 +108,9 @@ rs.initialize = function () {
     this.initProtos();
    core.root.backgroundColor = 'black';
    let {width:wd,height:ht,numCols:nc} = this;
-   this.setupShapeRandomizer('v',{step:10,stept:10,min:0,max:100});
+   let fr =0.005;
+   //this.setupShapeRandomizer('v',{step:10,stept:10,min:0,max:100});
+   this.setupShapeRandomizer('v',{step:fr*10,stept:fr*10,min:-fr*100,max:0.9*fr*100});
 
    this.mkStripes(nc,'vertical',0,wd/50);
    this.mkStripes(nc,'horizontal',0,ht/50);
@@ -121,7 +125,7 @@ rs.step = function ()   {
      let {width:wd,height:ht,numCols:nc,timeStep:ts,numTimeSteps:nts} = this;
 
 	this.stepShapeRandomizer('v');
-  let fr = 0.2;// ts/nts+0.1;
+  let fr =  1- ts/nts;///+0.1;
    this.updateStripes(nc,'vertical',0,fr*wd/50);
    this.updateStripes(nc,'horizontal',0,fr*ht/50);
 

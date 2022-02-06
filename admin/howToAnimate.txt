@@ -65,6 +65,7 @@ c:\ffmpeg\bin\ffmpeg  -framerate 20 -i animations/drop0_1_23.anim_f%03d.jpg -s 1
 c:\ffmpeg\bin\ffmpeg  -framerate 20 -i animations/grid_simple_example_f%03d.jpg -s 1000x1000  export/grid_simple_example.anim.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/random_stripes_f%03d.jpg -s 500x500  export/random_stripes2.anim.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/random_stripes_f%03d.jpg -s 500x500  export/random_stripes3.anim.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/random_stripes_f%03d.jpg -s 500x500  export/random_stripes4.anim.gif
 
 
 rm animations/spatter0_7*

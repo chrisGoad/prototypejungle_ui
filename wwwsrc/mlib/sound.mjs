@@ -1,6 +1,6 @@
 const rs = function (item) {
 
-item.tempo = 0.5;
+item.tempo = 0.25;
 let theItem = item;
   
 item.fetchSamples= function (srcs,rs) {
@@ -102,6 +102,7 @@ tune.assignPropValues= function (prop,values) {
     let vl = isOb?values[i]:values;
     notes[i][prop] = (vl ===0)?smallNum:vl;
   }
+  return this;
 }
 
 tune.getPropValues= function (prop) {
@@ -122,46 +123,47 @@ tune.scalePropValues= function (prop,scale) {
       nt[prop] = ovl*scale
     }
   });
+  return this;
 }
 
 tune.assignRhythm = function (values) {
-  this.assignPropValues('start',values);
+  return this.assignPropValues('start',values);
 }
 
 tune.assignGains = function (values) {
   // debugger;
-  this.assignPropValues('gain',values);
+  return this.assignPropValues('gain',values);
 }
 
 tune.scaleGains = function (scale) {
   // debugger;
-  this.scalePropValues('gain',scale);
+  return this.scalePropValues('gain',scale);
 }
 
 tune.assignDetunes = function (values) {
   // debugger;
-  this.assignPropValues('detune',values);
+  return this.assignPropValues('detune',values);
 }
  
  
 tune.assignInstruments= function (values) {
   // debugger;
-  this.assignPropValues('instrument',values);
+  return this.assignPropValues('instrument',values);
 }
 
 tune.assignFrequencies =  function (values) {
   // debugger;
-  this.assignPropValues('instrument',values);
+  return this.assignPropValues('instrument',values);
 }
 
 tune.assignRates = function (values) {
   // debugger;
-  this.assignPropValues('rate',values);
+  return this.assignPropValues('rate',values);
 }
 
 tune.assignNoteDurations = function (values) {
   // debugger;
-  this.assignPropValues('duration',values);
+  return this.assignPropValues('duration',values);
 }
  
  
@@ -416,7 +418,7 @@ item.mkRandomIntSequence = function (numVals,minVal,maxVal,zeroProbability=0) {
 
 
 item.mkRandomIntSequence = function (params) {
-  debugger;
+  //	debugger;
   
   let {numVals,minVal,maxVal,fromSeq,zeroProbability=0} = params;
   if (fromSeq) {
@@ -557,8 +559,11 @@ const toDetune = function (seq) {
 }
 
 item.c_major = toDetune([0,4,7,12]);
+item.c_sharp_major = toDetune([1,5,8,13]);
 item.c_major_7th = toDetune([0,4,7,10,12]);
 item.f_major = toDetune([5,9,12,17]);
+item.g_major = toDetune([-5,-1,2,7]);
+
 item.a_minor = toDetune([-3,0,4,9]);
 item.chromatic_scale = toDetune([0,1,2,3,4,5,6,7,8,9,10,11,12]);
 
