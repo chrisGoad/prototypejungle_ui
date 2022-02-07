@@ -4,7 +4,7 @@ import {rs as addSoundMethods} from '/mlib/sound.mjs';
 let rs = core.ObjectNode.mk();
 
 addSoundMethods(rs);
-rs.tempo = 16;
+rs.tempo = 1;
 let banjo = 'one-string-banjo_D_major.wav';
 let tom = 'one-shot-drum-tom-7.wav';
 let crash = 'one-shot-drum-crash-7.wav';
@@ -142,7 +142,7 @@ debugger;
  // rs.tune = rtn.combine(dt);
 })
 }
-mkTune3();
+//mkTune3();
 debugger;
 /*let ftn = tn.flatten();
 let tnuf = rs.unflattenTune(ftn);
@@ -173,6 +173,15 @@ debugger;
 //rs.tune = rtune;
 //rs.tune = tune;
 */
+const mkTune4 = function () {
+  debugger;
+  let detunes = [0,13];
+  let evr = rs.mkEvenRhythm(2,1);
+  let tn = rs.mkAtune({insts:piano,rhythm:evr,detunes:detunes,duration:2});
+  let rtn = tn.repeat(10);
+  rs.tune = rtn;
+}
 
+mkTune4()
  
  export {rs};

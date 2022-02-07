@@ -206,9 +206,13 @@ item.segmentIntersects = function (seg) {
 }
 
 item.intersectsSomething = function (g) {
-  let {segments,width,height} = this;
+  let {segments,width,height,ignoreBefore:ibf} = this;
+  if (ibf) {
+    debugger;
+  }
   let ln = segments.length;
-  for (let i=0;i<ln;i++) {  
+  let st = (ibf)?ibf:0;
+  for (let i=st;i<ln;i++) {  
 	  let seg = segments[i];
 		if (g.intersects(seg)) {
 			return true;
@@ -343,7 +347,65 @@ item.addSegmentsAtEnds = function () {
   return ['loopsExceeded',this.numDropped];
 }
        
+
+item.addRandomSegment = function () {
+  let p = this.genRandomPoint(); 
+  //debugger;
+  let segsAndLines = this.genSegments(p);
+  let ifnd = 0;
+  let sln=0;
+  if (segsAndLines) {
+    let [segs,lines] = segsAndLines;
+    let rect;
+    sln = segs.length;
+    for (let i=0;i<sln;i++) {
+      let seg = segs[i];
+      if (this.intersectsSomething(seg)) {
+        return undefined;
+      }
+    }
+    this.installSegmentsAndLines(segsAndLines);
+    return true;
+
+  } else {
+    return undefined;
+  }
+}
     
+item.addNrandomSegments = function (n) {
+  let {maxDrops,dropTries,maxLoops,segments,lineLength,ends,shapes,fromEnds,onlyFromSeeds} = this;
+  if (!this.genSegments) {
+    return;
+  }
+  let tries = 0;
+  let numAdded = 0;
+	//debugger;
+  while (numAdded < n) {
+    if (fromEnds) {
+      let ae = this.addSegmentsAtEnds();
+      if (ae[0] === 'loopsExceeded') {
+         return numAdded;
+      } else {
+        numAdded++
+      }
+      break; //added return 11/21
+    }
+		let ifnd = this.addRandomSegment();
+		let segsAdded = this.addRandomSegment();
+		if (segsAdded) {
+      tries = 0;
+      numAdded++;
+    } else {  
+			tries++;
+			if (tries >= dropTries) {
+				debugger;
+				return numAdded;
+			}
+    }
+  }
+  return numAdded;
+} 
+
 item.addRandomSegments = function () {
   let {maxDrops,dropTries,maxLoops,segments,lineLength,ends,shapes,fromEnds,onlyFromSeeds} = this;
   if (!this.genSegments) {
@@ -353,7 +415,7 @@ item.addRandomSegments = function () {
   let tries = 0;
   let endsVsNew = 1;
   let loops = 0;
-	debugger;
+	//debugger;
   while (loops < maxLoops) {
     loops++;
     if (fromEnds) {
@@ -365,52 +427,24 @@ item.addRandomSegments = function () {
       }
 			return; //added return 11/21
     }
-    /*if (onlyFromSeeds) {  removed 11/21 
-      return;
-    }*/
-		let p = this.genRandomPoint(); 
-		//debugger;
-		let segsAndLines = this.genSegments(p);
-		let ifnd = 0;
-		let sln=0;
-		if (segsAndLines) {
-			let [segs,lines] = segsAndLines;
-			let rect;
-			if    (0 && !Array.isArray(segs)) {// took out 11/21
-				rect = segs; //might be a circle
-				rectShape = lines;
-				if (this.intersectsSomething(rect)) {
-					 ifnd  = 1;
-				}
-			} else {	 
-				sln = segs.length;
-				for (let i=0;i<sln;i++) {
-					let seg = segs[i];
-					if (this.intersectsSomething(seg)) {
-						ifnd = true;
-						break;
-					}
-				}
-			}
-		} else {
-			ifnd = 1;
-		}
-		if (ifnd) {
-			tries++;
-			if (tries >= dropTries) {
-							debugger;
-
-				return this.numDropped;
-			}
-		} else {
-			tries = 0;
-			this.installSegmentsAndLines(segsAndLines);
+		let ifnd = this.addRandomSegment();
+		let segsAdded = this.addRandomSegment();
+		if (segsAdded) {
+      tries = 0;
 			if (this.numDropped >= maxDrops) {
 				return this.numDropped;
 			}    
-    } 
+    } else {  
+			tries++;
+			if (tries >= dropTries) {
+				debugger;
+				return this.numDropped;
+			}
+    }
   }
 }
+
+
 
 item.genLine = function (lsgOrP0,p1,ext) {
   let end0,end1;
@@ -588,7 +622,7 @@ item.initializeDrop = function (doDrop=1) {
   }
   if (doDrop) {
 		this.addRandomSegments();
-		debugger;
+		//debugger;
 	}
 }
 item.inAzone = function (zones,p) {

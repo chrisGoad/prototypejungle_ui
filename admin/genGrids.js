@@ -144,6 +144,20 @@ let sectionString = function (things) {
   <div></div>
   `;
 	let ln = things.length;
+  const compare = function (thing1,thing2) {
+    let likes1 = (thing1.length >= 5)?thing1[4]:0;
+    let likes2 = (thing1.length >= 5)?thing2[4]:0;
+    if (likes1 === likes2) {
+      return 0;
+    }
+    if (likes1 < likes2) { 
+      return 1;
+    }
+    return -1;
+  }
+  if (byLikes) {
+    things.sort(compare);
+  }
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;

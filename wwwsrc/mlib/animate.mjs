@@ -67,7 +67,7 @@ item.animateIt = function (numFrames,interval,resume,timeStep) {
 		this.frameNumber = frameNumber;
 		this.step();
 		dom.svgDraw();
-    debugger;
+  //  debugger;
 		if (this.saveVideo) {
 			if ((!everyNthFrame) || (frameNumber%everyNthFrame === 0)) {
 		    draw.saveFrame(everyNthFrame?frameNumber/everyNthFrame:frameNumber);
