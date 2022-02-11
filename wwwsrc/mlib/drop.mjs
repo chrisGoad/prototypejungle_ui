@@ -379,7 +379,6 @@ item.addNrandomSegments = function (n) {
   }
   let tries = 0;
   let numAdded = 0;
-	//debugger;
   while (numAdded < n) {
     if (fromEnds) {
       let ae = this.addSegmentsAtEnds();
@@ -388,16 +387,19 @@ item.addNrandomSegments = function (n) {
       } else {
         numAdded++
       }
-      break; //added return 11/21
+      continue; //added return 11/21
     }
-		let ifnd = this.addRandomSegment();
+		//let ifnd = this.addRandomSegment();
 		let segsAdded = this.addRandomSegment();
 		if (segsAdded) {
       tries = 0;
       numAdded++;
     } else {  
 			tries++;
-			if (tries >= dropTries) {
+			if (tries >= 50) {
+				debugger;
+			}	
+      if (tries >= dropTries) {
 				debugger;
 				return numAdded;
 			}

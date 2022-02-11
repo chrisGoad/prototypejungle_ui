@@ -11,7 +11,7 @@ let rs = basicsP.instantiate();
 addDropMethods(rs);
 addSegsetMethods(rs);
 addAnimateMethods(rs);
-rs.setName('drop_fade');
+rs.setName('drop_move');
 let wd = 200;
 
 let topParams = {width:wd,height:wd,dropTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:20,backStripeVisible:0,minSeparation:10,numTimeSteps:100}
@@ -34,10 +34,9 @@ rs.initialSegmentss = function () {
 
 rs.segParams = function () {
   let r = Math.random();
-  let np = 8;
+  let np = 4;
   let angle = Math.floor(r*np)* (Math.PI/np)
-//  let length = 2 + Math.floor(r*np)*4;
-  let length = 10;
+  let length = 2 + Math.floor(r*np)*4;
   return {angle,length};
 } 
 
@@ -46,9 +45,6 @@ rs.genSegments = function (p) {
   let {length,angle} = this.segParams();
   let seg = this.genSegment(p,length,angle);
   let ln = this.genLine(seg);
-  if (Math.random() < 0.5) {
-    ln.stroke = 'white';
-  }
   let eseg = this.genSegment(p,length+sep,angle);
   return [[eseg],[ln]];
 }
@@ -62,10 +58,30 @@ rs.initialize = function () {
   let ln = this.shapes.length
      console.log('numshapes',ln);
   this.numShapesHistory = [ln];
-  this.addNrandomSegments(0);
+  //this.addRandomSegments();
+ this.addNrandomSegments(2000000);
 }
 
+rs.moveLine = function (line) {
+  let {end0,end1} = line;
+  let vec = end1.difference(end0).normalize();
+  let nvec = vec.normal().times(.8)
+  let nend0 = end0.plus(nvec);
+  let nend1 = end1.plus(nvec);
+  end0.copyto(nend0);
+  end1.copyto(nend1);
+  line.update();
+  line.show();
+}
 
+rs.moveLines  = function () {
+  let {shapes} = this;
+  let ln = shapes.length;
+  for (let i=0;i<ln;i++) {
+    let shp = shapes[i]
+    this.moveLine(shp);
+  }
+}
 
 rs.fadeOldShapes = function (fhlg) { //fhlg = fromHowLongAgo
   let {timeStep,shapes,numShapesHistory} = this;
@@ -96,17 +112,17 @@ rs.fadeOldShapes = function (fhlg) { //fhlg = fromHowLongAgo
 
 
 rs.step = function ()   {
-//	debugger;
-  //let numDropped = this.addNrandomSegments(200);
-     let {shapes,numShapesHistory,segments,timeStep} = this;
-   if (1) {//&&(timeStep < 30)) {
-     this.addNrandomSegments(50);
+   debugger;
+   if (this.timeStep < 90) {
+     this.moveLines();
    }
-
+  return;
+  let numDropped = this.addNrandomSegments(20);
+     let {shapes,numShapesHistory,segments} = this;
    let ln = shapes.length;
    console.log('numshapes',ln,'numsegs',segments.length);
    numShapesHistory.push(ln);
-   this.fadeOldShapes(10);
+   this.fadeOldShapes(8);
    return;
 
 	this.stepShapeRandomizer('v');
@@ -119,6 +135,7 @@ rs.step = function ()   {
  
  
 rs.animate = function (resume)  {
+  debugger;
 	this.animateIt(this.numTimeSteps,20,resume);
 	
 }

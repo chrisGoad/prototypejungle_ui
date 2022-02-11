@@ -25,7 +25,7 @@ item.shapeTimeStep  = function() {
 
 item.breakAtStep = -1;
 
-item.animateIt = function (numFrames,interval,resume,timeStep) {
+item.animateIt = function (numFrames,interval,resume,ssaf=0) { // ssaf start saving at frame
  // let numFrames = 10;
     //svgMain.draw();
 	let {everyNthFrame,breakAtStep,frameNumber} = this;
@@ -52,7 +52,7 @@ item.animateIt = function (numFrames,interval,resume,timeStep) {
 		if (this.paused) {
 			return;
 		}
-		console.log('timeStepp',nfr,' frameNumber ',frameNumber); 
+		console.log('timeStepp',nfr,' frameNumber ',frameNumber,'ssaf',ssaf); 
 		if (nfr === breakAtStep) {
 			this.paused = true;
 			return;
@@ -66,11 +66,11 @@ item.animateIt = function (numFrames,interval,resume,timeStep) {
 		frameNumber++;
 		this.frameNumber = frameNumber;
 		this.step();
-		dom.svgDraw();
+		dom.svgDraw();	
   //  debugger;
-		if (this.saveVideo) {
+		if (this.saveVideo && (frameNumber >= ssaf)) {
 			if ((!everyNthFrame) || (frameNumber%everyNthFrame === 0)) {
-		    draw.saveFrame(everyNthFrame?frameNumber/everyNthFrame:frameNumber);
+		    draw.saveFrame(everyNthFrame?frameNumber/everyNthFrame:frameNumber-ssaf);
 			}
 		}
 		nfr++;
