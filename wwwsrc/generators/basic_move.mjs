@@ -1,6 +1,7 @@
 //core.require('/line/line.js','/gen0/Basics.js','/mlib/drop.js','/mlib/segsets.js',function (linePP,rs,addDropMethods,addSegsetMethods) {
 
 import {rs as linePP} from '/line/line.mjs';
+import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as basicsP} from '/generators/basics.mjs';
 import {rs as addDropMethods} from '/mlib/drop.mjs';
 import {rs as addSegsetMethods} from '/mlib/segsets.mjs';
@@ -12,9 +13,9 @@ let rs = basicsP.instantiate();
 //addSegsetMethods(rs);
 addAnimateMethods(rs);
 rs.setName('basic_move');
-let wd = 200;
+let wd = 300;
 
-let topParams = {width:wd,height:wd,dropTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:20,backStripeVisible:0,minSeparation:10,numTimeSteps:200}
+let topParams = {width:wd,height:wd,dropTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:20,backStripeVisible:1,minSeparation:10,numTimeSteps:400}
 
 Object.assign(rs,topParams);
 
@@ -22,94 +23,200 @@ Object.assign(rs,topParams);
 rs.initProtos = function () {
 	this.lineP = linePP.instantiate();
 	this.lineP.stroke = 'yellow';
-	this.lineP['stroke-width'] = .3;
+	this.lineP['stroke-width'] = 0.5;	
+  this.rectP = rectPP.instantiate();
+	this.rectP.stroke = 'yellow';
+	this.rectP['stroke-width'] = 0;
+  this.rectP.width = 100;
+  this.rectP.height= 100;
 }  
-rs.addShapes = function (nm,n,dim) {
-  let shapes = this.set(nm,core.ArrayNode.mk());
-  for (let i=0;i<n;i++) {
-    let shape = this.lineP.instantiate()
-    let hdim = dim/2;
-    shape.setEnds(Point.mk(0,-hdim),Point.mk(0,hdim));
-    shapes.push(shape);
-    shape.show();
-  }
-}
-rs.initialize = function () {
-  core.root.backgroundColor = 'black';
-	this.initProtos(); 
-  let dim = this.dim =  32*3*2*2;
-	this.addBackStripe();
-	this.addShapes('s2',4,dim);
-	this.addShapes('s3',5,dim);
-  this.s2[0].moveto(Point.mk(-dim/2,0));
-  this.s2[3].moveto(Point.mk(dim/2,0)); 
-  this.s3[0].moveto(Point.mk(-dim/2,0));
-  this.s3[4].moveto(Point.mk(dim/2,0));
- // this.s3[3].moveto(Point.mk(this.dim,0));
- }
 
+// a MovingOb has the form {path,speed,startTime,movingShape,currentPos} 
 
+const MovingOb = core.ObjectNode.mk();
+const Path = core.ObjectNode.mk();
 
-rs.computePositions = function (i) {
-  let {timeStep,last,dim} = this;
-  let hdim = dim/2;
-  let iv,fc;
-  if (i === 2) {
-    iv = 32*3;
-    fc = 2*2;
-  } else if (i === 3) {
-    iv = 32*2;
-    fc = 2*3;
-  }
-  let rs  = [];
-  if (i === 3) {
-    rs.push(Math.max(fc*((timeStep-2*iv/3)%iv),0)-hdim);
-  }
-  rs.push(Math.max(fc*((timeStep-iv/i)%iv),0)-hdim);
-  rs.push(fc*(timeStep%iv)-hdim);
-  rs.push(fc*iv-hdim);
+MovingOb.mk = function (path,speed) {
+  let rs = MovingOb.instantiate();
+  Object.assign(rs,{path:path,speed:speed});
   return rs;
 }
 
-rs.step = function () {
-  let {s2,s3,timeStep} = this;
-  let ps2 = this.computePositions(2);
-  let ps3 = this.computePositions(3);
-  //s2[3].moveto(Point.mk(ps3[3],0));
-  //console.log('x0',x0,'x1',x1);
-  s2[1].moveto(Point.mk(ps2[0],0));
-  s2[2].moveto(Point.mk(ps2[1],0));
-  s3[1].moveto(Point.mk(ps3[0],0));
-  s3[2].moveto(Point.mk(ps3[1],0));
-  s3[3].moveto(Point.mk(ps3[2],0));
+//properties of a Path: startPos,endPos,shapeProto,shapePool,movingObs,startShape,endShape,length,uvec
+rs.mkPath = function (nm,startPos,endPos,shapeProto) {
+  let rs = Path.instantiate();
+  rs.name = nm;
+  Object.assign(rs,{startPos:startPos,endPos:endPos,shapeProto:shapeProto,shapePool:[],movingObs:[]});
+  let startShape = shapeProto.instantiate();
+  let endShape = shapeProto.instantiate();
+  this.set(nm+'Start',startShape);
+  this.set(nm+'End',endShape);
+  this.initializeShape(nm,startShape);
+  this.initializeShape(nm,endShape);
+  this[nm] = rs;
+  startShape.moveto(startPos);
+  endShape.moveto(endPos);
+  startShape.show();
+  endShape.show();
+  let vec = endPos.difference(startPos);
+  rs.length = vec.length();
+  rs.uvec = vec.normalize();
+  return rs;
+}
+
+
+rs.shapeCount = 0;
+rs.startObOnPath = function (path,speed) {
+  debugger;
+  let {timeStep,shapes,dim} = this;
+  if (!shapes) {
+  	shapes = this.set('shapes',core.ArrayNode.mk());
+  }
+  let movingOb = MovingOb.mk(path,speed);
+  movingOb.startTime = timeStep;
+  let {shapePool,shapeProto,movingObs} = path;
+  let shape;
+  if (shapePool.length === 0) {
+     shape = shapeProto.instantiate();
+     this.initializeShape(path.name,shape);
+     shapes.push(shape);
+  } else {
+    shape = shapePool.pop();
+  } 
+  shape.show();
+  movingOb.movingShape = shape;
+  movingOb.currentPos = -dim/2;
+  movingObs.push(movingOb);
+}
+
+const removeFromArray = function (ar,el) {
+  let idx = ar.indexOf(el);
+  if (idx >= 0) {
+     ar.splice(idx,1);
+     return ar;
+  }
+  debugger;
+}
+
+rs.moveObOnPath = function (movingOb) {
+  debugger;
+  let {timeStep} = this;
+  let {movingShape,path,startTime,speed} = movingOb;
+  let {startPos,endPos,length,uvec,movingObs,shapePool} = path;
+  let tmop = timeStep - startTime;
+  let distTraveled = tmop*speed;
+  if (distTraveled  >= length) {
+    movingShape.hide();
+    removeFromArray(movingObs,movingOb);
+    shapePool.push(movingShape);
+    return;
+  }   
+  let pos = startPos.plus(uvec.times(speed*tmop));
+  movingOb.currentPos = pos.x;
+  movingShape.moveto(pos);
+  movingShape.update();
+}
+
+rs.moveObsOnPath = function (path) {
+  path.movingObs.forEach( (mvob) => this.moveObOnPath(mvob));
+}
+
+  
+
+let dim = rs.dim =  32*3*2*2;
+let hdim = dim/2;
+let left = Point.mk(-hdim,0);
+let right = Point.mk(hdim,0);
+
+
+rs.mkRect = function (wh) {
+  let rect = this.rectP.instantiate();
+  rect.height =  dim;
+  const rshade = () => Math.floor(254*Math.random());
+  const rcolor = () => `rgba(${rshade()},${rshade()},${rshade()},0.4)`;
+  rect.fill = rcolor();
+  this.rects.push(rect);
+  rect.show();
+  return rect;
+}
+     
+     
+
+rs.initializeShape = function (pathName,shape) {
+  let hdim = 0.5*this.dim;
+  shape.setEnds(Point.mk(0,-hdim),Point.mk(0,hdim));
+}
+  
+rs.initialize = function () {
+  debugger;
+  core.root.backgroundColor = 'black';
+	this.initProtos();
+  this.set('rects',core.ArrayNode.mk());  
+  let dim = this.dim =  32*3*2*2;
+  let hdim = dim/2;
+	this.addBackStripe();
+  let hpathSlow = this.mkPath('hpathSlow',left,right,this.lineP);
+  let hpathFast = this.mkPath('hpathFast',left,right,this.lineP);
+  this.mkRect(dim);
  }
 
-rs.stepp = function ()   {
-  //debugger;
-  let {s2,s3,timeStep} = this;
-  let iv2 = 32*3;
-  let iv3 = 32*2;
-  let fc2 = 2*2;
-  let fc3 = 2*3;
-  s2[3].moveto(Point.mk(fc2*iv2,0));
-  s2[3].moveto(Point.mk(fc3*iv3,0));
-  let x0 = fc2*(timeStep%iv2);
-  let x1 = Math.max(fc2*((timeStep-iv2/2)%iv2),0);
-  console.log('x0',x0,'x1',x1);
-  s2[1].moveto(Point.mk(x0,0));
-  s2[2].moveto(Point.mk(x1,0));
-  x0 = fc2*(timeStep%iv3);
-  x1 = Math.max(fc3*((timeStep-iv3/3)%iv3),0);
-  let x2 = Math.max(fc3*((timeStep-2*iv3/3)%iv3),0);
-  s3[0].moveto(Point.mk(x0,0));
-  s3[1].moveto(Point.mk(x1,0));
-  s3[2].moveto(Point.mk(x2,0));
 
-}
- 
+
+rs.moveRects = function (path) {
+  debugger;
+  let {movingObs} = path;
+  let {rects,dim} = this;
+  if (!rects) {
+    rects = this.set('rects',core.ArrayNode.mk());
+  }
+  let rln = rects.length;
+  let hdim = dim/2;
+  let posArray = [-hdim,hdim];
+  movingObs.forEach((mvo) => posArray.push(mvo.currentPos));
+  const compare = function (a,b) {
+    if (a < b) {return 1};
+    if (a === b) {return 0};
+    return -1;
+  }
+  posArray.sort(compare); // high to low
+  
+  let lnm1 = posArray.length - 1;
+  let rcnt = 0;
+  for (let i=0;i<lnm1;i++) {
+    let low = posArray[i+1];
+    let high = posArray[i]; 
+    let vrwh = high - low;
+    let p = (high + low)/2;
+    let wh = high - low;
+    if (wh === 0) {
+      continue;
+    }
+    let rect = (i<rln)?rects[rcnt]:this.mkRect();
+    rcnt++
+    rect.width = wh;
+    rect.moveto(Point.mk(p,0));
+    rect.update();
+  }
+}  
+    
+  
+
+rs.step = function () {
+ debugger;
+  let {hpathSlow,hpathFast,timeStep} = this;
+  this.moveObsOnPath(hpathSlow);
+  this.moveObsOnPath(hpathFast);
+  if (timeStep%8 === 0) {
+    this.startObOnPath(hpathSlow,5);
+    this.startObOnPath(hpathFast,10);
+  }
+  this.moveRects(hpathSlow);
+  this.moveRects(hpathFast);
+ }
+  
  
 rs.animate = function (resume)  {
-	this.animateIt(this.numTimeSteps,40,resume);
+	this.animateIt(this.numTimeSteps,100,resume);
 	
 }
 export {rs};
