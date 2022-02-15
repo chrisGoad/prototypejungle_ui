@@ -168,7 +168,6 @@ rs.mkRect = function (ornt) {
   rect.show();
   return rect;
 }
-     
 
 rs.initializeShape = function (pathName,shape) {
   let hdim = 0.5*this.dim;

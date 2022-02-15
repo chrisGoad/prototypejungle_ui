@@ -98,8 +98,6 @@ item.addBackground = function () {
 }
 
 
-
-
 item.installLine = function (line) {
   this.shapes.push(line);
   line.show();
