@@ -152,11 +152,11 @@ rs.mkRect = function (ornt) {
     let blackish = 'rgba(0,0,0,0.5)';
     if ((ornt == 'h') && firstRectH)  {
       this.firstRectH = 0;
-      return  whiteish;
+      return  blackish;
    } 
    if ((ornt == 'v') && firstRectV)  {
       this.firstRectV = 0;
-      return whiteish;
+      return blackish;
    }
   if ((timeStep >= 348)|| (timeStep === 198))  {
      return blackish;
@@ -243,30 +243,26 @@ rs.moveRects = function (path) {
     
   
 
+let slow = 7.5;
+let tt = 2/3;
+
 rs.step = function () {
  debugger;
   let {hpathSlow,hpathFast,vpathSlow,timeStep} = this;
   this.moveObsOnPath(hpathSlow);
-  if  ((timeStep > 100)) this.moveObsOnPath(vpathSlow);
-  if ((timeStep%8 === 2) && (timeStep <350)) {
-    this.startObOnPath(hpathSlow,5);
+  if  ((timeStep > tt*100)) this.moveObsOnPath(vpathSlow);
+  if ((timeStep%8 === 2) && (timeStep <tt*400)) {
+    this.startObOnPath(hpathSlow,slow);
   }
-    if ((timeStep%8 === 2)  && ((timeStep > 100) && (timeStep < 200))) this.startObOnPath(vpathSlow,5);
+    if ((timeStep%8 === 2)  && ((timeStep > tt*100) && (timeStep < tt*250))) this.startObOnPath(vpathSlow,slow);
  
   this.moveRects(hpathSlow);
-  if (timeStep > 100) this.moveRects(vpathSlow);
-  return;
-  if (timeStep === 350) {
-     let movingObs = vpathSlow.movingObs;
-     movingObs.forEach( (mvo) => {
-       mvo.startTime = mvo.startTime+51;
-     });
-  }
+  if (timeStep > tt*100) this.moveRects(vpathSlow);
  }
   
  
 rs.animate = function (resume)  {
-	this.animateIt(502,20,resume,0);
+	this.animateIt(tt*552,20,resume,0);
 	
 }
 export {rs};
