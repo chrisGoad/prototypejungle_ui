@@ -71,6 +71,11 @@ c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/drop_move_f%03d.jpg -s 500x500
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/drop_rain_f%03d.jpg -s 500x500  export/drop_rain.anim.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/drop_fade_f%03d.jpg -s 500x500  export/drop_fade.anim.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 10 -i animations/random_cross_hatch_f%03d.jpg -s 500x500  export/random_cross_hatch.anim.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 30 -i animations/basic_move_f%03d.jpg -s 500x500  export/basic_move.anim.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 30 -i animations/basic_move2_f%03d.jpg -s 500x500  export/basic_move2.anim.gif
+c:\ffmpeg\bin\ffmpeg  -framerate 20 -i animations/basic_move2_f%03d.jpg -s 700x700  export/basic_move2.anim.mp4
+c:\ffmpeg\bin\ffmpeg  -framerate 20 -i animations/basic_move_f%03d.jpg -s 500x500  export/basic_move.anim.mp4
+
 
 
 rm animations/spatter0_7*
