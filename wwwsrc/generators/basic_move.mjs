@@ -162,14 +162,12 @@ rs.mkRect = function (ornt) {
      return blackish;
   }
    return Math.random()>0.5?whiteish:blackish;
-   //'rgba(255,255,,0.5)';
   }
   rect.fill = rcolor();
   this[ornt+'rects'].push(rect);
   rect.show();
   return rect;
 }
-     
      
 
 rs.initializeShape = function (pathName,shape) {
