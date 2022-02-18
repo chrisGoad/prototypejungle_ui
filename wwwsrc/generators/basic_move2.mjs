@@ -23,7 +23,7 @@ Object.assign(rs,topParams);
 rs.initProtos = function () {
 	this.lineP = linePP.instantiate();
 	this.lineP.stroke = 'yellow';
-	this.lineP['stroke-width'] = 0.5;	
+	this.lineP['stroke-width'] = 1;	
   this.rectP = rectPP.instantiate();
 	this.rectP.stroke = 'yellow';
 	this.rectP['stroke-width'] = 0.5;
@@ -142,7 +142,7 @@ let bottom = Point.mk(0,hdim);
 
 rs.mkRect = function () {
   let rect = this.rectP.instantiate();
-  rect.fill = 'rgba(255,255,255,0.5)';
+  rect.fill = 'rgba(255,255,255)';
   this.rects.push(rect);
   rect.show();
   return rect;

@@ -75,6 +75,7 @@ c:\ffmpeg\bin\ffmpeg  -framerate 30 -i animations/basic_move_f%03d.jpg -s 500x50
 c:\ffmpeg\bin\ffmpeg  -framerate 30 -i animations/basic_move2_f%03d.jpg -s 500x500  export/basic_move2.anim.gif
 c:\ffmpeg\bin\ffmpeg  -framerate 20 -i animations/basic_move2_f%03d.jpg -s 700x700  export/basic_move2.anim.mp4
 c:\ffmpeg\bin\ffmpeg  -framerate 20 -i animations/basic_move_f%03d.jpg -s 500x500  export/basic_move.anim.mp4
+c:\ffmpeg\bin\ffmpeg  -framerate 20 -i animations/basic_move2_f%03d.jpg -s 500x500  export/basic_move.anim.gif
 
 
 

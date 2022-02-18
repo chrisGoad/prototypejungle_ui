@@ -2,3 +2,4 @@ git remote set-url origin https://github.com/chrisGoad/prototypejungle_ui.git
 
 git config --global user.name "chrisGoad"
 git config --global user.email "cagoad@gmail.com"
+git update-git-for-windows

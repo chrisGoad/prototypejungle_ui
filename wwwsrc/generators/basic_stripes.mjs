@@ -43,7 +43,7 @@ let right = Point.mk(hdim,0);
 let top = Point.mk(0,-hdim);
 let bottom = Point.mk(0,hdim);
 let numStripes = 400;
- numStripes = 10;
+ //numStripes = 10;
 let stripeWidth = dim/numStripes;
 
 rs.mkRect = function (ornt) {
