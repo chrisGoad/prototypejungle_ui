@@ -23,12 +23,13 @@ const initializeLinesProtos = function (lines) {
   lines.lineP['stroke-width'] = .075; 	
 }  
 
-let linesParams = {width:400,height:200,numLines:3000,angleMin : -90,angleMax : 90};
+let linesParams = {width:300,height:200,numLines:3000,angleMin : -90,angleMax : 90};
 
 let rfac  = 3;
 let wfac  = 0.5;
 let base =20;
-let gridParams ={numRows:base,numCols:base*rfac,width:200*wfac,height:100*wfac,includeLetters:1,letterWidth:3,letterHeight:3,fractionInked:0.4,lettersPerWord:5};
+//let gridParams ={numRows:base,numCols:base*rfac,width:200*wfac,height:100*wfac,includeLetters:1,letterWidth:3,letterHeight:3,fractionInked:0.4,lettersPerWord:5};
+let gridParams ={numRows:base,numCols:base*rfac,width:150*wfac,height:100*wfac,includeLetters:1,letterWidth:3,letterHeight:3,fractionInked:0.4,lettersPerWord:5};
 
 rs.initialize = function () {
   core.root.backgroundColor = 'black';

@@ -16,7 +16,7 @@ const installMainItem = function (source,settings)  {
       if (oldway) {
          core.install(source,afterMainInstall); 
       } else {
-        debugger;
+   //     debugger;
         import(source).then((module) => afterMainInstallM(module));
       }
     }
@@ -36,9 +36,9 @@ const afterMainInstall = function (e,rs) {
   finishMainInstall();
 }
 const afterMainInstallM = function (module) {
-  debugger;
+  //debugger;
   main = module.rs;
-  debugger;
+ // debugger;
   finishMainInstall();
 }
 
@@ -230,7 +230,6 @@ const displayError = function (msg) {
 
 core.setDisplayError(displayError);
 
-
 const saveTheImage = function (forMpix) {
 	debugger;
 	//saveTheThumb();
@@ -242,6 +241,8 @@ const saveTheImage = function (forMpix) {
 		alert('no destination given for image');
 		return;
   }
+  //dialog('Variant',setTheVariant);
+
 	let dst = forMpix?`www/images/${wts}.mpix.jpg`:`www/images/${wts}.jpg`;
 	convertToJpeg(dst,function () {
 		alert((forMpix?'saved the Mpix image at ':'saved the image at ')+dst);
@@ -298,7 +299,7 @@ const fitTheContents = function () {
 }
 
 const finishMainInstall = function () {
-  debugger;
+ // debugger;
  /* if (main) {
     if (main.loadAudioAssets) {
       main.loadAudioAssets();
@@ -356,7 +357,7 @@ const finishMainInstall = function () {
   }
   next2();
 //  enableButtons();
- debugger;
+// debugger;
  //performInit();
  //fitTheContents();
 	//setTimeout(fitTheContents,1000);	

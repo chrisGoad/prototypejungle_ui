@@ -4,13 +4,13 @@
  // return function (item) {
 
 const rs = function (item) {
-
+/*
 item.setName = function (name,jsonName) {
 	this.name = name;
 	core.vars.whereToSave = name;
 	let theName = jsonName?jsonName:name;
 	this.path = `json/${theName}.json`;
-}
+}*/
  /*
 item.shapeTimeStep  = function() {
 	let {numRows,numCols,shapes} = this;

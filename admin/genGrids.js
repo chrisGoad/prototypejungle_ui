@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 `;
 let pageNumber = 0;
 let numPages = 0;
-const thingString = function (ix,dir,useThumb,ititle,likes) {
+const thingString = function (ix,variant,dir,useThumb,ititle,likes) {
 	console.log('thingString ix',ix,'useThumb',useThumb,'title',ititle);
 	debugger;
 	let spix = ix.split('.');
@@ -104,8 +104,12 @@ const thingString = function (ix,dir,useThumb,ititle,likes) {
 	thePages.push(x);
   let title=ititle?ititle:pageNumber+'';
   theTitles.push(ititle?ititle:pageNumber+'');
-	let imsrc = `images/${path}.jpg`;
-	let thumbsrc = alternate?imsrc:(useThumb?`thumbs/${path}.jpg`:imsrc);
+  let vpath = variant?path+'_v_'+variant:path;
+  console.log('variant',variant);
+  console.log('vpath',vpath);
+  let vx = vpath+'.'+ext;
+	let imsrc = `images/${vpath}.jpg`;
+	let thumbsrc = alternate?imsrc:(useThumb?`thumbs/${vpath}.jpg`:imsrc);
 	console.log('thumbsrc',thumbsrc);
 	let pageArg = 'page='+pageNumber;
 	let theImageArg = '';
@@ -113,7 +117,7 @@ const thingString = function (ix,dir,useThumb,ititle,likes) {
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
-	let astart = `<a style="color:white" href="${alternate?'altPage':(byKind?'byKindPage':'page')}.html?image=${x}&${pageArg}">`;
+	let astart = `<a style="color:white" href="${alternate?'altPage':(byKind?'byKindPage':'page')}.html?image=${vx}&${pageArg}">`;
   let likesStr = likes?`<span style="font-size:10pt">Likes ${likes}</span><br/>`:'';
 	if (forKOP) {
 		let titleLink = title?`${astart}${title}</a></p>`:'';
@@ -158,6 +162,7 @@ let sectionString = function (things) {
   if (byLikes) {
     things.sort(compare);
   }
+ // ln = 20;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;
@@ -168,8 +173,26 @@ let sectionString = function (things) {
    //  rs += `</div>${startLine}<div>${txt}</div></div>`;
       rs += `</div><br/><div style="text-align:center">${txt}</div><br/><div>`;
     } else {
-      let [file,directory,useThumb,title,likes] = thing;
-      rs += thingString(file,directory,useThumb,title,likes);
+      let [file,variant,idirectory,iuseThumb,ititle,ilikes] = thing;
+      let directory,useThumb,title,likes;
+      let tov = typeof variant;
+      console.log('is variant',tov);
+
+      if (tov === "number") {
+        console.log('VARIANT');
+        directory = idirectory;
+        useThumb = iuseThumb;
+        title = ititle;
+        likes = ilikes;
+      } else {
+        directory = variant;
+        useThumb = idirectory;
+        title = iuseThumb;
+        likes = ititle;
+        variant = undefined;
+      }
+        
+      rs += thingString(file,variant,directory,useThumb,title,likes);
       //rs += thingString(file,directory,useThumb,title,image);
       numThingsThisLine++;
     }

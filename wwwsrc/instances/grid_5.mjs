@@ -1,19 +1,19 @@
 
 //core.require('/shape/polygon.js','/gen0/Basics.js','/mlib/grid.js','/mlib/topRandomMethods.js',
 //function (polygonPP,rs,addGridMethods,addRandomMethods) {
-import {rs as rectPP} from '/shape/rectangle.mjs';
-import {rs as basicsP} from '/generators/basics.mjs';
-import {rs as addGridMethods} from '/mlib/grid.mjs';
+//import {rs as rectPP} from '/shape/rectangle.mjs';
+import {rs as generatorP} from '/generators/grid_grid_1.mjs';
+i//mport {rs as addGridMethods} from '/mlib/grid.mjs';
 //import {rs as addIntermdiateMethods} from '/ilib/grid.mjs';
-import {rs as addRandomMethods} from '/mlib/topRandomMethods.mjs';
+//import {rs as addRandomMethods} from '/mlib/topRandomMethods.mjs';
 
-let rs = basicsP.instantiate();
-addGridMethods(rs);
-addRandomMethods(rs);
-addRandomMethods(rs);
+let rs = generatorP.instantiate();
+//addGridMethods(rs);
+//addRandomMethods(rs);
+//addRandomMethods(rs);
 //addIntermediateMethods(rs);
   
-rs.setName('grid_5');
+rs.setName('grid_5_i_1');
 let wd = 400;
 let nr = 20;
 let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,innerRows:5};
@@ -33,7 +33,7 @@ rs.initProtos = function () {
 }  
 	
 
-
+/*
 const instantiateDescriptionInto = function (rs,eltDescription) {
   let {shapePs,positions} = eltDescription;
    let ln = shapePs.length;
@@ -104,7 +104,7 @@ rs.initialize = function () {
   let eltDescription2 = this.genEltDescription();
   this.eltDescription2 = eltDescription2;
   this.initializeGrid();
-}	
+}*/	
 export {rs};
 
  

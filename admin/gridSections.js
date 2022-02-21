@@ -6,7 +6,11 @@ sections: [
 [
 
  // ['drop0_1_16','gen2',1,'Stars'],
- ['grid_5','generators',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ //['grid_grid_1_i_2','instances',1,'Grid 6'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_grid_1_i_3',3,'instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_grid_1_i_3_g_1','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_grid_1_i_3','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ //['grid_5','generators',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['drop_whorls','generators',1,'Whorls',45], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['random_stripes','generators',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_fade','generators',1,'Fade'], // was ['grid0_46','final',1,'Cloudy Sky'],
@@ -32,7 +36,7 @@ sections: [
 
 
   ['drop_arrows','generators',1,'Arrows',27],  //was ['drop0_1_21','final',1,'Leaves']
-  ['drop_whorls','generators',1,'Whorls',34],  //was ['drop0_1_21','final',1,'Leaves']
+ // ['drop_whorls','generators',1,'Whorls',34],  //was ['drop0_1_21','final',1,'Leaves']
   ['drop_leaves','generators',1,'Leaves'],  //was ['drop0_1_21','final',1,'Leaves']
   ['drop_dandelion','generators',1,'Dandelion',78],// was ['drop0_1_24','final',1,'Dandelion'],
   ['drop_metal_2','generators',1,'Metal 2'], // was ['drop0_5','final',1,'Metal 2'],

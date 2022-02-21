@@ -6,12 +6,16 @@ import {rs as rectPP} from '/shape/rectangle.mjs';
 	//debugger;a
 const rs = function (item) {
 
-item.setName = function (name,jsonName) {
-	this.name = name;
-	core.vars.whereToSave = name;
+item.setName = function (name,variant,jsonName) {
+  debugger;
+	this.name = name+(variant?'_v_'+variant:'');
+  this.variant = variant;
+	core.vars.whereToSave = this.name;
 	let theName = jsonName?jsonName:name;
 	this.path = `json/${theName}.json`;
 }
+
+
 
 item.addSignature = function() {
 	let {width,height,sigScale,sigColor,sigX=0.45,sigY=0.45,sigRectX,sigRectY,backgroundWidth:bkw,backgroundHeight:bkh,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy} = this;

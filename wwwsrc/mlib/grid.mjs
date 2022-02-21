@@ -1448,6 +1448,38 @@ item.intersectWithSides = function (lseg,rect,sides) {
 	}
 }
 
+// for innergrids, as in generators/grid_grid_1.mjs
+
+item.instantiateDescriptionInto = function (rs,eltDescription) {
+  let {shapePs,positions} = eltDescription;
+   let ln = shapePs.length;
+   for (let i=0;i<ln;i++) {
+     let shapeP = shapePs[i];
+     if (shapeP) {
+       let ps = positions[i];
+       let shape = shapeP.instantiate();
+       rs.set('r'+i,shape);
+       shape.show();
+       shape.update();
+       shape.moveto(ps);
+     }
+   };
+ }
+
+item.genInnerGridPositions = function () {
+  let {innerRows,width,numRows} = this;
+  let deltaX = width/numRows;
+  let innerDim = deltaX/innerRows;
+  let positions = [];
+  for (let i=0;i<innerRows;i++) {
+   let posx=innerDim*(i+0.5) -0.5*deltaX;
+   for (let j=0;j<innerRows;j++) {
+     let posy=innerDim*(j+0.5)-0.5*deltaX;
+     positions.push(Point.mk(posx,posy));
+    }
+  }
+  return positions;
+}
 
 item.randomCell = function (excl) {
 	let {numRows,numCols} = this;
