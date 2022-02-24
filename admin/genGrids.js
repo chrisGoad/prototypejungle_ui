@@ -3,6 +3,7 @@ let forKOPstr = process.argv[2];
 let alternateStr = process.argv[3];
 let byKindstr = process.argv[4];
 let byLikesstr = process.argv[5];
+let aspectstr = process.argv[6];
 
 const toBoolean = (v) => {
   if (typeof v === 'string') {
@@ -16,13 +17,15 @@ let forKOP = toBoolean(forKOPstr);
 let byKind = toBoolean(byKindstr);
 let alternate = toBoolean(alternateStr);
 let byLikes = toBoolean(byLikesstr);
+let byAspect = toBoolean(aspectstr);
 
-console.log('forKOP',forKOP,'byKind',byKind);
+console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect);
 //return;
 //let alternate = 0;
-let sectionsPath = byLikes?'./byLikesSections.js':(alternate?'./altSections.js':(byKind?'./sectionsByKind.js':'./gridSections.js'));
-console.log('sectionsPath', sectionsPath);
-let outPath = alternate?'www/altGrids.html':(byKind?'www/byKind.html':'www/grids.html');
+let sectionsPath = byLikes?'./byLikesSections.js':(alternate?'./altSections.js':(byKind?'./byKindSections.js':(byAspect?'./byAspectSections.js':'./gridSections.js')));
+let outPath = alternate?'www/altGrids.html':(byKind?'www/byKind.html':(byAspect?'www/aspectGrids.html':'www/grids.html'));
+console.log('sectionsPath', sectionsPath,'outPath',outPath);
+
 var fs = require('fs');
 
 let fileExt = alternate?'mjs':'mjs';
@@ -109,7 +112,7 @@ const thingString = function (ix,variant,dir,useThumb,ititle,likes) {
   console.log('vpath',vpath);
   let vx = vpath+'.'+ext;
 	let imsrc = `images/${vpath}.jpg`;
-	let thumbsrc = alternate?imsrc:(useThumb?`thumbs/${vpath}.jpg`:imsrc);
+	let thumbsrc = useThumb?`thumbs/${vpath}.jpg`:imsrc;
 	console.log('thumbsrc',thumbsrc);
 	let pageArg = 'page='+pageNumber;
 	let theImageArg = '';
@@ -162,7 +165,7 @@ let sectionString = function (things) {
   if (byLikes) {
     things.sort(compare);
   }
- // ln = 20;
+ //ln = 2;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;

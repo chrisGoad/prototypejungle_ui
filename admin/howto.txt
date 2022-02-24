@@ -2,7 +2,7 @@ cd c:\kop
 firebase deploy --only hosting
 cd c:\prototypejungle
 node admin/update
-node admin/genGrids forKop alternate byKind byLikes
+node admin/genGrids forKop alternate byKind byLikes vertical horizontal
 node admin/updateKOP transferMedia
 
 

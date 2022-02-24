@@ -26,12 +26,16 @@ rs.genEltDescription = function () {
    }
    return {shapePs:innerShapePs,positions:positions}
  }
-   
+
+rs.decider = function (rvs,cell) {
+  return Math.random() < 0.5;
+}
+  
 rs.shapeGenerator = function (rvs,cell) {
 	let {eltDescription1,eltDescription2,shapes} = this;
   debugger;
   let shape = svg.Element.mk('<g/>');
-  if (Math.random() < 0.5) {
+  if (this.decider(rvs,cell)) {
      this.instantiateDescriptionInto(shape,eltDescription1);
   } else {
      this.instantiateDescriptionInto(shape,eltDescription2);

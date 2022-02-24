@@ -5,6 +5,9 @@ sections: [
 
 [  
 /* Puzzle: Which three of the quadrants are the same, and which is different? Before you saw the differences in what sense did you "see" the quadrants?"*/
+	 ['grid_decos','generators','square','Deco'],
+      				['grid_star_maps','generators','wide2','Star Maps',2],  // HH
+
     ['sphere2_1','gen2',1,'Rays'],
 	['hybrid00_2.jpg','final','square','Lines 3'],
     ['sphere_image0_1.jpg','gen2',1,'Sky Eye'],
@@ -16,6 +19,7 @@ sections: [
 	['grid_zigzag','generators',1,'ZigzagM'],
 	['grid_sized','generators',1,'sized'],
 
+ ['web_puzzle','generators',1,'Puzzle'],
  ['min0_8','gen2',1],
  ['min0_6','gen2',1,'Wall'],
  //['min0_5','gen2',1],

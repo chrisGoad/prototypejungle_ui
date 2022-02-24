@@ -25,6 +25,13 @@ rs.initProtos = function () {
   rectP2.width = .9*innerWidth;
   rectP2.height = .9*innerWidth;
 }
+
+rs.decider = function (rvs,cell) {
+  let {numRows} = this;
+  let hnr = numRows/2;
+  return (cell.x+cell.y) % 2 === 0;
+  return  cell.x < hnr;
+}
   
 rs.initializeInstance = function () {
   core.root.backgroundColor = 'black';

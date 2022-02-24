@@ -50,8 +50,9 @@ rs.genSegments = function (p) {
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
 	this.initProtos();
-	this.addBackStripe();
 	this.initializeDrop();
+  	this.addBackStripe();
+
 }
 
 export {rs};

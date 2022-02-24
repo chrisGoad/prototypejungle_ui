@@ -16,7 +16,7 @@ addSegsetMethods(rs);
 rs.setName('drop_iris');
 let ht = 160;
  ht = 700;
-let topParams = {width:ht,height:ht,numRows:20,numCols:30,dropTries:20,endLoopss:1000,lineLength:10,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*ht,separation:0,randomDirectionChange:0.3*Math.PI,fromEnds:1,sepNext:.1,lineExt:.2,onlyFromSeeds:1,extendWhich:'random',numSeeds:100,splitChance:0.5,splitAmount:0.08 * Math.PI,directionChange:0.025 * Math.PI}
+let topParams = {width:ht,height:ht,numRows:20,numCols:30,dropTries:20,endLoopss:1000,lineLength:10,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*ht,backStripeVisible:0,separation:0,randomDirectionChange:0.3*Math.PI,fromEnds:1,sepNext:.1,lineExt:.2,onlyFromSeeds:1,extendWhich:'random',numSeeds:100,splitChance:0.5,splitAmount:0.08 * Math.PI,directionChange:0.025 * Math.PI}
 	
 Object.assign(rs,topParams);
 
@@ -51,6 +51,7 @@ rs.initialize = function () {
 	this.initProtos();
   this.setupColorRandomizer({step:10,min:100,max:240});
 	this.initializeDrop();
+  this.addBackStripe();
 }
 
 export {rs};

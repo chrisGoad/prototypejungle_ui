@@ -25,7 +25,7 @@ ht = 6000;
 //let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.2*ht,backStripeVisible:0,minSeparation:20,minConnectorLength:0,maxConnectorLength:300,shortenBy:20}
 //let topParams = {width:ht,height:ht,maxDrops:60000,maxTries:100,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.16*ht,backStripeVisible:0,minSeparation:20,minConnectorLength:300,maxConnectorLength:600,shortenBy:20}
 
-let topParams = {width:ht,height:ht,maxDrops:60000,dropTries:50,webTries:1000,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0,backStripeVisible:0,minSeparation:0,minConnectorLength:300,maxConnectorLength:600,shortenBy:20,maxLoopss:10000}
+let topParams = {width:ht,height:ht,maxDrops:60000,dropTries:50,webTries:1000,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*ht,backStripeVisible:0,minSeparation:0,minConnectorLength:300,maxConnectorLength:600,shortenBy:20,maxLoopss:10000}
 
 Object.assign(rs,topParams);
 Object.assign(rs,rs.mkSphereParams());
@@ -58,6 +58,7 @@ rs.initialize = function () {
 	this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
   let pnts3d = this.pointsTo3dAndBack(pnts);
 	this.addWeb(pnts3d);
+  this.addBackStripe();
 }
 
 

@@ -151,6 +151,7 @@ rs.initialize = function () {
  this.setupShapeRandomizer('b',{step:10,min:50,max:240});
 */
 	this.initializeDrop();
+  this.addBackStripe();
 }
 
 export {rs};
