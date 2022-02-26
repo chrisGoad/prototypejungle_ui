@@ -20,7 +20,7 @@ ht = 3000;
 let nrc=20;
 let toRadians = Math.PI/180;
 //let  topParams = {numRings:nrc,radius:ht,numPointsPerRing:20,fromAngle:toRadians*60,toAngle:toRadians*120,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*ht,minnConnectorLength:500,maxConnectorLength:2000,maxLoops:100000}
-let  topParams = {webTries:1000,numRings:nrc,radius:ht,ringSeparationn:0.01*ht,numPointsPerRingn:20,fromAngle:0*toRadians,toAngle:360*toRadians,backStrikeColor:'rgb(2,2,2)',backStrikeWidth:0.2*ht,backStrikeHeight:0.2*ht,backStrikeVisible:1,minConnectorLength:0,maxConnectorLength:2000}
+let  topParams = {webTries:1000,numRings:nrc,radius:ht,ringSeparationn:0.01*ht,numPointsPerRingn:20,fromAngle:0*toRadians,toAngle:360*toRadians,backStripeColor:'rgb(2,2,2)',backStrikeWidth:1.2*ht,backStrikeHeight:1.2*ht,backStrikeVisible:1,minConnectorLength:0,maxConnectorLength:2000}
 //let  topParams = {width:2*ht,height:2*ht,numRings:nrc,radius:ht,maxDrops:1000,maxTries:100,lineLength:2,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.2*ht,minSeparation:20,maxConnectorLength:2000,maxLoops:100000}
 
 Object.assign(rs,topParams);
@@ -35,12 +35,13 @@ rs.initProtos = function () {
 
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
+    debugger;
+
 	this.initProtos();
-	this.addBackStripe();
-	debugger;
 	let pnts = this.genRings(this);
 	this.addWeb(pnts);
 	this.addSegs();
+  this.addBackStripe();
 }
 
 

@@ -70,7 +70,7 @@ rs.paramsByCell = function (cell) {
 }
 	
 rs.globalParams = {genCircles:0,genPolygons:0,randomizingFactor:0};
-
+let wd = 100;
 
 let newTopParams = {
   ordinalMap : {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7},
@@ -79,6 +79,8 @@ let newTopParams = {
   pointJiggle:1,	
   numRows : 96,
   numCols : 96,
+  width:wd,
+  height:wd,
 	backgroundColor : 'red',
 	backStripeColor: 'rgb(2,2,2)',
 	backStripePadding:15,
@@ -104,6 +106,7 @@ rs.initialize = function () {
 	rect.width = rdim;
 	rect.height = rdim;
 	rect.fill = 'black';
+  this.addBackStripe();
 }
 
 export {rs};

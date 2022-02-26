@@ -1491,10 +1491,11 @@ item.randomCell = function (excl) {
 }
 
 item.assignValueToPath = function (path,value) {
-	let ln = path.length;
+  let spath = path.split('/');
+	let ln = spath.length;
 	let cvl = this;
 	for (let i=0;i<ln-1;i++) {
-		let pel = path[i];
+		let pel = spath[i];
 		let nvl = cvl[pel];
 		if (!nvl) {
 			nvl = {};
@@ -1502,10 +1503,10 @@ item.assignValueToPath = function (path,value) {
 		}
 		cvl = nvl;
 	}
-	let lst = path[ln-1];
-	if (cvl[lst] === undefined) {
+	let lst = spath[ln-1];
+	//if (cvl[lst] === undefined) {
 	  cvl[lst] = value;
-	}
+	//}
 }
 	
 item.assignValues = function (vls) {

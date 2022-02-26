@@ -13,36 +13,98 @@ let nr = 20;
 let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,innerRows:5};
 
 Object.assign(rs,topParams);
-	
-rs.genEltDescription = function () {
-   let {innerRows,deltaX,rectP1,rectP2} = this;
+
+rs.genEltDescription = function (n) {
+  // let {innerRows,deltaX,rectP1,rectP2,innerPresent1,innerPresent2,saveState,whichElts,whichShape1,whichShape2} = this;
+   let {innerRows,deltaX,rectP1,rectP2,eltDState1,eltDState2,saveState} = this;
+   let eltDState = n===1?eltDState1:eltDState2;
    let innerShapePs = [];// core.ArrayNode.mk();
    let positions = this.genInnerGridPositions();
-   let rectP = (Math.random() < 0.5)?rectP1:rectP2;   
+   let innerPresent = saveState?[]:eltDState[1];
+   let whichShape;   
+   if (saveState) {
+     whichShape =  Math.random() < 0.5?1:2;
+   } else {
+     whichShape = eltDState[0];
+   }
+   let rectP = (whichShape === 1)?rectP1:rectP2;
    for (let i=0;i<innerRows;i++) {
      for (let j=0;j<innerRows;j++) {
-         innerShapePs.push(Math.random() < 0.7?rectP:null);;
+         let present = saveState?(Math.random() < 0.7):innerPresent[i*innerRows + j];
+         let ip =present?rectP:null;
+         innerPresent.push(present?1:0);
+         innerShapePs.push(ip);;
      }
    }
-   return {shapePs:innerShapePs,positions:positions}
+   return {shapePs:innerShapePs,positions:positions,eltDState:[whichShape,innerPresent]}
  }
 
 rs.decider = function (rvs,cell) {
   return Math.random() < 0.5;
 }
-  
+
+rs.whichElts = [];
+
+rs.shapeCount = 0;
 rs.shapeGenerator = function (rvs,cell) {
-	let {eltDescription1,eltDescription2,shapes} = this;
-  debugger;
+	let {eltDescription1,eltDescription2,shapes,whichElts,saveState,shapeCount} = this;
   let shape = svg.Element.mk('<g/>');
-  if (this.decider(rvs,cell)) {
+  
+  if (saveState) {
+    if (this.decider(rvs,cell)) {
+     rs.whichElts.push(1);
      this.instantiateDescriptionInto(shape,eltDescription1);
-  } else {
+    } else {
+     whichElts.push(2);
      this.instantiateDescriptionInto(shape,eltDescription2);
+    }
+  } else {
+    let idx = this.cellToIndex(cell);
+    if (whichElts[idx] === 1) {
+      this.instantiateDescriptionInto(shape,eltDescription1);
+    } else {
+      this.instantiateDescriptionInto(shape,eltDescription2);
+    } 
+    this.shapeCount = shapeCount+1;  
   }
   shapes.push(shape);
 	shape.show()
   return shape;
+}
+
+rs.computeState  = function () {
+   return [["whichElts",this.whichElts],["eltDState1",this.eltDState1],["eltDState2",this.eltDState2]];
+   //["innerPresent2",this.innerPresent2],["whichShape1",this.whichShape1],["whichShape2",this.which];
+}
+
+rs.getTheState = function (cb) {
+  let {path} = this;
+  debugger;
+  core.httpGet(path, (error,json) => {
+    debugger;
+    let state = JSON.parse(json);
+    this.assignValues(state);
+//    this.initializeGrid();
+    if (cb) {
+      cb();
+    }
+  });
+}
+
+rs.saveTheState = function (cb) {
+  let {path} = this;
+  debugger;
+  let state = this.computeState?this.computeState():null;
+  if (state) {
+    let jsn = JSON.stringify(state);
+    core.saveJson(path,jsn,function (err,rs) {
+      if (cb) {
+        cb();
+      } else {
+        debugger;
+      }
+    });
+  }
 }
 
 rs.initialize = function () {
@@ -50,13 +112,30 @@ rs.initialize = function () {
   if (this.initializeInstance) {
     this.initializeInstance();
   }
-  let {numRows,width,innerRows} = this;
+  let {numRows,width,innerRows,saveState} = this;
   let deltaX = this.deltaX = width/numRows;
   let innerWidth = this.innerWidth =  deltaX/innerRows;
   this.initProtos();
-  this.eltDescription1 = this.genEltDescription();
-  this.eltDescription2 = this.genEltDescription();
-  this.initializeGrid();
+  
+  if (saveState) {
+    let eltD1 = this.eltDescription1 = this.genEltDescription(1);
+    let eltD2 = this.eltDescription2 = this.genEltDescription(2);
+    this.eltDState1 = eltD1.eltDState;
+    this.eltDState2 = eltD2.eltDState;
+   /* this.innerPresent1 = eltD1.innerPresent;
+    this.innerPresent2 = eltD2.innerPresent;
+    this.whichShape1  = eltD2.whichShape1;
+    this.whichShape2  = eltD2.whichShape2;*/
+    this.initializeGrid();
+    this.saveTheState();
+  } else {
+    this.getTheState(() => {
+      debugger;
+      this.eltDescription1 = this.genEltDescription(1);
+      this.eltDescription2 = this.genEltDescription(2);
+      this.initializeGrid();
+    });
+  }
 }
 
 export {rs};

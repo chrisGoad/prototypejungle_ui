@@ -138,7 +138,7 @@ rs.initialize = function () {
 	this.initWeb(pnts);
 	this.addWeb();
 	this.addSegs();
-	this.set('cc',this.circleP2.instantiate()).show();
+	//this.set('cc',this.circleP2.instantiate()).show();
 	//this.addSignature();
 }
 

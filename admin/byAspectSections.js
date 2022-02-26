@@ -23,7 +23,7 @@ sections: [
   ['web_stripes_1','generators',1,'Stripes 1',10],
   ['web_diamond','generators',1,'Diamond',137],
 
-   ['drop_iris','generators',1,'Iris'], //was ['drop0_1_27','final',1,'Iris'],
+   ['drop_iris_sq','instances',1,'Iris',44], //was ['drop0_1_27','final',1,'Iris'],
 
   ['drop_aphelion','generators',1,'Aphelion',31],
 
@@ -115,6 +115,16 @@ sections: [
    ['Vertical'],
       ['lines_lights','generators','square','Lights',12],  // VV 
    ['drop_whorls_v','instances',1,'Whorls',45], // was ['grid0_46','final',1,'Cloudy Sky'],
+   ['drop_iris_v','instances',1,'Iris',44], //was ['drop0_1_27','final',1,'Iris'],
+   ['drop_dandelion_v','instances',1,'Dandelion'], //was ['drop0_1_27','final',1,'Iris'],
+ ['grid_superposition_v','instances',1,'Superposition',103], // was ['grid0_46','final',1,'Cloudy Sky'],
+		 	['grid_void_v','instances','wide1','Void',100], // was ['grid0_8_18','final','wide1','Void'], 
+  ['web_diamond_v','instances',1,'Diamond',137],
+  	    ['drop_ice_v','instances',1,'Ice',44], // was   ['drop0_0','final',1,'Ice'],
+  	    ['web_wheel_v','instances',1,'Wheel',30], // was   ['drop0_0','final',1,'Ice'],
+  	    ['random_stripes_v','instances',1,'Random Stripes'], // was   ['drop0_0','final',1,'Ice'],
+  	    ['drop_starry_night_v','instances',1,'Starry Night'], // was   ['drop0_0','final',1,'Ice'],
+  	    ['drop_aphelion_v','instances',1,'Aphelion'], // was   ['drop0_0','final',1,'Ice'],
 
 
 

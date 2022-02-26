@@ -11,7 +11,7 @@ item.setName = function (name,variant,jsonName) {
 	this.name = name+(variant?'_v_'+variant:'');
   this.variant = variant;
 	core.vars.whereToSave = this.name;
-	let theName = jsonName?jsonName:name;
+	let theName = jsonName?jsonName:name+(variant?'_g_'+variant:'');
 	this.path = `json/${theName}.json`;
 }
 
@@ -58,8 +58,8 @@ item.addBackStripe = function () {
 	this.backStripeRectP.fill = 'transparent';
   let bkr = this.set('brect',this.backStripeRectP.instantiate());
 	if (backStripeVisible) {
-		bkr['stroke-width'] = 10;
-		bkr.stroke = 'red';
+		bkr['stroke-width'] = backStripeVisible;
+		bkr.stroke = 'white';
 	} else {
 	  bkr.stroke = bkc;
 	}
