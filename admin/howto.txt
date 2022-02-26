@@ -12,3 +12,4 @@ git add admin js server wwwsrc draw.html zoom.html
 
 git commit -m "misc"
 
+git push origin master
