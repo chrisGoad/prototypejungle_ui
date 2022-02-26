@@ -175,6 +175,65 @@ item.point2cell = function (p) {
     let cy = Math.floor((y -hh)/numRows);
     return {x:cx,y:cy};
 }
+
+
+
+item.assignValueToPath = function (path,value) {
+  let spath = path.split('/');
+	let ln = spath.length;
+	let cvl = this;
+	for (let i=0;i<ln-1;i++) {
+		let pel = spath[i];
+		let nvl = cvl[pel];
+		if (!nvl) {
+			nvl = {};
+			cvl[pel] = nvl;
+		}
+		cvl = nvl;
+	}
+	let lst = spath[ln-1];
+	//if (cvl[lst] === undefined) {
+	  cvl[lst] = value;
+	//}
+}
+	
+item.assignValues = function (vls) {
+	vls.forEach( (vl) => {
+		let [path,value] = vl;
+		this.assignValueToPath(path,value);
+	});
+}
+		
+item.getTheState = function (cb) {
+  let {path} = this;
+  debugger;
+  core.httpGet(path, (error,json) => {
+    debugger;
+    let state = JSON.parse(json);
+    this.assignValues(state);
+//    this.initializeGrid();
+    if (cb) {
+      cb();
+    }
+  });
+}
+
+item.saveTheState = function (cb) {
+  let {path} = this;
+  debugger;
+  let state = this.computeState?this.computeState():null;
+  if (state) {
+    let jsn = JSON.stringify(state);
+    core.saveJson(path,jsn,function (err,rs) {
+      if (cb) {
+        cb();
+      } else {
+        debugger;
+      }
+    });
+  }
+}
+
 }
 export {rs};
  

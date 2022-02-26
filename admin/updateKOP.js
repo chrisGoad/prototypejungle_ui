@@ -66,20 +66,22 @@ const afterLastChar = function (string,chr,strict) {
       xferFile(ifl,ofl);
 		}
   }
-	let sectionsC = require('./gridSections.js');
+	let sectionsC = require('./byAspectSections.js');
 	
 	const collectContent = function (sections) {
 		let rs = [];
 		//console.log('sections',sections);
 		sections.forEach( (section) => {
 			section.forEach((thing) => {
-				let media = thing[0];
-				let idx = media.lastIndexOf('.');
-				if (idx>=0) {
-				 rs.push(media);
-				} else {
-				 rs.push(media+'.jpg');
-				}
+        if (thing.length > 1) {
+          let media = thing[0];
+          let idx = media.lastIndexOf('.');
+          if (idx>=0) {
+           rs.push(media);
+          } else {
+           rs.push(media+'.jpg');
+          }
+        }
 			})
 		});
 		return rs;
@@ -90,7 +92,7 @@ const afterLastChar = function (string,chr,strict) {
 	
 	const xferMedia = function (mediaFiles) {
 		let idir = './www/images';
-		let itdir = './www/thumbs';
+		let itdir = './www/thumbs'
 		let  odir = '../kop/public/images'
 		let  otdir = '../kop/public/thumbs'
 		let jpgFiles = mediaFiles.filter((file) => endsIn(file,'.jpg'));
@@ -109,6 +111,8 @@ const afterLastChar = function (string,chr,strict) {
 	  xferFile(srcd+srcf,dstd+dstf)
 	}
 	xfer('grids.html','index.html');
+	xfer('vertical.html','vertical.html');
+	xfer('horizontal.html','horizontal.html');
 	xfer('essay.html');
 	xfer('page.html');
 //	xfer('eutelic.html');

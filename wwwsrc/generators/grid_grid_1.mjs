@@ -77,35 +77,6 @@ rs.computeState  = function () {
    //["innerPresent2",this.innerPresent2],["whichShape1",this.whichShape1],["whichShape2",this.which];
 }
 
-rs.getTheState = function (cb) {
-  let {path} = this;
-  debugger;
-  core.httpGet(path, (error,json) => {
-    debugger;
-    let state = JSON.parse(json);
-    this.assignValues(state);
-//    this.initializeGrid();
-    if (cb) {
-      cb();
-    }
-  });
-}
-
-rs.saveTheState = function (cb) {
-  let {path} = this;
-  debugger;
-  let state = this.computeState?this.computeState():null;
-  if (state) {
-    let jsn = JSON.stringify(state);
-    core.saveJson(path,jsn,function (err,rs) {
-      if (cb) {
-        cb();
-      } else {
-        debugger;
-      }
-    });
-  }
-}
 
 rs.initialize = function () {
   debugger;

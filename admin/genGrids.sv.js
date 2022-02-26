@@ -1,10 +1,9 @@
 
-let kind = process.argv[2];
-let forKOPstr = process.argv[3];
-/*let alternateStr = process.argv[3];
+let forKOPstr = process.argv[2];
+let alternateStr = process.argv[3];
 let byKindstr = process.argv[4];
 let byLikesstr = process.argv[5];
-let aspectstr = process.argv[6];*/
+let aspectstr = process.argv[6];
 
 const toBoolean = (v) => {
   if (typeof v === 'string') {
@@ -15,46 +14,16 @@ const toBoolean = (v) => {
 }
 
 let forKOP = toBoolean(forKOPstr);
-let byKind = kind === 'byKind';
-let alternate = kind === 'alternate';
-let byLikes = kind === 'byLikes';
-let byAspect = kind === 'byAspect';
-let vertical = kind === 'vertical';
-let horizontal = kind === 'horizontal';
+let byKind = toBoolean(byKindstr);
+let alternate = toBoolean(alternateStr);
+let byLikes = toBoolean(byLikesstr);
+let byAspect = toBoolean(aspectstr);
 
 console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect);
 //return;
 //let alternate = 0;
-let sectionsPath;
-if (byLikes) {
-  sectionsPath = './byLikesSections.js';
-} else if (alternate) {
-  sectionsPath = './altSections.js';
-} else if (byKind) {
-  sectionsPath = './byKindSections.js';
-} else if (byAspect) {
-  sectionsPath = './byAspectSections.js'
-} else if (vertical) {
-  sectionsPath = './verticalSections.js';
-} else if (horizontal) {
-  sectionsPath = './horizontalSections.js';
-} else {
-  sectionsPath = './gridSections.js';
-}
-let outPath;
-if (alternate) {
-  outPath = 'www/altGrids.html';
-} else if (byKind) {
-  outPath = 'www/byKind.html';
-} else if (byAspect) {
-  outPath = 'www/aspectGrids.html';
-} else if (vertical) {
-  outPath = 'www/vertical.html';
-} else if (horizontal) {
-  outPath = 'www/horizontal.html';
-} else {
-  outPath = 'www/grids.html';
-}
+let sectionsPath = byLikes?'./byLikesSections.js':(alternate?'./altSections.js':(byKind?'./byKindSections.js':(byAspect?'./byAspectSections.js':'./gridSections.js')));
+let outPath = alternate?'www/altGrids.html':(byKind?'www/byKind.html':(byAspect?'www/aspectGrids.html':'www/grids.html'));
 console.log('sectionsPath', sectionsPath,'outPath',outPath);
 
 var fs = require('fs');

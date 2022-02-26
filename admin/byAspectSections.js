@@ -110,6 +110,9 @@ sections: [
     ['grid_atlas','generators','wide2','Atlas',10], // HH
 	 ['grid_book','generators','wide2','Book'],  // HH
 	    ['drop_ice_h','instances',1,'Ice',44], // was   ['drop0_0','final',1,'Ice'],
+  	    ['grid_maze_h','instances',1,'Maze'], // was   ['drop0_0','final',1,'Ice'],
+  	    ['grid_cloth_h','instances',1,'Cloth'], // was   ['drop0_0','final',1,'Ice'],
+  	    ['web_wheel_h','instances',1,'Wheel',30], // was   ['drop0_0','final',1,'Ice'],
 
    
    ['Vertical'],
@@ -125,6 +128,8 @@ sections: [
   	    ['random_stripes_v','instances',1,'Random Stripes'], // was   ['drop0_0','final',1,'Ice'],
   	    ['drop_starry_night_v','instances',1,'Starry Night'], // was   ['drop0_0','final',1,'Ice'],
   	    ['drop_aphelion_v','instances',1,'Aphelion'], // was   ['drop0_0','final',1,'Ice'],
+  	    ['grid_maze_v','instances',1,'Maze'], // was   ['drop0_0','final',1,'Ice'],
+  	    ['grid_cloth_v','instances',1,'Cloth'], // was   ['drop0_0','final',1,'Ice'],
 
 
 

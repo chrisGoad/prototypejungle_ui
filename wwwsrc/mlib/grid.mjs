@@ -1490,32 +1490,6 @@ item.randomCell = function (excl) {
   }
 }
 
-item.assignValueToPath = function (path,value) {
-  let spath = path.split('/');
-	let ln = spath.length;
-	let cvl = this;
-	for (let i=0;i<ln-1;i++) {
-		let pel = spath[i];
-		let nvl = cvl[pel];
-		if (!nvl) {
-			nvl = {};
-			cvl[pel] = nvl;
-		}
-		cvl = nvl;
-	}
-	let lst = spath[ln-1];
-	//if (cvl[lst] === undefined) {
-	  cvl[lst] = value;
-	//}
-}
-	
-item.assignValues = function (vls) {
-	vls.forEach( (vl) => {
-		let [path,value] = vl;
-		this.assignValueToPath(path,value);
-	});
-}
-		
 item.outerInitialize = function (cb) {
 	let {path} = this;
 	if (this.loadFromPath) {
