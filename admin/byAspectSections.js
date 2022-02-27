@@ -9,10 +9,10 @@ sections: [
  ['grid_grid_1_i_3_g_1','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_grid_1_i_3','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['drop_whorls_sq','instances',1,'Whorls',45], // HH
- ['random_stripes','generators',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['random_stripes_sq','instances',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_fade','generators',1,'Fade'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_incoming','generators',1,'Incoming'], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['grid_ramp','generators',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_ramp_sq','instances',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_superposition','generators',1,'Superposition',103], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_vortex','generators',1,'Vortex',10], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_bends','generators',1,'Enigma',10], // was ['grid0_46','final',1,'Clbuoudy Sky'],
@@ -113,6 +113,9 @@ sections: [
   	    ['grid_maze_h','instances',1,'Maze'], // was   ['drop0_0','final',1,'Ice'],
   	    ['grid_cloth_h','instances',1,'Cloth'], // was   ['drop0_0','final',1,'Ice'],
   	    ['web_wheel_h','instances',1,'Wheel',30], // was   ['drop0_0','final',1,'Ice'],
+   ['drop_iris_h','instances',1,'Iris',44], //was ['drop0_1_27','final',1,'Iris'],
+ ['random_stripes_h','instances',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_ramp_h','instances',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],
 
    
    ['Vertical'],
@@ -130,6 +133,8 @@ sections: [
   	    ['drop_aphelion_v','instances',1,'Aphelion'], // was   ['drop0_0','final',1,'Ice'],
   	    ['grid_maze_v','instances',1,'Maze'], // was   ['drop0_0','final',1,'Ice'],
   	    ['grid_cloth_v','instances',1,'Cloth'], // was   ['drop0_0','final',1,'Ice'],
+ ['random_stripes_v','instances',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_ramp_v','instances',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],
 
 
 

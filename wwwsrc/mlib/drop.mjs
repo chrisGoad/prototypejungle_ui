@@ -167,7 +167,6 @@ item.segmentIntersects = function (seg) {
     return true;
   }
 	if (exclusionZones) {
-		debugger;
 		let eln = exclusionZones.length;
 		for (let i=0;i<eln;i++) {
 			let zone = exclusionZones[i];
@@ -177,7 +176,6 @@ item.segmentIntersects = function (seg) {
 		}
 	}
 	if (doNotCross) {
-		debugger;
 		let eln = doNotCross.length;
 		for (let i=0;i<eln;i++) {
 			let zone = doNotCross[i];
@@ -187,7 +185,6 @@ item.segmentIntersects = function (seg) {
 		}
 	}
 	if (doNotExit) {
-		debugger;
 		let eln = doNotExit.length;
 		for (let i=0;i<eln;i++) {
 			let zone = doNotExit[i];
@@ -207,7 +204,7 @@ item.segmentIntersects = function (seg) {
 
 item.intersectsSomething = function (g) {
   let {segments,width,height,ignoreBefore:ibf} = this;
-  if (ibf) {
+  if (0 && ibf) {
     debugger;
   }
   let ln = segments.length;

@@ -88,6 +88,7 @@ debugger;
     stripe.height =v?ht:Math.max(dim,0);
     let pos = v? Point.mk((i/n) * wd-0.5*wd,0):Point.mk(0,(i/n) * ht-0.5*ht)
     stripe.moveto(pos);
+    stripe.update();
   }
  }
     
@@ -103,19 +104,35 @@ topParams = {numRows:2,numCols:nc,width:wd,height:wd,backStripeColor:'rgb(2,2,2)
 Object.assign(rs,topParams);
 
 
+
+rs.computeState  = function () {
+   return [["randomGridsForShapes",this.randomGridsForShapes]];
+}
+
 rs.initialize = function () {
   debugger;
     this.initProtos();
    core.root.backgroundColor = 'black';
-   let {width:wd,height:ht,numCols:nc} = this;
+   let {width:wd,height:ht,numCols:nc,saveState} = this;
    let fr =0.005;
    //this.setupShapeRandomizer('v',{step:10,stept:10,min:0,max:100});
-   this.setupShapeRandomizer('v',{step:fr*10,stept:fr*10,min:-fr*100,max:0.9*fr*100});
+   if (saveState) {
+     this.setupShapeRandomizer('v',{step:fr*10,stept:fr*10,min:-fr*100,max:0.9*fr*100});
+     this.saveTheState();
+     this.mkStripes(nc,'vertical',0,wd/50);
+     this.mkStripes(nc,'horizontal',0,ht/50);
+     this.addBackStripe();
 
-   this.mkStripes(nc,'vertical',0,wd/50);
-   this.mkStripes(nc,'horizontal',0,ht/50);
-
-this.addBackStripe();
+   } else  {
+    this.getTheState(() => {
+      debugger;
+       this.mkStripes(nc,'vertical',0,wd/50);
+       this.mkStripes(nc,'horizontal',0,ht/50);
+       this.addBackStripe();	
+         dom.svgDraw();
+       debugger;
+    });
+   }
 }
 
 

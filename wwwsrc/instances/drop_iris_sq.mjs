@@ -4,9 +4,9 @@ import {rs as generatorP} from '/generators/drop_iris.mjs';
 
 let rs = generatorP.instantiate();
 
-rs.setName('drop_iris_sq');
+rs.setName('drop_iris_sq',0,'drop_iris');
 let wd  = 700;
-let topParams = {width:wd,height:wd,backStripeVisible:0,backStripePadding:0.1*wd,}
+let topParams = {saveState:0,width:wd,height:wd,backStripeVisible:0,backStripePadding:0.1*wd,}
 
 Object.assign(rs,topParams);
 

@@ -108,6 +108,7 @@ const boundaryLineGenerator= function (grid,end0,end1,rvs,cell) {
   let {r,g,b} = rvs;
 	let rgb = `rgb(${Math.floor(r)},${Math.floor(g)},${Math.floor(b)})`;
 	line.stroke = rgb;
+  line.update();
 	return line;
 }
 
@@ -125,27 +126,43 @@ if (radial) {
   grid2.positionFunction = grid2.radialPositionFunction;
 }
 
+
+rs.computeState  = function () {
+   return [["grid1/randomGridsForShapes",this.grid1.randomGridsForShapes],["grid2/randomGridsForShapes",this.grid2.randomGridsForShapes],
+   ["grid1/randomGridsForBoundaries",this.grid1.randomGridsForBoundaries],["grid2/randomGridsForBoundaries",this.grid2.randomGridsForBoundaries]];
+}
+
 rs.initialize = function () {
   debugger;
+  let {saveState} = this;
  core.root.backgroundColor = 'black';
-   this.grid1.initProtos();
-  let rparams = {step:30,min:0,max:250}
- 	this.grid1.setupShapeRandomizer('r', rparams);
- 	this.grid1.setupShapeRandomizer('g', rparams);
- 	this.grid1.setupShapeRandomizer('b', rparams);
- 	this.grid1.setupBoundaryRandomizer('r', rparams);
- 	this.grid1.setupBoundaryRandomizer('g', rparams);
- 	this.grid1.setupBoundaryRandomizer('b', rparams);this.grid1.setupShapeRandomizer('r', rparams);
- 	this.grid2.setupShapeRandomizer('g', rparams);
- 	this.grid2.setupShapeRandomizer('b', rparams);
- 	this.grid2.setupBoundaryRandomizer('r', rparams);
- 	this.grid2.setupBoundaryRandomizer('g', rparams);
- 	this.grid2.setupBoundaryRandomizer('b', rparams);
- 
-  this.grid1.initializeGrid();
+  this.grid1.initProtos();
   this.grid2.initProtos();
-  this.grid2.initializeGrid();  
   this.addBackStripe();
+  if (saveState) {
+    let rparams = {step:30,min:0,max:250}
+    this.grid1.setupShapeRandomizer('r', rparams);
+    this.grid1.setupShapeRandomizer('g', rparams);
+    this.grid1.setupShapeRandomizer('b', rparams);
+    this.grid1.setupBoundaryRandomizer('r', rparams);
+    this.grid1.setupBoundaryRandomizer('g', rparams);
+    this.grid1.setupBoundaryRandomizer('b', rparams);
+    this.grid2.setupShapeRandomizer('r', rparams);
+    this.grid2.setupShapeRandomizer('g', rparams);
+    this.grid2.setupShapeRandomizer('b', rparams);
+    this.grid2.setupBoundaryRandomizer('r', rparams);
+    this.grid2.setupBoundaryRandomizer('g', rparams);
+    this.grid2.setupBoundaryRandomizer('b', rparams);
+    this.saveTheState();
+    this.grid1.initializeGrid();
+    this.grid2.initializeGrid();  
+  } else { 
+    this.getTheState(() => {
+      debugger;
+      this.grid1.initializeGrid();
+      this.grid2.initializeGrid();  
+    });
+  }
 }
 export {rs};
 
