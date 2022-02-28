@@ -5,23 +5,23 @@ sections: [
 
 [
 ['Square'],
- ['grid_grid_1_i_3',3,'instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['grid_grid_1_i_3',3,'instances',1,'Grid 5'], 
  ['grid_grid_1_i_3_g_1','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_grid_1_i_3','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['drop_whorls_sq','instances',1,'Whorls',45], // HH
- ['random_stripes_sq','instances',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['grid_fade','generators',1,'Fade'], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['grid_incoming','generators',1,'Incoming'], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['grid_ramp_sq','instances',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['grid_superposition','generators',1,'Superposition',103], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['grid_vortex','generators',1,'Vortex',10], // was ['grid0_46','final',1,'Cloudy Sky'],
- ['grid_bends','generators',1,'Enigma',10], // was ['grid0_46','final',1,'Clbuoudy Sky'],
- ['grid_cloudy_sky','generators',1,'Cloudy Sky',2], // was ['grid0_46','final',1,'Cloudy Sky'],
+ ['drop_whorls_sq','instances',1,'Whorls',45], // HH VV
+ ['random_stripes_sq','instances',1,'Rectangle Grid',26], 
+ ['grid_fade','generators',1,'Fade'], // HH VV
+ ['grid_incoming','generators',1,'Incoming'], 
+ ['grid_ramp_sq','instances',1,'Ramp',14], // HH VV
+ ['grid_superposition','generators',1,'Superposition',103], // HH VV
+ ['grid_vortex','generators',1,'Vortex',10], // HH VV
+ ['grid_enigma','generators',1,'Enigma',10], // HH VV
+ ['grid_cloudy_sky','generators',1,'Cloudy Sky',2], 
  ['web_triangles','generators',1,'Triangles',5],
  ['web_spokes','generators',1,'Spokes',4],
   ['web_stripes_2','generators',1,'Stripes 2'],
   ['web_stripes_1','generators',1,'Stripes 1',10],
-  ['web_diamond','generators',1,'Diamond',137],
+  ['web_diamond','generators',1,'Diamond',137], // HH VV
 
    ['drop_iris_sq','instances',1,'Iris',44], //was ['drop0_1_27','final',1,'Iris'],
 
@@ -31,12 +31,12 @@ sections: [
 
 
   ['drop_arrows','generators',1,'Arrows',27],  //was ['drop0_1_21','final',1,'Leaves']
-  ['drop_leaves','generators',1,'Leaves'],  // HH
-  ['drop_dandelion','generators',1,'Dandelion',78],// was ['drop0_1_24','final',1,'Dandelion'],
+ //['drop_leaves','generators',1,'Leaves'],  // HH
+  ['drop_dandelion','generators',1,'Dandelion',78], //HH VV
   ['drop_metal_2','generators',1,'Metal 2'], // was ['drop0_5','final',1,'Metal 2'],
 
-		 ['grid_bubbles','generators','square','Bubbles',101],// HH
-	['spatter_variants','generators','square','Variants',74], // was ['grid0_14_0','final','square','Variants'],
+	//	 ['grid_bubbles','generators','square','Bubbles',101],// HH
+	['spatter_variants','generators','square','Variants',74], 
 	    ['drop_ice_sq','instances',1,'Ice',44], // was   ['drop0_0','final',1,'Ice'],
 
     ['grid_bump','generators',1,'Bump'],
@@ -98,8 +98,12 @@ sections: [
   ['horizontal'],
    ['drop_whorls_h','instances',1,'Whorls',45], // was ['grid0_46','final',1,'Cloudy Sky'],
      ['drop_leaves','generators',1,'Leaves'],  // HH
-		 ['grid_bubbles','generators','square','Bubbles',101],// HH
- ['drop_clouds','generators',1,'Clouds',7], // HH
+	//	 ['grid_bubbles','generators','square','Bubbles',101],// HH
+ ['drop_clouds','generators',1,'Clouds',7], 
+  ['grid_superposition_h','instances',1,'Superposition',103], 
+  ['web_diamond_h','instances',1,'Diamond',137], // HH VV
+     ['drop_leaves','generators',1,'Leaves'],  // HH
+
  ['drop_starry_night','generators',1,'Starry Night',47], //  HH
      ['grid_code','generators',1,'Code'],  // HH
 			 ['lines_chaos_within_order','generators','wide2','Chaos Within Order',152], //HH
@@ -116,8 +120,13 @@ sections: [
    ['drop_iris_h','instances',1,'Iris',44], //was ['drop0_1_27','final',1,'Iris'],
  ['random_stripes_h','instances',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_ramp_h','instances',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],
-
-   
+   ['drop_dandelion_h','instances',1,'Dandelion'], //was ['drop0_1_27','final',1,'Iris'],
+   ['grid_vortex_h','instances',1,'Vortex'], //was ['drop0_1_27','final',1,'Iris'],
+['spatter_variants_h','instances','square','Variants',74], 
+['grid_fade_h','instances','square','Fade',74], 
+['grid_enigma_h','instances','square','Enigma',74], 
+ ['grid_signals_h','instances','square','Signals',74], 
+  
    ['Vertical'],
       ['lines_lights','generators','square','Lights',12],  // VV 
    ['drop_whorls_v','instances',1,'Whorls',45], // was ['grid0_46','final',1,'Cloudy Sky'],
@@ -135,6 +144,11 @@ sections: [
   	    ['grid_cloth_v','instances',1,'Cloth'], // was   ['drop0_0','final',1,'Ice'],
  ['random_stripes_v','instances',1,'Rectangle Grid',26], // was ['grid0_46','final',1,'Cloudy Sky'],
  ['grid_ramp_v','instances',1,'Ramp',14], // was ['grid0_46','final',1,'Cloudy Sky'],
+   ['grid_vortex_v','instances',1,'Vortex'], //was ['drop0_1_27','final',1,'Iris'],
+['spatter_variants_v','instances','square','Variants',74], 
+['grid_fade_v','instances','square','Fade',74], 
+['grid_enigma_v','instances','square','Enigma',74], 
+['grid_signals_v','instances','square','Signals',74], 
 
 
 

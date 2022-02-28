@@ -8,8 +8,10 @@ let grid1 = signalP.instantiate();
 let grid2 = signalP.instantiate();
 let grid3 = signalP.instantiate();
 let grid4 = signalP.instantiate();
-let wd = 2.0*grid1.width;
-let topParams = {width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd};
+//let wd = 2.0*grid1.width;
+let wd = 2000;
+let topParams = {width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backStripeWidth:1.1*wd,backStripeHeight:1.1*wd,backStripeVisible:wd/100};
+grid1.globalParams.width = wd/2;
 Object.assign(rs,topParams);
 grid1.globalParams = Object.assign({},grid1.globalParams);
 grid2.globalParams = Object.assign({},grid1.globalParams);
@@ -22,7 +24,21 @@ grid4.globalParams.randomizingFactor = 2;
 
 rs.initialize = function () {
   debugger;
+  grid1.globalParams.width = this.width/2;
+  grid1.width = this.width/2;
+  grid2.width = this.width/2;
+  grid3.width = this.width/2;
+  grid4.width = this.width/2;
+  grid1.globalParams = Object.assign({},grid1.globalParams);
+  grid2.globalParams = Object.assign({},grid1.globalParams);
+  grid3.globalParams = Object.assign({},grid1.globalParams);
+  grid4.globalParams = Object.assign({},grid1.globalParams);
+  grid1.globalParams.randomizingFactor = 1.5;
+  grid2.globalParams.randomizingFactor = 1.5;
+  grid3.globalParams.randomizingFactor = 0;
+  grid4.globalParams.randomizingFactor = 2;
   let {width} = grid1;
+  let {height} = grid1;
   this.addBackground();
   this.set('grid1',grid1);
   this.set('grid2',grid2);
@@ -32,11 +48,12 @@ rs.initialize = function () {
   grid2.initialize();
   grid3.initialize();
   grid4.initialize();
-  let mv = 0.5*width;
-  grid1.moveto(Point.mk(-mv,-mv));
-  grid2.moveto(Point.mk(mv,-mv));
-  grid3.moveto(Point.mk(-mv,mv));
-  grid4.moveto(Point.mk(mv,mv));
-        
+  let mvx = 0.5*width;
+  let mvy = 0.5*height;
+  grid1.moveto(Point.mk(-mvx,-mvy));
+  grid2.moveto(Point.mk(mvx,-mvy));
+  grid3.moveto(Point.mk(-mvx,mvy));
+  grid4.moveto(Point.mk(mvx,mvy));
+  this.addBackStripe();  
 }
 export {rs};

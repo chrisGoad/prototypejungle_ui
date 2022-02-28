@@ -36,6 +36,10 @@ import {rs as addRandomMethods} from '/mlib/topRandomMethods.mjs';
 	
 		
 	let gParams = {numRows:20,numCols:20,width:400,height:400,numDrops:3000,pointJiggle:0,spatter:1};
+	let wd = 1000;
+  let topParams = {width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0};
+  
+  Object.assign(rs,topParams);
 	
 	let grids = [grid1,grid2,grid3,grid4];
 	//let grids = [grid1,grid2];
@@ -255,6 +259,7 @@ rs.initialize = function () {
     grid2.moveto(Point.mk(mv,-mv));
     grid3.moveto(Point.mk(-mv,mv));
     grid4.moveto(Point.mk(mv,mv));
+    this.addBackStripe();
 }
 
 	

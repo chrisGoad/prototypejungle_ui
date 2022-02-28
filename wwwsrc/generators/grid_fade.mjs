@@ -38,7 +38,7 @@ let topParams;
 if (radial) {
   topParams = {numRows:0.5*nr,numCols:nr,width:wd,height:wd,outerRadius:wd,innerRadius:0.2*wd,angleMin:-180,angleMax:180,center: Point.mk(0,0),rotation:30,backStripeColor:'rgb(2,2,2)',pointJiggle:4,backStripePadding:0.15*wd};
 } else {
-  topParams = {numRows:nr,numCols:nr,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',pointJiggle:4,backStripePadding:0.15*wd,numTimeSteps:10};
+  topParams = {numRows:nr,numCols:nr,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',pointJiggle:4,backStripePadding:0.15*wd,backStripeVisible:wd/100,numTimeSteps:10};
 }
 
 Object.assign(rs,topParams);
@@ -46,28 +46,20 @@ Object.assign(rs,topParams);
 	
 rs.shapeGenerator = function (rvs,cell) {
 	// debugger;
-		let {rectP,shapes,numRows} = this;
-      let {x,y} = cell;
-
-    if (Math.random() >  0.5) {
- //     return;
-    }
-    let th = (x)/(numRows);
+	let {rectP,shapes,numRows} = this;
+  let {x,y} = cell;
+  let th = (x)/(numRows);
   let rr = Math.random();
   
   let k = ((rr)<th);//0.2;
- // let k = ((rr*rr)>th);//0.2;
   if (k) {
    return;
   }
-	//	let v = rvs.v;
-		let shape = rectP.instantiate().show();
-		shapes.push(shape);
-     let {r,g,b} = rvs;
+	let shape = rectP.instantiate().show();
+	shapes.push(shape);
+  let {r,g,b} = rvs;
 	let rgb = `rgb(${Math.floor(r)},${Math.floor(r)},${Math.floor(r)})`;
-//	shape.fill = rgb;
- //   debugger;
-		return shape;
+	return shape;
 }
 
 
@@ -75,17 +67,9 @@ rs.shapeGenerator = function (rvs,cell) {
 
 rs.boundaryLineGenerator= function (end0,end1,rvs,cell) {
 	let {blineP,numRows,showMissing,lines,updating,lineIndex} =this;
-	//let line = this.nextLine(blineP);
   let {x,y} = cell;
- // if ((!((x+y)%5 === 0))&&(!((x-y)%5 === 0))) {
- // if (!((x-y)%5 === 0)) {
-  if (!((x+y)%5 === 0)) {
-  //  return;
-  }
   let th = (x)/(numRows);
   let rr = Math.random();
-  
-  //let k = ((rr*rr*rr)<th);//0.2;
   let k = ((rr*rr*rr)<th);//0.2;
   if (k) {
    return;
