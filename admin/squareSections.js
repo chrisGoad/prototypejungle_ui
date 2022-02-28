@@ -24,12 +24,12 @@ sections: [
 
    [150,'drop_iris_sq','instances',1,'Iris',44], // HH VV
 
-  [180,'drop_aphelion','generators',1,'Aphelion',31],
+  [180,'drop_aphelion','generators',1,'Aphelion',31], HH VV
 
-  [200,'web_wheel','generators',1,'Wheel',30],
+  [200,'web_wheel','generators',1,'Wheel',30], HH VV
 
 
-  [210,'drop_arrows','generators',1,'Arrows',27],  //was [1000,'drop0_1_21','final',1,'Leaves']
+  [210,'drop_arrows','generators',1,'Arrows',27],  // HH VV
  //[1000,'drop_leaves','generators',1,'Leaves'],  // HH
   [60,'drop_dandelion','generators',1,'Dandelion',78], //HH VV
   [1000,'drop_metal_2','generators',1,'Metal 2'], // was [1000,'drop0_5','final',1,'Metal 2'],

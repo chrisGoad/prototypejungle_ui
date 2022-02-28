@@ -15,7 +15,7 @@ let rs = basicsP.instantiate();
  addRandomMethods(rs);
 
 let wd = 400;
-let topParams ={numDrops:5000,width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.5*wd};
+let topParams ={numDrops:5000,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backStripePadding:0.5*wd};
 Object.assign(rs,topParams);
 rs.setName('grid_mat');
 
@@ -61,6 +61,7 @@ rs.shapeGenerator = function (rvs,cell) {
 rs.initialize = function () {
   this.initProtos();
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
 	this.setupShapeRandomizer('length',  {step:5,min:20,max:30});
 	this.setupShapeRandomizer('direction', {step:0.2* Math.PI,min:1.95*Math.PI,max:2*Math.PI});
 	this.setupShapeRandomizer('shade', {step:30,min:50,max:250});
