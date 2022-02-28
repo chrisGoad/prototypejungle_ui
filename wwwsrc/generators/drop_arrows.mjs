@@ -18,7 +18,7 @@ addInterpolateMethods(rs);
 
 rs.setName('drop_arrows');
 let ht = 400;
-let topParams = {width:1.0*ht,height:ht,dropTries:40,lineLength:2,backgroundColor:'rgba(2,2,2)',minSeparation:0,backgroundPadding:0.1*ht}
+let topParams = {width:1.0*ht,height:ht,dropTries:40,lineLength:2,backStripeColor:'rgba(2,2,2)',minSeparation:0,backStripePadding:0.1*ht}
 //topParams = {width:200,height:200,maxDrops:10000,maxTries:10,lineLength:2,backgroundColor:undefined,minSeparation:0,backgroundColor:'rgb(125,125,125)'}
 
 Object.assign(rs,topParams);
@@ -138,6 +138,7 @@ rs.initialSegmentss = function () {
 rs.initialize = function () {
   debugger;
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
   this.initProtos();
 	this.initializeDrop();
 }

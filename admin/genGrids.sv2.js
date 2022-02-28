@@ -1,7 +1,6 @@
 
 let kind = process.argv[2];
-let sortByOrderstr = process.argv[3];
-let forKOPstr = process.argv[4];
+let forKOPstr = process.argv[3];
 /*let alternateStr = process.argv[3];
 let byKindstr = process.argv[4];
 let byLikesstr = process.argv[5];
@@ -16,21 +15,19 @@ const toBoolean = (v) => {
 }
 
 let forKOP = toBoolean(forKOPstr);
-let sortByOrder = toBoolean(sortByOrderstr);
 let byKind = kind === 'byKind';
 let alternate = kind === 'alternate';
 let byLikes = kind === 'byLikes';
 let byAspect = kind === 'byAspect';
 let vertical = kind === 'vertical';
 let horizontal = kind === 'horizontal';
-let square = kind === 'square';
 
-console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes);
+console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect);
 //return;
 //let alternate = 0;
 let sectionsPath;
 if (byLikes) {
-  sectionsPath = './gridSections.js';
+  sectionsPath = './byLikesSections.js';
 } else if (alternate) {
   sectionsPath = './altSections.js';
 } else if (byKind) {
@@ -41,8 +38,6 @@ if (byLikes) {
   sectionsPath = './verticalSections.js';
 } else if (horizontal) {
   sectionsPath = './horizontalSections.js';
-} else if (square) {
-  sectionsPath = './squareSections.js';
 } else {
   sectionsPath = './gridSections.js';
 }
@@ -57,8 +52,6 @@ if (alternate) {
   outPath = 'www/vertical.html';
 } else if (horizontal) {
   outPath = 'www/horizontal.html';
-} else if (square) {
-  outPath = 'www/square.html';
 } else {
   outPath = 'www/grids.html';
 }
@@ -189,9 +182,9 @@ let sectionString = function (things) {
   <div></div>
   `;
 	let ln = things.length;
-  const compareLikes = function (thing1,thing2) {
-    let likes1 = (thing1.length >= 6)?thing1[5]:0;
-    let likes2 = (thing1.length >= 6)?thing2[5]:0;
+  const compare = function (thing1,thing2) {
+    let likes1 = (thing1.length >= 5)?thing1[4]:0;
+    let likes2 = (thing1.length >= 5)?thing2[4]:0;
     if (likes1 === likes2) {
       return 0;
     }
@@ -201,23 +194,9 @@ let sectionString = function (things) {
     return -1;
   }
   if (byLikes) {
-    things.sort(compareLikes);
+    things.sort(compare);
   }
-  const compareByOrder = function (thing1,thing2) {
-    let order1 = thing1[0];
-    let order2 = thing2[0];
-    if (order1 === order2) {
-      return 0;
-    }
-    if (order1 > order2) { 
-      return 1;
-    }
-    return -1;
-  }
-  if (sortByOrder) {
-    things.sort(compareByOrder);
-  }
- //ln = 10;
+ //ln = 2;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;
@@ -228,9 +207,8 @@ let sectionString = function (things) {
    //  rs += `</div>${startLine}<div>${txt}</div></div>`;
       rs += `</div><br/><div style="text-align:center">${txt}</div><br/><div>`;
     } else {
-      let [order,file,variant,idirectory,iuseThumb,ititle,ilikes] = thing;
+      let [file,variant,idirectory,iuseThumb,ititle,ilikes] = thing;
       let directory,useThumb,title,likes;
-      console.log('Order',order,'file',file);
       let tov = typeof variant;
       console.log('is variant',tov);
 

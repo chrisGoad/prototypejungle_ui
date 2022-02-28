@@ -17,14 +17,15 @@ debugger;	//this.initProtos();
 rs.setName('lines_1');
 let wd = 400;
 //let topParams = {width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backStripePadding:0.1*wd,backStripeVisible:0};
-let topParams = {width:wd,height:wd,backgroundColor:'rgb(2,2,2)',backgroundPadding:0.1*wd};
+let topParams = {width:wd,height:wd,backStripeColor:'rgb(2,2,2)',backgroundColorr:'rgb(2,2,2)',backgroundPadding:0.1*wd};
 Object.assign(rs,topParams);
 
 rs.initialize = function () {
   let {width} = this;
+  debugger;
   let mv = 0.25*width;
   this.addBackStripe();
-  this.addBackground();
+ // this.addBackground();
   let quad00 = this.set('quad00',fromCenterP.instantiate().show());
   quad00.initialize();
   quad00.moveto(Point.mk(-mv,-mv));
@@ -41,7 +42,6 @@ rs.initialize = function () {
   quad11.backgroundColor = 'white';
   quad11.initialize();
   quad11.moveto(Point.mk(mv,mv));
-  
 
 }
 

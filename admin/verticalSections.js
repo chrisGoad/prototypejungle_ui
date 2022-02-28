@@ -5,21 +5,29 @@ sections: [
 
 [
 
-	
-   ['Vertical'],
-      ['lines_lights','generators','square','Lights',12],  // VV 
-   ['drop_whorls_v','instances',1,'Whorls',45], // was ['grid0_46','final',1,'Cloudy Sky'],
-   ['drop_iris_v','instances',1,'Iris',44], //was ['drop0_1_27','final',1,'Iris'],
-   ['drop_dandelion_v','instances',1,'Dandelion'], //was ['drop0_1_27','final',1,'Iris'],
- ['grid_superposition_v','instances',1,'Superposition',103], // was ['grid0_46','final',1,'Cloudy Sky'],
-		 	['grid_void_v','instances','wide1','Void',100], // was ['grid0_8_18','final','wide1','Void'], 
-  ['web_diamond_v','instances',1,'Diamond',137],
-  	    ['drop_ice_v','instances',1,'Ice',44], // was   ['drop0_0','final',1,'Ice'],
-  	    ['web_wheel_v','instances',1,'Wheel',30], // was   ['drop0_0','final',1,'Ice'],
-  	    ['random_stripes_v','instances',1,'Random Stripes'], // was   ['drop0_0','final',1,'Ice'],
-  	    ['drop_starry_night_v','instances',1,'Starry Night'], // was   ['drop0_0','final',1,'Ice'],
-  	    ['drop_aphelion_v','instances',1,'Aphelion'], // was   ['drop0_0','final',1,'Ice'],
-  	    ['grid_maze_v','instances',1,'Maze'], // was   ['drop0_0','final',1,'Ice'],
+	 [1000,'lines_lights','generators','square','Lights',12],  // VV 
+   [110,'drop_whorls_v','instances',1,'Whorls',45], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
+   [150,'drop_iris_v','instances',1,'Iris',44], //was [1000,'drop0_1_27','final',1,'Iris'],
+   [60,'drop_dandelion_v','instances',1,'Dandelion'], //was [1000,'drop0_1_27','final',1,'Iris'],
+ [30,'grid_superposition_v','instances',1,'Superposition',103], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
+		 	[50,'grid_void_v','instances','wide1','Void',100], // was [1000,'grid0_8_18','final','wide1','Void'], 
+  [20,'web_diamond_v','instances',1,'Diamond',137],
+  	    [140,'drop_ice_v','instances',1,'Ice',44], // was   [1000,'drop0_0','final',1,'Ice'],
+  	    [200,'web_wheel_v','instances',1,'Wheel',30], // was   [1000,'drop0_0','final',1,'Ice'],
+  	    [1000,'random_stripes_v','instances',1,'Random Stripes'], // was   [1000,'drop0_0','final',1,'Ice'],
+  	    [100,'drop_starry_night_v','instances',1,'Starry Night',47], // was   [1000,'drop0_0','final',1,'Ice'],
+  	    [180,'drop_aphelion_v','instances',1,'Aphelion'], // was   [1000,'drop0_0','final',1,'Ice'],
+  	    [160,'grid_maze_v','instances',1,'Maze'], // was   [1000,'drop0_0','final',1,'Ice'],
+  	    [1000,'grid_cloth_v','instances',1,'Cloth'], // was   [1000,'drop0_0','final',1,'Ice'],
+ [220,'random_stripes_v','instances',1,'Rectangle Grid',26], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
+ [1000,'grid_ramp_v','instances',1,'Ramp',14], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
+   [1000,'grid_vortex_v','instances',1,'Vortex'], //was [1000,'drop0_1_27','final',1,'Iris'],
+[70,'spatter_variants_v','instances','square','Variants',74], 
+[1000,'grid_fade_v','instances','square','Fade',74], 
+[1000,'grid_enigma_v','instances','square','Enigma',74], 
+[250,'grid_signals_v','instances','square','Signals',74], 
+		 	 [190,'lines_1_v','instances','square','Lines 1',31], //TT
+    [210,'drop_arrows_v','instances',1,'Arrows',27],  //was [1000,'drop0_1_21','final',1,'Leaves']
 
 
 
