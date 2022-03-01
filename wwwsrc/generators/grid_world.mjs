@@ -49,6 +49,7 @@ rs.shapeGenerator = function (rvs,cell) {
 rs.initialize = function () {
 	core.root.backgroundColor = 'black';
 	this.initProtos();
+  this.addBackStripe();
   this.setupShapeRandomizer('blueOrWhite',{step:0.5,min:0,max:2});
 	this.initializeGrid();
 }

@@ -1,7 +1,11 @@
 
 let kind = process.argv[2];
-let sortByOrderstr = process.argv[3];
-let forKOPstr = process.argv[4];
+//let signedstr = process.argv[3]
+let forKOPstr = process.argv[3];
+let sortByOrderstr = "1";
+if (process.argv[3]==="0") {
+  sortByOrderstr = "0";
+}
 /*let alternateStr = process.argv[3];
 let byKindstr = process.argv[4];
 let byLikesstr = process.argv[5];
@@ -14,7 +18,8 @@ const toBoolean = (v) => {
     return false;
   }
 }
-
+let signed = 0
+//let signed = toBoolean(signedstr);
 let forKOP = toBoolean(forKOPstr);
 let sortByOrder = toBoolean(sortByOrderstr);
 let byKind = kind === 'byKind';
@@ -25,7 +30,7 @@ let vertical = kind === 'vertical';
 let horizontal = kind === 'horizontal';
 let square = kind === 'square';
 
-console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes);
+console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed);
 //return;
 //let alternate = 0;
 let sectionsPath;
@@ -38,10 +43,13 @@ if (byLikes) {
 } else if (byAspect) {
   sectionsPath = './byAspectSections.js'
 } else if (vertical) {
+  signed = 1;
   sectionsPath = './verticalSections.js';
 } else if (horizontal) {
+  signed = 1;
   sectionsPath = './horizontalSections.js';
 } else if (square) {
+  signed = 1;
   sectionsPath = './squareSections.js';
 } else {
   sectionsPath = './gridSections.js';
@@ -145,7 +153,7 @@ const thingString = function (ix,variant,dir,useThumb,ititle,likes) {
 	thePages.push(x);
   let title=ititle?ititle:pageNumber+'';
   theTitles.push(ititle?ititle:pageNumber+'');
-  let vpath = variant?path+'_v_'+variant:path;
+  let vpath = (variant?path+'_v_'+variant:'')+path+(signed?'_s':'');
   console.log('variant',variant);
   console.log('vpath',vpath);
   let vx = vpath+'.'+ext;

@@ -84,7 +84,7 @@ let newTopParams = {
 	backgroundColor : 'red',
 	backStripeColor: 'rgb(2,2,2)',
 	backStripePadding:15,
-	backStripeVisible:1
+	backStripeVisible:0
 }
 Object.assign(rs,newTopParams);
 

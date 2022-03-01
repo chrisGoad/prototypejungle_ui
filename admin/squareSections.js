@@ -50,7 +50,7 @@ sections: [
 // to here
 
 		 [230,'grid_quilt_1','generators','square','Quilt 1',23],
-	 	 [80,'grid_world.jpg','generators','square','World',64], // TT
+	 	 [80,'grid_world.jpg','generators','square','World',64], // HH VV
 		 	 [190,'lines_1','generators','square','Lines 1',31], //TT
 
 	 [1000,'grid_shield','generators','square','Shield'],

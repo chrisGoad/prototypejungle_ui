@@ -17,7 +17,8 @@ rs.setName('grid_bubbles');
   let numRows = 64;
 	let ht = 1000;
 	
-	let topParams = {numRows:numRows,numCols:numRows,width:1.5*ht,height:ht,randomizeOrder:1,orderByOrdinal:0,backgroundColor:'blue',backgroundPadding:0.05*ht};
+	//let topParams = {numRows:numRows,numCols:numRows,width:1.5*ht,height:ht,randomizeOrder:1,orderByOrdinal:0,backgroundColor:'blue',backgroundPadding:0.05*ht};
+	let topParams = {numRows:numRows,numCols:numRows,width:1.5*ht,height:ht,randomizeOrder:1,orderByOrdinal:0,backgroundColor:'blue',backgroundPadding:0.05*ht,backStripePadding:0.2*ht};
 	Object.assign(rs,topParams);
 	rs.paramsByRow = [];
 	
@@ -74,7 +75,8 @@ rs.animate = function (resume)  {
 */
 rs.initialize = function () {
 	this.initProtos();
-  this.addBackground();
+  this.addBackground(	);
+  this.addBackStripe();
 	this.initializeGrid();
 }
 

@@ -2,37 +2,50 @@
 
 import {rs as rectPP} from '/shape/rectangle.mjs';
 //import {rs as rectPP} from '/shape/rectangle.js','/shape/textOneLine.js',function (rectPP,textPP) {
+import {rs as textPP} from '/shape/textOneLine.mjs';
 //core.require('/gen0/test.js',function (addRandomMethods) {
 	//debugger;a
 const rs = function (item) {
 
 item.setName = function (name,variant,jsonName) {
   debugger;
-	this.name = name+(variant?'_v_'+variant:'');
+  let nameWithV = name+(variant?'_v_'+variant:'')
+	let theName = this.name = nameWithV+(this.signIt?'_s':'');
   this.variant = variant;
-	core.vars.whereToSave = this.name;
-	let theName = jsonName?jsonName:name+(variant?'_g_'+variant:'');
-	this.path = `json/${theName}.json`;
+	core.vars.whereToSave = theName;
+	//let theName = jsonName?jsonName:name+(variant?'_v_'+variant:'');
+	let pathPart = jsonName?jsonName:nameWithV;
+	this.path = `json/${pathPart}.json`;
 }
 
 
+item.signIt = 1;
 
 item.addSignature = function() {
-	let {width,height,sigScale,sigColor,sigX=0.45,sigY=0.45,sigRectX,sigRectY,backgroundWidth:bkw,backgroundHeight:bkh,backgroundPadding:bkp,backgroundPaddingX:bkpx,backgroundPaddingy:bkpy} = this;
+	let {width,height,sigScale,sigColor='white',sigX=0.45,sigY=0.45,sigRectX,sigRectY,backStripeWidth:bkw,backStripeHeight:bkh,backStripePadding:bkp} = this;
 	debugger;
+  
+    
+  this.textP = textPP.instantiate();
 	if (!bkw) {
-		let bkPx = bkpx?bkpx:bkp;
-		let bkPy = bkpy?bkpy:bkp;
-		bkw = width + (bkPx?bkPx:0);
-		bkh = height + (bkPy?bkPy:0);
+    if (!bkp) {
+      console.log("Error: either backStripeWidth of backStripePadding need to be specified for a signature");
+      debugger;
+      return;
+    }
+		bkw = width + bkp;
+		bkh = height + bkp;
 	}
+  if (!sigScale) {
+    sigScale = (bkw === bkh)?bkw/700:bkw/1000;
+  }
 	let sigC = this.set('sigC',svg.Element.mk('<g/>'));
-	if (sigRectX) {
+/*	if (sigRectX) {
 	  let sigR = sigC.set('sigR', this.sigRectP.instantiate());
 	  sigR.show();
 		sigR.width = 0.05*width;
 	  sigR.height = 0.05*width;
-	}
+	}*/
 	let sig = sigC.set('sig',this.textP.instantiate())
 	sig.show();
 	sig.text = 'C.G.';
@@ -48,10 +61,13 @@ item.addSignature = function() {
 item.addBackStripe = function () {
 	debugger;
 	let {backStripeColor:bkc,backStripePadding:bkp,backStripePaddingX:bkpx,backStripePaddingy:bkpy, 
-	backStripeWidth,backStripeHeight,width,height,backStripeVisible,backStripePos:pos} =  this;
-	if (!bkc) {
+	backStripeWidth,backStripeHeight,width,height,backStripeVisible,backStripePos:pos,signIt} =  this;
+	if ((!bkc) && (!bkp) && (!backStripeWidth)) {
 		return;
 	}
+  if (!bkc) {
+    bkc = 'rgb(2,2,2)';
+  }
 	//core.assignPrototypes(this,'backStripeRectP',rectPP);
 	this.backStripeRectP = rectPP.instantiate();
 	this.backStripeRectP['stroke-width'] = 1;
@@ -78,6 +94,9 @@ item.addBackStripe = function () {
   //bkr.width = backStripeWidth?backStripeWidth:width + backStripePadding;
 //	bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;
 	bkr.show();
+  if (signIt) {
+     this.addSignature();
+  }
 }
 
 

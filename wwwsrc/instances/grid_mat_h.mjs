@@ -9,7 +9,7 @@ let rs = generatorP;//.inshtantiate();
 rs.setName('grid_mat_h');
 let ht = 400;
 
-let topParams = {backStripeWidth:1.5*1.5*ht,backStripeHeight:1.5*ht,backStripeVisible:ht/100};
+let topParams = {sigScalee:1,sigColor:'white',backStripeWidth:1.5*1.5*ht,backStripeHeight:1.5*ht,backStripeVisible:ht/100};
 
 Object.assign(rs,topParams);
 

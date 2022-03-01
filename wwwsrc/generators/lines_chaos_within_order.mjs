@@ -19,8 +19,9 @@ rs.initializeProto = function () {
   this.circleP.stroke = 'black';
   this.circleP.fill = 'black';
 }  
-
-let topParams = {delta:10,center:Point.mk(0,0),width:300,height:200, dimension:120,numLines:1000,angleMin:-90,angleMax:90}
+let ht = 200;
+let wd = 1.5*ht
+let topParams = {delta:10,center:Point.mk(0,0),width:wd,height:ht, backStripeWidth:1.17*wd,backStripeHeight:1.17*ht,backStripeColorr:'rgb(2,2,2)',dimension:120,numLines:1000,angleMin:-90,angleMax:90}
 
 rs.drawGrid = function () {
   debugger;
@@ -60,6 +61,8 @@ rs.initialize = function () {
   Object.assign(rs,topParams);
   this.initializeProto();
   core.root.backgroundColor = 'black';
+  debugger;
+  this.addBackStripe();
   this.drawGrid();
   let circle =  this.set('visCircle',this.circleP.instantiate().show());
   circle.dimension = this.dimension;

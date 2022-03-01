@@ -88,6 +88,7 @@ rs.shapeGenerator = function (rvs,cell) {
 rs.initialize = function () {
 	core.root.backgroundColor = 'black';
 	this.initProtos();
+  this.addBackStripe();
 	let rnp = {min:0,max:0,step:0}
 	let numCols = this.numCols;
 	let numRows = this.numRows;
