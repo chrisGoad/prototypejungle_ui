@@ -11,7 +11,7 @@ rs.setName('random_stripes_h',0,'random_stripes');
 let nr = 64;
 let nc = 100;
 let ht = 200;
-let topParams = {saveState:0,numRows:2,numCols:nc,width:1.5*ht,height:ht,backStripeVisible:0,backStripePadding:0.1*ht,}
+let topParams = {saveState:0,numRows:2,numCols:nc,width:1.5*ht,height:ht,backStripeColor:'rgb(2,2,2)',backStripeVisible:10,backStripePadding:0.1*ht,}
 
 
 //topParams = {numRows:2,numCols:nc,width:wd,height:wd,backStripeColor:'rgb(2,2,2)',pointJiggle:40,backStripePadding:0.15*wd,numTimeSteps:100};

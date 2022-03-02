@@ -9,7 +9,9 @@ addDropMethods(rs);
 addInterpolateMethods(rs);
 addSegsetMethods(rs);
 rs.setName('drop_clouds');
-let topParams = {width:600,height:400,maxDrops:100000,dropTries:50,lineLength:2,backgroundColor:'rgb(1,1,1)',backgroundPadding:40,minSeparation:0}
+let ht = 400;
+let topParams = {width:1.5*ht,height:ht,maxDrops:100000,dropTries:50,lineLength:2,backStripeColor:'rgb(2,2,2)',backStripePadding:0.17*ht,minSeparation:0}
+
 
 Object.assign(rs,topParams);
 
@@ -55,6 +57,7 @@ rs.initialSegments = function () {
   
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
 	this.initProtos();
 	this.initializeDrop();
 }

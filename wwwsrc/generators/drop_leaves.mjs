@@ -17,7 +17,7 @@ rs.setName('drop_leaves');
 let ht = 300;
 let wd = 1.5 * ht;
 
-let topParams = {width:wd,height:ht,numSeedRows:0,numSeedCols:0,dropTries:500,lineLength:5,backStripeColor:'rgb(2,2,2)',backStripePadding:30,backStripeVisible:0,minSeparation:0,rectangleDim:0.2,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:.10,splitAmount:0.005 * Math.PI,endLoops:3000,seedDirections:[0*Math.PI],directionChange:0.0*Math.PI,randomDirectionChange:0.051*Math.PI,lineExt:0}
+let topParams = {width:wd,height:ht,numSeedRows:0,numSeedCols:0,dropTries:500,lineLength:5,backStripeColor:'rgb(2,2,2)',backStripePadding:0.17*ht,backStripeVisible:0,minSeparation:0,rectangleDim:0.2,gridPadding:60,fromEnds:1,sepNext:0.01,onlyFromSeeds:1,extendWhich:'first',numSeeds:60,splitChance:.10,splitAmount:0.005 * Math.PI,endLoops:3000,seedDirections:[0*Math.PI],directionChange:0.0*Math.PI,randomDirectionChange:0.051*Math.PI,lineExt:0}
 
 Object.assign(rs,topParams);
 

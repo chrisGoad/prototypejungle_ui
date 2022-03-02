@@ -22,6 +22,10 @@ const initializeLinesProtos = function (lines) {
   lines.lineP.stroke = 'cyan';
   lines.lineP['stroke-width'] = .075; 	
 }  
+let ht = 200;
+let topParams = {width:1.5*ht,height:ht,backStripeColor:'rgb(2,2,2)',backStripePadding:0.17*ht};
+Object.assign(rs,topParams);
+
 
 let linesParams = {width:300,height:200,numLines:3000,angleMin : -90,angleMax : 90};
 
@@ -33,6 +37,7 @@ let gridParams ={numRows:base,numCols:base*rfac,width:150*wfac,height:100*wfac,i
 
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
   let lines = this.set('lines',basicsP.instantiate());
   addLinesMethods(lines);
   initializeLinesProtos(lines);

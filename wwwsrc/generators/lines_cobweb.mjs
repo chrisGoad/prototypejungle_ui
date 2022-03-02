@@ -28,6 +28,7 @@ rs.initProtos = function () {
 
 rs.initialize = function () {
   this.initProtos();
+  this.addBackStripe();
   this.addBackground();
   this.initializeLines();
 }

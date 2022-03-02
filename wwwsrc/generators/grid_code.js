@@ -6,7 +6,8 @@ function (polylinePP,rs,addGridMethods,addRandomMethods) {
 addGridMethods(rs);
 addRandomMethods(rs);
 rs.setName('grid_code');
-let topParams = {width:800,height:400,numRows:100,numCols:100,pointJiggle:0,factorX:0.25,factorY:0.05,crossColor:'yellow'};
+let ht = 400;
+let topParams = {width:1.5*hy,height:ht,numRows:100,numCols:100,pointJiggle:0,factorX:0.25,factorY:0.05,crossColor:'yellow',backStripeColor:'rgb(2,2,2)',backStripePadding:0.4*ht};
 
 Object.assign(rs,topParams);
 	
@@ -53,6 +54,7 @@ rs.shapeGenerator = function (rvs,cell) {
 rs.initialize = function () {
   debugger;
   this.initProtos();
+  this.addBackStripe();
   core.root.backgroundColor = 'black';
 	let rmin = -100;
 	let rmax = 100;

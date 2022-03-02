@@ -6,7 +6,7 @@ let rs = generatorP.instantiate();
 
 rs.setName('drop_whorls_h');
 let ht  = 400;
-let topParams = {width:1.5*ht,height:ht,backStripeVisible:0}
+let topParams = {width:1.5*ht,height:ht,backStripePadding:0.17*ht,backStripeVisible:0}
 
 Object.assign(rs,topParams);
 

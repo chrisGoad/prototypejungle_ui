@@ -5,9 +5,9 @@ sections: [
 
 [
 
-	   	[1000,'spatter_spatter','generators','square','Spatter'], // HH
+	   //	[1000,'spatter_spatter','generators','square','Spatter'], // HH
 
-  			 [1,'lines_chaos_within_order','generators','wide2','Chaos Within Order',152], //HH
+  			 [5,'lines_chaos_within_order','generators','wide2','Chaos Within Order',152], //HH
  [1000,'grid_two_quilts','generators','square','Two Quilts'], // HH
 
    [110,'drop_whorls_h','instances',1,'Whorls',45], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
@@ -16,13 +16,13 @@ sections: [
  [1000,'drop_clouds','generators',1,'Clouds',7], 
   [30,'grid_superposition_h','instances',1,'Superposition',103], 
   [20,'web_diamond_h','instances',1,'Diamond',137], // HH VV
-     [1000,'drop_leaves','generators',1,'Leaves'],  // HH
+    // [1000,'drop_leaves','generators',1,'Leaves'],  // HH
   	    [180,'drop_aphelion_h','instances',1,'Aphelion'], // HH VV
 
  //[1000,'drop_starry_night','generators',1,'Starry Night',47], //  HH VV
      [1000,'grid_code','generators',1,'Code'],  // HH
           [1000,'grid_message','generators','square','Message',6], //HH
-[1000,'grid_two_quilts','generators','square','Two Quilts'], // HH
+//[1000,'grid_two_quilts','generators','square','Two Quilts'], // HH
 	[1000,'lines_2','generators','wide2','Lines 2'], // HH
    [1000,'lines_bugeyes','generators','square','Bug Eyes',6], // HH
     [1000,'grid_atlas','generators','wide2','Atlas',10], // HH
@@ -37,7 +37,7 @@ sections: [
    [60,'drop_dandelion_h','instances',1,'Dandelion'], //was [1000,'drop0_1_27','final',1,'Iris'],
    [1000,'grid_vortex_h','instances',1,'Vortex'], //was [1000,'drop0_1_27','final',1,'Iris'],
 [70,'spatter_variants_h','instances','square','Variants',74], 
-[1000,'grid_fade_h','instances','square','Fade',74], 
+[1,'grid_fade_h','instances','square','Fade',500], 
 [1000,'grid_enigma_h','instances','square','Enigma',74], 
  [250,'grid_signals_h','instances','square','Signals',74], 
   [100,'drop_starry_night','generators',1,'Starry Night',47], //  HH VV

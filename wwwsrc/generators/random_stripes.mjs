@@ -112,6 +112,8 @@ rs.computeState  = function () {
 rs.initialize = function () {
   debugger;
     this.initProtos();
+         this.addBackStripe();
+
    core.root.backgroundColor = 'black';
    let {width:wd,height:ht,numCols:nc,saveState} = this;
    let fr =0.005;
@@ -121,7 +123,6 @@ rs.initialize = function () {
      this.saveTheState();
      this.mkStripes(nc,'vertical',0,wd/50);
      this.mkStripes(nc,'horizontal',0,ht/50);
-     this.addBackStripe();
 
    } else  {
     this.getTheState(() => {

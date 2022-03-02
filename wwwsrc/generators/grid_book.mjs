@@ -12,7 +12,7 @@ rs.setName('grid_book');
 
 let sqd = 50;
 let ht = 0.8 * sqd *sqd;
-let topParams = {randomizeOrder:1,numCols:1.5*sqd,numRows:sqd,height:ht,width:1.5*ht};
+let topParams = {randomizeOrder:1,numCols:1.5*sqd,numRows:sqd,height:ht,width:1.5*ht,backStripeColor:'rgb(2,2,2)',backStripePadding:0.2*ht,};
 Object.assign(rs,topParams);
 
 rs.initProtos = function () {
@@ -27,6 +27,7 @@ rs.initProtos = function () {
 rs.shapeGenerator = function (rvs,cell) {
 		let {shapes,rectP,numRows,numCols} = this;
     debugger;
+    this.addBackStripe();
     let rOw = rvs.redOrWhite;
 	  let shape = rectP.instantiate();
     let hc = 0.5*numCols;
