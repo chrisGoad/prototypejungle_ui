@@ -31,7 +31,7 @@ let horizontal = kind === 'horizontal';
 let horizontalnf = kind === 'horizontalnf'; // horizontal no frame
 let square = kind === 'square';
 
-console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed,'horizontalnf',horizontalnf);
+console.log('sortByOrder',sortByOrder,'forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed,'horizontalnf',horizontalnf);
 //return;
 //let alternate = 0;
 let sectionsPath;
@@ -173,7 +173,8 @@ const thingString = function (order,ix,variant,dir,useThumb,ititle,likes) {
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
 	let astart = `<a style="color:white" href="${alternate?'altPage':(byKind?'byKindPage':'page')}.html?image=${vx}&${pageArg}">`;
-  let likesStr = likes?`<span style="font-size:10pt">Likes ${order}</span><br/>`:'';
+ // let likesStr = likes?`<span style="font-size:10pt">Likes ${likes}</span><br/>`:'';
+  let likesStr = `<span style="font-size:10pt">Likes ${likes?likes:'none'} Order ${order}</span><br/>`;
 	if (forKOP) {
 		let titleLink = title?`${astart}${title}</a></p>`:'';
 		console.log('titleLink',titleLink);
@@ -213,6 +214,7 @@ const stripOrnt = function (str) {
  const getOrder = function (thing) {
     let file = stripOrnt(thing[1]);
     let order = orderDict[file];
+    console.log('getOrder',order,typeof order);
     return order?order:1000;
  }
  
@@ -225,11 +227,11 @@ const stripOrnt = function (str) {
     let rs;
     if (order1 === order2) {
       rs = 0;
-    }
-    if (order1 > order2) { 
+    } else if (order1 > order2) { 
       rs = 1;
+    } else {
+      rs = -1;
     }
-    rs = -1;
     console.log('file1',file1,'file2',file2,'order1',order1,'order2',order2,'rs',rs);
     return rs;
 
@@ -277,7 +279,7 @@ let sectionString = function (things) {
   if (sortByOrder) {
     things.sort(compareByOrder);
   }
- // ln = 5;
+ // ln = 2;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;
