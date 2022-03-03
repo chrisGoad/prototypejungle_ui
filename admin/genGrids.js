@@ -149,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
 `;
 let pageNumber = 0;
 let numPages = 0;
-const thingString = function (ix,variant,dir,useThumb,ititle,likes) {
-	console.log('thingString ix',ix,'variant',variant,'dir',dir,'useThumb',useThumb,'title',ititle,'likes',likes);
+const thingString = function (order,ix,variant,dir,useThumb,ititle,likes) {
+	console.log('thingString order',order,'ix',ix,'variant',variant,'dir',dir,'useThumb',useThumb,'title',ititle,'likes',likes);
 	debugger;
 	let spix = ix.split('.');
 	let path = spix[0];
@@ -173,7 +173,7 @@ const thingString = function (ix,variant,dir,useThumb,ititle,likes) {
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
 	let astart = `<a style="color:white" href="${alternate?'altPage':(byKind?'byKindPage':'page')}.html?image=${vx}&${pageArg}">`;
-  let likesStr = likes?`<span style="font-size:10pt">Likes ${likes}</span><br/>`:'';
+  let likesStr = likes?`<span style="font-size:10pt">Likes ${order}</span><br/>`:'';
 	if (forKOP) {
 		let titleLink = title?`${astart}${title}</a></p>`:'';
 		console.log('titleLink',titleLink);
@@ -192,6 +192,50 @@ ${astart}<img width="200" src="${thumbsrc}"></a></p></div>
 }
 
 let numThingsPerLine = 4;
+
+const stripOrnt = function (str) {
+    let spl = str.split('_');
+    let sln = str.length;
+    let ln = spl.length;
+    let rs = str;
+    let lst;
+    if (ln > 1) {
+      lst = spl[ln-1];
+      if ((lst === 'v') || (lst === 'h')) {
+        rs = str.substring(0,sln-2);
+      } else if (lst === 'sq') {
+        rs = str.substring(0,sln-3);
+      }
+    }
+    console.log('stripOrnt','lst',lst,str,' = ',rs);
+    return rs;
+  }
+ const getOrder = function (thing) {
+    let file = stripOrnt(thing[1]);
+    let order = orderDict[file];
+    return order?order:1000;
+ }
+ 
+    
+  const compareByOrder = function (thing1,thing2) {
+    let file1 = stripOrnt(thing1[1]);
+    let file2 = stripOrnt(thing2[1]);
+    let order1 = getOrder(thing1);
+    let order2 = getOrder(thing2);
+    let rs;
+    if (order1 === order2) {
+      rs = 0;
+    }
+    if (order1 > order2) { 
+      rs = 1;
+    }
+    rs = -1;
+    console.log('file1',file1,'file2',file2,'order1',order1,'order2',order2,'rs',rs);
+    return rs;
+
+  }
+      
+ 
 let sectionString = function (things) {
 	let numThingsThisLine = 0;
 	let startLine =  `
@@ -228,45 +272,12 @@ let sectionString = function (things) {
     }
     return -1;
   }*/
-  const stripOrnt = function (str) {
-    let spl = str.split('_');
-    let sln = str.length;
-    let ln = spl.length;
-    let rs = str;
-    if (ln > 1) {
-      let lst = spl[ln-1];
-      if ((lst === 'v') || (lst === 'h')) {
-        rs = str.substring(0,sln-2);
-      } else if (lst = 'sq') {
-        rs = str.substring(0,sln-3);
-      }
-    }
-    console.log('stripOrnt',str,' = ',rs);
-    return rs;
-  }
-      
-    
-  const compareByOrder = function (thing1,thing2) {
-    let file1 = stripOrnt(thing1[1]);
-    let file2 = stripOrnt(thing2[2]);
-    let order1 = orderDict[file1];
-    let order2 = orderDict[file2];
-    order1 = order1?order1:1000;
-    order2 = order2?order2:1000;
-    console.log('file1',file1,'file2',file2,'order1',order1,'order2',order2);
-    if (order1 === order2) {
-      return 0;
-    }
-    if (order1 > order2) { 
-      return 1;
-    }
-    return -1;
-  }
+  
   
   if (sortByOrder) {
     things.sort(compareByOrder);
   }
-  ln = 5;
+ // ln = 5;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;
@@ -296,8 +307,8 @@ let sectionString = function (things) {
         likes = ititle;
         variant = undefined;
       }
-        
-      rs += thingString(file,variant,directory,useThumb,title,likes);
+      let ord = getOrder(thing);
+      rs += thingString(ord,file,variant,directory,useThumb,title,likes);
       //rs += thingString(file,directory,useThumb,title,image);
       numThingsThisLine++;
     }
