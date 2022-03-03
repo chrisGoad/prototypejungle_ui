@@ -24,9 +24,9 @@ sections: [
 
    [150,'drop_iris_sq','instances',1,'Iris',44], // HH VV
 
-  [180,'drop_aphelion','generators',1,'Aphelion',31], HH VV
+  [180,'drop_aphelion','generators',1,'Aphelion',31], //HH VV
 
-  [200,'web_wheel','generators',1,'Wheel',30], HH VV
+  [200,'web_wheel','generators',1,'Wheel',30], // HH VV
 
 
   [210,'drop_arrows','generators',1,'Arrows',27],  // HH VV

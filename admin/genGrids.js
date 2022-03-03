@@ -28,9 +28,10 @@ let byLikes = kind === 'byLikes';
 let byAspect = kind === 'byAspect';
 let vertical = kind === 'vertical';
 let horizontal = kind === 'horizontal';
+let horizontalnf = kind === 'horizontalnf'; // horizontal no frame
 let square = kind === 'square';
 
-console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed);
+console.log('forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed,'horizontalnf',horizontalnf);
 //return;
 //let alternate = 0;
 let sectionsPath;
@@ -43,13 +44,16 @@ if (byLikes) {
 } else if (byAspect) {
   sectionsPath = './byAspectSections.js'
 } else if (vertical) {
-  signed = 1;
+  signed = 0;
   sectionsPath = './verticalSections.js';
 } else if (horizontal) {
-  signed = 1;
+  signed = 0;
   sectionsPath = './horizontalSections.js';
+} else if (horizontalnf) {
+  signed = 0;
+  sectionsPath = './horizontalnfSections.js';
 } else if (square) {
-  signed = 1;
+  signed = 0;
   sectionsPath = './squareSections.js';
 } else {
   sectionsPath = './gridSections.js';
@@ -65,6 +69,8 @@ if (alternate) {
   outPath = 'www/vertical.html';
 } else if (horizontal) {
   outPath = 'www/horizontal.html';
+} else if (horizontalnf) {
+  outPath = 'www/horizontalnf.html';
 } else if (square) {
   outPath = 'www/square.html';
 } else {
@@ -144,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let pageNumber = 0;
 let numPages = 0;
 const thingString = function (ix,variant,dir,useThumb,ititle,likes) {
-	console.log('thingString ix',ix,'useThumb',useThumb,'title',ititle);
+	console.log('thingString ix',ix,'variant',variant,'dir',dir,'useThumb',useThumb,'title',ititle,'likes',likes);
 	debugger;
 	let spix = ix.split('.');
 	let path = spix[0];
@@ -153,7 +159,7 @@ const thingString = function (ix,variant,dir,useThumb,ititle,likes) {
 	thePages.push(x);
   let title=ititle?ititle:pageNumber+'';
   theTitles.push(ititle?ititle:pageNumber+'');
-  let vpath = (variant?path+'_v_'+variant:'')+path+(signed?'_s':'');
+  let vpath = (variant?path+'_v_'+variant:path)+(signed?'_s':'');
   console.log('variant',variant);
   console.log('vpath',vpath);
   let vx = vpath+'.'+ext;
@@ -211,7 +217,7 @@ let sectionString = function (things) {
   if (byLikes) {
     things.sort(compareLikes);
   }
-  const compareByOrder = function (thing1,thing2) {
+  /*const compareByOrder = function (thing1,thing2) {
     let order1 = thing1[0];
     let order2 = thing2[0];
     if (order1 === order2) {
@@ -221,11 +227,46 @@ let sectionString = function (things) {
       return 1;
     }
     return -1;
+  }*/
+  const stripOrnt = function (str) {
+    let spl = str.split('_');
+    let sln = str.length;
+    let ln = spl.length;
+    let rs = str;
+    if (ln > 1) {
+      let lst = spl[ln-1];
+      if ((lst === 'v') || (lst === 'h')) {
+        rs = str.substring(0,sln-2);
+      } else if (lst = 'sq') {
+        rs = str.substring(0,sln-3);
+      }
+    }
+    console.log('stripOrnt',str,' = ',rs);
+    return rs;
   }
+      
+    
+  const compareByOrder = function (thing1,thing2) {
+    let file1 = stripOrnt(thing1[1]);
+    let file2 = stripOrnt(thing2[2]);
+    let order1 = orderDict[file1];
+    let order2 = orderDict[file2];
+    order1 = order1?order1:1000;
+    order2 = order2?order2:1000;
+    console.log('file1',file1,'file2',file2,'order1',order1,'order2',order2);
+    if (order1 === order2) {
+      return 0;
+    }
+    if (order1 > order2) { 
+      return 1;
+    }
+    return -1;
+  }
+  
   if (sortByOrder) {
     things.sort(compareByOrder);
   }
- //ln = 10;
+  ln = 5;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;
@@ -301,6 +342,21 @@ const writePage = function (sections) {
 
 //let sectionsC = require(alternate?'./altSections.js':'./gridSections.js');
 let sectionsC = require(sectionsPath);
+let imageOrder  = require('./imageOrder.js');
+console.log('imageOrder',imageOrder);
+
+const order2dict = function (order) {
+  let rs = {};
+  order.forEach( (ln) => {
+    let [o,s] = ln;
+    rs[s] = o;
+  });
+  return rs;
+}
+
+let orderDict = order2dict(imageOrder);
+
+console.log('orderDict',orderDict);
 
 const countPages = function (sections) {
 	let rs = 0;

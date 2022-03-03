@@ -5,9 +5,10 @@ sections: [
 
 [
 ['Square'],
- [0,'grid_grid_1_i_3',3,'instances',1,'Grid 5'], 
- [0,'grid_grid_1_i_3_g_1','instances',1,'Grid 5'], 
- [0,'grid_grid_1_i_3','instances',1,'Grid 5'], 
+// [0,'grid_grid_1_i_3',4,'instances',1,'Grid 5'], 
+// [0,'grid_grid_1_i_3',3,'instances',1,'Grid 5'], 
+// [0,'grid_grid_1_i_3_g_1','instances',1,'Grid 5'], 
+// [0,'grid_grid_1_i_3','instances',1,'Grid 5'], 
  [0,'drop_whorls','generators',1,'Whorls',45], 
  [0,'random_stripes','generators',1,'Rectangle Grid',26], 
  [0,'grid_fade','generators',1,'Fade'], 

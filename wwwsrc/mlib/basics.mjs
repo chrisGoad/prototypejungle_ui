@@ -9,7 +9,8 @@ const rs = function (item) {
 
 item.setName = function (name,variant,jsonName) {
   debugger;
-  let nameWithV = name+(variant?'_v_'+variant:'')
+  let nameWithV = name+(variant?'_v_'+variant:'');
+  let nameWithoutV= name;
 	let theName = this.name = nameWithV+(this.signIt?'_s':'');
   this.variant = variant;
 	core.vars.whereToSave = theName;
@@ -19,12 +20,11 @@ item.setName = function (name,variant,jsonName) {
 }
 
 
-item.signIt = 1;
+item.signIt = 0;
 
 item.addSignature = function() {
-	let {width,height,sigScale,sigColor='white',sigX=0.45,sigY=0.45,sigRectX,sigRectY,backStripeWidth:bkw,backStripeHeight:bkh,backStripePadding:bkp} = this;
+	let {width,height,sigScale,vSigScale,sigColor='white',sigX=0.45,sigY,sigRectX,sigRectY,backStripeWidth:bkw,backStripeHeight:bkh,backStripePadding:bkp} = this;
 	debugger;
-  
     
   this.textP = textPP.instantiate();
 	if (!bkw) {
@@ -36,8 +36,16 @@ item.addSignature = function() {
 		bkw = width + bkp;
 		bkh = height + bkp;
 	}
+  let square = width === height;
+  let vertical = bkh > 1.4* bkw;
+  if (!sigY) {
+    sigY = square?(vertical?0.27:0.45):.45;
+  }
   if (!sigScale) {
     sigScale = (bkw === bkh)?bkw/700:bkw/1000;
+  }
+  if (!vSigScale) {
+    vSigScale = bkh/1000;
   }
 	let sigC = this.set('sigC',svg.Element.mk('<g/>'));
 /*	if (sigRectX) {
@@ -54,7 +62,7 @@ item.addSignature = function() {
 	sig['font-family'] = 'Trattatello';
 	sig['font'] = 'fantasy';
 	//sig['font-size'] = "30"	;
-	sig.setScale(sigScale);
+	sig.setScale(vertical?vSigScale:sigScale);
 }
 
 // add a stripe around the image, to control the size of the jpg when saved

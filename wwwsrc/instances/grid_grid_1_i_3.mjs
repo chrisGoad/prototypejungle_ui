@@ -3,7 +3,7 @@ import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as generatorP} from '/generators/grid_grid_1.mjs';
 
 let rs = generatorP.instantiate();
-rs.setName('grid_grid_1_i_3',3);
+rs.setName('grid_grid_1_i_3',4);
 let wd = 400;
 let nr = 20;
 let topParams = {saveState:0,width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,innerRows:5};

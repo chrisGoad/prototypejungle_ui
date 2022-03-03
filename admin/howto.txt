@@ -6,6 +6,28 @@ node admin/genGrids forKop alternate byKind byLikes vertical horizontal
 node admin/updateKOP transferMedia
 
 
+suffixes for source files
+ _v vertical with stripes
+ _h horizontal with stripes
+ _vns vertical without stripes (for mpix/printing)
+ _hns horizontal without stripes (for mpix/printing)
+ 
+suffixes for image files
+_v vertical has stripes
+_vns vertical has no stripes
+_h horizontal has stripes
+_hns horizontal has no stripes
+
+a final 
+_s  has signature 
+no _s at end no signature
+
+
+to generate non signed images (for grids.html, which appears as index.html at KOP)  turn off signIt at the top of basics.mjs
+
+_sq or no _v nor _h nor  _vns nor _hns : square
+square images never have stripes
+
 cd c:\prototypejungle_ui
 
 git add admin js server wwwsrc draw.html zoom.html
