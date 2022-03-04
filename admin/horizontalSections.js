@@ -16,13 +16,9 @@ sections: [
  [1000,'drop_clouds','generators',1,'Clouds',7], 
   [30,'grid_superposition_h','instances',1,'Superposition',103], 
   [20,'web_diamond_h','instances',1,'Diamond',137], // HH VV
-    // [1000,'drop_leaves','generators',1,'Leaves'],  // HH
   	    [180,'drop_aphelion_h','instances',1,'Aphelion'], // HH VV
-
- //[1000,'drop_starry_night','generators',1,'Starry Night',47], //  HH VV
      [1000,'grid_code','generators',1,'Code'],  // HH
           [1000,'grid_message','generators','square','Message',6], //HH
-//[1000,'grid_two_quilts','generators','square','Two Quilts'], // HH
 	[1000,'lines_2','generators','wide2','Lines 2'], // HH
    [1000,'lines_bugeyes','generators','square','Bug Eyes',6], // HH
     [1000,'grid_atlas','generators','wide2','Atlas',10], // HH
@@ -38,11 +34,10 @@ sections: [
    [1000,'grid_vortex_h','instances',1,'Vortex'], //was [1000,'drop0_1_27','final',1,'Iris'],
 [70,'spatter_variants_h','instances','square','Variants',74], 
 [7,'grid_fade_h','instances','square','Fade',500], 
-[1000,'grid_enigma_h','instances','square','Enigma',74], 
+[1000,'grid_enigma_h','instances','square','Enigma',10], 
  [250,'grid_signals_h','instances','square','Signals',74], 
   [100,'drop_starry_night','generators',1,'Starry Night',47], //  HH VV
 		 	 [190,'lines_1_h','instances','square','Lines 1',31], //TT
-
     [210,'drop_arrows_h','instances',1,'Arrows',27],  //was [1000,'drop0_1_21','final',1,'Leaves']
     [270,'grid_mat_h','instances',1,'Mat',27], 
     [80,'grid_world_h','instances',1,'World',27], 

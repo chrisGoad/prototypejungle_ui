@@ -416,7 +416,7 @@ xferDir(0,'www','doc');
 xferDir('top','','admin');
 //xferDir(0,'www','');
  xferDir('top','','server');
-xferFiles(0,'www',['page.html','altPage.html','byKindPage.html','draw.html','drawImage.html','essay.html','eutelic.html','zoom0.js','topdefs.js','style.css','spectrum.css']);
+xferFiles(0,'www',['page.html','altPage.html','byKindPage.html','draw.html','drawImage.html','essay.html','eutelic.html','zoom0.js','topdefs.js','style.css','spectrum.css','pageSupport.js']);
 //xferDir(1,'www','doc');
 //xferDir(0,'www','intro');
 //xferDir(1,'shell','');

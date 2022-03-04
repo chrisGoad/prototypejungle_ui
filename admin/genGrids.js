@@ -35,6 +35,8 @@ console.log('sortByOrder',sortByOrder,'forKOP',forKOP,'byKind',byKind,'byAspect'
 //return;
 //let alternate = 0;
 let sectionsPath;
+let pagesPath = 'www/thePages.js';
+let titlesPath = 'www/theTitles.js';
 if (byLikes) {
   sectionsPath = './gridSections.js';
 } else if (alternate) {
@@ -46,15 +48,27 @@ if (byLikes) {
 } else if (vertical) {
   signed = 0;
   sectionsPath = './verticalSections.js';
+  pagesPath = 'www/vPages.js';
+  titlesPath = 'www/vTitles.js';
 } else if (horizontal) {
   signed = 0;
   sectionsPath = './horizontalSections.js';
+  pagesPath = 'www/hPages.js';
+  titlesPath = 'www/hTitles.js';
+
 } else if (horizontalnf) {
   signed = 0;
   sectionsPath = './horizontalnfSections.js';
+  pagesPath = 'www/hnfPages.js';
+  titlesPath = 'www/hnfTitles.js';
+
 } else if (square) {
   signed = 0;
   sectionsPath = './squareSections.js';
+  pagesPath = 'www/sqPages.js';  
+  titlesPath = 'www/sqTitles.js';
+
+  
 } else {
   sectionsPath = './gridSections.js';
 }
@@ -150,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let pageNumber = 0;
 let numPages = 0;
 const thingString = function (order,ix,variant,dir,useThumb,ititle,likes) {
-	console.log('thingString order',order,'ix',ix,'variant',variant,'dir',dir,'useThumb',useThumb,'title',ititle,'likes',likes);
+	//console.log('thingString order',order,'ix',ix,'variant',variant,'dir',dir,'useThumb',useThumb,'title',ititle,'likes',likes);
 	debugger;
 	let spix = ix.split('.');
 	let path = spix[0];
@@ -160,12 +174,12 @@ const thingString = function (order,ix,variant,dir,useThumb,ititle,likes) {
   let title=ititle?ititle:pageNumber+'';
   theTitles.push(ititle?ititle:pageNumber+'');
   let vpath = (variant?path+'_v_'+variant:path)+(signed?'_s':'');
-  console.log('variant',variant);
-  console.log('vpath',vpath);
+  //console.log('variant',variant);
+  //console.log('vpath',vpath);
   let vx = vpath+'.'+ext;
 	let imsrc = `images/${vpath}.jpg`;
 	let thumbsrc = useThumb?`thumbs/${vpath}.jpg`:imsrc;
-	console.log('thumbsrc',thumbsrc);
+//console.log('thumbsrc',thumbsrc);
 	let pageArg = 'page='+pageNumber;
 	let theImageArg = '';
   //imageArg?'&image='+imageArg:'';
@@ -177,7 +191,7 @@ const thingString = function (order,ix,variant,dir,useThumb,ititle,likes) {
   let likesStr = `<span style="font-size:10pt">Likes ${likes?likes:'none'} Order ${order}</span><br/>`;
 	if (forKOP) {
 		let titleLink = title?`${astart}${title}</a></p>`:'';
-		console.log('titleLink',titleLink);
+		//console.log('titleLink',titleLink);
 rs = `<div><p class="centered">${titleLink}
 <p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>
 	`; 
@@ -208,18 +222,23 @@ const stripOrnt = function (str) {
         rs = str.substring(0,sln-3);
       }
     }
-    console.log('stripOrnt','lst',lst,str,' = ',rs);
+   // console.log('stripOrnt','lst',lst,str,' = ',rs);
     return rs;
   }
  const getOrder = function (thing) {
+   console.log('getOrder',thing);
     let file = stripOrnt(thing[1]);
     let order = orderDict[file];
-    console.log('getOrder',order,typeof order);
+   // console.log('getOrder',order,typeof order);
     return order?order:1000;
  }
  
     
   const compareByOrder = function (thing1,thing2) {
+    console.log('compareByOrder',thing1,thing2);
+    if ((thing1.length === 1) || (thing2.length ===1)) {
+      return 0;
+    }
     let file1 = stripOrnt(thing1[1]);
     let file2 = stripOrnt(thing2[1]);
     let order1 = getOrder(thing1);
@@ -284,7 +303,7 @@ let sectionString = function (things) {
 		let thing = things[i];
     let tln = thing.length;
     if (tln === 1) {
-      console.log("Section");
+   //   console.log("Section");
       let txt = thing[0];
       numThingsThisLine = numThingsPerLine;
    //  rs += `</div>${startLine}<div>${txt}</div></div>`;
@@ -292,12 +311,12 @@ let sectionString = function (things) {
     } else {
       let [order,file,variant,idirectory,iuseThumb,ititle,ilikes] = thing;
       let directory,useThumb,title,likes;
-      console.log('Order',order,'file',file);
+    //  console.log('Order',order,'file',file);
       let tov = typeof variant;
-      console.log('is variant',tov);
+    //  console.log('is variant',tov);
 
       if (tov === "number") {
-        console.log('VARIANT');
+     //   console.log('VARIANT');
         directory = idirectory;
         useThumb = iuseThumb;
         title = ititle;
@@ -314,9 +333,9 @@ let sectionString = function (things) {
       //rs += thingString(file,directory,useThumb,title,image);
       numThingsThisLine++;
     }
-		console.log('numThingsThisLine',numThingsThisLine,'i',i,'ln',ln);
+	//	console.log('numThingsThisLine',numThingsThisLine,'i',i,'ln',ln);
 		if ((numThingsThisLine === numThingsPerLine) && (i<(ln-1))) {
-			console.log('EOL');
+		//	console.log('EOL');
 			rs += `</div><br/>
 	`+ startLine;
 			numThingsThisLine = 0;
@@ -338,11 +357,13 @@ const sectionsString = function (sections) {
 }
 const writeThePages = function () {
 	let js = 'let thePages = '+JSON.stringify(thePages)+';';
-	fs.writeFileSync(alternate?'www/altPages.js':(byKind?'www/byKindPages.js':'www/thePages.js'),js);
+	fs.writeFileSync(pagesPath,js);
+	//fs.writeFileSync(alternate?'www/altPages.js':(byKind?'www/byKindPages.js':'www/thePages.js'),js);
 }
 const writeTheTitles = function () {
 	let js = 'let theTitles = '+JSON.stringify(theTitles)+';';
-	fs.writeFileSync(alternate?'www/altTitles.js':(byKind?'www/byKindTitles.js':'www/theTitles.js'),js);
+	fs.writeFileSync(titlesPath,js);
+//	fs.writeFileSync(alternate?'www/altTitles.js':(byKind?'www/byKindTitles.js':'www/theTitles.js'),js);
 }
 		
 const writePage = function (sections) {
@@ -356,7 +377,7 @@ const writePage = function (sections) {
 //let sectionsC = require(alternate?'./altSections.js':'./gridSections.js');
 let sectionsC = require(sectionsPath);
 let imageOrder  = require('./imageOrder.js');
-console.log('imageOrder',imageOrder);
+//console.log('imageOrder',imageOrder);
 
 const order2dict = function (order) {
   let rs = {};

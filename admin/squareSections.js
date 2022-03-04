@@ -4,9 +4,9 @@ module.exports = {
 sections: [
 
 [
- [1000,'grid_grid_1_i_3',3,'instances',1,'Grid 5'], 
- [1000,'grid_grid_1_i_3_g_1','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
- [1000,'grid_grid_1_i_3','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ //[1000,'grid_grid_1_i_3',3,'instances',1,'Grid 5'], 
+ //[1000,'grid_grid_1_i_3_g_1','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
+ //[1000,'grid_grid_1_i_3','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
  [120,'drop_whorls_sq','instances',1,'Whorls',45], // HH VV
  [220,'random_stripes_sq','instances',1,'Rectangle Grid',26], 
  [1000,'grid_fade','generators',1,'Fade'], // HH VV
@@ -50,7 +50,7 @@ sections: [
 // to here
 
 		 [230,'grid_quilt_1','generators','square','Quilt 1',23],
-	 	 [80,'grid_world.jpg','generators','square','World',64], // HH VV
+	 	 [80,'grid_world','generators','square','World',64], // HH VV
 		 	 [190,'lines_1','generators','square','Lines 1',31], //TT
 
 	 [1000,'grid_shield','generators','square','Shield'],
@@ -77,7 +77,7 @@ sections: [
   // [1000,'lines_bugeyes','generators','square','Bug Eyes',6], // HH
 	
   // [1000,'lines_lights','generators','square','Lights',12],  // VV 
-	 [170,'grid_eye.jpg','generators',1,'Eye',34], // TT
+	 [170,'grid_eye','generators',1,'Eye',34], // TT
 	
 	 [1000,'grid_3','generators','square','Grid 3'],
 	

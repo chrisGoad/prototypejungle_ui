@@ -6,7 +6,7 @@ let rs = generatorP.instantiate();
 
 rs.setName('grid_fade_v');
 let wd  = 200;
-let topParams = {height:1.5*wd,width:wd,backStripeVisible:wd/100}
+let topParams = {height:1.5*wd,width:wd,backStripeVisible:0}
 
 Object.assign(rs,topParams);
 
