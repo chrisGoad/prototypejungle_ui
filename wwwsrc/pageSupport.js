@@ -32,7 +32,7 @@ const onPrev = function () {
 	let dest = thePages[cPage-1];
 	  
 	
-	window.location.href = `./page.html?image=${dest}&page=${cPage-1}`;
+	window.location.href = `./page.html?image=${dest}&page=${cPage-1}&imKind=${imKind}`;
 }
 const onNext = function () {
   debugger;
@@ -40,15 +40,27 @@ const onNext = function () {
 	let dest = thePages[cPage+1];
 	let lastPageArg = (cPage === (thePages.length - 2))?'&lastPage=1':'';
 
-	window.location.href = `./page.html?image=${dest}&page=${cPage+1}${lastPageArg}`;
+	window.location.href = `./page.html?image=${dest}&page=${cPage+1}${lastPageArg}&imKind=${imKind}`;
 }
 
 
 const onTop = function () {
   debugger;
-	
-	window.location.href = './index.html';
+  let dst;
+	if (imKind === 'g') {
+    dst = 'index';
+  } else if (imKind === 'h') {
+    dst = 'horizontal';
+  } else if (imKind === 'hnf') {
+    dst = 'horizontalnf';
+  } else if (imKind === 'v') {
+    dst = 'vertical';
+ } else if (imKind === 'sq') {
+    dst = 'square';
+ }
+	window.location.href = './'+dst+'.html';
 }
+let imKind,thePages,theTitles;
 document.addEventListener('DOMContentLoaded', () => {
   debugger;
 	let cWidth =document.documentElement.clientWidth;
@@ -57,6 +69,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let image = document.images[0];
 	let getArgs = parseQuerystring();
 	cPage = Number(getArgs.page);
+  imKind = getArgs.imKind;
+  if (imKind === 'g') {
+    thePages = gPages;
+    theTitles = gTitles;
+  } else if (imKind === 'v') {
+    thePages = vPages;
+    theTitles = vTitles; 
+  } else if (imKind === 'h') {
+    thePages = hPages;
+    theTitles = hTitles;
+  } else if (imKind === 'hnf') {
+    thePages = hnfPages;
+    theTitles = hnfTitles;
+  } else if (imKind === 'sq') {
+    thePages = sqPages;
+    theTitles = sqTitles;
+  }
 	//lastPage = getArgs.lastPage;
 	let title = theTitles[cPage];
 	let prevDiv = document.getElementById('prevDiv');

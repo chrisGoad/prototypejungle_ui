@@ -117,10 +117,20 @@ const afterLastChar = function (string,chr,strict) {
 		let dstf = idstf?idstf:srcf;
 	  xferFile(srcd+srcf,dstd+dstf)
 	}
+  xferFiles(srcd,['pageSupport.js',
+  'grids.html','gPages.js','gTitles.js', 
+  'square.html','sqPages.js','sqTitles.js',
+  'horizontal.html','hPages.js','hTitles.js',
+  'vertical.html','vPages.js','vTitles.js',
+  'horizontalnf.html','hnfPages.js','hnfTitles.js'
+  ],
+  dstd);
+	xfer('pageSupport.js','pageSupport.js');
 	xfer('grids.html','index.html');
 	xfer('square.html','square.html');
 	xfer('vertical.html','vertical.html');
 	xfer('horizontal.html','horizontal.html');
+	xfer('horizontalnf.html','horizontalnf.html');
 	xfer('essay.html');
 	xfer('page.html');
 //	xfer('eutelic.html');

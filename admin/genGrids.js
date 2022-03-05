@@ -35,8 +35,11 @@ console.log('sortByOrder',sortByOrder,'forKOP',forKOP,'byKind',byKind,'byAspect'
 //return;
 //let alternate = 0;
 let sectionsPath;
-let pagesPath = 'www/thePages.js';
-let titlesPath = 'www/theTitles.js';
+let pagesVar = 'gPages';
+let pagesPath = 'www/gPages.js';
+let titlesPath = 'www/gTitles.js';
+let titlesVar = 'gTitles';
+let imKind = 'g';
 if (byLikes) {
   sectionsPath = './gridSections.js';
 } else if (alternate) {
@@ -47,26 +50,38 @@ if (byLikes) {
   sectionsPath = './byAspectSections.js'
 } else if (vertical) {
   signed = 0;
+  imKind = 'v';
   sectionsPath = './verticalSections.js';
   pagesPath = 'www/vPages.js';
+  pagesVar = 'vPages';
   titlesPath = 'www/vTitles.js';
+  titlesVar = 'vTitles';
 } else if (horizontal) {
   signed = 0;
+  imKind = 'h';
   sectionsPath = './horizontalSections.js';
   pagesPath = 'www/hPages.js';
+  pagesVar = 'hPages';
   titlesPath = 'www/hTitles.js';
+  titlesVar = 'hTitles';
 
 } else if (horizontalnf) {
   signed = 0;
+  imKind = 'hnf';
   sectionsPath = './horizontalnfSections.js';
   pagesPath = 'www/hnfPages.js';
+  pagesVar = 'hnfPages';
   titlesPath = 'www/hnfTitles.js';
+  titlesVar = 'hnfTitles';
 
 } else if (square) {
   signed = 0;
+  imKind = 's';
   sectionsPath = './squareSections.js';
   pagesPath = 'www/sqPages.js';  
+  pagesVar = 'sqPages';  
   titlesPath = 'www/sqTitles.js';
+  titlesVar = 'sqTitles';
 
   
 } else {
@@ -181,12 +196,13 @@ const thingString = function (order,ix,variant,dir,useThumb,ititle,likes) {
 	let thumbsrc = useThumb?`thumbs/${vpath}.jpg`:imsrc;
 //console.log('thumbsrc',thumbsrc);
 	let pageArg = 'page='+pageNumber;
+  let kindArg = 'imKind='+imKind;
 	let theImageArg = '';
   //imageArg?'&image='+imageArg:'';
 	pageNumber++;
 	let lastPageArg = (pageNumber === numPages)?'&lastPage=1':'';
 	let rs;
-	let astart = `<a style="color:white" href="${alternate?'altPage':(byKind?'byKindPage':'page')}.html?image=${vx}&${pageArg}">`;
+	let astart = `<a style="color:white" href="page.html?image=${vx}&${pageArg}&${kindArg}">`;
  // let likesStr = likes?`<span style="font-size:10pt">Likes ${likes}</span><br/>`:'';
   let likesStr = `<span style="font-size:10pt">Likes ${likes?likes:'none'} Order ${order}</span><br/>`;
 	if (forKOP) {
@@ -356,12 +372,15 @@ const sectionsString = function (sections) {
 
 }
 const writeThePages = function () {
-	let js = 'let thePages = '+JSON.stringify(thePages)+';';
+	let js = `let ${pagesVar}= ${JSON.stringify(thePages)};`;
+  console.log('writeThePages',js,pagesPath);
 	fs.writeFileSync(pagesPath,js);
 	//fs.writeFileSync(alternate?'www/altPages.js':(byKind?'www/byKindPages.js':'www/thePages.js'),js);
 }
 const writeTheTitles = function () {
-	let js = 'let theTitles = '+JSON.stringify(theTitles)+';';
+	let js = `let ${titlesVar} = ${JSON.stringify(theTitles)};`
+    console.log('writeTheTitles',js,titlesPath);
+
 	fs.writeFileSync(titlesPath,js);
 //	fs.writeFileSync(alternate?'www/altTitles.js':(byKind?'www/byKindTitles.js':'www/theTitles.js'),js);
 }
