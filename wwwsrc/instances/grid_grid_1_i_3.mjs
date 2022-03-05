@@ -32,6 +32,15 @@ rs.decider = function (rvs,cell) {
   return (cell.x+cell.y) % 2 === 0;
   return  cell.x < hnr;
 }
+
+rs.decider = function (rvs,cell) {
+  return Math.random() < 0.5;
+  let {numRows} = this;
+  let hnr = numRows/2;
+  return (cell.x+cell.y) % 2 === 0;
+  return  cell.x < hnr;
+}
+  
   
 rs.initializeInstance = function () {
   core.root.backgroundColor = 'black';

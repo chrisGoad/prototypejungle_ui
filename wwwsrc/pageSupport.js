@@ -60,6 +60,7 @@ const onTop = function () {
  }
 	window.location.href = './'+dst+'.html';
 }
+
 let imKind,thePages,theTitles;
 document.addEventListener('DOMContentLoaded', () => {
   debugger;

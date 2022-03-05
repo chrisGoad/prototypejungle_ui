@@ -5,7 +5,7 @@ sections: [
 
 [
 
-	 [1000,'lines_lights','generators','square','Lights',12],  // VV 
+	 [1000,'lines_lights_v','instances','square','Lights',12],  // VV 
    [110,'drop_whorls_v','instances',1,'Whorls',45], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
    [150,'drop_iris_v','instances',1,'Iris',44], //was [1000,'drop0_1_27','final',1,'Iris'],
    [60,'drop_dandelion_v','instances',1,'Dandelion'], //was [1000,'drop0_1_27','final',1,'Iris'],

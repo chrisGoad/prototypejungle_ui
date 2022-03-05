@@ -77,10 +77,11 @@ item.addBackStripe = function () {
     bkc = 'rgb(2,2,2)';
   }
 	//core.assignPrototypes(this,'backStripeRectP',rectPP);
-	this.backStripeRectP = rectPP.instantiate();
+	/*this.backStripeRectP = rectPP.instantiate();
 	this.backStripeRectP['stroke-width'] = 1;
-	this.backStripeRectP.fill = 'transparent';
-  let bkr = this.set('brect',this.backStripeRectP.instantiate());
+	this.backStripeRectP.fill = 'transparent';*/
+  //let bkr = this.set('brect',this.backStripeRectP.instantiate());
+  let bkr = this.set('brect',rectPP.instantiate());
 	if (backStripeVisible) {
 		bkr['stroke-width'] = backStripeVisible;
 		bkr.stroke = 'white';
@@ -94,13 +95,17 @@ item.addBackStripe = function () {
 		let bkPx = bkpx?bkpx:(bkp?bkp:0.1*width);
 		let bkPy = bkpy?bkpy:(bkp?bkp:0.1*height);
 		bkr.width = width + bkPx;
+		//bkr.width = 20;
 		bkr.height = height + bkPy;
+		//bkr.height = 10;
 	}
 	if (pos) {
+    console.log('Stripe Pos',pos.x,pos.y);
 		bkr.moveto(pos);
 	}
   //bkr.width = backStripeWidth?backStripeWidth:width + backStripePadding;
 //	bkr.height = backgroundHeight?backgroundHeight:height + backgroundPadding;
+  bkr.update();
 	bkr.show();
   if (signIt) {
      this.addSignature();

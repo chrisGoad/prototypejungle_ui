@@ -86,7 +86,8 @@ debugger;
     let dim = rv*delta;
     stripe.width = v?Math.max(dim,0):wd;
     stripe.height =v?ht:Math.max(dim,0);
-    let pos = v? Point.mk((i/n) * wd-0.5*wd,0):Point.mk(0,(i/n) * ht-0.5*ht)
+    let pos = v? Point.mk((i/n) * wd-0.5*wd,0):Point.mk(0,(i/n) * ht-0.5*ht);
+    //console.log('Pos',pos.x,pos.y);
     stripe.moveto(pos);
     stripe.update();
   }

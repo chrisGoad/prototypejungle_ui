@@ -76,7 +76,7 @@ if (byLikes) {
 
 } else if (square) {
   signed = 0;
-  imKind = 's';
+  imKind = 'sq';
   sectionsPath = './squareSections.js';
   pagesPath = 'www/sqPages.js';  
   pagesVar = 'sqPages';  
@@ -242,7 +242,7 @@ const stripOrnt = function (str) {
     return rs;
   }
  const getOrder = function (thing) {
-   console.log('getOrder',thing);
+  // console.log('getOrder',thing);
     let file = stripOrnt(thing[1]);
     let order = orderDict[file];
    // console.log('getOrder',order,typeof order);
@@ -251,7 +251,7 @@ const stripOrnt = function (str) {
  
     
   const compareByOrder = function (thing1,thing2) {
-    console.log('compareByOrder',thing1,thing2);
+  //  console.log('compareByOrder',thing1,thing2);
     if ((thing1.length === 1) || (thing2.length ===1)) {
       return 0;
     }
@@ -267,7 +267,7 @@ const stripOrnt = function (str) {
     } else {
       rs = -1;
     }
-    console.log('file1',file1,'file2',file2,'order1',order1,'order2',order2,'rs',rs);
+  //  console.log('file1',file1,'file2',file2,'order1',order1,'order2',order2,'rs',rs);
     return rs;
 
   }
@@ -310,11 +310,12 @@ let sectionString = function (things) {
     return -1;
   }*/
   
-  
+  console.log('things unordered',things);
   if (sortByOrder) {
     things.sort(compareByOrder);
   }
- // ln = 2;
+   console.log('things ordered',things);
+// ln = 2;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];
     let tln = thing.length;

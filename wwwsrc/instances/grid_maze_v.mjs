@@ -8,7 +8,7 @@ rs.setName('grid_maze_v');
 let wd  = 200;
 let nc = 50;
 
-let topParams = {numCols:nc,numRows:1.5*nc,width:wd,height:1.5*wd,backStripeVisible:wd/100}
+let topParams = {numCols:nc,numRows:1.5*nc,width:wd,height:1.5*wd,backStripeVisible:0}
 
 Object.assign(rs,topParams);
 

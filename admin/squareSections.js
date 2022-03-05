@@ -42,7 +42,7 @@ sections: [
   //  [1000,'drop_clouds','generators',1,'Clouds',7], // HH
     [1000,'drop_horizon','generators',1,'Horizon'], //was  [1000,'drop0_3','final',1,'Horizon']
 
-    [100,'drop_starry_night','generators',1,'Starry Night',47], //  HH
+   // [100,'drop_starry_night','generators',1,'Starry Night',47], //  HH
     [1000,'grid_sphere','generators',1,'Sphere',4],
     [1000,'grid_distortion_field','generators',1,'Distortion Field',11],  // TT 
     [1000,'grid_waves','generators',1,'Waves',24], 

@@ -12,8 +12,9 @@ import {rs as addLinesMethods} from '/mlib/lines.mjs';
 let rs = basicP.instantiate();
 addLinesMethods(rs);
 rs.setName('lines_lights');
-let wd = 200;
-let topParams = {width:wd,height:wd,numLines:3000,angleMin:-90,angleMax:90}
+let wd = 130;
+let ht = 1.5*wd;
+let topParams = {width:wd,height:ht,numLines:3000,angleMin:-90,angleMax:90,backStripeColor:'rgb(2,2,2)', backStripePadding:0.17*wd,backStripeVisible:0}
 Object.assign(rs,topParams);
 
 rs.shapePairs = 
@@ -30,6 +31,7 @@ rs.initProtos = function () {
 
 rs.initialize = function () {
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
   this.initProtos();
   this.initializeLines();
 }	
