@@ -57,6 +57,7 @@ let rs = basicsP.instantiate();
 	}
 	rs.initialize = function () {
 		initProtos();
+    this.addBackStripe();
 		this.setupBoundaryRandomizer('red', {step:35,min:20,max:200});
 
 		this.initializeGrid();

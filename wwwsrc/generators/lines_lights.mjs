@@ -30,6 +30,7 @@ rs.initProtos = function () {
 
 
 rs.initialize = function () {
+debugger;
   core.root.backgroundColor = 'black';
   this.addBackStripe();
   this.initProtos();

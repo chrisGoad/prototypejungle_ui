@@ -50,6 +50,7 @@ Object.assign(rs,topParams);
 rs.initialize = function () {
  // core.root.backgroundColor = 'rgb(100,20,20)';
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
 	this.initBasis();
 	let pnts = this.genGrid(gridParams);
 	stripes[0].addWeb(pnts,this.lineP);
@@ -57,7 +58,6 @@ rs.initialize = function () {
 	stripes[2].addWeb(pnts,this.lineP);
 	stripes[3].addWeb(pnts,this.lineP2);
 	stripes[4].addWeb(pnts,this.lineP);
-	this.addBackStripe();
 	}
 
 

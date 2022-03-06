@@ -15,13 +15,15 @@ rs.setName('grid_shield');
 let opacity = 0.7;
 let r = 255;
 let b = 255;
+let fc = 0.2;
 rs.globalParams  = {	
 	widthFactor:1,
 	heightFactor:1,
 	maxSizeFactor:6,
 	sizePower:3,
 	genCircles:1,
-	sizeMap:{0:1.5,1:1,	2:0,3:3,4:4,5:1,6:0},
+	//sizeMap:{0:1.5,1:1,	2:0,3:3,4:4,5:1,6:0},
+	sizeMap:{0:fc*1.5,1:fc*1,	2:fc*2,3:fc*0,4:fc*0,5:fc*1,6:0},
 	//opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
 	opacityMap:{0:opacity,1:opacity,2:opacity,3:opacity,4:0.8,5:1,6:1},
   colorMap:{
@@ -29,7 +31,8 @@ rs.globalParams  = {
 		1: `rgba(${r},0,0,${opacity})`,
 		2: `rgba(255,255,255,${opacity})`,
 		3: `rgba(0,${b},${b},${opacity})`,
-		4: `rgba(0,0,${r},0.8)`,
+	//	4: `rgba(0,0,${r},0.8)`,
+		4: `rgba(250,0,0,0.8)`,
 		5: `rgba(250,0,0,1)`,
 		6: `rgba(${r},${r},0,1)`
 	}
@@ -48,11 +51,11 @@ let topParams = {
 	ordinalMap : {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7},
 	orderByOrdinal : 0,
 	randomizeOrder : 0,
-  pointJiggle:0,	
-  numRows : 26,
-  numCols : 26,
+  pointJiggle:5,	
+  numRows : 66,
+  numCols : 66,
   center:Point.mk(0,0),
-  rotation : 90
+  rotation : 0
 	//backgroundColor : 'black'
 }
 Object.assign(rs,topParams);
@@ -78,7 +81,8 @@ rs.initProtos = function () {
   rs.center = Point.mk(0,0);
 rs.positionFunction = rs.radialPositionFunction;
 
-rs.shapeGeneratorr = function () {
+rs.shapeGenerator = function () {
+  debugger;
   let shape =this.circleP.instantiate().show();
     this.shapes.push(shape);
     shape.dimension = 2;
@@ -88,7 +92,7 @@ rs.shapeGeneratorr = function () {
 }
 
 
-rs.boundaryLineGenerator = function (p11,p21,rvs) {
+rs.boundaryLineGeneratorr = function (p11,p21,rvs) {
   debugger;
   //let v = rvs.value;
   //let color = `rgb(${v},${v},0)`;
@@ -102,7 +106,8 @@ rs.boundaryLineGenerator = function (p11,p21,rvs) {
 
 rs.initialize = function () {
 	debugger;
-	core.root.backgroundColor = 'gray';
+	core.root.backgroundColor = 'black';
+  this.addBackStripe();
   this.initProtos();
 	this.initializeGrid();
 }

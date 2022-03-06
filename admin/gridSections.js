@@ -12,13 +12,13 @@ sections: [
 //   [110,'drop_whorls_v','instances',1,'Whorls',45], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
 
  [0,'drop_whorls','generators',1,'Whorls',45], 
- [0,'random_stripes','generators',1,'Rectangle Grid',26], 
+ [0,'random_stripes','generators',1,'Stripes 3',26], 
  [0,'grid_fade','generators',1,'Fade'], 
  [0,'grid_incoming','generators',1,'Incoming'], 
  [0,'grid_ramp','generators',1,'Ramp',14], 
  [0,'grid_superposition','generators',1,'Superposition',103], 
  [0,'grid_vortex','generators',1,'Vortex',10], 
- [0,'grid_bends','generators',1,'Enigma',10],
+ [0,'grid_enigma','generators',1,'Enigma',10],
  [0,'grid_cloudy_sky','generators',1,'Cloudy Sky',2],
  [0,'web_triangles','generators',1,'Triangles',5],
  [0,'web_spokes','generators',1,'Spokes',4],
@@ -63,15 +63,15 @@ sections: [
 	[0,'lines_2','generators','wide2','Lines 2'],
    [0,'grid_maze','generators','square','Maze',38],  // was [0,'grid0_8','final','square','Maze'],
    [0,'lines_bugeyes','generators','square','Bug Eyes',6],
-	
-   [0,'lines_lights','generators','square','Lights',12],  // was [0,'lines0_23','final','square','Lights'],
+	   [1000,'lines_lights_sq','instances','square','Lights',12],  // VV 
+
 	 [0,'grid_eye','generators',1,'Eye',34],
 	
 	 [0,'grid_3','generators','square','Grid 3'],
 	 [0,'grid_atlas','generators','wide2','Atlas',10],
 	 [0,'grid_book','generators','wide2','Book'],
 
-	 [0,'grid_smoke_2','generators','square','Smoke 2'],
+	// [0,'grid_smoke_2','generators','square','Smoke 2'],
 	 [0,'grid_signals','generators','square','Signals',18],
 	 [0,'grid_beacons','generators','square','Beacons'],
 		 [0,'grid_decos','generators','square','Deco'],
@@ -79,7 +79,7 @@ sections: [
 		
 				 	[0,'grid_tracks','generators',0,'Tracks'],
 		   [0,'grid_4','generators','square','Grid 4'],// was [0,'grid_0_5','final','square','Grid 4']
-	[0,'spatter_spatter','generators','square','Spatter'],
+//	[0,'spatter_spatter','generators','square','Spatter'],
 		 	[0,'grid_void','generators','wide1','Void',100], // was [0,'grid0_8_18','final','wide1','Void'], 
       
 ],

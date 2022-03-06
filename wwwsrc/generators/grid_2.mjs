@@ -19,7 +19,13 @@ let rs = basicsP.instantiate();
 	rs.saveImage = true;
 	rs.setName('grid_2');
   rs.loadFromPath = 0;
-	
+
+
+let wd = 300;
+let nr= 40
+let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,backgroundColor:'rgb(200,0,0)'};
+Object.assign(rs,topParams);
+
   
 rs.initProtos = function () {
 	core.assignPrototypes(this,'lineP',linePP);
@@ -84,11 +90,14 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
 
 rs.initialize = function () {
 	this.initProtos();
+    this.addBackStripe();
+    this.addBackground();
   core.root.backgroundColor = 'black';
-	let numRows = this.numRows= 41;
+  let {numRows,numCols} = this;
+	/*let numRows = this.numRows= 41;
 	let numCols = this.numCols = 41;
 	this.width = 300;
-	this.height = 300;
+	this.height = 300;*/
 	let deltaX = this.deltaX = this.numCols/this.width;
 	let deltaY = this.deltaY = this.numRows/this.height;
 	let fc = 5;

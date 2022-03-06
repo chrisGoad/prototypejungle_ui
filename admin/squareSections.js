@@ -8,10 +8,10 @@ sections: [
  //[1000,'grid_grid_1_i_3_g_1','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
  //[1000,'grid_grid_1_i_3','instances',1,'Grid 5'], // was ['grid0_46','final',1,'Cloudy Sky'],
  [120,'drop_whorls_sq','instances',1,'Whorls',45], // HH VV
- [220,'random_stripes_sq','instances',1,'Rectangle Grid',26], 
+ [220,'random_stripes_sq','instances',1,'Stripes 3',26], 
  [1000,'grid_fade','generators',1,'Fade'], // HH VV
  [1000,'grid_incoming','generators',1,'Incoming'], 
- [1000,'grid_ramp_sq','instances',1,'Ramp',14], // HH VV
+ [1000,'grid_ramp','instances',1,'Ramp',14], // HH VV
  [30,'grid_superposition','generators',1,'Superposition',103], // HH VV
  [1000,'grid_vortex','generators',1,'Vortex',10], // HH VV
  [1000,'grid_enigma','generators',1,'Enigma',10], // HH VV
@@ -75,14 +75,14 @@ sections: [
 //	[1000,'lines_2','generators','wide2','Lines 2'], // HH
    [160,'grid_maze','generators','square','Maze',38],  
   // [1000,'lines_bugeyes','generators','square','Bug Eyes',6], // HH
-	
-  // [1000,'lines_lights','generators','square','Lights',12],  // VV 
+
+   [1000,'lines_lights_sq','instances','square','Lights',12],  // VV 
 	 [170,'grid_eye','generators',1,'Eye',34], // TT
 	
 	 [1000,'grid_3','generators','square','Grid 3'],
 	
 
-	 [1000,'grid_smoke_2','generators','square','Smoke 2'],
+//	 [1000,'grid_smoke_2','generators','square','Smoke 2'],
 	 [250,'grid_signals','generators','square','Signals',18],// HH VV
 	 [1000,'grid_beacons','generators','square','Beacons'],
 		// [1000,'grid_decos','generators','square','Deco'], moved to altSections

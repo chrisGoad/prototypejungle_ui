@@ -98,14 +98,15 @@ rs.initialize = function () {
   debugger;
  // core.root.backgroundColor = 'blue';
   let {focalPoint,focalLength,cameraScaling} = this.grid1;
- this.grid1.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
- this.grid2.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
+  this.addBackStripe();
+
+  this.grid1.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
+  this.grid2.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
 
   this.grid1.initProtos();
   this.grid1.initializeGrid();
   this.grid2.initProtos();
   this.grid2.initializeGrid();  
-  this.addBackStripe();
 }
 export {rs};
 

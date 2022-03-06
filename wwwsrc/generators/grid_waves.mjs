@@ -59,6 +59,7 @@ rs.initialize = function () {
   debugger;
   this.initProtos();
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
 	let rmin = 0;
 	let rmax = 50;
 	let rstep = 15;

@@ -82,6 +82,7 @@ rs.shapeGenerator = function (rvs,cell,cnt) {
 rs.initialize = function (cb) {
 	let {focalPoint,focalLength,cameraScaling} = this;
 	let {width,height,numRows,numCols} = this;
+  this.addBackStripe();
 	this.deltaX = width/numCols;
   this.deltaY = height/numRows;
 	this.initProtos();

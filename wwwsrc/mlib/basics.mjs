@@ -82,6 +82,7 @@ item.addBackStripe = function () {
 	this.backStripeRectP.fill = 'transparent';*/
   //let bkr = this.set('brect',this.backStripeRectP.instantiate());
   let bkr = this.set('brect',rectPP.instantiate());
+  bkr.fill = 'transparent';
 	if (backStripeVisible) {
 		bkr['stroke-width'] = backStripeVisible;
 		bkr.stroke = 'white';
@@ -115,6 +116,7 @@ item.addBackStripe = function () {
 
 item.addBackground = function () {
 	let {backgroundColor:bkc,width,height,backgroundPadding:bkp=0} =  this;
+  debugger;
 	if (!bkc) {
 		return;
 	}
