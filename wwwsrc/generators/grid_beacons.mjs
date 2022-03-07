@@ -36,6 +36,7 @@ rs.shapeGenerator = function (rvs,cell) {
 }
 
 rs.initialize = function () {
+this.addBackStripe();
   this.initProtos();
   this.initializeGrid();
 }

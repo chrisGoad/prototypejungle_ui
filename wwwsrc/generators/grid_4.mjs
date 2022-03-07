@@ -109,6 +109,7 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
 rs.initialize = function () {
   let {numRows,numCols} = this;
   core.root.backgroundColor = 'black';
+  this.addBackStripe();
   this.initProtos();
 	this.setupBoundaryRandomizer('color', {step:35,min:150,max:250,biasFun,numRows,numCols});
   this.initializeGrid();

@@ -50,15 +50,13 @@ sections: [
             		[0,'grid_tube_v','instances','square','Tube',10],
    [0,'grid_1_v','instances','square','Grid 1'],
    	[0,'grid_2_v','instances','square','Grid 2'],
+    	[0,'lines_2_v','instances','wide2','Lines 2'],
+      	 [0,'grid_3_v','instances','square','Grid 3'],
+         	 [0,'grid_beacons_v','instances','square','Beacons'],
+           				 	[0,'grid_tracks_v','instances',0,'Tracks'],
+                    	[0,'grid_4_v','instances','square','Grid 4'],
+]
 
-
-
-
-
-
-
-
-],
 /* animations 
 [
    ['zigzag3_3.mp4','gen2','wide2'],
