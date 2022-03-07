@@ -268,6 +268,19 @@ item.saveTheState = function (cb) {
   }
 }
 
+item.horizontalize = function (p,noFrame) {
+  if (p.width) {
+    this.height = p.width;
+    this.width = p.height;
+  }
+  this.backStripeWidth = p.backStripeHeight;
+  this.backStripeHeight = p.backStripeWidth;
+  if (noFrame) {
+    this.backStripeVisible =0;
+  }
+  debugger;
+}
+
 }
 export {rs};
  

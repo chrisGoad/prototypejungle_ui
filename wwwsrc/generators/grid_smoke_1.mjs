@@ -51,6 +51,7 @@ rs.shapeGenerator = function (rvs) {
 
 rs.initialize = function () {
   let {numRows,numCols } = this;
+  this.addBackStripe();
 	this.initProtos();
 	let rnp = {correlated:true};
 	const walkParams = function (i,j) {

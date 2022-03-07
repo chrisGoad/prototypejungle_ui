@@ -59,7 +59,7 @@ rs.shapeGenerator = function (rvs,cell) {
 		
 rs.initialize = function () {
 	core.root.backgroundColor = 'black';
-  this.addBackStripe();
+  this.addBackStripe();	
 	this.initProtos();
 	this.initializeGrid();
 }

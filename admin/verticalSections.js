@@ -40,6 +40,7 @@ sections: [
     [270,'grid_mat_v','instances',1,'Mat',27], 
     [80,'grid_world_v','instances',1,'World',27], 
   [0,'drop_metal_2_v','instances',1,'Metal 2'], // was [0,'drop0_5','final',1,'Metal 2'],
+	[0,'grid_cloudy_sky_v','instances',1,'Cloudy Sky',2],
 
     [0,'grid_bump_v','instances',1,'Bump'],
     [0,'grid_waves_v','instances',1,'Waves',24], //was [0,'grid0_16_1','final',1,'Waves'

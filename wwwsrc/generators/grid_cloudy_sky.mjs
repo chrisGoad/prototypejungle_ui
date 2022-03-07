@@ -36,6 +36,7 @@ rs.shapeGenerator = function (rvs,cell) {
 
 rs.initialize = function () {
   this.initProtos();
+  this.addBackStripe();
   this.addBackground();
   this.setupShapeRandomizer('level', {step:30,min:0,max:255});
   this.initializeGrid(); 

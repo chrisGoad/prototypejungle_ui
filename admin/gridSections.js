@@ -22,7 +22,7 @@ sections: [
  [0,'grid_cloudy_sky','generators',1,'Cloudy Sky',2],
  [0,'web_triangles','generators',1,'Triangles',5],
  [0,'web_spokes','generators',1,'Spokes',4],
-  [0,'web_stripes_2','generators',1,'Stripes 2'],
+  //[0,'web_stripes_2','generators',1,'Stripes 2'],
   [0,'web_stripes_1','generators',1,'Stripes 1',10],
   [0,'web_diamond','generators',1,'Diamond',137],
    [0,'drop_iris','generators',1,'Iris'], //was [0,'drop0_1_27','final',1,'Iris'],
@@ -37,7 +37,7 @@ sections: [
 	    [0,'drop_ice','generators',1,'Ice',44], // was   [0,'drop0_0','final',1,'Ice'],
     [0,'grid_bump','generators',1,'Bump'],
     [0,'drop_clouds','generators',1,'Clouds',7], // was [0,'drop0_0_1','final',1,'Clouds'],
-    [0,'drop_horizon','generators',1,'Horizon'], //was  [0,'drop0_3','final',1,'Horizon']
+[0,'drop_horizon','generators',1,'Horizon'], //was  [0,'drop0_3','final',1,'Horizon']
     [0,'drop_starry_night','generators',1,'Starry Night',47], // was [0,'drop0__13','final',1,'Starry Night']
    [0,'grid_sphere','generators',1,'Sphere',4],
     [0,'grid_distortion_field','generators',1,'Distortion Field',11],  // was [0,'grid0_28','final',1,'Distortion Field'],

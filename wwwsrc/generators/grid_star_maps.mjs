@@ -10,9 +10,12 @@ grid0.spacing = 3
 grid0.chance = 0.02;
 grid1.spacing = 5;
 grid1.chance = 0.02;
+let ht  = 1.3*200;
+let topParams = {backStripeVisible:0,backStripeWidth:1.5*1.2*ht,backStripeHeight:1.2*ht}
+Object.assign(rs,topParams);
 
 	rs.initialize = function () {
-    debugger
+    debugger;
     this.addBackStripe();
 		grid0.initialize();
 		grid1.initialize();
