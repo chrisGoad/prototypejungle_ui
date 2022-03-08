@@ -40,6 +40,7 @@ sections: [
 [0,'drop_horizon_h','instances',1,'Horizon'], //was  [0,'drop0_3','final',1,'Horizon']
   [0,'drop_metal_2_h','instances',1,'Metal 2'], // was [0,'drop0_5','final',1,'Metal 2'],
 	[0,'grid_cloudy_sky_h','instances',1,'Cloudy Sky',2],
+	[0,'grid_tracks_h','instances',1,'Tracks',2],
 
 
 

@@ -19,12 +19,12 @@ let stripes = rs.set('stripes',svg.Element.mk('<g/>'));
 rs.setName('web_spokes');
 
 let wd= 2000;
-let ht = 0.04*wd; // height  of stripes
+let ht = 0.02*wd; // height  of stripes
 let sep = 0.4*wd; // separation between stripes
 
 let  webParams = {minConnectorLength:0.5*ht,maxConnectorLength:2.2*ht,maxRingConnectorLength:3.2*sep,webTries:100};
 let  topParams = {width:wd,height:ht,backStripeColor:'rgb(2,2,2)',backStripeWidth:1.5*wd,backStripeHeight:1.5*wd,backStripeVisible:0};
-let  gridParams = {initialPos:Point.mk(-0.0*wd,0),initialDirection:0,width:ht,step:0.01*wd,delta:0.02*Math.PI,numSteps:70};
+let  gridParams = {initialPos:Point.mk(-0.0*wd,0),initialDirection:0,width:ht,step:0.007*wd,delta:0.02*Math.PI,numSteps:70};
 
 
 Object.assign(WebP,webParams);

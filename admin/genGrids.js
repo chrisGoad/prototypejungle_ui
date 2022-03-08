@@ -44,6 +44,7 @@ if (byLikes) {
   sectionsPath = './gridSections.js';
 } else if (alternate) {
   sectionsPath = './altSections.js';
+  imKind = 'alt';
 } else if (byKind) {
   sectionsPath = './byKindSections.js';
 } else if (byAspect) {
@@ -87,6 +88,11 @@ if (byLikes) {
 } else {
   sectionsPath = './gridSections.js';
 }
+ pagesPath = `www/${imKind}Pages.js`;
+  pagesVar = `${imKind}Pages`;
+  titlesPath = `www/${imKind}Titles.js`;
+  titlesVar = `${imKind}Titles`;
+ console.log('pagesPath',pagesPath)
 let outPath;
 if (alternate) {
   outPath = 'www/altGrids.html';
@@ -374,7 +380,7 @@ const sectionsString = function (sections) {
 }
 const writeThePages = function () {
 	let js = `let ${pagesVar}= ${JSON.stringify(thePages)};`;
-  console.log('writeThePages',js,pagesPath);
+  console.log('writeThePagess',js,pagesVar,pagesPath);
 	fs.writeFileSync(pagesPath,js);
 	//fs.writeFileSync(alternate?'www/altPages.js':(byKind?'www/byKindPages.js':'www/thePages.js'),js);
 }

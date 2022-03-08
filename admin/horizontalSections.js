@@ -41,7 +41,40 @@ sections: [
     [210,'drop_arrows_h','instances',1,'Arrows',27],  //was [1000,'drop0_1_21','final',1,'Leaves']
     [270,'grid_mat_h','instances',1,'Mat',27], 
     [80,'grid_world_h','instances',1,'World',27], 
+    		 	[50,'grid_void_h','instances','wide1','Void',100], // was [1000,'grid0_8_18','final','wide1','Void'], 
 
+  	 [0,'grid_eye_h','instances',1,'Eye',34],
+        [0,'grid_distortion_field_h','instances',1,'Distortion Field',11],  // was [0,'grid0_28','final',1,'Distortion Field'],
+	 [1000,'lines_lights_h','instances','square','Lights',12],  // VV 
+  [0,'web_stripes_1_h','instances',1,'Stripes 1',10],
+ 		 [0,'grid_quilt_1_h','instances','square','Quilt 1',23],
+ [0,'web_triangles_h','instances',1,'Triangles',5],
+ [0,'web_spokes_h','instances',1,'Spokes',4],
+    [0,'grid_sphere_h','instances',1,'Sphere',4],
+	[0,'grid_cloudy_sky_h','instances',1,'Cloudy Sky',2],
+   [0,'grid_incoming_h','instances',1,'Incoming'], 
+
+  [0,'drop_metal_2_h','instances',1,'Metal 2'], // was [0,'drop0_5','final',1,'Metal 2'],
+    [0,'grid_bump_h','instances',1,'Bump'],
+    [0,'drop_horizon_h','instances',1,'Horizon'], //was  [0,'drop0_3','final',1,'Horizon']
+             [0,'grid_waves_h','instances',1,'Waves',24], //was [0,'grid0_16_1','final',1,'Waves'
+    	 [0,'grid_shield_h','instances','square','Shield'],
+        [0,'grid_smoke_1_h','instances','square','Smoke 1'],
+
+       	 [0,'grid_quilt_3_h','instances','square','Quilt 3',45],
+       	// [0,'grid_quilt_1_h','instances','square','Quilt 1',45],
+
+	[0,'grid_metal_h','instances','square','Metal'],
+              		[0,'grid_tube_h','instances','square','Tube',10],
+
+[0,'grid_1_h','instances','square','Grid 1'],
+   	[0,'grid_2_h','instances','square','Grid 2'],
+      	 [0,'grid_3_h','instances','square','Grid 3'],
+  [0,'grid_beacons_h','instances','square','Beacons'],
+      				[0,'grid_star_maps','generators','wide2','Star Maps',2],  // HH
+
+	[0,'grid_tracks_h','instances',1,'Tracks',2],
+  		   [0,'grid_4_h','instances','square','Grid 4'],// was [0,'grid_0_5','final','square','Grid 4'],
 
 ],
 /* animations 

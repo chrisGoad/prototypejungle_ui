@@ -6,7 +6,7 @@ sections: [
 [
 //['Square'],
 // [0,'grid_grid_1_i_3',4,'instances',1,'Grid 5'], 
- [0,'grid_grid_1_i_3_v_4','instances',1,'Grid 5'], 
+//// [0,'grid_grid_1_i_3_v_4','instances',1,'Grid 5'], 
 // [0,'grid_grid_1_i_3_g_1','instances',1,'Grid 5'], 
 // [0,'grid_grid_1_i_3','instances',1,'Grid 5'], 
 //   [110,'drop_whorls_v','instances',1,'Whorls',45], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
@@ -52,7 +52,7 @@ sections: [
 	[0,'grid_mat','generators','square','Mat',17],
 		[0,'grid_smoke_1','generators','square','Smoke 1'],
 	[0,'grid_cloth','generators','square','Cloth',54],
-	 [0,'grid_quilt_2','generators','square','Quilt 2',19],
+	// [0,'grid_quilt_2','generators','square','Quilt 2',19],
 	 [0,'grid_two_quilts','generators','square','Two Quilts'],
 	 [0,'grid_quilt_3','generators','square','Quilt 3',45],
 	 	[0,'grid_metal','generators','square','Metal'],
@@ -74,7 +74,7 @@ sections: [
 	// [0,'grid_smoke_2','generators','square','Smoke 2'],
 	 [0,'grid_signals','generators','square','Signals',18],
 	 [0,'grid_beacons','generators','square','Beacons'],
-		 [0,'grid_decos','generators','square','Deco'],
+	//	 [0,'grid_decos','generators','square','Deco'],
 				[0,'grid_star_maps','generators','wide2','Star Maps',2],
 		
 				 	[0,'grid_tracks','generators',0,'Tracks'],

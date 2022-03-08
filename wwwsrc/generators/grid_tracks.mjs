@@ -27,10 +27,12 @@ let topParams = {backgoundColor:'black',numRows:nr,numCols:nr,width:wd,height:wd
 Object.assign(rs,topParams);
 
 rs.boundaryLineGenerator = function (p11,p21,rvs) {
+  let {blineP,lines} = this;
   let line = this.blineP.instantiate().show();
   line.setEnds(p11,p21);
   line.stroke = 'white';
-  return line
+  lines.push(line);
+  return line;
 }
 
 
@@ -44,6 +46,7 @@ rs.regionLineGenerator = function (p11,p21,rvs) {
 }
   rs.initialize = function () {
      this.initProtos()
+     this.addBackStripe();
 		 this.setupBoundaryRandomizer('value', {step:50,min:100,max:255});
      this.initializeGrid();
   }

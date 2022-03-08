@@ -72,6 +72,7 @@ rs.initProtos = function () {
 rs.initialize = function () {
  let {focalPoint,focalLength,cameraScaling} = this;
  this.initProtos();
+ this.addBackStripe();
  core.root.backgroundColor = 'black';
  this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
   this.initializeGrid();

@@ -86,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (imKind === 'sq') {
     thePages = sqPages;
     theTitles = sqTitles;
+  } else if (imKind === 'alt') {
+    thePages = altPages;
+    theTitles = altTitles;
   }
 	//lastPage = getArgs.lastPage;
 	let title = theTitles[cPage];

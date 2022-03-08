@@ -462,8 +462,7 @@ xferFile(0,0,'topdefs.js');//ok
     
     
     
-    xferFiles(1,0,'doc/','.html',["code","inherit","about",'toc','privacy','tech']);
- //  xferFiles(0,0,'doc/','.html',["code","inherit","about",'toc','privacy']);
+   // xferFiles(0,0,'doc/','.html',["code","inherit","about",'toc','privacy','tech']);
   xferFile(0,0,'style.css');
   xferFile(1,0,'style.css');
     xferFile(1,1,'spectrum.css');
@@ -479,10 +478,10 @@ xferFile(0,0,'style.css');
                         'datad','text','textd','catalog','coreExamples',"stripe","accounts","familyTree",
                        'image','sign_in','register','password','password_register','account','donate','programming','chooser','beta','boxGallery']);
   xferFiles(0,0,'','.html',['index','index','sindex','index_alt1','index_alt2','ops']);
-   xferFiles(0,0,'doc/','.html',['swap','pswap','about','pidea','ui_and_api']);
+   //xferFiles(0,0,'doc/','.html',['swap','pswap','about','pidea','ui_and_api']);
 
-xferFiles(1,0,'doc/','.html',["code","choosedoc","prototypetree","about","persistence",
-                            "inherit","deepPrototypes","tech","privacy","toc"]);
+//xferFiles(1,0,'doc/','.html',["code","choosedoc","prototypetree","about","persistence",
+//                            "inherit","deepPrototypes","tech","privacy","toc"]);
   xferFiles(0,0,'intro/','.html',['mainIntro','animate','kit','files','tutorial_index','swap','swapPart','intro','tree','insert','exercise','familyTree',
                               'network_main','connect','cayley',"basic_ops","properties","data","prototypes","separate","variant","wrap","share",
                               'textbox','copy','catalog',,'image','diagrams','diagrams_main',"network",'details','cohorts','code_intro']);
