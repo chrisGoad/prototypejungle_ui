@@ -6,9 +6,9 @@ let rs = generatorP;//.instantiate();
 
 rs.setName('web_spokes_v');
 
-let wd = 3000;
+let wd = 2000;
 
-let topParams = {saveState:0,backStripeWidth:1.2*wd,backStripeHeight:1.5*1.2*wd,backStripeVisible:wd/100,backStripePaddingg:0.1*wd,}
+let topParams = {saveState:0,backStripeWidth:1.2*wd,backStripeHeight:1.5*1.2*wd,backStripeVisible:wd/100,backStripePaddingg:0.1*wd,step:0.02*wd}
 
 Object.assign(rs,topParams);
 

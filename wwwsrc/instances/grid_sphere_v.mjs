@@ -6,7 +6,7 @@ let rs = generatorP;//.instantiate();
 
 rs.setName('grid_sphere_v');
 
-let wd = 50;
+let wd = 1200;
 
 let topParams = {saveState:0,backStripeWidth:1.2*wd,backStripeHeight:1.5*1.2*wd,backStripeVisible:wd/100}
 

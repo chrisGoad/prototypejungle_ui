@@ -59,9 +59,9 @@ sections: [
 	[260,'grid_mat','generators','square','Mat',17], //TT
 		[1000,'grid_smoke_1','generators','square','Smoke 1'],
 	[90,'grid_cloth','generators','square','Cloth',54], // HH VV
-	
+		[0,'lines_2','generators','wide2','Lines 2'],
 
-	 [240,'grid_quilt_2','generators','square','Quilt 2',19], // TT
+	// [240,'grid_quilt_2','generators','square','Quilt 2',19], // TT
 //	 [1000,'grid_two_quilts','generators','square','Two Quilts'], // HH
 	 [130,'grid_quilt_3','generators','square','Quilt 3',45],
 

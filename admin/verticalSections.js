@@ -55,7 +55,13 @@ sections: [
       	 [0,'grid_3_v','instances','square','Grid 3'],
          	 [0,'grid_beacons_v','instances','square','Beacons'],
            				 	[0,'grid_tracks_v','instances',0,'Tracks'],
-                    	[0,'grid_4_v','instances','square','Grid 4'],
+                    	[0,'grid_4_v','instances','square','Grid 4'], 	
+          [0,'grid_quilt_1_v','instances','square','Quilt 1',23],
+
+            [0,'web_spokes_v','instances',1,'Spokes',4],
+                [0,'grid_sphere_v','instances',1,'Sphere',4],
+
+
 ]
 
 /* animations 
