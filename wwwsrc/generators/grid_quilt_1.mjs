@@ -66,6 +66,8 @@ rs.initProtos = function () {
 
 
 rs.initialize = function () {
+debugger;
+   this.addBackStripe();
   this.initProtos();
   core.root.backgroundColor = 'black';
   this.initializeGrid();

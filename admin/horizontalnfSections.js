@@ -19,7 +19,7 @@ sections: [
 	    [140,'drop_ice_h','instances',1,'Ice',44], // was   [1000,'drop0_0','final',1,'Ice'],
   	    [160,'grid_maze_h','instances',1,'Maze'], // was   [1000,'drop0_0','final',1,'Ice'],
   	    [90,'grid_cloth_h','instances',1,'Cloth'], // was   [1000,'drop0_0','final',1,'Ice'],
- [220,'random_stripes_h','instances',1,'Rectangle Grid',26], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
+ [220,'random_stripes_h','instances',1,'Stripes 3',26], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
 
 [7,'grid_fade_h','instances','square','Fade',500], 
  [250,'grid_signals_h','instances','square','Signals',74], 
@@ -34,6 +34,7 @@ sections: [
   [0,'grid_metal_h','instances','square','Metal'],
 
        	 [0,'grid_quilt_3_h','instances','square','Quilt 3',45],
+       	 [0,'grid_quilt_1_h','instances','square','Quilt 1',45],
                 [0,'grid_smoke_1_h','instances','square','Smoke 1'],
          [0,'grid_waves_h','instances',1,'Waves',24], //was [0,'grid0_16_1','final',1,'Waves'
 [0,'drop_horizon_h','instances',1,'Horizon'], //was  [0,'drop0_3','final',1,'Horizon']
