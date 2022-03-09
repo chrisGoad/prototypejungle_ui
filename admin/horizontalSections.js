@@ -68,7 +68,7 @@ sections: [
               		[0,'grid_tube_h','instances','square','Tube',10],
 
 [0,'grid_1_h','instances','square','Grid 1'],
-   	[0,'grid_2_h','instances','square','Grid 2'],
+   	[0,'grid_2_h','instances','square','Droplets'],
       	 [0,'grid_3_h','instances','square','Grid 3'],
   [0,'grid_beacons_h','instances','square','Beacons'],
       				[0,'grid_star_maps','generators','wide2','Star Maps',2],  // HH

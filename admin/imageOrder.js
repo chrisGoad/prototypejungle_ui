@@ -8,6 +8,7 @@ module.exports = [
 [50,'grid_void'],
  [60,'drop_dandelion'],
  [70,'spatter_variants'],
+   [75,'grid_2'],
  [80,'grid_world'],
    [90,'grid_cloth'],
    [100,'drop_starry_night'],
@@ -57,7 +58,7 @@ module.exports = [
         [450,'grid_metal'],
         [460,'grid_tube'],
         [470,'grid_1'],
-        [480,'grid_2'],
+      
         [490,'lines_2'],
         [500,'grid_3'],
         [510,'grid_book'],

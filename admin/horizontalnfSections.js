@@ -30,7 +30,7 @@ sections: [
 
   		   [0,'grid_4_h','instances','square','Grid 4'],// was [0,'grid_0_5','final','square','Grid 4'],
          	 [0,'grid_3_h','instances','square','Grid 3'],
-              	[0,'grid_2_h','instances','square','Grid 2'],
+              	[0,'grid_2_h','instances','square','Droplets'],
   [0,'grid_metal_h','instances','square','Metal'],
 
        	 [0,'grid_quilt_3_h','instances','square','Quilt 3',45],

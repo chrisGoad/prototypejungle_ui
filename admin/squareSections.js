@@ -18,7 +18,7 @@ sections: [
  [1000,'grid_cloudy_sky','generators',1,'Cloudy Sky',2], 
  [1000,'web_triangles','generators',1,'Triangles',5],
  [1000,'web_spokes','generators',1,'Spokes',4],
-  [1000,'web_stripes_2','generators',1,'Stripes 2'],
+  //[1000,'web_stripes_2','generators',1,'Stripes 2'],
   [1000,'web_stripes_1','generators',1,'Stripes 1',10],
   [20,'web_diamond','generators',1,'Diamond',137], // HH VV
 
@@ -70,7 +70,7 @@ sections: [
 	 	[1000,'grid_metal','generators','square','Metal'], //TT
 		[1000,'grid_tube','generators','square','Tube',10],
 	[1000,'grid_1','generators','square','Grid 1'],
-	[1000,'grid_2','generators','square','Grid 2'],
+	[1000,'grid_2','generators','square','Droplets'],
 	
 //	[1000,'lines_2','generators','wide2','Lines 2'], // HH
    [160,'grid_maze','generators','square','Maze',38],  

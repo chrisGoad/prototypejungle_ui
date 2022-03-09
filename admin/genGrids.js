@@ -31,7 +31,7 @@ let horizontal = kind === 'horizontal';
 let horizontalnf = kind === 'horizontalnf'; // horizontal no frame
 let square = kind === 'square';
 
-console.log('sortByOrder',sortByOrder,'forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed,'horizontalnf',horizontalnf);
+console.log('kind','['+kind+']','sortByOrder',sortByOrder,'forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed,'horizontal',horizontal,'horizontalnf',horizontalnf);
 //return;
 //let alternate = 0;
 let sectionsPath;
@@ -58,7 +58,10 @@ if (byLikes) {
   titlesPath = 'www/vTitles.js';
   titlesVar = 'vTitles';
 } else if (horizontal) {
+
   signed = 0;
+    console.log('HORIZONTAL');
+
   imKind = 'h';
   sectionsPath = './horizontalSections.js';
   pagesPath = 'www/hPages.js';
@@ -67,7 +70,7 @@ if (byLikes) {
   titlesVar = 'hTitles';
 
 } else if (horizontalnf) {
-  signed = 0;
+  console.log('HORIZONTALNF');
   imKind = 'hnf';
   sectionsPath = './horizontalnfSections.js';
   pagesPath = 'www/hnfPages.js';
@@ -88,6 +91,7 @@ if (byLikes) {
 } else {
   sectionsPath = './gridSections.js';
 }
+
  pagesPath = `www/${imKind}Pages.js`;
   pagesVar = `${imKind}Pages`;
   titlesPath = `www/${imKind}Titles.js`;
@@ -213,12 +217,12 @@ const thingString = function (order,ix,variant,dir,useThumb,ititle,likes) {
   let likesStr = `<span style="font-size:10pt">Likes ${likes?likes:'none'} Order ${order}</span><br/>`;
 	if (forKOP) {
 		let titleLink = title?`${astart}${title}</a></p>`:'';
-		//console.log('titleLink',titleLink);
+		console.log('forKOP');
 rs = `<div><p class="centered">${titleLink}
 <p class="centered">${astart}<img width="200" src="${thumbsrc}" alt="Image Missing"></a></p></div>
 	`; 
 	} else {
-		
+		console.log('not for KOP');
 rs = `<div><p style="text-align:center"><a href="http://localhost:8081/draw.html?source=/${dir}/${path}.${fileExt}${theImageArg}">${title}</a><br/>
 <a href="${dir}/${path}.${fileExt}">source</a><br/>
 ${likesStr}
@@ -316,11 +320,11 @@ let sectionString = function (things) {
     return -1;
   }*/
   
-  console.log('things unordered',things);
+  //console.log('things unordered',things);
   if (sortByOrder) {
     things.sort(compareByOrder);
   }
-   console.log('things ordered',things);
+  // console.log('things ordered',things);
 // ln = 2;
 	for (let i=0;i<ln;i++) {
 		let thing = things[i];

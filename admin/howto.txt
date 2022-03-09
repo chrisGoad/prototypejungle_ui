@@ -5,7 +5,7 @@ node admin/update
 node admin/genGrids forKop alternate byKind byLikes vertical horizontal
 node admin/updateKOP transferMedia
 
-
+npm i -g firebase-tools
 suffixes for source files
  _v vertical with stripes
  _h horizontal with stripes

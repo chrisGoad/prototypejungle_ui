@@ -58,7 +58,7 @@ sections: [
 	 	[0,'grid_metal','generators','square','Metal'],
 		[0,'grid_tube','generators','square','Tube',10],
 	[0,'grid_1','generators','square','Grid 1'],
-	[0,'grid_2','generators','square','Grid 2'],
+	[0,'grid_2','generators','square','Droplets'],
 	
 	[0,'lines_2','generators','wide2','Lines 2'],
    [0,'grid_maze','generators','square','Maze',38],  // was [0,'grid0_8','final','square','Maze'],

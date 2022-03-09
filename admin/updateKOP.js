@@ -122,7 +122,7 @@ const afterLastChar = function (string,chr,strict) {
   'square.html','sqPages.js','sqTitles.js',
   'horizontal.html','hPages.js','hTitles.js',
   'vertical.html','vPages.js','vTitles.js',
-  'horizontalnf.html','hnfPages.js','hnfTitles.js'
+  'horizontalnf.html','hnfPages.js','hnfTitles.js','altPages.js','altTitles.js'
   ],
   dstd);
 	xfer('pageSupport.js','pageSupport.js');

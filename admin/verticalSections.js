@@ -5,7 +5,7 @@ sections: [
 
 [
 
-	 [1000,'lines_lights_v','instances','square','Lights',12],  // VV 
+	 [1000,'lines_lights','instances','square','Lights',12],  // VV 
    [110,'drop_whorls_v','instances',1,'Whorls',45], // was [1000,'grid0_46','final',1,'Cloudy Sky'],
    [150,'drop_iris_v','instances',1,'Iris',44], //was [1000,'drop0_1_27','final',1,'Iris'],
    [60,'drop_dandelion_v','instances',1,'Dandelion'], //was [1000,'drop0_1_27','final',1,'Iris'],
@@ -50,7 +50,7 @@ sections: [
          	 	[0,'grid_metal_v','instances','square','Metal'],
             		[0,'grid_tube_v','instances','square','Tube',10],
    [0,'grid_1_v','instances','square','Grid 1'],
-   	[0,'grid_2_v','instances','square','Grid 2'],
+   	[0,'grid_2_v','instances','square','Droplets'],
     	[0,'lines_2_v','instances','wide2','Lines 2'],
       	 [0,'grid_3_v','instances','square','Grid 3'],
          	 [0,'grid_beacons_v','instances','square','Beacons'],
