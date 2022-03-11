@@ -93,7 +93,7 @@ if (byLikes) {
   sectionsPath = './gridSections.js';
   imKind = 'g'
 } else {
-  console.log("unrecognized kind", kind);
+  console.log("unrecognized kind ","'"+kind+"'");
   return;
 }
 
@@ -163,6 +163,19 @@ let pageTop = `
       font-style:italic;
       font-weight:bold;
      }
+    .introLineLarge {
+      text-align:center;
+      padding-bottom:10px;
+      padding-top:10px;
+      font-size:16pt;
+    }
+     .introLineSmall {
+      text-align:center;
+      padding-bottom:5px;
+      padding-top:5px;
+      font-size:10pt;
+    }
+      
   </style>
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -173,20 +186,40 @@ let pageTop = `
 `;
 
 
-let pageIntro = 
-`<p style="text-align:center;padding-bottom:0px;padding-top:10px">Kingdom of Pattern</p>
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">Theory <a style="color:white;text-decoration:underline" href="essay.html">[here]</a>
+let pageIntro;
+if (imKind === 'g') {
+pageIntro = 
+`
+<p class="introLineLarge">Kingdom of Pattern</p>
+<p class="introLineLarge">Theory <a style="color:white;text-decoration:underline" href="essay.html">[here]</a>
  and Practice (below). </p>
 
-<p  style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">As you will see from <a style="color:white;text-decoration:underline" href="essay.html">theory</a>, the phrase "Kingdom of Pattern" is not a claim to grandeur.</p>
-<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">Images by Chris Goad (via JavaScript)</p>
+<p  class="introLineSmall">As you will see from <a style="color:white;text-decoration:underline" href="essay.html">theory</a>, the phrase "Kingdom of Pattern" is not a claim to grandeur.</p>
+<p class="introLineSmall">Images by Chris Goad (via JavaScript)</p>
 
-<p style="text-align:center;font-size:10pt;padding-bottom:0px;padding-top:10px">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</p>
+<p class="introLineSmall">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</p>
 
 
-<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>
-`
-
+<p class="introLineSmall">To Expand the Images Below, Click on Them</p>
+`} else if (imKind === 'h') {
+pageIntro = 
+`<p class="introLineLarge">Landscape  Posters (3 to 2 ratio of width to height).</p>
+<p class="introLineSmall">A white frame is shown when necessary to indicate the extent of the poster.</p>
+`;
+}  else if (imKind === 'hnf') {
+pageIntro = 
+`<p class="introLineLarge">Landscape  Prints (3 to 2 ratio of width to height).</p>
+`;
+} else if (imKind === 'sq') {
+pageIntro = 
+`<p class="introLineLarge">Square Prints</p>
+`;
+}  else if (imKind === 'v') {
+pageIntro = 
+`<p class="introLineLarge">Portrait (3 to 2 ratio of height to width)  Posters.</p>
+<p class="introLineSmall">A white frame is shown when necessary to indicate the extent of the poster.</p>
+`;
+}
 let pageScript = 
 `<script>
 document.addEventListener('DOMContentLoaded', () => {
