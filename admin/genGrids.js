@@ -164,17 +164,25 @@ let pageTop = `
 <link rel="manifest" href="/site.webmanifest">
 </head>
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
-
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">What is the Kingdom of Pattern? <a style="color:white;text-decoration:underline" href="essay.html">A Brief Phenomenological Investigation.</a></p>
-<!--
-<p style="text-align:center;padding-bottom:0px;padding-top:10px"><a style="color:white;text-decoration:underline" href="essay.html">A Short Philosophical Essay.</a></p>
-<p style="text-align:center;padding-bottom:0px;padding-top:10px">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</	>-->
+`;
 
 
+let pageIntro = 
+`<p style="text-align:center;padding-bottom:0px;padding-top:10px">Kingdom of Pattern</p>
+<p style="text-align:center;padding-bottom:0px;padding-top:10px">Theory <a style="color:white;text-decoration:underline" href="essay.html">[here]</a>
+ and Practice (below). </p>
+
+<p  style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">As you will see from <a style="color:white;text-decoration:underline" href="essay.html">theory</a>, the phrase "Kingdom of Pattern" is not a claim to grandeur.</p>
 <p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">Images by Chris Goad (via JavaScript)</p>
-<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>
 
-<script>
+<p style="text-align:center;font-size:10pt;padding-bottom:0px;padding-top:10px">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</p>
+
+
+<p style="text-align:center;font-size:10pt;padding-bottom:5px;padding-top:5px">To Expand the Images Below, Click on Them</p>
+`
+
+let pageScript = 
+`<script>
 document.addEventListener('DOMContentLoaded', () => {
 	debugger;
 	let cWidth =document.documentElement.clientWidth;
@@ -400,6 +408,8 @@ const writePage = function (sections) {
 	
 	let frs = '';
 	frs += pageTop;
+  frs += pageIntro;
+  frs += pageScript;
 	frs +=sectionsString(sections);
 	fs.writeFileSync(outPath,frs);
 }
