@@ -30,23 +30,26 @@ let vertical = kind === 'vertical';
 let horizontal = kind === 'horizontal';
 let horizontalnf = kind === 'horizontalnf'; // horizontal no frame
 let square = kind === 'square';
+let grids = kind === 'grids';
 
 console.log('kind','['+kind+']','sortByOrder',sortByOrder,'forKOP',forKOP,'byKind',byKind,'byAspect',byAspect,'byLikes',byLikes,'signed',signed,'horizontal',horizontal,'horizontalnf',horizontalnf);
 //return;
 //let alternate = 0;
 let sectionsPath;
-let pagesVar = 'gPages';
+/*let pagesVar = 'gPages';
 let pagesPath = 'www/gPages.js';
 let titlesPath = 'www/gTitles.js';
-let titlesVar = 'gTitles';
-let imKind = 'g';
+let titlesVar = 'gTitles';*/
+let imKind;
 if (byLikes) {
   sectionsPath = './gridSections.js';
+  imKind = 'g';
 } else if (alternate) {
   sectionsPath = './altSections.js';
   imKind = 'alt';
 } else if (byKind) {
   sectionsPath = './byKindSections.js';
+  imKind = 'g';
 } else if (byAspect) {
   sectionsPath = './byAspectSections.js'
 } else if (vertical) {
@@ -82,20 +85,23 @@ if (byLikes) {
   signed = 0;
   imKind = 'sq';
   sectionsPath = './squareSections.js';
-  pagesPath = 'www/sqPages.js';  
+ /* pagesPath = 'www/sqPages.js';  
   pagesVar = 'sqPages';  
   titlesPath = 'www/sqTitles.js';
-  titlesVar = 'sqTitles';
-
-  
-} else {
+  titlesVar = 'sqTitles';*/
+} else if (grids)  {
   sectionsPath = './gridSections.js';
+  imKind = 'g'
+} else {
+  console.log("unrecognized kind", kind);
+  return;
 }
 
  pagesPath = `www/${imKind}Pages.js`;
   pagesVar = `${imKind}Pages`;
   titlesPath = `www/${imKind}Titles.js`;
   titlesVar = `${imKind}Titles`;
+  
  console.log('pagesPath',pagesPath)
 let outPath;
 if (alternate) {
