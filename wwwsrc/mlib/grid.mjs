@@ -1,6 +1,15 @@
 
 //active
 import {rs as rectPP} from '/shape/rectangle.mjs';
+//Parameters
+width type real
+height type real
+numRows type integer
+numCols type integer
+shapeGenerator  type (randomValues,cell) => shape
+
+
+
 //core.require('/shape/rectangle.js','/gen0/basics.js','/gen0/topRandomMethods.js','/gen0/animation.js',function (rectPP,addBasicMethods,addTopRandomMethods,addAnimationMethods) {
 //core.require('/shape/rectangle.js','/gen0/dim2dWalker.js','/gen0/animation.js',function (rectPP,addRandomMethods,addAnimationMethods) {
 //core.require('/gen0/test.js',function (addRandomMethods) {

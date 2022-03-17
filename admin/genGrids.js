@@ -46,6 +46,7 @@ if (byLikes) {
   imKind = 'g';
 } else if (alternate) {
   sectionsPath = './altSections.js';
+  sortByOrder = 0;
   imKind = 'alt';
 } else if (byKind) {
   sectionsPath = './byKindSections.js';
@@ -168,6 +169,7 @@ let pageTop = `
       padding-bottom:10px;
       padding-top:10px;
       font-size:16pt;
+      color:white;
     }
      .introLineSmall {
       text-align:center;
@@ -185,38 +187,42 @@ let pageTop = `
 <body style="color:white;font-size:16pt;font-family:arial;background-color:black" >
 `;
 
-
+let headLine = '<p class="introLineLarge"><a style="color:white" href="https://kingdomofpattern.com">Kingdom of Pattern</a></p>';
 let pageIntro;
 if (imKind === 'g') {
 pageIntro = 
 `
 <p class="introLineLarge">Kingdom of Pattern</p>
-<p class="introLineLarge">Theory <a style="color:white;text-decoration:underline" href="essay.html">[here]</a>
+<p class="introLineLarge">Theory (<a style="color:white;text-decoration:underline" href="essay.html">here</a>)
  and Practice (below). </p>
 
 <p  class="introLineSmall">As you will see from <a style="color:white;text-decoration:underline" href="essay.html">theory</a>, the phrase "Kingdom of Pattern" is not a claim to grandeur.</p>
 <p class="introLineSmall">Images by Chris Goad (via JavaScript)</p>
 
-<p class="introLineSmall">Click <a style="color:white;text-decoration:underline" href="prints.html">here</a> if  you'd like a print of one of these images for your wall.</p>
+<p class="introLineSmall">Click <a style="color:white;text-decoration:underline" href="https://www.etsy.com/shop/KingdomOfPattern"> here </a> if  you'd like a print of one of these images for your wall.</p>
 
 
 <p class="introLineSmall">To Expand the Images Below, Click on Them</p>
 `} else if (imKind === 'h') {
 pageIntro = 
-`<p class="introLineLarge">Landscape  Posters (3 to 2 ratio of width to height).</p>
+`${headLine}
+<p class="introLineLarge">Horizontal  Posters (3 to 2 ratio of width to height).</p>
 <p class="introLineSmall">A white frame is shown when necessary to indicate the extent of the poster.</p>
 `;
 }  else if (imKind === 'hnf') {
-pageIntro = 
-`<p class="introLineLarge">Landscape  Prints (3 to 2 ratio of width to height).</p>
+pageIntro =
+`${headLine} 
+<p class="introLineLarge">Horizontal Prints (3 to 2 ratio of width to height).</p>
 `;
 } else if (imKind === 'sq') {
 pageIntro = 
-`<p class="introLineLarge">Square Prints</p>
+`${headLine} 
+<p class="introLineLarge">Square Prints</p>
 `;
 }  else if (imKind === 'v') {
 pageIntro = 
-`<p class="introLineLarge">Portrait (3 to 2 ratio of height to width)  Posters.</p>
+`${headLine} 
+<p class="introLineLarge">Vertical Posters (3 to 2 ratio of height to width)  Posters.</p>
 <p class="introLineSmall">A white frame is shown when necessary to indicate the extent of the poster.</p>
 `;
 }

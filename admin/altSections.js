@@ -5,7 +5,9 @@ sections: [
 
 [  
 /* Puzzle: Which three of the quadrants are the same, and which is different? Before you saw the differences in what sense did you "see" the quadrants?"*/
-	 [0,'grid_decos','generators','square','Deco'],
+ [0,'web_drift','generators',1,'Drift Web'], 
+ [0,'grid_grid_1_i_3_v_4','instances',1,'Grid 5'], 
+ [0,'grid_decos','generators','square','Deco'],
       				[0,'grid_star_maps','generators','wide2','Star Maps',2],  // HH
 
     [0,'sphere2_1','gen2',1,'Rays'],

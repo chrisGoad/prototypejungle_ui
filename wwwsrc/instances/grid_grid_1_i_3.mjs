@@ -3,10 +3,10 @@ import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as generatorP} from '/generators/grid_grid_1.mjs';
 
 let rs = generatorP.instantiate();
-rs.setName('grid_grid_1_i_3',4);
+rs.setName('grid_grid_1_i_3',5);
 let wd = 400;
 let nr = 20;
-let topParams = {saveState:0,width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,innerRows:5};
+let topParams = {saveState:0,width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:10,innerRows:5,backStripeWidth:1.15*wd,backStripeHeight:1.15*wd,backStripeVisible:0};
 
 Object.assign(rs,topParams);
 
@@ -21,7 +21,9 @@ rs.initProtos = function () {
   rectP2.fill = 'rgba(0,0,255,0.5)';
   rectP2.fill = 'white';
   rectP1.width = .2*innerWidth;
-  rectP1.height = .2*innerWidth; 
+  rectP1.height = .2*innerWidth;  
+  rectP1.width = .5*innerWidth;
+  rectP1.height = .5*innerWidth; 
   rectP2.width = .9*innerWidth;
   rectP2.height = .9*innerWidth;
 }
@@ -43,7 +45,8 @@ rs.decider = function (rvs,cell) {
   
   
 rs.initializeInstance = function () {
-  core.root.backgroundColor = 'black';
+  core.root.backgroundColor = 'rgb(0,0,0)';
+  this.addBackStripe();
 }
 
 export {rs};
