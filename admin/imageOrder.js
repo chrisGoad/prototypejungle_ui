@@ -22,6 +22,7 @@ module.exports = [
 
   [200,'web_wheel'],
      [210,'drop_arrows'],
+     [215,'web_drift'],
 
    [220,'random_stripes'],
    [260,'grid_distortion_field'],

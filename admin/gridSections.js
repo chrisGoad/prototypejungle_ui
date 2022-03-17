@@ -28,6 +28,7 @@ sections: [
    [0,'drop_iris','generators',1,'Iris'], //was [0,'drop0_1_27','final',1,'Iris'],
   [0,'drop_aphelion','generators',1,'Aphelion',31],
   [0,'web_wheel','generators',1,'Wheel',30],
+  [0,'web_drift','generators',1,'Drift',30],
   [0,'drop_arrows','generators',1,'Arrows',27],  //was [0,'drop0_1_21','final',1,'Leaves']
   [0,'drop_leaves','generators',1,'Leaves'],  //was [0,'drop0_1_21','final',1,'Leaves']
   [0,'drop_dandelion','generators',1,'Dandelion',78],// was [0,'drop0_1_24','final',1,'Dandelion'],
